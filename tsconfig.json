@@ -26,5 +26,5 @@
 		"noErrorTruncation": true,
     "typeRoots": ["types/foundry"],
   },
-  "include": ["src","types/foundry"]
+  "include": ["src"]
 }
