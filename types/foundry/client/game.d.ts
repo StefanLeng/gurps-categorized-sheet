@@ -1,241 +1,242 @@
-import * as io from "socket.io"
+import * as io from "socket.io";
 
 declare global {
-	const socket: io.Socket | null
-	const keyboard: KeyboardManager
+    const socket: io.Socket | null;
+    const keyboard: KeyboardManager;
 
-	/**
-	 * The core Game instance which encapsulates the data, settings, and states relevant for managing the game experience.
-	 * The singleton instance of the Game class is available as the global variable game.
-	 *
-	 * @param view      The named view which is active for this game instance.
-	 * @param data      An object of all the World data vended by the server when the client first connects
-	 * @param sessionId The ID of the currently active client session retrieved from the browser cookie
-	 * @param socket    The open web-socket which should be used to transact game-state data
-	 */
-	class Game<
-		TActor extends Actor<null>,
-		TActors extends Actors<TActor>,
-		TChatMessage extends ChatMessage,
-		TCombat extends Combat,
-		TItem extends Item<null>,
-		TItems extends Items<TItem>,
-		TMacro extends Macro,
-		TScene extends Scene,
-		TUser extends User<TActor>,
-	> {
-		/**
-		 * The named view which is currently active.
-		 * Game views include: join, setup, players, license, game, stream
-		 */
-		view: string
+    /**
+     * The core Game instance which encapsulates the data, settings, and states relevant for managing the game experience.
+     * The singleton instance of the Game class is available as the global variable game.
+     *
+     * @param view      The named view which is active for this game instance.
+     * @param data      An object of all the World data vended by the server when the client first connects
+     * @param sessionId The ID of the currently active client session retrieved from the browser cookie
+     * @param socket    The open web-socket which should be used to transact game-state data
+     */
+    class Game<
+        TActor extends Actor<null>,
+        TActors extends Actors<TActor>,
+        TChatMessage extends ChatMessage,
+        TCombat extends Combat,
+        TItem extends Item<null>,
+        TMacro extends Macro,
+        TScene extends Scene,
+        TUser extends User<TActor>,
+    > {
+        /**
+         * The named view which is currently active.
+         * Game views include: join, setup, players, license, game, stream
+         */
+        view: string;
 
-		// Undocumented
-		_documentsReady?: boolean
+        // Undocumented
+        _documentsReady?: boolean;
 
-		/** The object of world data passed from the server */
-		data: {
-			actors: TActor["_source"][]
-			items: TItem["_source"][]
-			macros: TMacro["_source"][]
-			messages: TChatMessage["_source"][]
-			packs: CompendiumMetadata[]
-			tables: foundry.documents.RollTableSource[]
-			users: TUser["_source"][]
-			version: string
-		}
+        /** The object of world data passed from the server */
+        data: {
+            actors: TActor["_source"][];
+            items: TItem["_source"][];
+            macros: TMacro["_source"][];
+            messages: TChatMessage["_source"][];
+            packs: CompendiumMetadata[];
+            tables: foundry.documents.RollTableSource[];
+            users: TUser["_source"][];
+            version: string;
+        };
 
-		/** The game World which is currently active */
-		world: object
+        /** The game World which is currently active */
+        world: {
+            id: string;
+            title: string;
+        };
 
-		/** Localization support */
-		i18n: Localization
+        /** Localization support */
+        i18n: Localization;
 
-		/** The Keyboard Manager */
-		keyboard: KeyboardManager
+        /** The Keyboard Manager */
+        keyboard: KeyboardManager;
 
-		/** A mapping of installed modules */
-		modules: Collection<Module>
+        /** A mapping of installed modules */
+        modules: Collection<Module>;
 
-		/** The user role permissions setting */
-		permissions: Record<string, number[]>
+        /** The user role permissions setting */
+        permissions: Record<string, number[]>;
 
-		/** The client session id which is currently active */
-		sessionId: string
+        /** The client session id which is currently active */
+        sessionId: string;
 
-		/** Client settings which are used to configure application behavior */
-		settings: ClientSettings
+        /** Client settings which are used to configure application behavior */
+        settings: ClientSettings;
 
-		/** Client keybindings which are used to configure application behavior */
-		keybindings: ClientKeybindings
+        /** Client keybindings which are used to configure application behavior */
+        keybindings: ClientKeybindings;
 
-		/** A reference to the open Socket.io connection */
-		socket: io.Socket
+        /** A reference to the open Socket.io connection */
+        socket: io.Socket;
 
-		/** A singleton GameTime instance which manages the progression of time within the game world. */
-		time: GameTime
+        /** A singleton GameTime instance which manages the progression of time within the game world. */
+        time: GameTime;
 
-		/** The id of the active game user */
-		userId: string
+        /** The id of the active game user */
+        userId: string;
 
-		/** A singleton instance of the Audio Helper class */
-		audio: AudioHelper
+        /* -------------------------------------------- */
+        /*  Helper Classes                              */
+        /* -------------------------------------------- */
 
-		/** A singleton instance of the Video Helper class */
-		video: VideoHelper
+        /** The singleton compendium art manager. */
+        compendiumArt: foundry.helpers.CompendiumArt;
 
-		/** A singleton instance of the TooltipManger class */
-		tooltip: TooltipManager
+        /** A singleton instance of the Audio Helper class */
+        audio: AudioHelper;
 
-		/** A singleton instance of the Clipboard Helper class. */
-		clipboard: ClipboardHelper
+        /** A singleton instance of the Video Helper class */
+        video: VideoHelper;
 
-		/** A singleton instance of the Tours class */
-		tours: Tours
+        /** A singleton instance of the TooltipManger class */
+        tooltip: TooltipManager;
 
-		/** The global document index. */
-		documentIndex: DocumentIndex
+        /** A singleton instance of the Clipboard Helper class. */
+        clipboard: ClipboardHelper;
 
-		documentTypes: Record<string, string[]>
+        /** A singleton instance of the Tours class */
+        tours: Tours;
 
-		/** Whether the Game is running in debug mode */
-		debug: boolean
+        /** The global document index. */
+        documentIndex: DocumentIndex;
 
-		/**
-		 * A flag for whether texture assets for the game canvas are currently loading
-		 */
-		loading: boolean
+        documentTypes: Record<string, string[]>;
 
-		/** A flag for whether the Game has successfully reached the "ready" hook */
-		ready: boolean
+        /** Whether the Game is running in debug mode */
+        debug: boolean;
 
-		/** The Release data for this version of Foundry */
-		release: {
-			build: number
-			channel: string
-			download: string
-			generation: number
-			node_version?: number
-			notes: string
-			suffix?: string
-			time: number
-		}
+        /**
+         * A flag for whether texture assets for the game canvas are currently loading
+         */
+        loading: boolean;
 
-		/* -------------------------------------------- */
-		/*  World Collections                           */
-		/* -------------------------------------------- */
+        /** A flag for whether the Game has successfully reached the "ready" hook */
+        ready: boolean;
 
-		actors: TActors
-		collections: Collection<WorldCollection<TActor | TItem | JournalEntry | TMacro | Playlist | RollTable | TScene>>
+        /** The Release data for this version of Foundry */
+        release: {
+            build: number;
+            channel: string;
+            download: string;
+            generation: number;
+            node_version?: number;
+            notes: string;
+            suffix?: string;
+            time: number;
+        };
 
-		combats: CombatEncounters<TCombat>
-		folders: Folders<Folder>
-		items: TItems
-		journal: Journal
-		macros: Macros<TMacro>
-		messages: Messages<TChatMessage>
-		packs: Collection<CompendiumCollection<TActor | TItem | JournalEntry | TMacro | Playlist | RollTable | TScene>>
-		playlists: Playlists
-		scenes: Scenes<TScene>
-		tables: RollTables
-		users: Users<TUser>
+        /* -------------------------------------------- */
+        /*  World Collections                           */
+        /* -------------------------------------------- */
 
-		constructor(view: string, worldData: object, sessionId: string, socket: io.Socket)
+        actors: TActors;
+        collections: Collection<
+            WorldCollection<TActor | TItem | JournalEntry | TMacro | Playlist | RollTable | TScene>
+        >;
 
-		/** Returns the current version of the Release, usable for comparisons using isNewerVersion */
-		get version(): string
+        combats: CombatEncounters<TCombat>;
+        folders: Folders<Folder>;
+        items: Items<TItem>;
+        journal: Journal;
+        macros: Macros<TMacro>;
+        messages: Messages<TChatMessage>;
+        packs: Collection<CompendiumCollection<TActor | TItem | JournalEntry | TMacro | Playlist | RollTable | TScene>>;
+        playlists: Playlists;
+        scenes: Scenes<TScene>;
+        tables: RollTables;
+        users: Users<TUser>;
 
-		/**
-		 * Fetch World data and return a Game instance
-		 * @return A Promise which resolves to the created Game instance
-		 */
-		static create(): Promise<
-			Game<
-				Actor<null>,
-				Actors<Actor<null>>,
-				ChatMessage,
-				Combat,
-				Item<null>,
-				Items<Item<null>>,
-				Macro,
-				Scene,
-				User
-			>
-		>
+        constructor(view: string, worldData: object, sessionId: string, socket: io.Socket);
 
-		/** Request World data from server and return it */
-		static getWorldData(socket: io.Socket): Promise<object>
+        /** Returns the current version of the Release, usable for comparisons using isNewerVersion */
+        get version(): string;
 
-		/** Request setup data from server and return it */
-		static getSetupData(socket: io.Socket): Promise<object>
+        /**
+         * Fetch World data and return a Game instance
+         * @return A Promise which resolves to the created Game instance
+         */
+        static create(): Promise<
+            Game<Actor<null>, Actors<Actor<null>>, ChatMessage, Combat, Item<null>, Macro, Scene, User>
+        >;
 
-		/** Initialize the Game for the current window location */
-		initialize(): Promise<void>
+        /** Request World data from server and return it */
+        static getWorldData(socket: io.Socket): Promise<object>;
 
-		/** Fully set up the game state, initializing Entities, UI applications, and the Canvas */
-		setupGame(): Promise<void>
+        /** Request setup data from server and return it */
+        static getSetupData(socket: io.Socket): Promise<object>;
 
-		/** Initialize game state data by creating Collections for all Entity types */
-		initializeEntities(): void
+        /** Initialize the Game for the current window location */
+        initialize(): Promise<void>;
 
-		/** Initialization actions for compendium packs */
-		initializePacks(config: object): Promise<void>
+        /** Fully set up the game state, initializing Entities, UI applications, and the Canvas */
+        setupGame(): Promise<void>;
 
-		/** Initialize the WebRTC implementation */
-		initializeRTC(): void
+        /** Initialize game state data by creating Collections for all Entity types */
+        initializeEntities(): void;
 
-		/** Initialize core UI elements */
-		initializeUI(): void
+        /** Initialization actions for compendium packs */
+        initializePacks(config: object): Promise<void>;
 
-		/** Initialize the game Canvas */
-		initializeCanvas(): Promise<void>
+        /** Initialize the WebRTC implementation */
+        initializeRTC(): void;
 
-		/** Initialize Keyboard controls */
-		initializeKeyboard(): void
+        /** Initialize core UI elements */
+        initializeUI(): void;
 
-		/** Initialize Mouse controls */
-		initializeMouse(): void
+        /** Initialize the game Canvas */
+        initializeCanvas(): Promise<void>;
 
-		/** Register core game settings */
-		registerSettings(): void
+        /** Initialize Keyboard controls */
+        initializeKeyboard(): void;
 
-		/** The currently connected User */
-		get user(): Active<TUser>
+        /** Initialize Mouse controls */
+        initializeMouse(): void;
 
-		/** Metadata regarding the game System which powers this World */
-		get system(): System
+        /** Register core game settings */
+        registerSettings(): void;
 
-		/** A convenience accessor for the currently active Combat encounter */
-		get combat(): TCombat | null
+        /** The currently connected User */
+        get user(): Active<TUser>;
 
-		/** A state variable which tracks whether or not the game session is currently paused */
-		get paused(): boolean
+        /** Metadata regarding the game System which powers this World */
+        get system(): System;
 
-		/** A convenient reference to the currently active canvas tool */
-		get activeTool(): string
+        /** A convenience accessor for the currently active Combat encounter */
+        get combat(): TCombat | null;
 
-		/** An alias for the structured data model organized by document class and type. */
-		get model(): Record<"Actor" | "Card" | "Cards" | "Item" | "JournalEntryPage", object>
+        /** A state variable which tracks whether or not the game session is currently paused */
+        get paused(): boolean;
 
-		/**
-		 * Toggle the pause state of the game
-		 * Trigger the `pauseGame` Hook when the paused state changes
-		 * @param pause The new pause state
-		 * @param push  Push the pause state change to other connected clients?
-		 */
-		togglePause(pause: boolean, push?: boolean): void
+        /** A convenient reference to the currently active canvas tool */
+        get activeTool(): string;
 
-		static getCookies(): object
+        /** An alias for the structured data model organized by document class and type. */
+        get model(): Record<"Actor" | "Card" | "Cards" | "Item" | "JournalEntryPage", object>;
 
-		static clearCookies(): boolean
+        /**
+         * Toggle the pause state of the game
+         * Trigger the `pauseGame` Hook when the paused state changes
+         * @param pause The new pause state
+         * @param push  Push the pause state change to other connected clients?
+         */
+        togglePause(pause: boolean, push?: boolean): void;
 
-		/** Open socket listeners which transact game state data */
-		openSockets(): void
+        static getCookies(): object;
 
-		/** General game-state socket listeners and event handlers */
-		static socketListeners(socket: io.Socket): void
+        static clearCookies(): boolean;
 
-		/** Activate Event Listeners which apply to every Game View */
-		activateListeners(): void
-	}
+        /** Open socket listeners which transact game state data */
+        openSockets(): void;
+
+        /** General game-state socket listeners and event handlers */
+        static socketListeners(socket: io.Socket): void;
+
+        /** Activate Event Listeners which apply to every Game View */
+        activateListeners(): void;
+    }
 }

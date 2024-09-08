@@ -1,22 +1,22 @@
-type ParentData = { name: string; hasParents: boolean }
+type ParentData = { name: string; hasParents: boolean };
 
 const genClientBase = (
-	className: string,
-	{
-		hasSheet = true,
-		isCanvasDoc = false,
-		parents = isCanvasDoc ? [{ name: "Scene", hasParents: false }] : [],
-	}: { hasSheet?: boolean; isCanvasDoc?: boolean; parents?: ParentData[] },
+    className: string,
+    {
+        hasSheet = true,
+        isCanvasDoc = false,
+        parents = isCanvasDoc ? [{ name: "Scene", hasParents: false }] : [],
+    }: { hasSheet?: boolean; isCanvasDoc?: boolean; parents?: ParentData[] },
 ) => {
-	const declareOrExportClientBase = isCanvasDoc ? "declare" : "export"
-	const clientBaseName = `ClientBase${className}`
-	const typeParamName = parents
-		.map(p => (p.hasParents ? `ClientBase${p.name}<any>` : `ClientBase${p.name}`))
-		.join(" | ")
-	const typeParams = typeParamName ? `<TParent extends ${typeParamName} | null>` : ""
-	const tParentOrBlank = typeParamName ? "<TParent>" : ""
-	const tParentOrNull = typeParamName ? "TParent" : "null"
-	console.log(String.raw`${declareOrExportClientBase} class ${clientBaseName}${typeParams} extends foundry.documents.Base${className}${tParentOrBlank} {
+    const declareOrExportClientBase = isCanvasDoc ? "declare" : "export";
+    const clientBaseName = `ClientBase${className}`;
+    const typeParamName = parents
+        .map((p) => (p.hasParents ? `ClientBase${p.name}<any>` : `ClientBase${p.name}`))
+        .join(" | ");
+    const typeParams = typeParamName ? `<TParent extends ${typeParamName} | null>` : "";
+    const tParentOrBlank = typeParamName ? "<TParent>" : "";
+    const tParentOrNull = typeParamName ? "TParent" : "null";
+    console.log(String.raw`${declareOrExportClientBase} class ${clientBaseName}${typeParams} extends foundry.documents.Base${className}${tParentOrBlank} {
     protected _sheet: DocumentSheet<this> | null;
 
     /**
@@ -390,12 +390,12 @@ const genClientBase = (
         }
     ): this["_source"];
 }
-`)
+`);
 
-	if (isCanvasDoc) {
-		const canvasBaseName = `CanvasBase${className}`
+    if (isCanvasDoc) {
+        const canvasBaseName = `CanvasBase${className}`;
 
-		console.log(String.raw`/**
+        console.log(String.raw`/**
  * A specialized sub-class of the ClientDocumentMixin which is used for document types that are intended to be
  * represented upon the game Canvas.
  * @category - Mixins
@@ -447,56 +447,56 @@ export class ${canvasBaseName}<
      */
     protected _onDelete(operation: DatabaseDeleteOperation<TParent>, userId: string): void;
 }
-`)
-	}
-}
+`);
+    }
+};
 
 const clientDocs: Record<string, { hasSheet?: boolean; isCanvasDoc?: boolean; parents?: ParentData[] }> = {
-	AmbientLight: { isCanvasDoc: true },
-	AmbientSound: { isCanvasDoc: true },
-	ActiveEffect: {
-		parents: [
-			{ name: "Actor", hasParents: true },
-			{ name: "Item", hasParents: true },
-		],
-	},
-	Actor: { parents: [{ name: "Token", hasParents: true }] },
-	ActorDelta: { parents: [{ name: "Token", hasParents: true }] },
-	Adventure: {},
-	Card: { parents: [{ name: "Cards", hasParents: false }] },
-	Cards: {},
-	ChatMessage: {},
-	Combat: {},
-	Combatant: { parents: [{ name: "Combat", hasParents: false }] },
-	Drawing: { isCanvasDoc: true },
-	FogExploration: { hasSheet: false },
-	Folder: {},
-	Item: { parents: [{ name: "Actor", hasParents: true }] },
-	JournalEntry: {},
-	JournalEntryPage: { parents: [{ name: "JournalEntry", hasParents: false }] },
-	Macro: {},
-	MeasuredTemplate: { isCanvasDoc: true },
-	Note: { isCanvasDoc: true },
-	Playlist: {},
-	PlaylistSound: { parents: [{ name: "Playlist", hasParents: false }] },
-	Region: { isCanvasDoc: true },
-	RegionBehavior: { parents: [{ name: "Region", hasParents: true }] },
-	RollTable: {},
-	Scene: {},
-	Setting: {},
-	TableResult: { parents: [{ name: "RollTable", hasParents: false }] },
-	Tile: { isCanvasDoc: true },
-	Token: { isCanvasDoc: true },
-	User: {},
-	Wall: { isCanvasDoc: true },
-}
+    AmbientLight: { isCanvasDoc: true },
+    AmbientSound: { isCanvasDoc: true },
+    ActiveEffect: {
+        parents: [
+            { name: "Actor", hasParents: true },
+            { name: "Item", hasParents: true },
+        ],
+    },
+    Actor: { parents: [{ name: "Token", hasParents: true }] },
+    ActorDelta: { parents: [{ name: "Token", hasParents: true }] },
+    Adventure: {},
+    Card: { parents: [{ name: "Cards", hasParents: false }] },
+    Cards: {},
+    ChatMessage: {},
+    Combat: {},
+    Combatant: { parents: [{ name: "Combat", hasParents: false }] },
+    Drawing: { isCanvasDoc: true },
+    FogExploration: { hasSheet: false },
+    Folder: {},
+    Item: { parents: [{ name: "Actor", hasParents: true }] },
+    JournalEntry: {},
+    JournalEntryPage: { parents: [{ name: "JournalEntry", hasParents: false }] },
+    Macro: {},
+    MeasuredTemplate: { isCanvasDoc: true },
+    Note: { isCanvasDoc: true },
+    Playlist: {},
+    PlaylistSound: { parents: [{ name: "Playlist", hasParents: false }] },
+    Region: { isCanvasDoc: true },
+    RegionBehavior: { parents: [{ name: "Region", hasParents: true }] },
+    RollTable: {},
+    Scene: {},
+    Setting: {},
+    TableResult: { parents: [{ name: "RollTable", hasParents: false }] },
+    Tile: { isCanvasDoc: true },
+    Token: { isCanvasDoc: true },
+    User: {},
+    Wall: { isCanvasDoc: true },
+};
 
 // imports
 console.log(
-	String.raw`import type { ApplicationV2, DocumentSheetV2 } from "../../../client-esm/applications/api/module.d.ts";
+    String.raw`import type { ApplicationV2, DocumentSheetV2 } from "../../../client-esm/applications/api/module.d.ts";
 
 `,
-)
+);
 for (const [className, data] of Object.entries(clientDocs)) {
-	genClientBase(className, data)
+    genClientBase(className, data);
 }

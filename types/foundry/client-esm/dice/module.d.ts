@@ -1,1 +1,1 @@
-export * as terms from "./terms/module.ts"
+export * as terms from "./terms/module.ts";

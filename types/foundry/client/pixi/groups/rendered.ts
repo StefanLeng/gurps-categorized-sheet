@@ -1,7 +1,7 @@
-export {}
+export {};
 
 declare global {
-	class RenderedCanvasGroup extends CanvasGroup {
-		static override groupName: "rendered"
-	}
+    class RenderedCanvasGroup extends CanvasGroup {
+        static override groupName: "rendered";
+    }
 }

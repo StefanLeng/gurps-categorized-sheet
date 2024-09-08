@@ -1,179 +1,192 @@
-export {}
+import type { TileSource } from "../../../common/documents/tile.d.ts";
 
 declare global {
-	/**
-	 * A PlaceablesLayer designed for rendering the visual Scene for a specific vertical cross-section.
-	 * @category - Canvas
-	 */
-	class Tile<
-		TDocument extends TileDocument<Scene | null> = TileDocument<Scene | null>,
-	> extends PlaceableObject<TDocument> {
-		/* -------------------------------------------- */
-		/*  Attributes                                  */
-		/* -------------------------------------------- */
+    /**
+     * A PlaceablesLayer designed for rendering the visual Scene for a specific vertical cross-section.
+     * @category - Canvas
+     */
+    class Tile<
+        TDocument extends TileDocument<Scene | null> = TileDocument<Scene | null>,
+    > extends PlaceableObject<TDocument> {
+        static override embeddedName: "Tile";
 
-		/** The Tile border frame */
-		frame: TileBorderFrame
+        static override RENDER_FLAGS: Record<string, { propagate?: string[]; alias?: boolean }>;
 
-		/**
-		 * The primary tile image texture
-		 */
-		texture: PIXI.Texture
+        /* -------------------------------------------- */
+        /*  Attributes                                  */
+        /* -------------------------------------------- */
 
-		/** The Tile image sprite */
-		tile: PIXI.Sprite
+        /** The Tile border frame */
+        frame: TileBorderFrame;
 
-		/** The occlusion image sprite */
-		occlusionTile: PIXI.Sprite
+        /** The primary tile image texture */
+        texture: PIXI.Texture;
 
-		/** A Tile background which is displayed if no valid image texture is present */
-		bg: PIXI.Graphics
+        /** A Tile background which is displayed if no valid image texture is present */
+        bg: PIXI.Graphics;
 
-		/** A cached mapping of non-transparent pixels */
-		protected _alphaMap: {
-			minX: number
-			minY: number
-			maxX: number
-			maxY: number
-			pixels: Uint8Array | undefined
-			texture: PIXI.RenderTexture | undefined
-		}
+        /** A reference to the SpriteMesh which displays this Tile in the PrimaryCanvasGroup. */
+        mesh: PrimarySpriteMesh;
 
-		/** A flag which tracks whether the overhead tile is currently in an occluded state */
-		occluded: boolean
+        /** Get the native aspect ratio of the base texture for the Tile sprite */
+        get aspectRatio(): number;
 
-		static override embeddedName: "Tile"
+        override get bounds(): PIXI.Rectangle;
 
-		/** Get the native aspect ratio of the base texture for the Tile sprite */
-		get aspectRatio(): number
+        /** The HTML source element for the primary Tile texture */
+        get sourceElement(): HTMLImageElement | HTMLVideoElement | undefined;
 
-		override get bounds(): PIXI.Rectangle
+        /** Does this Tile depict an animated video texture? */
+        get isVideo(): boolean;
 
-		/** The HTML source element for the primary Tile texture */
-		get sourceElement(): HTMLImageElement | HTMLVideoElement
+        /** Is this Tile currently visible on the Canvas? */
+        get isVisible(): boolean;
 
-		/** Does this Tile depict an animated video texture? */
-		get isVideo(): boolean
+        /** Is this tile occluded? */
+        get occluded(): boolean;
 
-		/** Is this tile a roof */
-		get isRoof(): boolean
+        /** Is the tile video playing? */
+        get playing(): boolean;
 
-		/** The effective volume at which this Tile should be playing, including the global ambient volume modifier */
-		get volume(): number
+        /** The effective volume at which this Tile should be playing, including the global ambient volume modifier */
+        get volume(): number;
 
-		/* -------------------------------------------- */
-		/*  Rendering                                   */
-		/* -------------------------------------------- */
+        /* -------------------------------------------- */
+        /*  Interactivity                               */
+        /* -------------------------------------------- */
 
-		protected _draw(): Promise<void>
+        protected override _overlapsSelection(rectangle: PIXI.Rectangle): boolean;
 
-		override destroy(options: object): void
+        /* -------------------------------------------- */
+        /*  Rendering                                   */
+        /* -------------------------------------------- */
 
-		/** @param [options.refreshPerception=false]  Also refresh the perception layer. */
-		override refresh(options?: { refreshPerception?: boolean }): this
+        /**
+         * Create a preview tile with a background texture instead of an image
+         * @param data Initial data with which to create the preview Tile
+         */
+        static createPreview(data: DeepPartial<TileSource>): Tile;
 
-		/** Refresh the display of the Tile border */
-		protected _refreshBorder(b: PIXI.Rectangle): void
+        protected _draw(): Promise<void>;
 
-		/** Refresh the display of the Tile resizing handle */
-		protected _refreshHandle(b: PIXI.Rectangle): void
+        override clear(options?: object): this;
 
-		/* -------------------------------------------- */
-		/*  Event Handlers                              */
-		/* -------------------------------------------- */
+        override _destroy(options: object): void;
 
-		override _onUpdate(
-			changed: DeepPartial<TDocument["_source"]>,
-			options: DatabaseUpdateOperation<TDocument["parent"]>,
-			userId: string,
-		): void
+        protected override _applyRenderFlags(flags: Record<string, boolean>): void;
 
-		override _onDelete(options: DatabaseDeleteOperation<TDocument["parent"]>, userId: string): void
+        /** Refresh the position. */
+        protected _refreshPosition(): void;
 
-		/**
-		 * Update wall states and refresh lighting and vision when a tile becomes a roof, or when an existing roof tile's
-		 * state changes.
-		 */
-		protected _refreshPerception(): void
+        /** Refresh the rotation. */
+        protected _refreshRotation(): void;
 
-		/* -------------------------------------------- */
-		/*  Interactivity                               */
-		/* -------------------------------------------- */
+        /** Refresh the size. */
+        protected _refreshSize(): void;
 
-		override activateListeners(): void
+        /**
+         * Refresh the displayed state of the Tile.
+         * Updated when the tile interaction state changes, when it is hidden, or when its elevation changes.
+         */
+        protected _refreshState(): void;
 
-		protected override _canConfigure(user: User, event?: PIXI.FederatedEvent): boolean
+        /** Refresh the appearance of the tile. */
+        protected _refreshMesh(): void;
 
-		protected override _onClickLeft2(event: PIXI.FederatedPointerEvent): void
+        /** Refresh the elevation. */
+        protected _refreshElevation(): void;
 
-		protected override _onDragLeftStart(event: PIXI.FederatedPointerEvent): void
+        /** Refresh the border frame that encloses the Tile. */
+        protected _refreshFrame(): void;
 
-		protected override _onDragLeftMove(event: PIXI.FederatedPointerEvent): void
+        /** Refresh changes to the video playback state. */
+        protected _refreshVideo(): void;
 
-		protected override _onDragLeftDrop(event: PIXI.FederatedPointerEvent): Promise<this["document"][]>
+        /* -------------------------------------------- */
+        /*  Document Event Handlers                     */
+        /* -------------------------------------------- */
 
-		protected override _onDragLeftCancel(event: PIXI.FederatedPointerEvent): void
+        override _onUpdate(
+            changed: DeepPartial<TDocument["_source"]>,
+            options: DatabaseUpdateOperation<TDocument["parent"]>,
+            userId: string,
+        ): void;
 
-		/* -------------------------------------------- */
-		/*  Resize Handling                             */
-		/* -------------------------------------------- */
+        /* -------------------------------------------- */
+        /*  Interactivity                               */
+        /* -------------------------------------------- */
 
-		/**
-		 * Handle mouse-over event on a control handle
-		 * @param event The mouseover event
-		 */
-		protected _onHandleHoverIn(event: PIXI.FederatedPointerEvent): void
+        override activateListeners(): void;
 
-		/**
-		 * Handle mouse-out event on a control handle
-		 * @param event The mouseout event
-		 */
-		protected _onHandleHoverOut(event: PIXI.FederatedPointerEvent): void
+        protected override _canConfigure(user: User, event?: PIXI.FederatedEvent): boolean;
 
-		/**
-		 * When we start a drag event - create a preview copy of the Tile for re-positioning
-		 * @param event The mousedown event
-		 */
-		protected _onHandleMouseDown(event: PIXI.FederatedPointerEvent): void
+        protected override _onClickLeft2(event: PIXI.FederatedPointerEvent): void;
 
-		/**
-		 * Handle the beginning of a drag event on a resize handle
-		 * @param event The mousedown event
-		 */
-		protected _onHandleDragStart(event: PIXI.FederatedPointerEvent): void
+        protected override _onDragLeftStart(event: PIXI.FederatedPointerEvent): void;
 
-		/**
-		 * Handle mousemove while dragging a tile scale handler
-		 * @param event The mousemove event
-		 */
-		protected _onHandleDragMove(event: PIXI.FederatedPointerEvent): void
+        protected override _onDragLeftMove(event: PIXI.FederatedPointerEvent): void;
 
-		/**
-		 * Handle mouseup after dragging a tile scale handler
-		 * @param event The mouseup event
-		 */
-		protected _onHandleDragDrop(event: PIXI.FederatedPointerEvent): void
+        protected override _onDragLeftDrop(event: PIXI.FederatedPointerEvent): Promise<this["document"][]>;
 
-		/** Get resized Tile dimensions */
-		protected _getResizedDimensions(event: PIXI.FederatedEvent, origin: Point, destination: Point): Rectangle
+        protected override _onDragLeftCancel(event: PIXI.FederatedPointerEvent): void;
 
-		/** Handle cancellation of a drag event for one of the resizing handles */
-		protected _onHandleDragCancel(): void
+        /* -------------------------------------------- */
+        /*  Resize Handling                             */
+        /* -------------------------------------------- */
 
-		/**
-		 * Create a preview tile with a background texture instead of an image
-		 * @param data Initial data with which to create the preview Tile
-		 */
-		static createPreview(data: DeepPartial<foundry.documents.TileSource>): Tile
-	}
+        /**
+         * Handle mouse-over event on a control handle
+         * @param event The mouseover event
+         */
+        protected _onHandleHoverIn(event: PIXI.FederatedPointerEvent): void;
 
-	interface Tile<TDocument extends TileDocument<Scene | null> = TileDocument<Scene | null>>
-		extends PlaceableObject<TDocument> {
-		get layer(): TilesLayer<this>
-	}
+        /**
+         * Handle mouse-out event on a control handle
+         * @param event The mouseout event
+         */
+        protected _onHandleHoverOut(event: PIXI.FederatedPointerEvent): void;
+
+        /**
+         * When we start a drag event - create a preview copy of the Tile for re-positioning
+         * @param event The mousedown event
+         */
+        protected _onHandleMouseDown(event: PIXI.FederatedPointerEvent): void;
+
+        /**
+         * Handle the beginning of a drag event on a resize handle
+         * @param event The mousedown event
+         */
+        protected _onHandleDragStart(event: PIXI.FederatedPointerEvent): void;
+
+        /**
+         * Handle mousemove while dragging a tile scale handler
+         * @param event The mousemove event
+         */
+        protected _onHandleDragMove(event: PIXI.FederatedPointerEvent): void;
+
+        /**
+         * Handle mouseup after dragging a tile scale handler
+         * @param event The mouseup event
+         */
+        protected _onHandleDragDrop(event: PIXI.FederatedPointerEvent): void;
+
+        /** Handle cancellation of a drag event for one of the resizing handles */
+        protected _onHandleDragCancel(): void;
+
+        /**
+         * Create a preview tile with a background texture instead of an image
+         * @param data Initial data with which to create the preview Tile
+         */
+        static createPreview(data: DeepPartial<foundry.documents.TileSource>): Tile;
+    }
+
+    interface Tile<TDocument extends TileDocument<Scene | null> = TileDocument<Scene | null>>
+        extends PlaceableObject<TDocument> {
+        get layer(): TilesLayer<this>;
+    }
 }
 
 interface TileBorderFrame extends PIXI.Container {
-	border: PIXI.Graphics
-	handle: ResizeHandle
+    border: PIXI.Graphics;
+    handle: ResizeHandle;
 }

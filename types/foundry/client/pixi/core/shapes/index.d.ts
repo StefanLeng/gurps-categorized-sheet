@@ -1,1 +1,1 @@
-import "./source-polygon.d.ts"
+import "./source-polygon.d.ts";
