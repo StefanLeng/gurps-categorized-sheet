@@ -30,8 +30,8 @@ Hooks.once('gurpsinit', async () => {
   // Preload Handlebars templates
   await preloadTemplates();
 
+  //need to do the dynamic import from a variable to keep rollup from bundling it
   const sheetModuel = './cat-sheet.js';
-
   const SLCatSheet = (await import(sheetModuel)).default;
 
    Actors.registerSheet('gurps', SLCatSheet, {

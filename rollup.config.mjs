@@ -8,18 +8,8 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import ignore from "rollup-plugin-ignore"
 
 
-export function rollupConfig() {return {
-  input: 'src/module/gurps-categorized-sheet.ts',
-  output: {
-    dir: 'dist/module',
-    format: 'es',
-    sourcemap: true,
-  },
-  plugins: [nodeResolve(), typescript()],
-}};
-
-export function rollupConfig2() {return {
-  input: 'src/module/cat-sheet.ts',
+export function rollupConfig( file) {return {
+  input: file,
   output: {
     dir: 'dist/module',
     format: 'es',

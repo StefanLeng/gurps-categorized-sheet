@@ -15,7 +15,7 @@ import { hideBin } from 'yargs/helpers'
 
 import rollupStream from '@rollup/stream'
 
-import {rollupConfig, rollupConfig2} from './rollup.config.mjs'
+import {rollupConfig} from './rollup.config.mjs'
 
 /********************/
 /*  CONFIGURATION   */
@@ -38,24 +38,12 @@ let cache;
 /**
  * Build the distributable JavaScript code
  */
-function buildCode() {
-  return rollupStream({...rollupConfig(), cache })
+function buildCode(x, y) {
+  return rollupStream({...rollupConfig(x), cache })
     .on('bundle', (bundle) => {
       cache = bundle;
     })
-    .pipe(source(`${packageId}.js`))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(`${distDirectory}/module`));
-}
-
-function buildCode2() {
-  return rollupStream({...rollupConfig2(), cache })
-    .on('bundle', (bundle) => {
-      cache = bundle;
-    })
-    .pipe(source(`cat-sheet.js`))
+    .pipe(source(y))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write('.'))
@@ -96,7 +84,7 @@ export function watch() {
   );
 }
 
-export const build = gulp.series(clean, gulp.parallel(buildCode, buildCode2, buildStyles, copyFiles));
+export const build = gulp.series(clean, gulp.parallel(() => buildCode('src/module/gurps-categorized-sheet.ts', `${packageId}.js`) , () => buildCode('src/module/cat-sheet.ts', 'cat-sheet.js') , buildStyles, copyFiles));
 
 /********************/
 /*      CLEAN       */
