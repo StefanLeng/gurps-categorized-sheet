@@ -24,7 +24,8 @@
 		"resolveJsonModule": true,
 		"useDefineForClassFields": true,
 		"noErrorTruncation": true,
-    "typeRoots": ["types/foundry"],
+		//"types": ["jest", "jquery", "node"],
+        "typeRoots": ["node_modules/@types", "types/foundry"],
   },
   "include": ["src"]
 }

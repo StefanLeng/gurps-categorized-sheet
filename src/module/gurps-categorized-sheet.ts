@@ -19,7 +19,7 @@ import { registerSettings } from './settings.js';
 import { preloadTemplates } from './preloadTemplates.js';
 
 // Initialize module
-Hooks.once('init', async () => {
+Hooks.once('gurpsinit', async () => {
   console.log('gurps-categorized-sheet | Initializing gurps-categorized-sheet');
 
   // Assign custom classes and constants here
@@ -30,7 +30,15 @@ Hooks.once('init', async () => {
   // Preload Handlebars templates
   await preloadTemplates();
 
-  // Register custom sheets (if any)
+  const sheetModuel = './cat-sheet.js';
+
+  const SLCatSheet = (await import(sheetModuel)).default;
+
+   Actors.registerSheet('gurps', SLCatSheet, {
+    types: ['enemy', 'character'],
+    label: 'Categorized Sheet',
+    makeDefault: false,
+  })
 });
 
 // Setup module

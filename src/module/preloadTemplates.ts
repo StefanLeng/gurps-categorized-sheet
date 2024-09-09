@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export async function preloadTemplates(): Promise<Handlebars.TemplateDelegate[]> {
+export async function preloadTemplates(): Promise<void> {
   const templatePaths: string[] = [
-    // Add paths to "modules/gurps-categorized-sheet/templates"
+    "modules/gurps-categorized-sheet/templates/cat-sheet.hbs"
   ];
 
   return loadTemplates(templatePaths);

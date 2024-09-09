@@ -1,10 +1,10 @@
 {
   "id": "gurps-categorized-sheet",
-  "title": "<human readable title for gurps-categorized-sheet>",
+  "title": "GURPs Kategorizes Character Sheet",
   "description": "<description of the package>",
   "authors": [
     {
-      "name": "<your name>",
+      "name": "Stefan Leng",
       "email": "<optionally your e-mail address>",
       "discord": "<optionally your discord username>"
     }
@@ -16,8 +16,8 @@
   "changelog": "<optionally the URL to your changelog>",
   "version": "0.0.0",
   "compatibility": {
-    "minimum": "10",
-    "verified": "10"
+    "minimum": "12",
+    "verified": "12"
   },
   "scripts": [],
   "esmodules": [

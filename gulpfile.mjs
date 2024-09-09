@@ -15,7 +15,7 @@ import { hideBin } from 'yargs/helpers'
 
 import rollupStream from '@rollup/stream'
 
-import rollupConfig from './rollup.config.mjs'
+import {rollupConfig, rollupConfig2} from './rollup.config.mjs'
 
 /********************/
 /*  CONFIGURATION   */
@@ -44,6 +44,18 @@ function buildCode() {
       cache = bundle;
     })
     .pipe(source(`${packageId}.js`))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(`${distDirectory}/module`));
+}
+
+function buildCode2() {
+  return rollupStream({...rollupConfig2(), cache })
+    .on('bundle', (bundle) => {
+      cache = bundle;
+    })
+    .pipe(source(`cat-sheet.js`))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write('.'))
@@ -84,7 +96,7 @@ export function watch() {
   );
 }
 
-export const build = gulp.series(clean, gulp.parallel(buildCode, buildStyles, copyFiles));
+export const build = gulp.series(clean, gulp.parallel(buildCode, buildCode2, buildStyles, copyFiles));
 
 /********************/
 /*      CLEAN       */

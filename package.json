@@ -9,13 +9,9 @@
     "type": "git",
     "url": "<optionally the URL to your repository>"
   },
-  "bugs": {
-    "url": "<optionally the URL to your issues list>"
-  },
   "contributors": [
     {
-      "name": "<your name>",
-      "email": "<optionally your e-mail address>"
+      "name": "Stefan Leng"
     }
   ],
   "type": "module",
@@ -55,6 +51,7 @@
     "less": "^3.13.1",
     "prettier": "^3.3.3",
     "rollup": "^2.79.1",
+    "rollup-plugin-ignore": "^1.0.10",
     "ts-jest": "^29.2.5",
     "tslib": "^2.7.0",
     "typescript": "^5.5.4",

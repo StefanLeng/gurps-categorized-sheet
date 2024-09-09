@@ -1,0 +1,15 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div id="cat-sheet" class="sl-cat-sheet">
+        <div id="sidebar">         
+            <div id='portrait'>
+            <div class='img-display'>
+                <img class='profile-img' src='{{actor.img}}' data-edit='img' title='{{actor.name}}' />
+            </div>
+            {{#if isGM}}
+                <button class='sharebutton' data-operation='share-portrait'>{{localize 'GURPS.share'}}</button>
+            {{/if}}
+            </div>
+        </div>
+    </div>
+</form>
+ 
