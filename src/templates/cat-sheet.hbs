@@ -1,14 +1,89 @@
 <form class="{{cssClass}}" autocomplete="off">
     <div id="cat-sheet" class="sl-cat-sheet">
-        <div id="sidebar">         
-            <div id='portrait'>
-            <div class='img-display'>
-                <img class='profile-img' src='{{actor.img}}' data-edit='img' title='{{actor.name}}' />
+        <div id="slcs-header">   
+
+            <div id='slcs-portrait' class="block">
+                <div class='img-display'>
+                    <img class='profile-img' src='{{actor.img}}' data-edit='img' title='{{actor.name}}' />
+                </div>
+                {{#if isGM}}
+                    <button class='sharebutton' data-operation='share-portrait'>{{localize 'GURPS.share'}}</button>
+                {{/if}}
             </div>
-            {{#if isGM}}
-                <button class='sharebutton' data-operation='share-portrait'>{{localize 'GURPS.share'}}</button>
-            {{/if}}
+            
+            <div id='slcs-basic-attributes' class="block">
+                <div class='fieldblock'>
+                    <div class='field big rollable' data-path='attributes.ST.value' data-otf='ST'>{{system.attributes.ST.value}}</div>
+                    <div class='label'>{{i18n 'GURPS.attributesSTNAME'}} ({{i18n 'GURPS.attributesST'}})</div>
+                    <div class='field big rollable' data-path='attributes.DX.value' data-otf='DX'>{{system.attributes.DX.value}}</div>
+                    <div class='label'>{{i18n 'GURPS.attributesDXNAME'}} ({{i18n 'GURPS.attributesDX'}})</div>
+                    <div class='field big rollable' data-path='attributes.IQ.value' data-otf='IQ'>{{system.attributes.IQ.value}}</div>
+                    <div class='label'>{{i18n 'GURPS.attributesIQNAME'}} ({{i18n 'GURPS.attributesIQ'}})</div>
+                    <div class='field big rollable' data-path='attributes.HT.value' data-otf='HT'>{{system.attributes.HT.value}}</div>
+                    <div class='label'>{{i18n 'GURPS.attributesHTNAME'}} ({{i18n 'GURPS.attributesHT'}})</div>
+                    {{#if useQN}}
+                        <div class='field big rollable' data-path='attributes.QN.value' data-otf='QN'>{{system.attributes.QN.value}}</div>
+                        <div class='label'>{{i18n 'GURPS.attributesQNNAME'}} ({{i18n 'GURPS.attributesQN'}})</div>
+                    {{/if}}
+                </div>
             </div>
+            
+            <div id='slcs-secondary-attributes' class="block">
+                <div class='fieldblock'>
+                    <div class='field big rollable' data-path='attributes.WILL.value' data-otf='WILL'>{{system.attributes.WILL.value}}</div>
+                    <div class='label '>{{i18n 'GURPS.attributesWILLNAME'}}</div>
+                    <div class='field big rollable' data-path='frightcheck' data-otf='Fright Check'>{{system.frightcheck}}</div>
+                    <div class='label'>{{i18n 'GURPS.frightcheck'}}</div>
+                    <hr />
+                    <div class='field big rollable' data-path='attributes.PER.value' data-otf='PER'> {{system.attributes.PER.value}}</div>
+                    <div class='label'>{{i18n 'GURPS.attributesPERNAME'}} ({{i18n 'GURPS.attributesPER'}})</div>
+                    {{#if (not (eq system.vision system.attributes.PER.value))}}
+                        <div class='field rollable' data-path='vision' data-otf='Vision'>{{system.vision}}</div>
+                        <div class='label'>{{i18n 'GURPS.vision'}}</div>
+                    {{/if}}
+                    {{#if (not (eq system.hearing system.attributes.PER.value))}}
+                        <div class='field rollable' data-path='hearing' data-otf='Hearing'>{{system.hearing}}</div>
+                        <div class='label'>{{i18n 'GURPS.hearing'}}</div>
+                    {{/if}}
+                    {{#if (not (eq system.tastesmell system.attributes.PER.value))}}
+                        <div class='field rollable' data-path='tastesmell' data-otf='Taste Smell' >{{system.tastesmell}} </div>
+                        <div class='label'>{{i18n 'GURPS.tastesmell'}}</div>
+                    {{/if}}
+                    {{#if (not (eq system.touch system.attributes.PER.value))}}
+                        <div class='field rollable' data-path='touch' data-otf='Touch'>{{system.touch}}</div>
+                        <div class='label'>{{i18n 'GURPS.touch'}}</div>
+                    {{/if}}
+                </div>
+            </div>
+
+            <div id='slcs-modifierlist' class='block'>
+                <div>
+                    {{#each selfModifiers}}
+                        <div class="effectmod">{{{this}}}</div>
+                    {{/each}}
+                </div>
+                {{#if (and (not (empty selfModifiers))(not (empty system.conditionalmods)))}}
+                    <hr />
+                {{/if}}
+                <div class='gga-table'>
+                    {{#each system.conditionalmods}}
+                        <div class='modifier gmod gga-right' data-name='Modifier {{situation}}' data-otf='{{displayNumber modifier}} {{this.situation}}'>{{{displayNumber modifier}}}</div>
+                        <div class='situation' data-key='system.conditionalmods.{{@key}}'>{{{gurpslink this.situation}}}</div>
+                    {{/each}}
+                </div>
+            </div>
+
+        </div>
+        <div id="slcs-main">
+
+            <div id='qnotes'></div>
+                {{#if system.additionalresources.qnotes}}
+                    {{{gurpslink system.additionalresources.qnotes}}}
+                {{else}}
+                    <span style='color:lightgrey'>double click to edit Quick Note</span>
+                {{/if}}
+            </div>
+
         </div>
     </div>
 </form>

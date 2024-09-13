@@ -2,3 +2,131 @@
 /*             Less             */
 /* This is your Less entry file */
 /* ---------------------------- */
+
+#cat-sheet{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 150px auto;
+    grid-template-areas: 
+      "header"
+      "main";
+
+
+    #slcs-header{
+        grid-area: header;
+        display: grid;
+        grid-template-columns: 100px 1fr 1fr 3fr;
+        grid-template-rows: auto;
+        grid-template-areas: 
+        "portrait basicattr secattr modifiers";
+        grid-gap: 0px 3px
+    }
+    
+    #slcs-header > div{
+        max-height: 150px;
+    }
+
+    #slcs-main{
+        grid-area: main;
+    }
+
+    #slcs-portrait{
+        display: grid;
+        grid-area: portrait;
+        grid-template-rows: 1fr min-content;
+        align-items: center;
+        justify-items: center;
+
+        .sharebutton {
+            font-size: var(--font-size-11);
+            line-height: normal;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #b5b3a2;
+            border-radius: 0;
+        }
+
+        img{
+            max-height: 126px;
+            margin-top: 3px;
+            max-width: 92px;
+            border: none;
+        }
+    }
+
+    #slsc-basic-attributes{
+        grid-area: basicattr;
+    }
+
+    #slsc-secondary-attributes{
+        grid-area: secattr;
+    }
+
+    .gga-table{
+        border: none;
+    }
+
+    #slcs-modifierlist > 
+    {
+        grid-area: modifiers;
+        overflow-y: auto;   
+        border: var(--standardborder);
+    }
+
+    #slcs-modifierlist > div.gga-table{
+        grid-template-columns: 0fr 1fr;
+        grid-template-rows: auto;
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .fieldblock {
+        display: grid;
+        grid-template-columns: 0fr 1fr;
+        align-items: baseline;
+        padding-bottom: 3px;
+        padding-top: 3px;
+    }
+
+    .field.big{
+        font-size: var(--font-size-20);
+    }
+
+    .field{
+        margin-left: 6px;
+        margin-top: 3px;
+        margin-bottom: 3px;
+        text-align: center;
+        border: none;
+    }
+
+    .effectmod{
+        margin-left: 6px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+        border: none;
+    }
+
+    .block {
+        border: var(--standardborder);
+    } 
+
+    .block hr {
+        width: 100%;
+        border: none;
+        background-color: black;
+        height: 1px;
+        margin: 0;
+        margin-top: 0.2em;
+        margin-bottom: 0.1em;
+    }
+
+    .gga-table > div.situation{
+        max-height: 3em;
+        overflow-y: auto;
+        align-items: start;
+        padding-top: 2px;
+        font-size: var(--font-size-14);
+    }
+}
+
