@@ -9,6 +9,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       classes: ['sl-cat-sheet', 'sheet', 'actor'],
       width: 800,
       height: 650,
+      tabs: [{ navSelector: '#slcs-navtabs', contentSelector: '#slcs-main', initial: 'combat' }],
       dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
     })
   }

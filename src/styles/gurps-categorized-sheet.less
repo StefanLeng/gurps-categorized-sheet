@@ -6,9 +6,10 @@
 #cat-sheet{
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 150px auto;
+    grid-template-rows: 150px max-content auto;
     grid-template-areas: 
       "header"
+      "navtabs"
       "main";
 
 
@@ -127,6 +128,36 @@
         align-items: start;
         padding-top: 2px;
         font-size: var(--font-size-14);
+    }
+
+    .slcs-sheet-tabs {
+        display: block;
+        font-size: 110%;
+        height: 32px;
+        border-bottom: 1px solid #333;
+        flex-grow: 0;
+    
+        li {
+            display: inline-block;
+            margin: 0 10px 0 10px;
+        }
+    }
+
+    .tab-item.active {
+        text-decoration: underline;
+        text-shadow: none;
+        font-weight: bold;
+        background-color: #e8ffe8;
+        font-size: 105%;
+    }
+
+    .tab-item {
+        line-height: 32px;
+        font-weight: normal;
+    }
+
+    #slcs-navtabs{
+        grid-area: navtabs;
     }
 }
 
