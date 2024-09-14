@@ -1,0 +1,27 @@
+<div id='slcs-secondary-attributes' class="block">
+    <div class='fieldblock'>
+        <div class='field big rollable' data-path='attributes.WILL.value' data-otf='WILL'>{{system.attributes.WILL.value}}</div>
+        <div class='label '>{{i18n 'GURPS.attributesWILLNAME'}}</div>
+        <div class='field big rollable' data-path='frightcheck' data-otf='Fright Check'>{{system.frightcheck}}</div>
+        <div class='label'>{{i18n 'GURPS.frightcheck'}}</div>
+        <hr />
+        <div class='field big rollable' data-path='attributes.PER.value' data-otf='PER'> {{system.attributes.PER.value}}</div>
+        <div class='label'>{{i18n 'GURPS.attributesPERNAME'}} ({{i18n 'GURPS.attributesPER'}})</div>
+        {{#if (not (eq system.vision system.attributes.PER.value))}}
+            <div class='field rollable' data-path='vision' data-otf='Vision'>{{system.vision}}</div>
+            <div class='label'>{{i18n 'GURPS.vision'}}</div>
+        {{/if}}
+        {{#if (not (eq system.hearing system.attributes.PER.value))}}
+            <div class='field rollable' data-path='hearing' data-otf='Hearing'>{{system.hearing}}</div>
+            <div class='label'>{{i18n 'GURPS.hearing'}}</div>
+        {{/if}}
+        {{#if (not (eq system.tastesmell system.attributes.PER.value))}}
+            <div class='field rollable' data-path='tastesmell' data-otf='Taste Smell' >{{system.tastesmell}} </div>
+            <div class='label'>{{i18n 'GURPS.tastesmell'}}</div>
+        {{/if}}
+        {{#if (not (eq system.touch system.attributes.PER.value))}}
+            <div class='field rollable' data-path='touch' data-otf='Touch'>{{system.touch}}</div>
+            <div class='label'>{{i18n 'GURPS.touch'}}</div>
+        {{/if}}
+    </div>
+</div>

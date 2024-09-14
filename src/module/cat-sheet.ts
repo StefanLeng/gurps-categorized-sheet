@@ -1,19 +1,6 @@
-import { string } from "yargs"
+import { i18n } from './util.js';
 
-declare global {
-	namespace globalThis {
-    var game: any;
-    var GURPS: any;
-  }
-}
-
-const parselink = GURPS.parselink
-
-export function i18n(value : string, fallback?: string | undefined) {
-  let result = game.i18n.localize(value)
-  if (!!fallback) return value === result ? fallback : result
-  return result
-}
+const {parselink, performAction} = GURPS;
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
   /** @override */
@@ -30,7 +17,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
   /** @override */
   get template() {
-    return `modules/gurps-categorized-sheet/templates/cat-sheet.hbs`
+    return "modules/gurps-categorized-sheet/templates/cat-sheet.hbs"
   }
 
   convertModifiers(list: Array<string>) {
@@ -46,8 +33,6 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     return foundry.utils.mergeObject(data, {
       selfModifiers: selfMods
     })
-
-     return data
   }
 
   getCustomHeaderButtons() {
@@ -66,7 +51,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     const element = ev.currentTarget
     const val = element.dataset.value
     const parsed = parselink(val)
-    GURPS.performAction(parsed.action, this.actor, ev)
+    performAction(parsed.action, this.actor, ev)
   }
 
  }

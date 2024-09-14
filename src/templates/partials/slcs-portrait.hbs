@@ -1,0 +1,8 @@
+<div id='slcs-portrait' class="block">
+    <div class='img-display'>
+        <img class='profile-img' src='{{actor.img}}' data-edit='img' title='{{actor.name}}' />
+    </div>
+    {{#if isGM}}
+        <button class='sharebutton' data-operation='share-portrait'>{{localize 'GURPS.share'}}</button>
+    {{/if}}
+</div>
