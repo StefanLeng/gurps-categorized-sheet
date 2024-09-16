@@ -17,7 +17,7 @@
 // Import TypeScript modules
 import { registerSettings } from './settings.js';
 import { preloadTemplates } from './preloadTemplates.js';
-import { registerHandlebarsPartials } from './handlebar_utils.ts';
+import { registerHandlebarsPartials, registerHandlebarsHelpers } from './handlebar_utils.ts';
 
 // Initialize module
 Hooks.once('gurpsinit', async () => {
@@ -27,6 +27,8 @@ Hooks.once('gurpsinit', async () => {
 
   // Register custom module settings
   registerSettings();
+
+  registerHandlebarsHelpers();
 
   registerHandlebarsPartials();
   

@@ -1,0 +1,47 @@
+{{#if (notEmpty skills)}}
+    <div id='scls-skills' class='gga-table with-notes block'>
+        {{#stripes (flatlist skills) 'even' 'odd' }}
+            {{#unless isCollapsed}}
+                <div class='skldraggable {{stripeClass}}' data-key='system.skills.{{@key}}'>
+                    <div class='desc dblclkedit indent{{indent}}'>
+                        <div class='gga-desc-text {{rollable this.level}}' data-otf='Sk:"{{this.name}}"'>
+                            <div>
+                                {{#if hasContains}}<i class='fas fa-caret-down expandcollapseicon'></i>{{/if}}
+                                {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
+                            </div>
+                            <div class='tooltip gga-manual'>
+                                {{{gurpslink this.name}}}
+                                {{#if (displayItemHover this)}}
+                                <div class='tooltiptext gga-manual'><img src='{{this.img}}' /></div>
+                                {{/if}}
+                            </div>
+                            <div>
+                                {{#if (isFoundryItem this)}}
+                                <i class='fas fa-star tooltip gga-item'>
+                                    <span class='tooltiptext'>{{i18n "GURPS.equipmentFoundryItem"}}</span>
+                                </i>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='sl flex-center {{stripeClass}}'>
+                    <div class='{{rollable this.level}} flex-center' data-name='{{this.name}}' data-key='system.skills.{{@key}}'
+                        data-otf='Sk:"{{this.name}}"'>
+                        {{this.level}}
+                    </div>
+                </div>
+                <div class='rsl flex-center {{stripeClass}}'>
+                    <div class='{{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.relativelevel}}</div>
+                </div>   
+                <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}} </div>
+                {{#if (not (empty this.notes))}}
+                <div class='list_note'>
+                    {{{gurpslink this.notes @root}}}
+                </div>
+                {{/if}}
+            {{/unless}}
+        {{/stripes}}
+    </div>
+{{/if}}

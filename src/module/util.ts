@@ -4,3 +4,7 @@ export function i18n(value : string, fallback?: string | undefined) {
     return result
   }
   
+export function filterObject(obj : Object, callback : (val: any)=>boolean) : Object {
+  return Object.fromEntries(Object.entries(obj).
+    filter(([_, val]) => callback(val)));
+}

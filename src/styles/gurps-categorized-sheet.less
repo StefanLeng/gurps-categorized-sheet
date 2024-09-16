@@ -11,6 +11,7 @@
       "header"
       "navtabs"
       "main";
+    background: white;
 
 
     #slcs-header{
@@ -158,6 +159,166 @@
 
     #slcs-navtabs{
         grid-area: navtabs;
+    }
+
+    #slcs-combat-tab{
+        padding-top: var(--sectiongap);
+        display: grid;
+        grid-gap: var(--sectiongap);
+        grid-template-columns: 1fr 1fr min-content;
+        grid-template-rows: 0fr auto auto 1fr;
+        grid-template-areas:
+            'condition condition combat-sidebar'
+            'skills melee combat-sidebar'
+            'traits ranged combat-sidebar'
+            'null null combat-sidebar';
+    }
+    
+    #slcs-exploration-tab{
+        padding-top: var(--sectiongap);
+        display: grid;
+        grid-gap: var(--sectiongap);
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            'skills null'
+            'skills null'
+            'traits null';
+    }
+
+    #slcs-social-tab{
+        padding-top: var(--sectiongap);
+        display: grid;
+        grid-gap: var(--sectiongap);
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            'skills null'
+            'skills null'
+            'traits null';
+    }
+    
+    #slcs-technical-tab{
+        padding-top: var(--sectiongap);
+        display: grid;
+        grid-gap: var(--sectiongap);
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            'skills null'
+            'skills null'
+            'traits null';
+    }
+
+    #slcs-powers-tab{
+        padding-top: var(--sectiongap);
+        display: grid;
+        grid-gap: var(--sectiongap);
+        grid-template-columns: 1fr 1fr ;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            'skills null'
+            'skills null'
+            'traits null';
+    }
+
+    #slcs-conditions{
+        grid-area: condition;
+        .label {
+            display: flex;
+            flex-flow: row;
+            justify-content: right;
+        }
+        
+        details {
+            position: relative;
+        }
+
+        .fieldblock {
+            display: inline-grid;
+            grid-template-columns: 0fr auto 0fr auto 0fr auto 0fr auto;
+            padding-top: 0.15em;
+            align-items: center;
+
+            .field {
+                text-align: left;
+                margin-top: 3px;
+                min-height: calc(1em + 3px);
+            }
+            
+            .field[name='system.conditions.combatmove'] {
+                max-width: 12em;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-left: 8px;
+            }
+    
+            details {
+                border: none;
+                height: 100%;
+                align-self: end;
+
+                .button {
+                    width: 2rem;
+                    height: 2rem;
+                    border: none;
+                }
+            }
+            
+            details > summary {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+    }
+
+    #scls-skills{
+        --rowmargin: 0.2em;
+        grid-area: skills;
+        grid-template-columns: 1fr repeat(3, auto);
+        align-content: start;
+        max-height: 300px;
+        overflow-y: auto;
+        .tooltip.gga-manual{
+            border: none;
+        }    
+        gap: 0px 0px;
+        .skldraggable:before{
+            content: none;
+        }
+        .skldraggable{
+            padding: var(--rowmargin) 0 var(--rowmargin) var(--rowmargin);
+        }
+        .gga-desc-text{
+            padding: 0 var(--rowmargin) 0 var(--rowmargin);
+        }
+        .list_note{
+            padding: 0 var(--rowmargin) 0 var(--rowmargin);
+            grid-column-start: 1;
+            grid-column-end: 5;
+            max-width: 100%;
+            white-space: normal;
+            span{
+                margin: 0 var(--rowmargin) 0 var(--rowmargin)
+            }
+        }
+        .sl, .rsl{
+            padding: var(--rowmargin) 0 var(--rowmargin) 0;
+            .rollable {
+                width: 100%
+            }
+        }
+        .odd{
+            background-color: #e8ffe8;
+        }
+    }
+
+    #scls-skills > div{
+        border-bottom: none;
+        border-top: 1px solid lightgrey;
+        border-right: 1px solid lightgrey;
     }
 }
 

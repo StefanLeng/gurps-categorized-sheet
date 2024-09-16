@@ -10,18 +10,43 @@
             <li><a class='tab-item' data-tab='combat'>{{i18n 'GURPS-cat-sheet.combatTab' 'Combat'}}</a></li>
             <li><a class='tab-item' data-tab='exploration'>{{i18n 'GURPS-cat-sheet.explrationTab' 'Exploration & Stealth'}}</a></li>
             <li><a class='tab-item' data-tab='social'>{{i18n 'GURPS-cat-sheet.socialTab' 'Social'}}</a></li>
-            <li><a class='tab-item' data-tab='tecnical'>{{i18n 'GURPS-cat-sheet.technicalTab' 'Technical & Reseach'}}</a></li>
+            <li><a class='tab-item' data-tab='technical'>{{i18n 'GURPS-cat-sheet.technicalTab' 'Technical & Reseach'}}</a></li>
             <li><a class='tab-item' data-tab='powers'>{{i18n 'GURPS-cat-sheet.powersTab' 'Powers & Magic'}}</a></li>
             <li><a class='tab-item' data-tab='others'>{{i18n 'GURPS-cat-sheet.othersTab' 'Others'}}</a></li>
             <li><a class='tab-item' data-tab='equipment'>{{i18n 'GURPS-cat-sheet.equipmentTab' 'Equipment'}}</a></li>
         </nav>
         <div id="slcs-main">
-            <div class='tab' data-tab='combat' data-group='primary-tabs'>combat</div>
-            <div class='tab' data-tab='exploration' data-group='primary-tabs'>exploration</div>
-            <div class='tab' data-tab='social' data-group='primary-tabs'>social</div>
-            <div class='tab' data-tab='tecnical' data-group='primary-tabs'>tecnical</div>
-            <div class='tab' data-tab='powers' data-group='primary-tabs'>powers</div>
-            <div class='tab' data-tab='others' data-group='primary-tabs'>others</div>
+            <div class='tab' data-tab='combat' data-group='primary-tabs'>
+                <div id="slcs-combat-tab">
+                    {{>slcs-conditions}}
+                    {{>slcs-skills skills=categories.combat.skills}}
+                </div>
+            </div>
+            <div class='tab' data-tab='exploration' data-group='primary-tabs'>
+                <div id="slcs-exploration-tab">
+                    {{>slcs-skills skills=categories.exploration.skills}}
+                </div>                
+            </div>
+            <div class='tab' data-tab='social' data-group='primary-tabs'>
+                <div id="slcs-social-tab">
+                    {{>slcs-skills skills=categories.social.skills}}
+                </div>                
+            </div>
+            <div class='tab' data-tab='technical' data-group='primary-tabs'>
+                <div id="slcs-technical-tab">
+                    {{>slcs-skills skills=categories.technical.skills}}
+                </div>                
+            </div>
+            <div class='tab' data-tab='powers' data-group='primary-tabs'>
+                <div id="slcs-powers-tab">
+                    {{>slcs-skills skills=categories.powers.skills}}
+                </div>                   
+            </div>
+            <div class='tab' data-tab='others' data-group='primary-tabs'>
+                <div id="slcs-powers-tab">
+                    {{>slcs-skills skills=categories.others.skills}}
+                </div>                    
+            </div>
             <div class='tab' data-tab='equipment' data-group='primary-tabs'>equipment</div>
         </div>
     </div>
