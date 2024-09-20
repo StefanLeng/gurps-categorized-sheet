@@ -5,6 +5,7 @@ export function i18n(value : string, fallback?: string | undefined) {
   }
   
 export function filterObject(obj : Object, callback : (val: any)=>boolean) : Object {
-  return Object.fromEntries(Object.entries(obj).
-    filter(([_, val]) => callback(val)));
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, val]) => callback(val))
+  );
 }

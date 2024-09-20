@@ -1,5 +1,6 @@
 import { i18n } from './util.js';
 import { categorizeSkills } from './categorize.ts';
+import { meleeGrips, rangedGrips, reduceGrips } from './weaponGrips.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
   /** @override */
@@ -48,14 +49,25 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       }
     
   };
-      
-    return foundry.utils.mergeObject(data, {
+  
+  let grips = meleeGrips(data.system.equipment.carried, data.system.melee)
+    .concat(rangedGrips(data.system.equipment.carried, data.system.ranged));
+    
+  let selectedGrip = data.actor.flags?.["gurps-categorized-sheet"]?.selectedGrip;
+
+  return foundry.utils.mergeObject(data, {
       categories: categories,
+      grips: reduceGrips(grips),
+      selectedGrip : selectedGrip
     })
   }
 
   getCustomHeaderButtons() {
     return []
+  }
+
+  async setGrip( grip :string){
+    await this.actor.setFlag("gurps-categorized-sheet", "selectedGrip", grip);
   }
   
   activateListeners(html: JQuery<HTMLElement>) {
@@ -83,6 +95,11 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       const target : any = $(ev.currentTarget)[0]
       this.actor.replacePosture(target.alt)
       details.open = !details.open
+    })
+
+    html.find('#selectedGrip').on('change', ev => {
+      let target = $(ev.currentTarget);
+      this.setGrip(target.val() as string)
     })
 
   }
