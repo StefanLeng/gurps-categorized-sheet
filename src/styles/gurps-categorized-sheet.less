@@ -169,8 +169,8 @@
         grid-template-rows: 0fr auto auto 1fr;
         grid-template-areas:
             'condition condition combat-sidebar'
-            'skills melee combat-sidebar'
-            'traits ranged combat-sidebar'
+            'skills attacks combat-sidebar'
+            'traits xxx combat-sidebar'
             'null null combat-sidebar';
     }
     
@@ -274,7 +274,7 @@
         }
     }
 
-    #scls-skills{
+    #slcs-skills{
         --rowmargin: 0.2em;
         grid-area: skills;
         grid-template-columns: 1fr repeat(3, auto);
@@ -315,10 +315,42 @@
         }
     }
 
-    #scls-skills > div{
+    #slcs-skills > div{
         border-bottom: none;
         border-top: 1px solid lightgrey;
         border-right: 1px solid lightgrey;
+    }
+
+    #slcs-melee-attacks{
+        grid-area: attacks;
+        align-self: start;
+        grid-template-columns: 1fr repeat(4, auto);
+        grid-template-rows: 0fr max-content;
+        .meleedraggable:before{
+            content: none;
+        }
+        .list_note{
+            grid-column-start: 1;
+            grid-column-end: 6;
+            max-width: 100%;
+            white-space: normal;
+        }
+    }
+
+    #slcs-ranged-attacks{
+        grid-area: attacks;
+        align-self: start;
+        grid-template-columns: 1fr repeat(9, auto);
+        grid-template-rows: 0fr max-content;
+        .rangeddraggable:before{
+            content: none;
+        }
+        .list_note{
+            grid-column-start: 1;
+            grid-column-end: 11;
+            max-width: 100%;
+            white-space: normal;
+        }
     }
 }
 

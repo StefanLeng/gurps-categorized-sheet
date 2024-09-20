@@ -12,7 +12,7 @@ interface MeleeMode {
     "name": string
 }
 
-interface keyedMeleeMode extends MeleeMode{
+export interface keyedMeleeMode extends MeleeMode{
     key: string,
 }
 
@@ -26,7 +26,7 @@ interface RangedMode {
     "name": string
 }
 
-interface keyedRangedMode extends RangedMode{
+export interface keyedRangedMode extends RangedMode{
     key: string,
 }
 
@@ -165,7 +165,8 @@ export function meleeGrips (equipment : ElementList<Weapon>, melees :ElementList
 export function rangedGrips (equipment : ElementList<Weapon>, ranged :ElementList<RangedMode>){
     return Object.entries(ranged)
     .map( ([k, m]) => {return {...m, key : k}})
-    .map( m => rangedToGrip(equipment, m));
+    .map( m => rangedToGrip(equipment, m))
+    .filter( g => g.weaponName !== "");
 }
 
 export function reduceGrips(grips : WeaponGrip[]){

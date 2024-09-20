@@ -1,5 +1,5 @@
 {{#if (notEmpty skills)}}
-    <div id='scls-skills' class='gga-table with-notes block'>
+    <div id='slcs-skills' class='gga-table with-notes block'>
         {{#stripes (flatlist skills) 'even' 'odd' }}
             {{#unless isCollapsed}}
                 <div class='skldraggable {{stripeClass}}' data-key='system.skills.{{@key}}'>
@@ -36,7 +36,7 @@
                     <div class='{{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.relativelevel}}</div>
                 </div>   
                 <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}} </div>
-                {{#if (not (empty this.notes))}}
+                {{#if (notEmpty this.notes)}}
                 <div class='list_note'>
                     {{{gurpslink this.notes @root}}}
                 </div>

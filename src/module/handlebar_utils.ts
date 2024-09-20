@@ -10,6 +10,8 @@ export function registerHandlebarsPartials() {
     "modules/gurps-categorized-sheet/templates/partials/slcs-modifierlist.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-conditions.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-skills.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-melee-attacks.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-ranged-attacks.hbs",
 ]
 
   templates.forEach(filename => {
