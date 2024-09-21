@@ -53,20 +53,22 @@
         {{/each}}
       </select>
     </div>
-    <div class='label'>{{i18n 'GURPS.conditionsCombatMove'}}:</div>
-    <div class='field' name='system.conditions.combatmove'><span>{{system.conditions.move}}</span></div>
- 
-    <div class='label' for='selectedGrip'>Grip:</div>
-    <div class='field' style='border: none'>
-      <select
-        id='selectedGrip'
-        style='font-size: 90%; max-width: 14em;'
-      >
-        {{#each grips}}
-          <option value='{{name}}' {{select-if name ../selectedGrip}}>{{name}}</option>
-        {{/each}}
-      </select>
-    </div>
+
+   {{#each hands}}
+    <div class='label' for='selectedGrip{{@index}}'>{{name}}</div>
+      <div class='field' style='border: none'>
+        <select
+          id='selectedGrip{{@index}}'
+          class="gripSelect"
+          data-index="{{@index}}"
+          style='font-size: 90%; max-width: 14em;'
+        >
+          {{#each ../grips}}
+            <option value='{{name}}' {{select-if name ../grip}}>{{name}}</option>
+          {{/each}}
+        </select>
+      </div>
+    {{/each}}
 
   </div>
 </div>

@@ -20,8 +20,10 @@
                 <div id="slcs-combat-tab">
                     {{>slcs-conditions}}
                     {{>slcs-skills skills=categories.combat.skills}}
-                    {{>slcs-melee-attacks}}
-                    {{>slcs-ranged-attacks}}
+                    <div id='slcs-attacks'>
+                        {{>slcs-melee-attacks}}
+                        {{>slcs-ranged-attacks}}
+                    </div>
                 </div>
             </div>
             <div class='tab' data-tab='exploration' data-group='primary-tabs'>

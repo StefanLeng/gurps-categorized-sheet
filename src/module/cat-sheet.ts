@@ -1,6 +1,6 @@
 import { i18n } from './util.js';
 import { categorizeSkills } from './categorize.ts';
-import { meleeGrips, rangedGrips, reduceGrips, keyedMeleeMode, keyedRangedMode } from './weaponGrips.ts';
+import { meleeGrips, rangedGrips, reduceGrips, keyedMeleeMode, keyedRangedMode, emptyHand, WeaponGrip } from './weaponGrips.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
   /** @override */
@@ -24,6 +24,12 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   convertModifiers(list: Array<string>) {
     return list ? list.map((it: string) => `[${i18n(it)}]`).map((it: string) => GURPS.gurpslink(it)) : []
   }
+
+  numberOfHands() {
+    return 2;
+  }
+
+  #grips : WeaponGrip[] = [];
 
   getData() {
     const data = super.getData()
@@ -49,29 +55,34 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       }
     
   };
-  
+
   let grips0 = meleeGrips(data.system.equipment.carried, data.system.melee)
     .concat(rangedGrips(data.system.equipment.carried, data.system.ranged));
   let grips = reduceGrips(grips0);
+  this.#grips = grips;
     
-  let selectedGrip = data.actor.flags?.["gurps-categorized-sheet"]?.selectedGrip;
-  let grip = grips.find(g=> g.name ===selectedGrip);
+  let selectedGrips = data.actor.flags?.["gurps-categorized-sheet"]?.selectedGrips as string[];
   let melee : keyedMeleeMode[] = [];
   let ranged : keyedRangedMode[] = [];
-  if (!grip) {
-    selectedGrip = "";
-  }  
-  else {
-    melee = grip.meleeList;
-    ranged = grip.rangedList;
+  let selectedGripsNew : string[] = [];
+  let hands : {name :string, grip: string}[] = [];
+  for (var i=0; i < this.numberOfHands(); i++) {
+    let grip = ((i <= selectedGrips?.length) ? grips.find(g=> g.name ===selectedGrips[i]) : undefined) ?? emptyHand;
+    if (selectedGripsNew.every(g => grip.name !== g)){
+      melee = melee.concat(grip.meleeList);
+      ranged = ranged.concat(grip.rangedList);
+    }
+    selectedGripsNew[i] = grip.name;
+    hands.push( {name :'Hand ' + (i+1), grip: grip.name});
   }
 
   return foundry.utils.mergeObject(data, {
       categories: categories,
       grips: grips,
-      selectedGrip : selectedGrip,
+      selectedGrips : selectedGrips,
       melee : melee,
       ranged : ranged,
+      hands :hands,
     })
   }
 
@@ -79,8 +90,25 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     return []
   }
 
-  async setGrip( grip :string){
-    await this.actor.setFlag("gurps-categorized-sheet", "selectedGrip", grip);
+  async setGrip( gripName :string, index : number){
+    let selectedGrips0 = this.actor.flags?.["gurps-categorized-sheet"]?.selectedGrips as string[] | undefined;
+    let selectedGrips : string[] = (!selectedGrips0) ? new Array(this.numberOfHands()).fill(emptyHand.name) : selectedGrips0;
+    if (index < selectedGrips.length && index >= 0){
+      let oldGripName = selectedGrips[index];
+      let oldGrip = this.#grips.find(g => g.name === oldGripName) ?? emptyHand;
+      let grip = this.#grips.find(g => g.name === gripName) ?? emptyHand;
+      selectedGrips[index] = "";  
+      if (grip.twoHanded){
+        let otherHand = oldGrip.twoHanded ? selectedGrips.findIndex(g => g === oldGripName) : selectedGrips.findIndex(g => g === emptyHand.name);
+        otherHand = otherHand < 0 ?  selectedGrips.findIndex(g => g !== "") : otherHand;
+        if (otherHand >= 0) selectedGrips[otherHand] = gripName;
+      } else if(oldGrip.twoHanded) {
+        let otherHand = selectedGrips.findIndex(g => g === oldGripName);
+        if (otherHand >= 0) selectedGrips[otherHand] = emptyHand.name;
+      }
+      selectedGrips[index] = gripName; 
+    }
+    await this.actor.setFlag("gurps-categorized-sheet", "selectedGrips", selectedGrips);
   }
   
   activateListeners(html: JQuery<HTMLElement>) {
@@ -110,9 +138,10 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       details.open = !details.open
     })
 
-    html.find('#selectedGrip').on('change', ev => {
+    html.find('.gripSelect').on('change', ev => {
       let target = $(ev.currentTarget);
-      this.setGrip(target.val() as string)
+      let index = Number(target.attr("data-index"));
+      this.setGrip(target.val() as string, index)
     })
 
   }

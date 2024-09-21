@@ -4,6 +4,7 @@
 /* ---------------------------- */
 
 #cat-sheet{
+    --sectiongap: 0.3em;
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: 150px max-content auto;
@@ -321,35 +322,41 @@
         border-right: 1px solid lightgrey;
     }
 
-    #slcs-melee-attacks{
+    #slcs-attacks{
         grid-area: attacks;
-        align-self: start;
-        grid-template-columns: 1fr repeat(4, auto);
-        grid-template-rows: 0fr max-content;
-        .meleedraggable:before{
-            content: none;
-        }
-        .list_note{
-            grid-column-start: 1;
-            grid-column-end: 6;
-            max-width: 100%;
-            white-space: normal;
-        }
-    }
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: max-content max-content;
+        gap: var(--sectiongap);
 
-    #slcs-ranged-attacks{
-        grid-area: attacks;
-        align-self: start;
-        grid-template-columns: 1fr repeat(9, auto);
-        grid-template-rows: 0fr max-content;
-        .rangeddraggable:before{
-            content: none;
+        #slcs-melee-attacks{
+            align-self: start;
+            grid-template-columns: 1fr repeat(4, auto);
+            grid-template-rows: 0fr max-content;
+            .meleedraggable:before{
+                content: none;
+            }
+            .list_note{
+                grid-column-start: 1;
+                grid-column-end: 6;
+                max-width: 100%;
+                white-space: normal;
+            }
         }
-        .list_note{
-            grid-column-start: 1;
-            grid-column-end: 11;
-            max-width: 100%;
-            white-space: normal;
+
+        #slcs-ranged-attacks{
+            align-self: start;
+            grid-template-columns: 1fr repeat(9, auto);
+            grid-template-rows: 0fr max-content;
+            .rangeddraggable:before{
+                content: none;
+            }
+            .list_note{
+                grid-column-start: 1;
+                grid-column-end: 11;
+                max-width: 100%;
+                white-space: normal;
+            }
         }
     }
 }
