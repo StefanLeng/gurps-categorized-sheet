@@ -39,6 +39,11 @@ interface Weapon{
     notes: string,
 }
 
+export interface Hand {
+    name : string,
+    grip: string
+}
+
 export interface WeaponGrip{
     name: string,
     weaponName: string,
@@ -196,6 +201,54 @@ export function reduceGrips(grips : WeaponGrip[]){
             gl.push(g);
         return gl;
     }, [])
+}
+
+export function meleeWithoutGrip(equipment : ElementList<Weapon>, melees :ElementList<MeleeMode>) : keyedMeleeMode[]{
+    return Object.entries(melees)
+    .map( ([k, m]) => {return {...m, key : k}})
+    .filter(m => Object.entries(equipment).every(w => w[1].name !== m.name && m.mode != 'Punch'))
+}
+
+export function rangedWithoutGrip(equipment : ElementList<Weapon>, ranged :ElementList<RangedMode>) : keyedRangedMode[]{
+    return Object.entries(ranged)
+    .map( ([k, m]) => {return {...m, key : k}})
+    .filter(m => Object.entries(equipment).every(w => w[1].name !== m.name ))
+}
+
+export function initHands(numberOfHands : number){
+    let hands : Hand[] = [];
+    for (var i=0; i < numberOfHands; i++) {
+       hands.push( {name :'Hand ' + (i+1), grip: emptyHand.name});
+    }  
+    return hands;
+}
+
+export function resolveGrips(
+    equipment : ElementList<Weapon>, 
+    meleeList :ElementList<MeleeMode>,
+    rangedList :ElementList<RangedMode>,  
+    hands : Hand[]
+) : [grips : WeaponGrip[], hands : Hand[], melee : keyedMeleeMode[], ranged :keyedRangedMode[]] 
+{
+  let grips0 = meleeGrips(equipment, meleeList)
+    .concat(rangedGrips(equipment, rangedList));
+  let grips = reduceGrips(grips0);
+    
+  let melee : keyedMeleeMode[] = [];
+  let ranged : keyedRangedMode[] = [];
+  let selectedGripsNew : string[] = [];
+  for (let hand of hands) {
+    let grip = grips.find(g=> g.name === hand.grip)  ?? emptyHand;
+    if (selectedGripsNew.every(g => grip.name !== g)){
+      melee = melee.concat(grip.meleeList);
+      ranged = ranged.concat(grip.rangedList);
+    }
+    selectedGripsNew.push (grip.name);
+    hand.grip = grip.name;
+  }
+  melee = melee.concat(meleeWithoutGrip(equipment, meleeList));
+  ranged = ranged.concat(rangedWithoutGrip(equipment, rangedList));
+  return [grips, hands, melee, ranged]
 }
 
 /*

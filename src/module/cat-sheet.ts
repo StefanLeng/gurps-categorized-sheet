@@ -1,6 +1,6 @@
 import { i18n } from './util.js';
 import { categorizeSkills } from './categorize.ts';
-import { meleeGrips, rangedGrips, reduceGrips, keyedMeleeMode, keyedRangedMode, emptyHand, WeaponGrip } from './weaponGrips.ts';
+import { Hand, initHands, emptyHand, WeaponGrip, resolveGrips } from './weaponGrips.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
   /** @override */
@@ -56,30 +56,14 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     
   };
 
-  let grips0 = meleeGrips(data.system.equipment.carried, data.system.melee)
-    .concat(rangedGrips(data.system.equipment.carried, data.system.ranged));
-  let grips = reduceGrips(grips0);
+  let handsOld = data.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
+  let [grips, hands, melee, ranged] = resolveGrips(data.system.equipment.carried, data.system.melee, data.system.ranged, handsOld)
   this.#grips = grips;
-    
-  let selectedGrips = data.actor.flags?.["gurps-categorized-sheet"]?.selectedGrips as string[];
-  let melee : keyedMeleeMode[] = [];
-  let ranged : keyedRangedMode[] = [];
-  let selectedGripsNew : string[] = [];
-  let hands : {name :string, grip: string}[] = [];
-  for (var i=0; i < this.numberOfHands(); i++) {
-    let grip = ((i <= selectedGrips?.length) ? grips.find(g=> g.name ===selectedGrips[i]) : undefined) ?? emptyHand;
-    if (selectedGripsNew.every(g => grip.name !== g)){
-      melee = melee.concat(grip.meleeList);
-      ranged = ranged.concat(grip.rangedList);
-    }
-    selectedGripsNew[i] = grip.name;
-    hands.push( {name :'Hand ' + (i+1), grip: grip.name});
-  }
+  this.actor.setFlag("gurps-categorized-sheet", "hands", hands)
 
   return foundry.utils.mergeObject(data, {
       categories: categories,
       grips: grips,
-      selectedGrips : selectedGrips,
       melee : melee,
       ranged : ranged,
       hands :hands,
@@ -91,24 +75,23 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   }
 
   async setGrip( gripName :string, index : number){
-    let selectedGrips0 = this.actor.flags?.["gurps-categorized-sheet"]?.selectedGrips as string[] | undefined;
-    let selectedGrips : string[] = (!selectedGrips0) ? new Array(this.numberOfHands()).fill(emptyHand.name) : selectedGrips0;
-    if (index < selectedGrips.length && index >= 0){
-      let oldGripName = selectedGrips[index];
+    let hands = this.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
+    if (index < hands.length && index >= 0){
+      let oldGripName = hands[index].grip;
       let oldGrip = this.#grips.find(g => g.name === oldGripName) ?? emptyHand;
       let grip = this.#grips.find(g => g.name === gripName) ?? emptyHand;
-      selectedGrips[index] = "";  
+      hands[index].grip = "";  
       if (grip.twoHanded){
-        let otherHand = oldGrip.twoHanded ? selectedGrips.findIndex(g => g === oldGripName) : selectedGrips.findIndex(g => g === emptyHand.name);
-        otherHand = otherHand < 0 ?  selectedGrips.findIndex(g => g !== "") : otherHand;
-        if (otherHand >= 0) selectedGrips[otherHand] = gripName;
+        let otherHand = oldGrip.twoHanded ? hands.findIndex(h => h.grip === oldGripName) : hands.findIndex(h => h.grip === emptyHand.name);
+        otherHand = otherHand < 0 ?  hands.findIndex(h => h.grip !== "") : otherHand;
+        if (otherHand >= 0) hands[otherHand].grip = gripName;
       } else if(oldGrip.twoHanded) {
-        let otherHand = selectedGrips.findIndex(g => g === oldGripName);
-        if (otherHand >= 0) selectedGrips[otherHand] = emptyHand.name;
+        let otherHand = hands.findIndex(h => h.grip === oldGripName);
+        if (otherHand >= 0) hands[otherHand].grip = emptyHand.name;
       }
-      selectedGrips[index] = gripName; 
+      hands[index].grip = gripName; 
     }
-    await this.actor.setFlag("gurps-categorized-sheet", "selectedGrips", selectedGrips);
+    await this.actor.setFlag("gurps-categorized-sheet", "hands", hands);
   }
   
   activateListeners(html: JQuery<HTMLElement>) {
