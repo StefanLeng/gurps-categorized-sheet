@@ -1,6 +1,6 @@
 import { i18n } from './util.js';
 import { categorizeSkills } from './categorize.ts';
-import { Hand, initHands, emptyHand, WeaponGrip, resolveGrips } from './weaponGrips.ts';
+import { Hand, initHands, emptyHand, WeaponGrip, resolveGrips, keyedMeleeMode } from './weaponGrips.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
   /** @override */
@@ -31,6 +31,10 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
   #grips : WeaponGrip[] = [];
 
+  /*getDefenses(data : any, melee : keyedMeleeMode[[]]){
+    let dodge = 
+  }*/
+
   getData() {
     const data = super.getData()
     
@@ -56,12 +60,16 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     
   };
 
+  let selfMods = this.convertModifiers(data.actor.system.conditions.self.modifiers)
+  selfMods.push(...this.convertModifiers(data.actor.system.conditions.usermods))
+
   let handsOld = data.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
   let [grips, hands, melee, ranged] = resolveGrips(data.system.equipment.carried, data.system.melee, data.system.ranged, handsOld)
   this.#grips = grips;
   this.actor.setFlag("gurps-categorized-sheet", "hands", hands)
 
   return foundry.utils.mergeObject(data, {
+      selfModifiers: selfMods,
       categories: categories,
       grips: grips,
       melee : melee,
