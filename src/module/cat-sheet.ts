@@ -27,7 +27,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   }
 
   convertModifiers(list: Array<string>) {
-    return list ? list.map((it: string) => `[${i18n(it)}]`).map((it: string) => GURPS.gurpslink(it)) : []
+    return list ? list.map((it: string) => `[${i18n(it)}]`).map((it: string) => {return {mod :GURPS.gurpslink(it)}}) : []
   }
 
   numberOfHands() {

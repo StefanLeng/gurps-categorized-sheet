@@ -84,18 +84,25 @@
         border: none;
     }
 
-    #slcs-modifierlist > 
+    #slcs-modifierlist  
     {
         grid-area: modifiers;
         overflow-y: auto;   
         border: var(--standardborder);
+        .gga-table > div.situation{
+            max-height: 3em;
+            overflow-y: auto;
+            align-items: start;
+            padding-top: 2px;
+            font-size: var(--font-size-14);
+            border: none;
+        }
     }
 
     #slcs-modifierlist > div.gga-table{
         grid-template-columns: 0fr 1fr;
         grid-template-rows: auto;
-        gap: 6px;
-        padding: 6px;
+        padding: 3px;
     }
 
     .fieldblock {
@@ -124,8 +131,7 @@
 
     .effectmod{
         margin-left: 6px;
-        margin-top: 6px;
-        margin-bottom: 6px;
+        margin-top: 3px;
         border: none;
     }
 
@@ -141,14 +147,6 @@
         margin: 0;
         margin-top: 0.2em;
         margin-bottom: 0.1em;
-    }
-
-    .gga-table > div.situation{
-        max-height: 3em;
-        overflow-y: auto;
-        align-items: start;
-        padding-top: 2px;
-        font-size: var(--font-size-14);
     }
 
     .slcs-sheet-tabs {
@@ -208,7 +206,10 @@
             grid-area: condition;
         }
     }
-    
+    .even{
+        background-color: #e8ffe8;
+    }
+
     #slcs-exploration-tab{
     }
 
@@ -273,7 +274,7 @@
     }
 
     #slcs-skills{
-        --rowmargin: 0.2em;
+        --rowmargin: 0.3em;
         grid-template-columns: 1fr repeat(3, auto);
         align-content: start;
 //        max-height: 300px;
@@ -286,10 +287,8 @@
             content: none;
         }
         .skldraggable{
-            padding: var(--rowmargin) 0 var(--rowmargin) var(--rowmargin);
-        }
-        .gga-desc-text{
-            padding: 0 var(--rowmargin) 0 var(--rowmargin);
+            padding-left: var(--rowmargin);
+            padding-right: var(--rowmargin);
         }
         .list_note{
             padding: 0 var(--rowmargin) 0 var(--rowmargin);
@@ -302,8 +301,9 @@
             }
         }
         .sl, .rsl{
-            padding: var(--rowmargin) 0 var(--rowmargin) 0;
             .rollable {
+                padding-left: var(--rowmargin);
+                padding-right: var(--rowmargin);
                 width: 100%
             }
         }

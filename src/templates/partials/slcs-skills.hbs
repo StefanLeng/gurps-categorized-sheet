@@ -4,7 +4,7 @@
             {{#unless isCollapsed}}
                 <div class='skldraggable {{stripeClass}}' data-key='system.skills.{{@key}}'>
                     <div class='desc dblclkedit indent{{indent}}'>
-                        <div class='gga-desc-text {{rollable this.level}}' data-otf='Sk:"{{this.name}}"'>
+                        <div class='gga-desc-text' data-otf='Sk:"{{this.name}}"'>
                             <div>
                                 {{#if hasContains}}<i class='fas fa-caret-down expandcollapseicon'></i>{{/if}}
                                 {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
@@ -37,7 +37,7 @@
                 </div>   
                 <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}} </div>
                 {{#if (notEmpty this.notes)}}
-                <div class='list_note'>
+                <div class='list_note {{stripeClass}}'>
                     {{{gurpslink this.notes @root}}}
                 </div>
                 {{/if}}

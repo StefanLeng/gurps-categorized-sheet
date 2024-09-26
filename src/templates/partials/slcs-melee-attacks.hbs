@@ -6,22 +6,22 @@
         <div class='damage header'>{{i18n 'GURPS.damage'}}</div>
         <div class='reach header'>{{i18n 'GURPS.reach'}}</div>
 
-        {{#each melee}}
-            <div class='meleedraggable' data-key='system.melee.{{key}}'>
+        {{#stripes melee 'even' 'odd' }}
+            <div class='meleedraggable  {{stripeClass}}' data-key='system.melee.{{key}}'>
                 <div class='desc dblclkedit indent{{indent}}'>
                     <div class='gga-desc-text'>{{{gurpslink name}}}</div>
                 </div>
             </div>
 
-            <div class='usage rollable flex-center' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
+            <div class='usage rollable flex-center  {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
                 data-otf='{{quotedAttackName 'M' this}}'>{{mode}}</div>
-            <div class='level rollable flex-center' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
+            <div class='level rollable flex-center {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
                 data-otf='{{quotedAttackName 'M' this}}'>{{level}}</div>
-            <div class='damage rollable flex-center' data-damage data-otf='{{damage}}'>{{damage}}</div>
+            <div class='damage rollable flex-center {{stripeClass}}' data-damage data-otf='{{damage}}'>{{damage}}</div>
             <div class='reach flex-center'>{{reach}}</div>
             {{#if (notEmpty notes)}}
-                <div class='list_note'>{{{gurpslink notes}}}</div>
+                <div class='list_note {{stripeClass}}'>{{{gurpslink notes}}}</div>
             {{/if}}
-        {{/each}}
+        {{/stripes}}
     </div>
 {{/if}}

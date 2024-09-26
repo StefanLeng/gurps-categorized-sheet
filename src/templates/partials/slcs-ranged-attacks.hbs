@@ -11,24 +11,24 @@
         <div class='bulk header'>{{i18n 'GURPS.bulk'}}</div>
         <div class='rcl header'>{{i18n 'GURPS.rcl'}}</div>
 
-        {{#each ranged}}
-            <div class='rangeddraggable' data-key='system.ranged.{{key}}'>
+        {{#stripes ranged  'even' 'odd' }}
+            <div class='rangeddraggable {{stripeClass}}' data-key='system.ranged.{{key}}'>
                 <div class='desc dblclkedit indent{{indent}}'>
                     <div class='gga-desc-text'>{{{gurpslink this.name}}}</div>
                 </div>
             </div>
 
-            <div class='usage rollable flex-center' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{mode}}</div>
-            <div class='level rollable flex-center' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{level}}</div>
-            <div class='acc gga-right {{gmod this.acc}}' data-name='Acc for {{this.name}}' data-otf='{{{displayNumber this.acc}}} Acc'> {{{displayNumber this.acc showPlus=false}}} </div>
-            <div class='damage flex-center rollable' data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
-            <div class='range flex-center'>{{this.range}}</div>
-            <div class='rof gga-right'>{{this.rof}}</div>
-            <div class='shots flex-center'>{{this.shots}}</div>
-            <div class='bulk gga-right {{gmod this.bulk}}' data-name='Bulk for {{this.name}}' data-otf='{{this.bulk}} Bulk' >{{{displayNumber this.bulk}}} </div>
-            <div class='rcl gga-right'>{{this.rcl}}</div>
-            <div class='list_note'>{{{gurpslink this.notes}}}</div>
-        {{/each}}
+            <div class='usage rollable flex-center {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{mode}}</div>
+            <div class='level rollable flex-center {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{level}}</div>
+            <div class='acc gga-right {{gmod this.acc}} {{stripeClass}}' data-name='Acc for {{this.name}}' data-otf='{{{displayNumber this.acc}}} Acc'> {{{displayNumber this.acc showPlus=false}}} </div>
+            <div class='damage flex-center rollable {{stripeClass}}' data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
+            <div class='range flex-center {{stripeClass}}'>{{this.range}}</div>
+            <div class='rof gga-right {{stripeClass}}'>{{this.rof}}</div>
+            <div class='shots flex-center {{stripeClass}}'>{{this.shots}}</div>
+            <div class='bulk gga-right {{gmod this.bulk}} {{stripeClass}}' data-name='Bulk for {{this.name}}' data-otf='{{this.bulk}} Bulk' >{{{displayNumber this.bulk}}} </div>
+            <div class='rcl gga-right {{stripeClass}}'>{{this.rcl}}</div>
+            <div class='list_note {{stripeClass}}'>{{{gurpslink this.notes}}}</div>
+        {{/stripes}}
     </div>
     {{>speed-range-table}}
 {{/if}}

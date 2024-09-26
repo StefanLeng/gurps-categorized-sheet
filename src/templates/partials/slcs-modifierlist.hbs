@@ -1,16 +1,16 @@
 <div id='slcs-modifierlist' class='block'>
     <div>
-        {{#each selfModifiers}}
-            <div class="effectmod">{{{this}}}</div>
-        {{/each}}
+        {{#stripes selfModifiers  'even' 'odd' }}
+            <div class="effectmod {{stripeClass}}">{{{mod}}}</div>
+        {{/stripes}}
     </div>
     {{#if (and (notEmpty sytem.condition.self) (notEmpty system.conditionalmods))}}
         <hr />
     {{/if}}
     <div class='gga-table'>
-        {{#each system.conditionalmods}}
-            <div class='modifier gmod gga-right' data-name='Modifier {{situation}}' data-otf='{{displayNumber modifier}} {{this.situation}}'>{{{displayNumber modifier}}}</div>
-            <div class='situation' data-key='system.conditionalmods.{{@key}}'>{{{gurpslink this.situation}}}</div>
-        {{/each}}
+        {{#stripes system.conditionalmods 'even' 'odd' }}
+            <div class='modifier gmod gga-right {{stripeClass}}' data-name='Modifier {{situation}}' data-otf='{{displayNumber modifier}} {{this.situation}}'>{{{displayNumber modifier}}}</div>
+            <div class='situation {{stripeClass}}' data-key='system.conditionalmods.{{@key}}'>{{{gurpslink this.situation}}}</div>
+        {{/stripes}}
     </div>
 </div>
