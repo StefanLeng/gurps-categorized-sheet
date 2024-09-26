@@ -1,0 +1,18 @@
+<div id='slcs-hpfp'>
+    {{>slcs-hpfptracker
+        name='HP'
+        resource=system.HP
+        label='GURPS.attributesHPNAME'
+        editable=false
+        condition='reeling'
+        testcondition=system.conditions.reeling
+    }}
+    {{>slcs-hpfptracker
+        name='FP'
+        resource=system.FP
+        label='GURPS.attributesFPNAME'
+        editable=false
+        condition='exhausted'
+        testcondition=system.conditions.exhausted
+    }}
+</div>

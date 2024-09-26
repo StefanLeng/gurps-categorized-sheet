@@ -31,11 +31,11 @@
     #slcs-header{
         grid-area: header;
         display: grid;
-        grid-template-columns: 100px 1fr 1fr 3fr;
+        grid-template-columns: 100px 1fr 1fr min-content 3fr;
         grid-template-rows: auto;
         grid-template-areas: 
-        "portrait basicattr secattr modifiers";
-        grid-gap: 0px 3px
+        "portrait basicattr secattr hpfp modifiers";
+        grid-gap: 0px var(--sectiongap)
     }
     
     #slcs-header > div{
@@ -307,7 +307,7 @@
                 width: 100%
             }
         }
-        .odd{
+        .even{
             background-color: #e8ffe8;
         }
     }
@@ -392,8 +392,48 @@
         .list_note{
             white-space: normal;
         }
-        .odd{
+        .even{
             background-color: #e8ffe8;
+        }
+    }
+
+    #slcs-hpfp{
+        display: grid;
+        grid-template-columns: min-content;
+        gap: var(--sectiongap);
+        .tracked-resource{
+            display: grid;
+            grid-template-columns: min-content 1f;
+            grid-template-rows: auto auto;
+            grid-template-areas: 
+                "header header"
+                "value value"
+                "basic condition";
+            .header{
+                grid-area: header;
+            }
+            .spinner{
+                grid-area: value;
+            }
+            .basic-value{
+                grid-area: basic;
+                display: grid;
+                grid-template-columns: min-content 1fr;
+                .label{
+                    font-size: var(--font-size-14);
+                    padding-left: 0;                
+                }
+                .field{
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+            .condition-block{
+                grid-area: condition;
+                .condition{
+                    border: 0;
+                }
+            }            
         }
     }
 }
