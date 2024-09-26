@@ -12,6 +12,8 @@ export function registerHandlebarsPartials() {
     "modules/gurps-categorized-sheet/templates/partials/slcs-skills.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-melee-attacks.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-ranged-attacks.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-defences.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-advantages.hbs",
 ]
 
   templates.forEach(filename => {

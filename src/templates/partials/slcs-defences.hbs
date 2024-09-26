@@ -1,0 +1,23 @@
+<div id='slcs-defences' class="block">
+    <div class='defence-main'>
+        {{#each defences}}
+            <div class="group">
+                {{#if (eq type "dodge")}}
+                    <div class='label big'>{{i18n 'GURPS.dodge'}}:<br/></div>
+                    <div class='field big rollable' data-otf='Dodge'>{{level}}</div>
+                {{/if}}
+                {{#if (eq type "parry")}}
+                    <div class='label big'>{{i18n 'GURPS.parry'}}:</div>
+                    <div class='field big rollable' data-otf='{{quotedAttackName 'P' attack}}'>{{level}}</div>
+                    <div class='label'>{{{name}}}</div>
+                {{/if}}   
+                {{#if (eq type "block")}}
+                    <div class='label big'>{{i18n 'GURPS.block'}}:</div>
+                    <div class='field big rollable' data-otf='{{quotedAttackName 'B' attack}}'>{{level}}</div>
+                    <div class='label'>{{{name}}}</div>
+                {{/if}}                
+            </div>
+        {{/each}}
+    </div>
+    <div class= 'Spacer'></div>
+</div>		

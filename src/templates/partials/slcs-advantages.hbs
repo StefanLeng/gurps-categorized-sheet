@@ -1,0 +1,35 @@
+{{#if (notEmpty ads)}}
+    <div id='slcs-advantages' class='gga-table with-notes block'>
+        {{#stripes (flatlist ads) 'even' 'odd' }}
+            {{#unless isCollapsed}}
+                 <div class='adsdraggable {{stripeClass}}' data-key='system.ads.{{@key}}'>
+                    <div class='desc dblclkedit indent{{indent}}'>
+                        <div class='gga-desc-text'>
+                            <div>
+                                {{#if hasContains}}<i class='fas fa-caret-down expandcollapseicon'></i>{{/if}}
+                                {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
+                            </div>
+                            <div class='tooltip gga-manual'>
+                                {{{gurpslink this.name}}}
+                                {{#if (displayItemHover this)}}
+                                <div class='tooltiptext gga-manual'><img src='{{this.img}}' /></div>
+                                {{/if}}
+                            </div>
+                            <div>
+                                {{#if (isFoundryItem this)}}
+                                <i class='far fas fa-star tooltip gga-item'>
+                                    <span class='tooltiptext'>{{i18n "GURPS.equipmentFoundryItem"}}</span>
+                                </i>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <div class='list_note'>
+                            {{{gurpslinkbr this.notes}}}
+                        </div>
+                    </div>
+                </div>
+                <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}}</div>
+            {{/unless}}
+        {{/stripes}}
+    </div>
+{{/if}}

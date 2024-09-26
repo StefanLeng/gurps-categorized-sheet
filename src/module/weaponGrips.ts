@@ -56,8 +56,8 @@ export interface WeaponGrip{
 }
 
 export const emptyHand : WeaponGrip= {
-    name: "Epmty Hand",
-    weaponName: "Epmty Hand",
+    name: "Empty Hand",
+    weaponName: "Empty Hand",
     twoHanded: false,
     note: "",
     fixedReach: null,
@@ -129,7 +129,7 @@ export function meleeToGrip(equipment : ElementList<Weapon>, melee: keyedMeleeMo
     let note = Array.isArray(weapon) ? melee.notes.replace(weapon[1].notes,"").trim() : melee.notes;
     let twoHanded = melee.st.includes('†');
     let fixedReach = melee.reach.includes('*') ? melee.reach : null;
-    let name =  weaponName === emptyHand.weaponName ? emptyHand.name : melee.name + (note !== "" ? " (" + note +")": "") + (twoHanded ? " two handed": "") + (fixedReach !== null ? " " + fixedReach : "");
+    let name =  weaponName === emptyHand.weaponName ? emptyHand.name : melee.name + (note !== "" ? ` (${note})` : "") + (twoHanded ? " two handed" : "") + (fixedReach !== null ? ` ${fixedReach}` : "");
     return {
         name: name,
         weaponName: weaponName,
@@ -145,10 +145,10 @@ export function meleeToGrip(equipment : ElementList<Weapon>, melee: keyedMeleeMo
 export function rangedToGrip(equipment : ElementList<Weapon>, ranged: keyedRangedMode) : WeaponGrip{
     let weapon = Object.entries(equipment).find(w => w[1].name === ranged.name );
     return {
-        name: ranged.name + (ranged.mode !== "" ? " " + ranged.mode : ""),
+        name: ranged.name + (ranged.mode !== '' ? ` ${ranged.mode}` : ''),
         weaponName:  Array.isArray(weapon) ? weapon[1].name : "",
         twoHanded: ranged.st.includes('†'),
-        note:  Array.isArray(weapon) ? ranged.notes.replace(weapon[1].notes,"").trim() : ranged.notes,
+        note:  Array.isArray(weapon) ? ranged.notes.replace(weapon[1].notes,'').trim() : ranged.notes,
         fixedReach: 'ranged',
         ranged: true,
         meleeList: [],
@@ -251,6 +251,25 @@ export function resolveGrips(
   return [grips, hands, melee, ranged]
 }
 
+export function applyGripToHands(grips : WeaponGrip[], gripName :string, index : number, hands : Hand[])
+{
+    if (index < hands.length && index >= 0){
+        let oldGripName = hands[index].grip;
+        let oldGrip = grips.find(g => g.name === oldGripName) ?? emptyHand;
+        let grip = grips.find(g => g.name === gripName) ?? emptyHand;
+        hands[index].grip = "";  
+        if (grip.twoHanded){
+          let otherHand = oldGrip.twoHanded ? hands.findIndex(h => h.grip === oldGripName) : hands.findIndex(h => h.grip === emptyHand.name);
+          otherHand = otherHand < 0 ?  hands.findIndex(h => h.grip !== "") : otherHand;
+          if (otherHand >= 0) hands[otherHand].grip = gripName;
+        } else if(oldGrip.twoHanded) {
+          let otherHand = hands.findIndex(h => h.grip === oldGripName);
+          if (otherHand >= 0) hands[otherHand].grip = emptyHand.name;
+        }
+        hands[index].grip = gripName; 
+    }
+    return hands;  
+}
 /*
 Object.entries(data.system.equipment.carried).map(
     eq => {

@@ -1,6 +1,6 @@
 const combatSkills  : Array<string>=
 [
-    "xSpear",
+    "Spear",
     "Staff",
     "Acrobatics",
     "Sweep",
@@ -48,6 +48,8 @@ const socialSkills  : Array<string>=
     "Musical Instrument",
     "Savoir-Faire",
     "Streetwise",
+    "Interrogation",
+    "Carousing",
 ];
 
 const explorationSkills  : Array<string>= 
@@ -98,7 +100,7 @@ const powersSkills : Array<string> =
     "Esoteric Medicine",
 ];
 
-interface CategoryList {
+export interface CategoryList {
     [index: string]:  Array<string>;
     combat: Array<string>,
     social: Array<string>,
@@ -126,3 +128,63 @@ export const skillCategories : CategoryList =
 .map(i=>(i.indexOf('(') > 0) ? i.substr(0,i.indexOf('(')).trim() : i))
 
 */
+
+const combatAds = [
+    "Combat Reflexes",
+    "Weapon Master",
+    "Resistant",
+    "Style Familiarity",
+    "Form Mastery",
+    "Grip Mastery",
+    "Teamwork",
+    "Regeneration",
+    "Hard to Kill",
+    "High Pain Threshold",
+    "Enhanced Block",
+    "Innate Attack",
+    "Enhanced Parry",
+    "Damage Resistance",
+    "Striking ST",
+    "Armor Familiarity",
+    "Dirty fighting",
+]
+
+const socialAds = [
+    "Charisma",
+    "Language",
+    "Code of Honor",
+    "Enemy",
+    "Likes very hot food",
+    "Proud",
+    "Appearance",
+    "Curious",
+    "Social Stigma",
+    "Alcohol Intolerance",
+    "Chauvinistic"
+];
+
+const explorationAds : string[] = [
+];
+
+const technicalAds = [
+    "Healing",
+    "Regeneration",
+];
+
+const powersAds = [
+    "Resistant",
+    "Imbue",
+    "Regeneration",
+    "Innate Attack",
+    "Healing",
+];
+
+export const adsCategories : CategoryList =
+{
+    combat: combatAds,
+    social: socialAds,
+    exploration: explorationAds,
+    technical: technicalAds,
+    powers: powersAds,
+    all: combatAds.concat(socialAds).concat(explorationAds).concat(technicalAds).concat(powersAds),
+}

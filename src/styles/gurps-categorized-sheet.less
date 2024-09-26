@@ -3,17 +3,30 @@
 /* This is your Less entry file */
 /* ---------------------------- */
 
+.sl-cat-sheet .window-content {
+    height: 100%;
+    padding: 5px;
+    scroll-behavior: smooth;
+    background: white;
+    overflow-x: auto;
+    overflow-y: clip;
+}
+
 #cat-sheet{
     --sectiongap: 0.3em;
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 150px max-content auto;
+    grid-template-rows: 150px max-content 1fr;
     grid-template-areas: 
       "header"
       "navtabs"
       "main";
     background: white;
+    height: 100%;
 
+    .tab[data-tab]{
+        height:100%;
+    }
 
     #slcs-header{
         grid-area: header;
@@ -31,6 +44,8 @@
 
     #slcs-main{
         grid-area: main;
+        height: 0;
+        min-height: 100%;
     }
 
     #slcs-portrait{
@@ -93,6 +108,10 @@
 
     .field.big{
         font-size: var(--font-size-20);
+    }
+    
+    .label.big{
+        font-size: var(--font-size-14);
     }
 
     .field{
@@ -161,70 +180,48 @@
     #slcs-navtabs{
         grid-area: navtabs;
     }
+    
+    .slcs-col{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: var(--sectiongap);
+        grid-auto-rows: min-content;
+        height: 100%;
+        overflow-y: auto
+    }
 
-    #slcs-combat-tab{
+    .slcs-tab-content{
         padding-top: var(--sectiongap);
         display: grid;
         grid-gap: var(--sectiongap);
-        grid-template-columns: 1fr 1fr min-content;
-        grid-template-rows: 0fr auto auto 1fr;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows:  1fr;
+        height: 100%;
+    }
+
+    #slcs-combat-tab{
+        grid-template-rows: min-content 1fr;
         grid-template-areas:
-            'condition condition combat-sidebar'
-            'skills attacks combat-sidebar'
-            'traits xxx combat-sidebar'
-            'null null combat-sidebar';
+            'condition condition'
+            'col1 col2';
+        #slcs-conditions{
+            grid-area: condition;
+        }
     }
     
     #slcs-exploration-tab{
-        padding-top: var(--sectiongap);
-        display: grid;
-        grid-gap: var(--sectiongap);
-        grid-template-columns: 1fr 1fr ;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            'skills null'
-            'skills null'
-            'traits null';
     }
 
     #slcs-social-tab{
-        padding-top: var(--sectiongap);
-        display: grid;
-        grid-gap: var(--sectiongap);
-        grid-template-columns: 1fr 1fr ;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            'skills null'
-            'skills null'
-            'traits null';
     }
     
     #slcs-technical-tab{
-        padding-top: var(--sectiongap);
-        display: grid;
-        grid-gap: var(--sectiongap);
-        grid-template-columns: 1fr 1fr ;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            'skills null'
-            'skills null'
-            'traits null';
     }
 
     #slcs-powers-tab{
-        padding-top: var(--sectiongap);
-        display: grid;
-        grid-gap: var(--sectiongap);
-        grid-template-columns: 1fr 1fr ;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            'skills null'
-            'skills null'
-            'traits null';
     }
 
     #slcs-conditions{
-        grid-area: condition;
         .label {
             display: flex;
             flex-flow: row;
@@ -277,11 +274,10 @@
 
     #slcs-skills{
         --rowmargin: 0.2em;
-        grid-area: skills;
         grid-template-columns: 1fr repeat(3, auto);
         align-content: start;
-        max-height: 300px;
-        overflow-y: auto;
+//        max-height: 300px;
+//        overflow-y: auto;
         .tooltip.gga-manual{
             border: none;
         }    
@@ -322,44 +318,82 @@
         border-right: 1px solid lightgrey;
     }
 
-    #slcs-attacks{
-        grid-area: attacks;
+    #slcs-melee-attacks{
+        align-self: start;
+        grid-template-columns: 1fr repeat(4, auto);
+        grid-template-rows: 0fr max-content;
+        .meleedraggable:before{
+            content: none;
+        }
+        .list_note{
+            grid-column-start: 1;
+            grid-column-end: 6;
+            max-width: 100%;
+            white-space: normal;
+        }
+    }
+
+    #slcs-ranged-attacks{
+        align-self: start;
+        grid-template-columns: 1fr repeat(9, auto);
+        grid-template-rows: 0fr max-content;
+        .rangeddraggable:before{
+            content: none;
+        }
+        .list_note{
+            grid-column-start: 1;
+            grid-column-end: 11;
+            max-width: 100%;
+            white-space: normal;
+        }
+    }
+
+    #speed-range-table{
+        grid-area: unset;
+    }
+
+    #slcs-defences{
+        border: none;
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: max-content max-content max-content;
+        grid-template-columns: min-content 1fr;
         gap: var(--sectiongap);
-
-        #slcs-melee-attacks{
-            align-self: start;
-            grid-template-columns: 1fr repeat(4, auto);
-            grid-template-rows: 0fr max-content;
-            .meleedraggable:before{
-                content: none;
-            }
-            .list_note{
-                grid-column-start: 1;
-                grid-column-end: 6;
-                max-width: 100%;
-                white-space: normal;
+        .defence-main {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: none;
+            grid-auto-columns: 1fr;
+            gap: var(--sectiongap);
+        }
+        .group{
+            border: var(--standardborder);
+            height: 100%;
+            .field{
+                min-width: 3em;
             }
         }
-
-        #slcs-ranged-attacks{
-            align-self: start;
-            grid-template-columns: 1fr repeat(9, auto);
-            grid-template-rows: 0fr max-content;
-            .rangeddraggable:before{
-                content: none;
-            }
-            .list_note{
-                grid-column-start: 1;
-                grid-column-end: 11;
-                max-width: 100%;
-                white-space: normal;
-            }
+        .label{
+            text-align: center;
+            white-space: normal;
+            word-spacing: 100000px;
         }
-        #speed-range-table{
-            grid-area: unset;
+    }
+
+    #slcs-advantages{
+        grid-template-columns: 1fr auto;
+        align-content: start;
+        //max-height: 300px;
+       // overflow-y: auto;
+        .tooltip.gga-manual{
+            border: none;
+        }    
+        .adsdraggable:before{
+            content: none;
+        }
+        .list_note{
+            white-space: normal;
+        }
+        .odd{
+            background-color: #e8ffe8;
         }
     }
 }
