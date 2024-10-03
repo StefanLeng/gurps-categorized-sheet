@@ -19,6 +19,8 @@ interface Keyed {
     selected : boolean,    
 }
 
+interface KeyedAttack extends AttackMode, Keyed{}
+
 export interface keyedMeleeMode extends MeleeMode, Keyed{
 }
 
@@ -293,104 +295,94 @@ function setSelected<T extends Keyed>(mode : T) : T {
     }
 }
 
+function addGripToWeapons( weapons : Weapon[], grip : WeaponGrip, hands : Hand[]){
+    let i = weapons.findIndex(w => w.name === grip.weaponName);
+    let selected = hands.some( h => h.grip === grip.name);
+    if (i >= 0){
+        weapons[i].grips.push(grip);
+        weapons[i].meleeList = weapons[i].meleeList.concat(selected ? grip.meleeList.map(setSelected) :  grip.meleeList);
+        weapons[i].rangedList = weapons[i].rangedList.concat(selected ? grip.rangedList.map(setSelected) : grip.rangedList);
+    }
+    else
+    {
+        weapons.push(
+            {
+                name: grip.weaponName,
+                notes: grip.weaponNote,
+                grips: [grip],
+                meleeList: selected ? grip.meleeList.map(setSelected) :  grip.meleeList,
+                rangedList: selected ? grip.rangedList.map(setSelected) : grip.rangedList,        
+            }
+        )
+    }
+    return weapons;
+}
+
+function compareAttacks(a : KeyedAttack, b: KeyedAttack){
+    return a.selected && !b.selected ? -1 : (!a.selected && b.selected ? 1 : (a.mode > b.mode ? 1 : -1))
+}
+
+function isSelected( w : Weapon){
+    return w.meleeList.some(m => m.selected) ||  w.rangedList.some(m => m.selected)
+}
+
+function compareWeapons(a : Weapon, b: Weapon){
+    return isSelected(a) && !isSelected(b) ? -1 
+    : (!isSelected(a) && isSelected(b) ? 1 : 
+    (a.name > b.name ? 1 : -1));
+}
+
 export function resolveWeapons(
     equipment : ElementList<Equipment>, 
     meleeList :ElementList<MeleeMode>,
     rangedList :ElementList<RangedMode>,  
     handsIn : Hand[]
 ) : [grips : WeaponGrip[], hands : Hand[], meleeWeapons : Weapon[], rangedWeapons : Weapon[], rangedSelcted : boolean] {
-    const grips0 = meleeGrips(equipment, meleeList)
+    
+    const grips0 = 
+        meleeGrips(equipment, meleeList)
         .concat(rangedGrips(equipment, rangedList));
+    
     const grips = reduceGrips(grips0);
 
     const hands =  handsIn.map(h => {return {...h, grip : grips.find(g => g.name === h.grip)?.name  ?? emptyHand.name}});
 
-    const weapons : Weapon[] = grips.reduce(
-        (wl: Weapon[], g) => {
-            let i = wl.findIndex(w => w.name === g.weaponName);
-            let selected = hands.some( h => h.grip === g.name);
-            if (i >= 0){
-                wl[i].grips.push(g);
-                wl[i].meleeList = wl[i].meleeList.concat(selected ? g.meleeList.map(setSelected) :  g.meleeList);
-                wl[i].rangedList = wl[i].rangedList.concat(selected ? g.rangedList.map(setSelected) : g.rangedList);
-            }
-            else
-            {
-                wl.push(
-                    {
-                        name: g.weaponName,
-                        notes: g.weaponNote,
-                        grips: [g],
-                        meleeList: selected ? g.meleeList.map(setSelected) :  g.meleeList,
-                        rangedList: selected ? g.rangedList.map(setSelected) : g.rangedList,        
-                    }
-                )
-            }
-            return wl;
-        },
-        []
-    ).map(w => {
-        w.meleeList = w.meleeList.sort((a, b) => a.selected && !b.selected ? -1 : (!a.selected && b.selected ? 1 : (a.mode > b.mode ? 1 : -1)) )
-        w.rangedList = w.rangedList.sort((a, b) => a.selected && !b.selected ? -1 : (!a.selected && b.selected ? 1 : (a.mode > b.mode ? 1 : -1)) )
-        return w;
-    });
+    const weapons : Weapon[] = 
+        grips
+        .reduce((wl: Weapon[], g) => addGripToWeapons(wl, g, hands), [])
+        .map(w => {
+            w.meleeList = w.meleeList.sort(compareAttacks);
+            w.rangedList = w.rangedList.sort(compareAttacks);
+            return w;
+        });
 
-    const meeleWeapons = weapons.filter(w => w.meleeList.length > 0)
-                                .sort((a, b) => a.meleeList.some(m => m.selected) && !b.meleeList.some(m => m.selected) ? -1 
-                                    : (!a.meleeList.some(m => m.selected) && b.meleeList.some(m => m.selected) ? 1 : 
-                                    (a.name > b.name ? 1 : -1))
-                                )
-                                .concat(nonEquipmentMeleeWeapons(meleeWithoutGrip(equipment, meleeList))) ;
+    const meeleWeapons = 
+        weapons
+        .filter(w => w.meleeList.length > 0)
+        .sort(compareWeapons)
+        .concat(nonEquipmentMeleeWeapons(meleeWithoutGrip(equipment, meleeList))) ;
 
-    const rangedWeapons = weapons.filter(w => w.rangedList.length > 0)
-                                 .sort((a, b) => a.rangedList.some(m => m.selected) && !b.rangedList.some(m => m.selected) ? -1 
-                                    : (!a.rangedList.some(m => m.selected) && b.rangedList.some(m => m.selected) ? 1 : 
-                                    (a.name > b.name ? 1 : -1)) 
-                                ) 
-                                .concat(nonEquipmentRangedWeapons(rangedWithoutGrip(equipment, rangedList))) ;
+    const rangedWeapons = 
+        weapons
+        .filter(w => w.rangedList.length > 0)
+        .sort(compareWeapons) 
+        .concat(nonEquipmentRangedWeapons(rangedWithoutGrip(equipment, rangedList))) ;
 
     const rangedSelcted = hands.some(h => grips.some(g => g.name === h.grip && g.ranged));
                                 
     return [grips, hands, meeleWeapons, rangedWeapons, rangedSelcted];
 }
 
-
-
-export function resolveGrips(
-    equipment : ElementList<Equipment>, 
-    meleeList :ElementList<MeleeMode>,
-    rangedList :ElementList<RangedMode>,  
-    hands : Hand[]
-) : [grips : WeaponGrip[], hands : Hand[], melee : keyedMeleeMode[], ranged :keyedRangedMode[]] 
-{
-  let grips0 = meleeGrips(equipment, meleeList)
-    .concat(rangedGrips(equipment, rangedList));
-  let grips = reduceGrips(grips0);
-    
-  let melee : keyedMeleeMode[] = [];
-  let ranged : keyedRangedMode[] = [];
-  let selectedGripsNew : string[] = [];
-  for (let hand of hands) {
-    let grip = grips.find(g=> g.name === hand.grip)  ?? emptyHand;
-    if (selectedGripsNew.every(g => grip.name !== g)){
-      melee = melee.concat(grip.meleeList.map(setSelected));
-      ranged = ranged.concat(grip.rangedList.map(setSelected));
-    }
-    selectedGripsNew.push (grip.name);
-    hand.grip = grip.name;
-  }
-  melee = melee.concat(meleeWithoutGrip(equipment, meleeList));
-  ranged = ranged.concat(rangedWithoutGrip(equipment, rangedList));
-  return [grips, hands, melee, ranged]
-}
-
 export function applyGripToHands(grips : WeaponGrip[], gripName :string, index : number, hands : Hand[])
 {
     if (index < hands.length && index >= 0){
+        
         let oldGripName = hands[index].grip;
         let oldGrip = grips.find(g => g.name === oldGripName) ?? emptyHand;
         let grip = grips.find(g => g.name === gripName) ?? emptyHand;
+        
         hands[index].grip = "";  
+        
         if (grip.twoHanded){
           let otherHand = oldGrip.twoHanded ? hands.findIndex(h => h.grip === oldGripName) : hands.findIndex(h => h.grip === emptyHand.name);
           otherHand = otherHand < 0 ?  hands.findIndex(h => h.grip !== "") : otherHand;
@@ -399,58 +391,8 @@ export function applyGripToHands(grips : WeaponGrip[], gripName :string, index :
           let otherHand = hands.findIndex(h => h.grip === oldGripName);
           if (otherHand >= 0) hands[otherHand].grip = emptyHand.name;
         }
+        
         hands[index].grip = gripName; 
     }
     return hands;  
 }
-/*
-Object.entries(data.system.equipment.carried).map(
-    eq => {
-        const melees = Object.entries(data.system.melee).filter(e =>e[1].name===eq[1].name);
-        let result = [eq[0],melees];
-        return ;
-    }
-);
-
-Object.entries(data.system.melee).map(
-    m => {
-        weapon: Object.entries(data.system.equipment.carried).find(w => w[1].name = m[1].name )
-    }
-);
-
-Object.entries(data.system.melee).map(
-    m => {return {
-        name: m[1].name, 
-        reach: m[1].reach,
-        mode: m[1].mode,
-        st: m[1].st,
-        twoHanded: m[1].st.includes('†'),
-        parrybonus: m[1].parrybonus,
-        notes: m[1].notes,
-        weapon: Object.entries(data.system.equipment.carried).find(w => w[1].name === m[1].name )
-    }}
-).map(
-    m => {return {
-        ...m,
-        note: Array.isArray(m.weapon) ? m.notes.replace(m.weapon[1].notes,"").trim() : m.notes
-    }}
-).reduce(
-    (r,m) =>{
-        let i = r.findIndex( x => x.name === m.name && x.twoHanded === m.twoHanded && x.note === m.note)
-        if (i >= 0) {
-            r[i].nodes.push(m);
-            return r;
-        } 
-        else{
-            r.push({
-                name: m.name,
-                twoHanded: m.twoHanded,
-                note: m.note,
-                nodes: [m]
-            });
-            return r;
-        }
-    },
-    []
-)
-    */
