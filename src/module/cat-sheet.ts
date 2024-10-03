@@ -1,6 +1,6 @@
 import { i18n } from './util.js';
 import { categorizeSkills, categorizeAds } from './categorize.ts';
-import { Hand, initHands, applyGripToHands, WeaponGrip, resolveGrips, emptyHand, keyedMeleeMode } from './weaponGrips.ts';
+import { Hand, initHands, applyGripToHands, WeaponGrip, resolveGrips, emptyHand, keyedMeleeMode, resolveWeapons } from './weaponGrips.ts';
 
 interface Defence{
   name: string,
@@ -122,7 +122,8 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   selfMods.push(...this.convertModifiers(data.actor.system.conditions.usermods))
 
   let handsOld = data.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
-  let [grips, hands, melee, ranged] = resolveGrips(data.system.equipment.carried, data.system.melee, data.system.ranged, handsOld)
+//  let [grips, hands, melee, ranged] = resolveGrips(data.system.equipment.carried, data.system.melee, data.system.ranged, handsOld)
+  let [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(data.system.equipment.carried, data.system.melee, data.system.ranged, handsOld);
   this.#grips = grips;
   this.actor.setFlag("gurps-categorized-sheet", "hands", hands);
 
@@ -132,10 +133,13 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       selfModifiers: selfMods,
       categories: categories,
       grips: grips,
-      melee: melee,
-      ranged: ranged,
+      //melee: melee,
+      //ranged: ranged,
+      meleeWeapons: meleeWeapons,
+      rangedWeapons: rangedWeapons,
       hands: hands,
       defences: defences,
+      rangedSelected: rangedSelected,
     })
   }
 

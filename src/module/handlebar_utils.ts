@@ -16,6 +16,8 @@ export function registerHandlebarsPartials() {
     "modules/gurps-categorized-sheet/templates/partials/slcs-advantages.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-hpfptracker.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-hpfp.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-melee-weapons.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-ranged-weapons.hbs",
 ]
 
   templates.forEach(filename => {
@@ -38,9 +40,11 @@ export function registerHandlebarsHelpers() {
       for (var i = 0, j = obj.length; i < j; i++) {
         var item = obj[i];
         data.index = i;
+        data.first = i === 0;
+        data.last = i === j-1;
 
         // we'll just put the appropriate stripe class name onto the item for now
-        item.stripeClass = (i % 2 == 0 ? even : odd);
+        item.stripeClass = (i % 2 == 0 ? odd : even);
    
         // show the inside of the block
         buffer += options.fn(item, {data : data});
@@ -53,14 +57,15 @@ export function registerHandlebarsHelpers() {
       var i = 0;
       for (var key in obj) {
         var item = obj[key];
-        i += 1;
+        data.first = i === 0;
 
         // we'll just put the appropriate stripe class name onto the item for now
-        item.stripeClass = (i % 2 == 0 ? even : odd);
+        item.stripeClass = (i % 2 == 0 ? odd : even);
    
         // show the inside of the block
         data.key = key;
         buffer += options.fn(item, {data : data});
+        i += 1;
       }
       // return the finished buffer
       return buffer;
@@ -70,4 +75,32 @@ export function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper("stripesouter", function(obj, even, odd, inner, options) {
+    var buffer = "";
+    let data = Handlebars.createFrame(options.data); 
+
+    var innerCount = 0;
+    if (foundry.utils.getType(obj) === 'Array' && obj.length > 0){
+      for (var i = 0, j = obj.length; i < j; i++) {
+       var item = obj[i];
+        data.index = i;
+        data.first = i === 0;
+        data.last = i === j-1;
+
+        // we'll just put the appropriate stripe class name onto the item for now
+        item.stripeClass = (innerCount % 2 == 0 ? odd : even);
+   
+        // show the inside of the block
+        buffer += options.fn(item, {data : data});
+        innerCount += item[inner].length; 
+       }
+   
+      // return the finished buffer
+      return buffer;
+    }
+    else {
+      return options.inverse();
+    }
+  });
+  
 }

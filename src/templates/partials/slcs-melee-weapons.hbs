@@ -1,0 +1,38 @@
+{{#if (notEmpty meleeWeapons)}}
+    <div id='slcs-melee-attacks' class='gga-table with-notes block'>
+        <div class='desc header'>{{i18n 'GURPS.meleeWeapons'}}</div>
+        <div class='usage header'>{{i18n 'GURPS.usage'}}</div>
+        <div class='level header'>{{i18n 'GURPS.level'}}</div>
+        <div class='damage header'>{{i18n 'GURPS.damage'}}</div>
+        <div class='reach header'>{{i18n 'GURPS.reach'}}</div>
+
+        {{#stripesouter meleeWeapons 'evenOuter' 'oddOuter' 'meleeList' }}
+            {{#stripes meleeList 'even' 'odd'}}
+
+                {{#if @first}}
+                    <div class='meleedraggable desc {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-key='system.melee.{{key}}'>
+                        <div class='desc dblclkedit indent{{indent}}'>
+                            <div class='gga-desc-text'>{{{gurpslink ../name}}}</div>
+                        </div>
+                    </div>
+                {{else}}
+                    <div class='meleedraggable desc empty {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-key='system.melee.{{key}}'>
+                    </div>
+                {{/if}}
+
+                <div class='usage rollable flex-center  {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
+                    data-otf='{{quotedAttackName 'M' this}}'>
+                    <div>{{mode}}</div>
+                    <div class='list_note'>{{{gurpslink notes}}}</div>
+                </div>
+                <div class='level rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
+                    data-otf='{{quotedAttackName 'M' this}}'>{{level}}</div>
+                <div class='slcs-damage rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-damage data-otf='{{damage}}'>{{damage}}</div>
+                <div class='reach flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{reach}}</div>
+            {{/stripes}}
+            {{#if (notEmpty notes)}}
+                <div class='list_note'>{{{gurpslink notes}}}</div>
+            {{/if}}
+        {{/stripesouter}}
+    </div>
+{{/if}}

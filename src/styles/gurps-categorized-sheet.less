@@ -192,7 +192,7 @@
         padding-top: var(--sectiongap);
         display: grid;
         grid-gap: var(--sectiongap);
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 4fr 5fr;
         grid-template-rows:  1fr;
         height: 100%;
     }
@@ -206,9 +206,19 @@
             grid-area: condition;
         }
     }
+    
     .even{
         background-color: #e8ffe8;
     }
+
+    .odd.evenOuter {
+        background-color: #e8ffe8;
+    }
+
+    .even.evenOuter {
+        background-color: white;
+    }
+
 
     #slcs-exploration-tab{
     }
@@ -289,6 +299,7 @@
         .skldraggable{
             padding-left: var(--rowmargin);
             padding-right: var(--rowmargin);
+            white-space: normal;
         }
         .list_note{
             padding: 0 var(--rowmargin) 0 var(--rowmargin);
@@ -297,7 +308,8 @@
             max-width: 100%;
             white-space: normal;
             span{
-                margin: 0 var(--rowmargin) 0 var(--rowmargin)
+                margin: 0 var(--rowmargin) 0 var(--rowmargin);
+                white-space: nowrap;
             }
         }
         .sl, .rsl{
@@ -306,9 +318,6 @@
                 padding-right: var(--rowmargin);
                 width: 100%
             }
-        }
-        .even{
-            background-color: #e8ffe8;
         }
     }
 
@@ -320,7 +329,7 @@
 
     #slcs-melee-attacks{
         align-self: start;
-        grid-template-columns: 1fr repeat(4, auto);
+        grid-template-columns: 1fr minmax(min-content, 1fr) repeat(3, auto);
         grid-template-rows: 0fr max-content;
         .meleedraggable:before{
             content: none;
@@ -345,6 +354,37 @@
             grid-column-end: 11;
             max-width: 100%;
             white-space: normal;
+        }
+    }
+
+    #slcs-melee-attacks, #slcs-ranged-attacks{
+        color: gray;
+        .rollable{
+            color: gray;
+        }
+        .selected, .rollable.selected{
+            color: black;
+        }
+        .description{
+            white-space: normal;
+        }
+        .usage{
+            display: block;
+            max-width: none;
+            white-space: normal;
+            & > div{
+                display: inline;
+            }
+        }
+        &.gga-table > div.desc.empty {
+            border-top: none;
+            background-color: white;
+        }
+        &.gga-table > div.desc {
+            border-bottom: none;
+        }
+        &.gga-table > div.desc.last {
+            border-bottom: 1px solid lightgrey;
         }
     }
 
@@ -391,6 +431,10 @@
         }
         .list_note{
             white-space: normal;
+            span{
+                margin: 0 var(--rowmargin) 0 var(--rowmargin);
+                white-space: nowrap;
+            }
         }
         .even{
             background-color: #e8ffe8;
@@ -437,4 +481,3 @@
         }
     }
 }
-
