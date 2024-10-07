@@ -1,7 +1,7 @@
-<div id='slcs-defences' class="block">
+<div id='slcs-defences' class="slcs-block">
     <div class='defence-main'>
         {{#each defences}}
-            <div class="group">
+            <div class="group }{{#if selected}} selected{{/if}}">
                 {{#if (eq type "dodge")}}
                     <div class='label big'>{{i18n 'GURPS.dodge'}}:<br/></div>
                     <div class='field big rollable' data-otf='Dodge'>{{level}}</div>
@@ -9,15 +9,30 @@
                 {{#if (eq type "parry")}}
                     <div class='label big'>{{i18n 'GURPS.parry'}}:</div>
                     <div class='field big rollable' data-otf='{{quotedAttackName 'P' attack}}'>{{level}}</div>
-                    <div class='label'>{{{name}}}</div>
+                    <div class='label'>
+                        <div>{{{name}}}</div> 
+                        <div class='list_note'>{{notes}}</div>
+                    </div>
                 {{/if}}   
                 {{#if (eq type "block")}}
                     <div class='label big'>{{i18n 'GURPS.block'}}:</div>
                     <div class='field big rollable' data-otf='{{quotedAttackName 'B' attack}}'>{{level}}</div>
-                    <div class='label'>{{{name}}}</div>
+                    <div class='label'>
+                        <div>{{{name}}}</div> 
+                        <div class='list_note'>{{notes}}</div>
+                    </div>
                 {{/if}}                
             </div>
         {{/each}}
     </div>
     <div class= 'Spacer'></div>
-</div>		
+</div>	
+<div id='slcs-defenceOTFs' class="slcs-block slcs-otflist">
+    {{{gurpslink defenceOTFs}}}
+</div>
+<div id="slcs-DR" class="slcs-block gga-table">
+    {{#each system.hitlocations}}
+        <div class='where'>{{where}}</div>
+        <div class='dr'>{{i18n 'GURPS.hitLocationDR'}}: {{dr}}{{#each split as | this key |}}<span title='{{i18n key key}}'>/{{this}}{{#if (ne key 'cr')}}*{{/if}}</span>{{/each}}</div>
+    {{/each}}
+</div>

@@ -25,14 +25,30 @@
                         {{>slcs-advantages ads=categories.combat.ads}}
                     </div>
                     <div id='slcs-col2' class ='slcs-col'>
-                        {{>slcs-defences}}
-                        {{#if rangedSelected}}
-                            {{>slcs-ranged-weapons}}
-                            {{>slcs-melee-weapons}}
-                        {{else}}
-                            {{>slcs-melee-weapons}}
-                            {{>slcs-ranged-weapons}}
-                        {{/if}}
+                        <nav id='slcs-combattabs' class='slcs-sheet-tabs' data-group='combat-tabs'>
+                            <li><a class='tab-item' data-tab='attacks'>{{i18n 'GURPS-cat-sheet.attackTab' 'Attacks'}}</a></li>
+                            <li><a class='tab-item' data-tab='defences'>{{i18n 'GURPS-cat-sheet.defencesTab' 'Defences'}}</a></li>                            
+                        </nav>
+                        <div id="slcs-combatContent">
+                            <div class='tab' data-tab='attacks' data-group='combat-tabs'>
+                                <div class="col-tabcontent">                             
+                                    {{#if rangedSelected}}
+                                        {{>slcs-ranged-weapons}}
+                                        {{>slcs-target}}
+                                        {{>slcs-melee-weapons}}
+                                    {{else}}
+                                        {{>slcs-melee-weapons}}
+                                        {{>slcs-target}}
+                                        {{>slcs-ranged-weapons}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class='tab' data-tab='defences' data-group='combat-tabs'>
+                                <div class="col-tabcontent">                             
+                                    {{>slcs-defences}}
+                                </div>
+                            </div>
+                        </div>
                      </div>
                 </div>
             </div>

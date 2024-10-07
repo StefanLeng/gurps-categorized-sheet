@@ -12,6 +12,11 @@
     overflow-y: clip;
 }
 
+.sl-cat-sheet.sheet.actor{
+    min-width: 900px;
+    min-height: 600px;
+}
+
 #cat-sheet{
     --sectiongap: 0.3em;
     display: grid;
@@ -135,11 +140,11 @@
         border: none;
     }
 
-    .block {
+    .slcs-block {
         border: var(--standardborder);
     } 
 
-    .block hr {
+    .slcs-block hr {
         width: 100%;
         border: none;
         background-color: black;
@@ -179,11 +184,14 @@
         grid-area: navtabs;
     }
     
-    .slcs-col{
+    .slcs-col, .col-tabcontent{
         display: grid;
         grid-template-columns: 1fr;
         grid-gap: var(--sectiongap);
         grid-auto-rows: min-content;
+    }
+
+    .slcs-col{
         height: 100%;
         overflow-y: auto
     }
@@ -195,6 +203,14 @@
         grid-template-columns: 4fr 5fr;
         grid-template-rows:  1fr;
         height: 100%;
+    }
+
+    .slcs-otflist{
+        padding: 0.2em;
+        span{
+            display: inline-block;
+            margin: 0.2em;
+        }
     }
 
     #slcs-combat-tab{
@@ -245,12 +261,14 @@
 
         .fieldblock {
             display: inline-grid;
-            grid-template-columns: 0fr auto 0fr auto 0fr auto 0fr auto 0fr auto;
+            grid-template-columns: repeat(6, 0fr auto);
             padding-top: 0.15em;
             align-items: center;
 
             .field {
                 text-align: left;
+                margin-left: 0;
+                margin-right:0;
                 margin-top: 3px;
                 min-height: calc(1em + 3px);
             }
@@ -263,6 +281,10 @@
                 margin-left: 8px;
             }
     
+            select {
+                max-width: 10em;
+                font-size: 90%;
+            }
             details {
                 border: none;
                 height: 100%;
@@ -359,10 +381,10 @@
 
     #slcs-melee-attacks, #slcs-ranged-attacks{
         color: gray;
-        .rollable{
+        .rollable, .gmod{
             color: gray;
         }
-        .selected, .rollable.selected{
+        .selected, .rollable.selected, .gmod.selected{
             color: black;
         }
         .description{
@@ -404,10 +426,21 @@
             gap: var(--sectiongap);
         }
         .group{
-            border: var(--standardborder);
-            height: 100%;
+            border: 1px solid gray;
+            color : gray;
+            .rollable{
+                color : gray;
+            }
+             height: 100%;
             .field{
                 min-width: 3em;
+            }
+        }
+        .group.selected{
+            color : black;
+            border-color: black;
+            .rollable{
+                color : black;
             }
         }
         .label{
@@ -478,5 +511,20 @@
                 }
             }            
         }
+    }
+
+    #slcs-DR, .slcs-location {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr 0fr);
+        .dr{
+            margin-right: 0.3em;
+        }
+    }
+
+    .slcs-target {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: var(--sectiongap);
+        grid-auto-rows: min-content;
     }
 }

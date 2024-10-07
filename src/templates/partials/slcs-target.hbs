@@ -1,0 +1,33 @@
+{{#if (notEmpty targets)}}
+    {{#each targets}}
+        <div class="slcs-target">
+            <div class="name">Target: {{name}}</div>
+            {{#if (notEmpty targetmodifiers)}}
+                <div class="slcs-block slcs-otflist">
+                    {{#each targetmodifiers}}
+                        {{{mod}}}
+                    {{/each}}
+                </div>
+            {{/if}}
+            <div class="slcs-location slcs-block gga-table">
+                {{#each hitlocations}}
+                    <div class='where'>{{where}}</div>
+                    <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
+                        {{{displayNumber (hitlocationpenalty where penalty parent)}}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    {{/each}}
+{{else}}
+    <div class="slcs-target">
+        <div class="slcs-location slcs-block gga-table">
+            {{#each system.hitlocations}}
+                <div class='where'>{{where}}</div>
+                <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
+                    {{{displayNumber (hitlocationpenalty where penalty parent)}}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+{{/if}}

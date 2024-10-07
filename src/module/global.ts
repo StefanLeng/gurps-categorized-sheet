@@ -1,6 +1,8 @@
 declare global {
 	namespace globalThis {
-    var game: any;
-    var GURPS: any;
+    const game: any;
+    const GURPS: any;
+    const canvas: Canvas; 
+    const CONFIG: any;
   }
 }

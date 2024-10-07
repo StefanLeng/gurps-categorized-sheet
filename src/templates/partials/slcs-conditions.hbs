@@ -1,4 +1,4 @@
-<div id='slcs-conditions' class="block">
+<div id='slcs-conditions' class="slcs-block">
   <div class='fieldblock'>
 
     {{#if (ne system.conditions.maneuver 'undefined')}}
@@ -45,7 +45,6 @@
     <div class='field' style='border: none'>
       <select
         id='move-mode'
-        style='font-size: 90%; max-width: 14em;'
         {{disabled (lt (length system.move) 2)}}
       >
         {{#each system.move as |this key|}}
@@ -53,6 +52,18 @@
         {{/each}}
       </select>
     </div>
+    
+    <div class='label' for="slcs-encumberance">Encumb.:</div>
+    <div class='field' style='border: none'>
+      <select
+        id='slcs-encumberance'
+        {{disabled (automaticEncumbrance)}}
+      >
+        {{#each system.encumbrance}}
+          <option value='{{@key}}' {{select-if current true}}>{{encumberanceName key}} (&le; {{weight}})</option>
+        {{/each}}
+      </select>
+    </div>   
 
    {{#each hands}}
     <div class='label' for='selectedGrip{{@index}}'>{{name}}:</div>
@@ -61,7 +72,6 @@
           id='selectedGrip{{@index}}'
           class="gripSelect"
           data-index="{{@index}}"
-          style='font-size: 90%; max-width: 14em;'
         >
           {{#each ../grips}}
             <option value='{{name}}' {{select-if name ../grip}}>{{name}}</option>

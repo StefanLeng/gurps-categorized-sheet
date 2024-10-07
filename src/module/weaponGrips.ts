@@ -135,7 +135,7 @@ export function areReachsCompatible(r1 : string, r2 : string) : boolean{
 /* assumption: notes on the attack are the VTTNotes from the weapon + the notes from the Attack. The part from the attack represent the skill. */
 export function meleeToGrip(equipment : ElementList<Equipment>, melee: keyedMeleeMode) : WeaponGrip{
     const weapon = Object.entries(equipment).find(w => w[1].name === melee.name );
-    const weaponName = Array.isArray(weapon) ? weapon[1].name : (melee.mode === "Punch" ? emptyHand.weaponName : "");
+    const weaponName = Array.isArray(weapon) ? weapon[1].name : (melee.parry ? emptyHand.weaponName : "");
     const weaponNote = Array.isArray(weapon) ? weapon[1].notes : "";
     const note = melee.notes.replace(weaponNote,"").trim();
     const twoHanded = melee.st.includes('†');
@@ -220,14 +220,14 @@ export function reduceGrips(grips : WeaponGrip[]){
 
 export function meleeWithoutGrip(equipment : ElementList<Equipment>, melees :ElementList<MeleeMode>) : keyedMeleeMode[]{
     return Object.entries(melees)
-    .map( ([k, m]) => {return {...m, key : k, selected : true}})
-    .filter(m => Object.entries(equipment).every(w => w[1].name !== m.name && m.mode != 'Punch'))
+        .map( ([k, m]) => {return {...m, key : k, selected : true}})
+        .filter(m => Object.entries(equipment).every(w => w[1].name !== m.name && !m.parry))
 }
 
 export function rangedWithoutGrip(equipment : ElementList<Equipment>, ranged :ElementList<RangedMode>) : keyedRangedMode[]{
     return Object.entries(ranged)
-    .map( ([k, m]) => {return {...m, key : k, selected : true}})
-    .filter(m => Object.entries(equipment).every(w => w[1].name !== m.name ))
+        .map( ([k, m]) => {return {...m, key : k, selected : true}})
+        .filter(m => Object.entries(equipment).every(w => w[1].name !== m.name ))
 }
 
 function nonEquipmentMeleeWeapons( modes : keyedMeleeMode[]){
@@ -280,6 +280,16 @@ function nonEquipmentRangedWeapons( modes : keyedRangedMode[]){
     )
 }
 
+function markSelectd(grips : WeaponGrip[], hands : Hand[]){
+    return grips    
+        .map( g => {
+                let selected = hands.some( h => h.grip === g.name);
+                g.meleeList = selected ? g.meleeList.map(setSelected) :  g.meleeList,
+                g.rangedList = selected ? g.rangedList.map(setSelected) : g.rangedList
+                return g       
+        }   )
+}
+
 export function initHands(numberOfHands : number){
     let hands : Hand[] = [];
     for (var i=0; i < numberOfHands; i++) {
@@ -318,8 +328,10 @@ function addGripToWeapons( weapons : Weapon[], grip : WeaponGrip, hands : Hand[]
     return weapons;
 }
 
-function compareAttacks(a : KeyedAttack, b: KeyedAttack){
-    return a.selected && !b.selected ? -1 : (!a.selected && b.selected ? 1 : (a.mode > b.mode ? 1 : -1))
+export function compareAttacks(a : KeyedAttack | undefined, b: KeyedAttack | undefined){
+    if (!a) return 1;
+    if (!b) return -1;
+    return a.selected && !b.selected ? -1 : (!a.selected && b.selected ? 1 : (a.mode > b.mode ? 1 : ( a.mode < b.mode ? -1 : 0)))
 }
 
 function isSelected( w : Weapon){
@@ -339,13 +351,15 @@ export function resolveWeapons(
     handsIn : Hand[]
 ) : [grips : WeaponGrip[], hands : Hand[], meleeWeapons : Weapon[], rangedWeapons : Weapon[], rangedSelcted : boolean] {
     
-    const grips0 = 
+    const grips00 = 
         meleeGrips(equipment, meleeList)
         .concat(rangedGrips(equipment, rangedList));
     
-    const grips = reduceGrips(grips0);
+    const grips0 = reduceGrips(grips00);
 
-    const hands =  handsIn.map(h => {return {...h, grip : grips.find(g => g.name === h.grip)?.name  ?? emptyHand.name}});
+    const hands =  handsIn.map(h => {return {...h, grip : grips0.find(g => g.name === h.grip)?.name  ?? emptyHand.name}});
+
+    const grips = markSelectd(grips0, hands);
 
     const weapons : Weapon[] = 
         grips

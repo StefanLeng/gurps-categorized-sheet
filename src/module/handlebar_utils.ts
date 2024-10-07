@@ -1,3 +1,5 @@
+  import {encumberanceName } from './util.ts';
+
   // === register Handlebars partials ===
   // Partial name will be the last component of the path name, e.g.: 'systems/gurps/templates/actor/foo.hbs" -- the name is "foo".
   // Use it in an HTML/HBS file like this: {{> foo }}.
@@ -18,6 +20,7 @@ export function registerHandlebarsPartials() {
     "modules/gurps-categorized-sheet/templates/partials/slcs-hpfp.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-melee-weapons.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-ranged-weapons.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-target.hbs",
 ]
 
   templates.forEach(filename => {
@@ -103,4 +106,5 @@ export function registerHandlebarsHelpers() {
     }
   });
   
+    Handlebars.registerHelper("encumberanceName",  encumberanceName);
 }

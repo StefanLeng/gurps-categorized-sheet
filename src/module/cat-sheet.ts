@@ -1,17 +1,40 @@
-import { i18n } from './util.js';
+import { convertModifiers } from './util.js';
 import { categorizeSkills, categorizeAds } from './categorize.ts';
 import { Hand, initHands, applyGripToHands, WeaponGrip, resolveWeapons } from './weaponGrips.ts';
-import { getDefenses } from './defences.ts';
-
+import { getDefenses, defenceOTFs } from './defences.ts';
+import { targets } from './targets.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
+
+
+  /** @override */
+  constructor (object : any, options : any) {
+    super(object, options);
+    //register a hook on targetToken to refesh when the target changes
+    this._targetHook = Hooks.on('targetToken', this.targetToken); 
+  }
+
+
+  targetToken = () => {//needs to be an lambda to capture this in the clousure
+    if (this._state === Application.RENDER_STATES.RENDERING){
+      setTimeout(this.targetToken, 5);
+    }
+    else
+    {
+      this.render(false);
+    }
+  }
+
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['sl-cat-sheet', 'sheet', 'actor'],
       width: 900,
       height: 650,
-      tabs: [{ navSelector: '#slcs-navtabs', contentSelector: '#slcs-main', initial: 'combat' }],
+      tabs: [
+          { navSelector: '#slcs-navtabs', contentSelector: '#slcs-main', initial: 'combat' },
+          { navSelector: '#slcs-combattabs', contentSelector: '#slcs-combatContent', initial: 'attacks' }
+        ],
       dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
     })
   }
@@ -20,10 +43,6 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   /** @override */
   get template() {
     return "modules/gurps-categorized-sheet/templates/cat-sheet.hbs"
-  }
-
-  convertModifiers(list: Array<string>) {
-    return list ? list.map((it: string) => `[${i18n(it)}]`).map((it: string) => {return {mod :GURPS.gurpslink(it)}}) : []
   }
 
   numberOfHands() {
@@ -63,15 +82,15 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     
   };
 
-  let selfMods = this.convertModifiers(data.actor.system.conditions.self.modifiers)
-  selfMods.push(...this.convertModifiers(data.actor.system.conditions.usermods))
+  let selfMods = convertModifiers(data.actor.system.conditions.self.modifiers)
+  selfMods.push(...convertModifiers(data.actor.system.conditions.usermods))
 
   let handsOld = data.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
   let [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(data.system.equipment.carried, data.system.melee, data.system.ranged, handsOld);
   this.#grips = grips;
   this.actor.setFlag("gurps-categorized-sheet", "hands", hands);
 
-  let defences = getDefenses(data, grips, hands); 
+  let defences = getDefenses(data.system.currentdodge, grips); 
 
   return foundry.utils.mergeObject(data, {
       selfModifiers: selfMods,
@@ -81,7 +100,9 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       rangedWeapons: rangedWeapons,
       hands: hands,
       defences: defences,
+      defenceOTFs: defenceOTFs(data.actor),
       rangedSelected: rangedSelected,
+      targets: targets(data.actor),
     })
   }
 
@@ -93,6 +114,26 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     let hands = this.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
     hands = applyGripToHands(this.#grips, gripName, index, hands);
     await this.actor.setFlag("gurps-categorized-sheet", "hands", hands);
+  }
+
+  async changeEncumberance(key : string | undefined) {
+      if (key !== undefined) {
+        let encs = this.actor.system.encumbrance
+        if (encs[key].current) return // already selected
+        for (let enckey in encs) {
+          let enc = encs[enckey]
+          let t = 'system.encumbrance.' + enckey + '.current'
+          if (key === enckey) {
+            await this.actor.internalUpdate({
+              [t]: true,
+              'system.currentmove': parseInt(enc.move),
+              'system.currentdodge': parseInt(enc.dodge),
+            })
+          } else if (enc.current) {
+            await this.actor.internalUpdate({ [t]: false })
+          }
+        }
+      }
   }
   
   activateListeners(html: JQuery<HTMLElement>) {
@@ -123,9 +164,16 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     })
 
     html.find('.gripSelect').on('change', ev => {
+      ev.preventDefault();
       let target = $(ev.currentTarget);
       let index = Number(target.attr("data-index"));
       this.setGrip(target.val() as string, index)
+    })
+
+    html.find('#slcs-encumberance').on('change', ev => {
+      ev.preventDefault();
+      let target = $(ev.currentTarget);
+      this.changeEncumberance(target.val() as string)
     })
 
   }
