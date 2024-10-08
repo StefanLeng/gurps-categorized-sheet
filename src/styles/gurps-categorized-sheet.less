@@ -221,6 +221,17 @@
         #slcs-conditions{
             grid-area: condition;
         }
+        #slcs-col2{
+            overflow-y: unset;
+            grid-template-rows: min-content 1fr;    
+            #slcs-combatContent{
+                height: 0;
+                min-height: 100%;
+                .tab[data-tab]{
+                    overflow-y: auto;
+                }
+            }     
+        }    
     }
     
     .even{

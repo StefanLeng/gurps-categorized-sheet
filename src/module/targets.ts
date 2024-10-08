@@ -44,7 +44,7 @@ function calculateRange(token1 : Token | null | undefined, token2 : Token | null
     }
   }
 
-export function targets(actor : Actor) {
+export function targets(actor : Actor, ranged : boolean) {
     let results = [];
     for (const target of Array.from(game.user.targets as Set<Token>)) {
       let result : Target = {name :"", targetmodifiers: [], hitlocations: {}};
@@ -59,11 +59,13 @@ export function targets(actor : Actor) {
         
         result.hitlocations = system.hitlocations;
       }
-      let mod = calculateRange(getToken(actor), target);
-      if (mod && mod.modifier !== 0)
-        result.targetmodifiers.push(
-          {mod: GURPS.gurpslink(`[${mod.modifier} range to target ${target.actor?.name} (${mod.yards} ${canvas.scene?.grid.units})]`)}
-        )
+      if (ranged){
+        let mod = calculateRange(getToken(actor), target);
+        if (mod && mod.modifier !== 0)
+          result.targetmodifiers.push(
+            {mod: GURPS.gurpslink(`[${mod.modifier} range to target ${target.actor?.name} (${mod.yards} ${canvas.scene?.grid.units})]`)}
+          )
+      }
       results.push(result);
     }
     return results;

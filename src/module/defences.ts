@@ -95,7 +95,7 @@ const accrobaticsMods =
 ];
 
 export function defenceOTFs(actor : any){
-    let mods = defenceMods;
+    let mods = defenceMods.map(i=>i);
     if (GURPS.findSkillSpell(actor, 'Acrobatics')){
         mods = mods.concat(accrobaticsMods);
     }

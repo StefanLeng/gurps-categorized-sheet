@@ -26,21 +26,21 @@
                     </div>
                     <div id='slcs-col2' class ='slcs-col'>
                         <nav id='slcs-combattabs' class='slcs-sheet-tabs' data-group='combat-tabs'>
-                            <li><a class='tab-item' data-tab='attacks'>{{i18n 'GURPS-cat-sheet.attackTab' 'Attacks'}}</a></li>
+                            <li><a class='tab-item' data-tab='melee'>{{i18n 'GURPS-cat-sheet.meleeTab' 'Melee'}}</a></li>
+                            <li><a class='tab-item' data-tab='ranged'>{{i18n 'GURPS-cat-sheet.rangedTab' 'Ranged'}}</a></li>
                             <li><a class='tab-item' data-tab='defences'>{{i18n 'GURPS-cat-sheet.defencesTab' 'Defences'}}</a></li>                            
                         </nav>
                         <div id="slcs-combatContent">
-                            <div class='tab' data-tab='attacks' data-group='combat-tabs'>
+                            <div class='tab' data-tab='melee' data-group='combat-tabs'>
                                 <div class="col-tabcontent">                             
-                                    {{#if rangedSelected}}
-                                        {{>slcs-ranged-weapons}}
-                                        {{>slcs-target}}
-                                        {{>slcs-melee-weapons}}
-                                    {{else}}
-                                        {{>slcs-melee-weapons}}
-                                        {{>slcs-target}}
-                                        {{>slcs-ranged-weapons}}
-                                    {{/if}}
+                                    {{>slcs-melee-weapons}}
+                                    {{>slcs-target targets=targets}}
+                                </div>
+                            </div>
+                            <div class='tab' data-tab='ranged' data-group='combat-tabs'>
+                                <div class="col-tabcontent">                             
+                                    {{>slcs-ranged-weapons}}
+                                    {{>slcs-target targets=targetsRanged}}
                                 </div>
                             </div>
                             <div class='tab' data-tab='defences' data-group='combat-tabs'>

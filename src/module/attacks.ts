@@ -10,7 +10,7 @@ const meleeMods =
 ];
 
 export function meleeOTFs(actor : any){
-    let mods = meleeMods;
+    let mods = meleeMods.map(i=>i);
     if (GURPS.findAdDisad(actor, 'Weapon Master')){
         mods.push('["-3 Rapid Strike (Weapon Master)" -3 Rapid Strike]');
         mods.push('["-1 Flurry of blows (Weapon Master) *Cost 1FP" -1 Flurry of Blows *Cost 1FP]');
@@ -31,7 +31,7 @@ const rangedMods =
 ];
 
 export function rangedOTFs(actor : any){
-    let mods = rangedMods;
+    let mods = rangedMods.map(i=>i);
     if (GURPS.findAdDisad(actor, 'Weapon Master')){
         mods.push('["-3 Rapid Strike (Thrown Weapon, Weapon Master)" -3 Rapid Strike]');
     } else if (GURPS.findAdDisad(actor, 'Trained by a Master')){

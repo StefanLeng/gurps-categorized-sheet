@@ -15,6 +15,13 @@
                     <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
                         {{{displayNumber (hitlocationpenalty where penalty parent)}}}
                     </div>
+                {{else}}
+                    {{#each ../system.hitlocations}}
+                        <div class='where'>{{where}}</div>
+                        <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
+                            {{{displayNumber (hitlocationpenalty where penalty parent)}}}
+                        </div>
+                    {{/each}}
                 {{/each}}
             </div>
         </div>

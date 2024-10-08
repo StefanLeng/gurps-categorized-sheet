@@ -105,7 +105,8 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       meleeOTFs: meleeOTFs(data.actor),
       rangedOTFs: rangedOTFs(data.actor),
       rangedSelected: rangedSelected,
-      targets: targets(data.actor),
+      targets: targets(data.actor, false),
+      targetsRanged: targets(data.actor, true),
     })
   }
 
