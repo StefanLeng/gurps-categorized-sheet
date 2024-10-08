@@ -3,6 +3,7 @@ import { categorizeSkills, categorizeAds } from './categorize.ts';
 import { Hand, initHands, applyGripToHands, WeaponGrip, resolveWeapons } from './weaponGrips.ts';
 import { getDefenses, defenceOTFs } from './defences.ts';
 import { targets } from './targets.ts';
+import { meleeOTFs, rangedOTFs } from './attacks.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
 
@@ -101,6 +102,8 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       hands: hands,
       defences: defences,
       defenceOTFs: defenceOTFs(data.actor),
+      meleeOTFs: meleeOTFs(data.actor),
+      rangedOTFs: rangedOTFs(data.actor),
       rangedSelected: rangedSelected,
       targets: targets(data.actor),
     })
