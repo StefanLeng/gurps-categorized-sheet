@@ -1,0 +1,60 @@
+<div id='slcs-lifting' class='gga-tableheader'>
+  <div class='lift gga-right odd'>
+       {{system.liftingmoving.basiclift}}
+  </div>
+  <div class='liftdesc  odd'>
+    {{i18n 'GURPS.basicLift'}}
+  </div>
+  <div class='lift gga-right even'>
+      {{system.liftingmoving.onehandedlift}}
+  </div>
+  <div class='liftdesc even'>
+    {{i18n 'GURPS.oneHandLift'}}
+  </div>
+  <div class='lift gga-right  odd'>
+      {{system.liftingmoving.twohandedlift}}
+  </div>
+  <div class='liftdesc  odd'>
+    {{i18n 'GURPS.twoHandLift'}}
+  </div>
+  <div class='lift gga-right even'>
+      {{system.liftingmoving.shove}}
+  </div>
+  <div class='liftdesc even'>
+    {{i18n 'GURPS.shoveAndKnockOver'}}
+  </div>
+  {{#if system.liftingmoving.runningshove}}
+    <div class='lift gga-right  odd'>
+        {{system.liftingmoving.runningshove}}
+    </div>
+    <div class='liftdesc  odd'>
+      {{i18n 'GURPS.runningShoveAndKnockOver'}}
+    </div>
+    <div class='lift gga-right even'>
+        {{system.liftingmoving.carryonback}}
+    </div>
+    <div class='liftdesc even'>
+      {{i18n 'GURPS.carryOnBack'}}
+    </div>
+    <div class='lift gga-right odd'>
+        {{system.liftingmoving.shiftslightly}}
+    </div>
+    <div class='liftdesc odd'>
+      {{i18n 'GURPS.shiftSlightly'}}
+    </div>
+  {{else}}
+    <div class='lift gga-right odd'>
+        {{system.liftingmoving.carryonback}}
+    </div>
+    <div class='liftdesc odd'>
+      {{i18n 'GURPS.carryOnBack'}}
+    </div>
+    <div class='lift gga-right even'>
+        {{system.liftingmoving.shiftslightly}}
+    </div>
+    <div class='liftdesc even'>
+      {{i18n 'GURPS.shiftSlightly'}}
+    </div>
+  {{/if}}
+
+</div>

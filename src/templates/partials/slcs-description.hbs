@@ -1,0 +1,52 @@
+<div id='slcs-description'>
+  {{#unless document.limited}}
+    <div class='gga-table'>
+      <div class='label odd'>{{i18n 'GURPS.descriptionGender'}}:</div>
+      <div class='odd'>{{system.traits.gender}}</div>
+      <div class='label even'>{{i18n 'GURPS.descriptionAge'}}:</div>
+      <div class='even'>{{system.traits.age}}</div>
+      <div class='label odd'>{{i18n 'GURPS.descriptionBirthday'}}:</div>
+      <div class='odd'>{{system.traits.birthday}}</div>
+      <div class='label even'>{{i18n 'GURPS.descriptionReligion'}}:</div>
+      <div class='even'>{{system.traits.religion}}</div>
+      <div class='label odd'>&nbsp;</div>
+      <div class='odd'></div>
+    </div>
+  {{/unless}}
+  <div class='gga-table'>
+    <div class='label odd'>{{i18n 'GURPS.descriptionHeight'}}:</div>
+    <div class='odd'>{{system.traits.height}}</div>
+    <div class='label even'>{{i18n 'GURPS.weight'}}:</div>
+    <div class='even'>{{system.traits.weight}}</div>
+    <div class='label odd'>{{i18n 'GURPS.descriptionSizeModifier'}}:</div>
+    <div class='odd'>{{system.traits.sizemod}}</div>
+    <div class='label even'>{{i18n 'GURPS.descriptionBodyPlan'}}:</div>
+    <div class='even'>{{i18n (concat 'GURPS.BODYPLAN' system.additionalresources.bodyplan)}}</div>
+    {{#if document.limited}}
+      <div class='label odd'>{{i18n 'GURPS.descriptionGender'}}:</div>
+      <div class='odd'>{{system.traits.gender}}</div>
+    {{/if}}
+    {{#unless document.limited}}
+      <div class='label odd'>{{i18n 'GURPS.descriptionTechLevel'}}:</div>
+      <div class='odd'>{{system.traits.techlevel}}</div>
+    {{/unless}}
+  </div>
+  <div class='hairEyesSkinHandBlock gga-table'>
+    {{#if system.traits.eyes}}
+      <div class='label odd'>{{i18n 'GURPS.descriptionHair'}}:</div>
+      <div class='odd'>{{system.traits.hair}}</div>
+      <div class='label even'>{{i18n 'GURPS.descriptionEyes'}}:</div>
+      <div class='even'>{{system.traits.eyes}}</div>
+      <div class='label odd'>{{i18n 'GURPS.descriptionSkin'}}:</div>
+      <div class='odd'>{{system.traits.skin}}</div>
+      <div class='label even'>{{i18n 'GURPS.descriptionHand'}}:</div>
+      <div class='even'>{{system.traits.hand}}</div>
+      <div class='label odd'>&nbsp;</div>
+      <div class='odd'></div>
+    {{else}}
+      <div class='label'>{{i18n 'GURPS.descriptionAppearance'}}:</div>
+      <div class='label'></div>
+      <div class='field' style='border: none; grid-column: 1 / span 2;'>{{system.traits.appearance}}</div>
+    {{/if}}
+  </div>
+</div>

@@ -21,6 +21,11 @@ export function registerHandlebarsPartials() {
     "modules/gurps-categorized-sheet/templates/partials/slcs-melee-weapons.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-ranged-weapons.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-target.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-lifting.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-reactions.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-description.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-equipment.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-spells.hbs",
 ]
 
   templates.forEach(filename => {

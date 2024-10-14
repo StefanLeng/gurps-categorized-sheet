@@ -8,9 +8,8 @@
         <div class='label'>{{i18n 'GURPS.attributesIQNAME'}} ({{i18n 'GURPS.attributesIQ'}})</div>
         <div class='field big rollable' data-path='attributes.HT.value' data-otf='HT'>{{system.attributes.HT.value}}</div>
         <div class='label'>{{i18n 'GURPS.attributesHTNAME'}} ({{i18n 'GURPS.attributesHT'}})</div>
-        {{#if useQN}}
-            <div class='field big rollable' data-path='attributes.QN.value' data-otf='QN'>{{system.attributes.QN.value}}</div>
-            <div class='label'>{{i18n 'GURPS.attributesQNNAME'}} ({{i18n 'GURPS.attributesQN'}})</div>
-        {{/if}}
+        <hr />
+        <div class='field'>{{system.currentmove}}</div>
+        <div class='label '>{{i18n 'GURPS.move'}}</div>
     </div>
 </div>

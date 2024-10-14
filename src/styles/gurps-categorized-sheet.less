@@ -213,6 +213,19 @@
         }
     }
 
+    .even{
+        background-color: #e8ffe8;
+    }
+
+    .odd.evenOuter {
+        background-color: #e8ffe8;
+    }
+
+    .even.evenOuter {
+        background-color: white;
+    }
+
+
     #slcs-combat-tab{
         grid-template-rows: min-content 1fr;
         grid-template-areas:
@@ -234,20 +247,14 @@
         }    
     }
     
-    .even{
-        background-color: #e8ffe8;
-    }
-
-    .odd.evenOuter {
-        background-color: #e8ffe8;
-    }
-
-    .even.evenOuter {
-        background-color: white;
-    }
-
-
     #slcs-exploration-tab{
+        grid-template-rows: min-content 1fr;
+        grid-template-areas:
+            'condition condition'
+            'col1 col2';
+        #slcs-conditions{
+            grid-area: condition;
+        }    
     }
 
     #slcs-social-tab{
@@ -256,7 +263,21 @@
     #slcs-technical-tab{
     }
 
-    #slcs-powers-tab{
+    #slcs-powers-tab.slcs-tab-content {
+        grid-template-columns: 3fr 5fr;
+    }
+    
+    #slcs-equipment-tab.slcs-tab-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content;
+        grid-auto-rows: min-content;
+        .equipmentlist {
+            grid-template-columns: auto auto 1fr repeat(6, auto);
+        }
+        #slcs-equipmentother .equipped {
+            padding: 0;
+            border-right: none;
+        }
     }
 
     #slcs-conditions{
@@ -320,8 +341,6 @@
         --rowmargin: 0.3em;
         grid-template-columns: 1fr repeat(3, auto);
         align-content: start;
-//        max-height: 300px;
-//        overflow-y: auto;
         .tooltip.gga-manual{
             border: none;
         }    
@@ -537,5 +556,63 @@
         grid-template-columns: 1fr;
         grid-gap: var(--sectiongap);
         grid-auto-rows: min-content;
+    }
+
+    #slcs-lifting {
+        grid-template:
+            'header header'
+            'desc lift';
+        grid-template-columns: 0fr 1fr;
+        grid-template-rows: 0fr;
+    }
+
+    #slcs-reactions {
+        grid-template-columns: 0fr 1fr;
+    }
+
+    #slcs-description {
+        display: grid;
+        grid-template:
+             'block1 block2 block3';
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        border: var(--standardborder);
+        .header {
+            grid-area: header;
+        }
+        .gga-table{
+            border-right: var(--standardborder);
+            grid-template-columns: 0fr 1fr;
+        }
+        .gga-table.hairEyesSkinHandBlock{
+            border-right: none;
+        }
+        .gga-table > div{
+            min-height: 1.4em;
+        }
+    }
+
+    #slcs-spells{
+        grid-template-columns: 1fr repeat(9, auto);
+        .spldraggable:before{
+            content: none;
+        }
+    };
+
+    #slcs-reactionroll {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: min-content min-content;
+        grid-template-areas: 
+            "empty1 butto empty2"
+            "otf otf otf";
+        justify-content: center;
+        padding-top: var(--sectiongap);
+        button{
+            grid-area: butto;
+        }
+        #slcs-reactionOTFs{
+            grid-area: otf;
+        }
     }
 }

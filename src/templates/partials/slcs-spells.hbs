@@ -1,0 +1,45 @@
+{{#if (notEmpty system.spells)}}
+    <div id='slcs-spells' class='gga-table with-notes'>
+        <div class='desc header'>{{i18n 'GURPS.spells'}}</div>
+        <div class='cls header'>{{i18n 'GURPS.spellClass'}}</div>
+        <div class='college header'>{{i18n 'GURPS.spellCollege'}}</div>
+        <div class='mana header'>{{i18n 'GURPS.spellCost'}}</div>
+        <div class='mana_maintain header'>{{i18n 'GURPS.spellMaintain'}}</div>
+        <div class='time header'>{{i18n 'GURPS.spellTime'}}</div>
+        <div class='duration header'>{{i18n 'GURPS.spellDuration'}}</div>
+        <div class='sl header'>{{i18n 'GURPS.sl'}}</div>
+        <div class='rsl header'>{{i18n 'GURPS.rsl'}}</div>
+        <div class='ref header'>{{i18n "GURPS.abbrevRef"}}</div>
+
+        {{#stripes (flatlist system.spells) 'even' 'odd'}}
+            {{#unless isCollapsed}}
+                <div class='spldraggable {{stripeClass}}' data-key='system.spells.{{@key}}'>
+                    <div class='desc dblclkedit indent{{indent}}'>
+                        <div class='gga-desc-text'>
+                            <div>
+                                {{#if hasContains}}<i class='fas fa-caret-down expandcollapseicon'></i>{{/if}}
+                                {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
+                            </div>
+                            <div>{{{gurpslink this.name}}} </div>
+                        </div>
+                        <div class='list_note'>
+                            {{{gurpslink this.notes}}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class='cls flex-center {{stripeClass}}'>{{this.class}}</div>
+                <div class='college flex-center {{stripeClass}}'>{{this.college}}</div>
+                <div class='mana flex-center {{stripeClass}}'>{{this.cost}}</div>
+                <div class='mana_maintain flex-center {{stripeClass}}'>{{this.maintain}}</div>
+                <div class='time flex-center {{stripeClass}}'>{{this.casttime}}</div>
+                <div class='duration flex-center {{stripeClass}}'>{{this.duration}}</div>
+                <div class='sl {{rollable this.level}} flex-center {{stripeClass}}' data-name='{{this.name}}' data-otf='Sp:"{{this.name}}"'
+                    data-key='system.spells.{{@key}}'>{{#if (eq this.relativelevel '-')}}-{{else}}{{this.level}}{{/if}}
+                </div>
+                <div class='rsl {{rollable this.level}} flex-center {{stripeClass}}' data-otf='Sp:"{{this.name}}"'>{{this.relativelevel}}</div>
+                <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}}</div>
+            {{/unless}}
+        {{/stripes}}
+    </div>
+{{/if}}

@@ -19,7 +19,7 @@
         <div id="slcs-main">
             <div class='tab' data-tab='combat' data-group='primary-tabs'>
                 <div id="slcs-combat-tab" class='slcs-tab-content'>
-                    {{>slcs-conditions}}
+                    {{>slcs-conditions section='combat'}}
                     <div id='slcs-col1' class ='slcs-col'>
                         {{>slcs-skills skills=categories.combat.skills}}
                         {{>slcs-advantages ads=categories.combat.ads}}
@@ -54,11 +54,13 @@
             </div>
             <div class='tab' data-tab='exploration' data-group='primary-tabs'>
                 <div id="slcs-exploration-tab" class='slcs-tab-content'>
+                    {{>slcs-conditions section='exploration'}}
                     <div id='slcs-col1' class ='slcs-col'>
                         {{>slcs-skills skills=categories.exploration.skills}}
                         {{>slcs-advantages ads=categories.exploration.ads}}
                     </div>
                     <div id='slcs-col2' class ='slcs-col'>
+                        {{>slcs-lifting}}
                     </div>    
                 </div>                
             </div>
@@ -69,6 +71,8 @@
                         {{>slcs-advantages ads=categories.social.ads}}
                     </div>
                     <div id='slcs-col2' class ='slcs-col'>
+                        {{>slcs-description}}
+                        {{>slcs-reactions}}
                     </div>    
                 </div>                
             </div>
@@ -79,6 +83,7 @@
                         {{>slcs-advantages ads=categories.technical.ads}}
                     </div>
                     <div id='slcs-col2' class ='slcs-col'>
+                        {{>slcs-lifting}}
                     </div>    
                 </div>                
             </div>
@@ -89,11 +94,12 @@
                         {{>slcs-advantages ads=categories.powers.ads}}
                     </div>
                     <div id='slcs-col2' class ='slcs-col'>
+                        {{>slcs-spells}}
                     </div>    
                 </div>                   
             </div>
             <div class='tab' data-tab='others' data-group='primary-tabs'>
-                <div id="slcs-powers-tab" class='slcs-tab-content'>
+                <div id="slcs-others-tab" class='slcs-tab-content'>
                     <div id='slcs-col1' class ='slcs-col'>
                         {{>slcs-skills skills=categories.others.skills}}
                         {{>slcs-advantages ads=categories.others.ads}}
@@ -102,7 +108,12 @@
                     </div>    
                 </div>                    
             </div>
-            <div class='tab' data-tab='equipment' data-group='primary-tabs'>equipment</div>
+            <div class='tab' data-tab='equipment' data-group='primary-tabs'>
+                <div id="slcs-equipment-tab" class='slcs-tab-content'>
+                    {{>slcs-equipment container='carried'}}
+                    {{>slcs-equipment container='other'}}
+                </div>
+            </div>
         </div>
     </div>
 </form>

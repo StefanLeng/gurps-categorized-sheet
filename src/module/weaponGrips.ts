@@ -1,3 +1,5 @@
+import { filterObject } from './util.ts';
+
 interface AttackMode{
     "name": string
     "notes": string,
@@ -37,6 +39,7 @@ interface ElementList<TElement>{
 interface Equipment{
     name: string,
     notes: string,
+    equipped : boolean,
 }
 
 export interface Hand {
@@ -245,7 +248,8 @@ function nonEquipmentMeleeWeapons( modes : keyedMeleeMode[]){
                         notes: '',
                         grips: [],
                         meleeList: [m],
-                        rangedList: [],        
+                        rangedList: [],   
+                        equipped : false,     
                     }
                 )
             }
@@ -271,6 +275,7 @@ function nonEquipmentRangedWeapons( modes : keyedRangedMode[]){
                         grips: [],
                         meleeList: [],
                         rangedList: [m],        
+                        equipped : false,     
                     }
                 )
             }
@@ -321,7 +326,9 @@ function addGripToWeapons( weapons : Weapon[], grip : WeaponGrip, hands : Hand[]
                 notes: grip.weaponNote,
                 grips: [grip],
                 meleeList: selected ? grip.meleeList.map(setSelected) :  grip.meleeList,
-                rangedList: selected ? grip.rangedList.map(setSelected) : grip.rangedList,        
+                rangedList: selected ? grip.rangedList.map(setSelected) : grip.rangedList,
+                equipped : true,     
+        
             }
         )
     }
@@ -344,16 +351,27 @@ function compareWeapons(a : Weapon, b: Weapon){
     (a.name > b.name ? 1 : -1));
 }
 
+function isAttackEquippped(attack: AttackMode, equipment : {carried : ElementList<Equipment>, other : ElementList<Equipment>}) : boolean
+{
+    const filterEquipped = game.settings.get('gurps', 'remove-unequipped-weapons');
+    const isEquipped = Object.entries(equipment.carried).some(([_,w]) => w.name === attack.name && (!filterEquipped || w.equipped) );
+    const isNotFromWeapon =  !Object.entries(equipment.carried).some(([_,w]) => w.name === attack.name ) && !Object.entries(equipment.other).some(([_,w]) => w.name === attack.name );
+    return isEquipped || isNotFromWeapon;
+}
+
 export function resolveWeapons(
-    equipment : ElementList<Equipment>, 
-    meleeList :ElementList<MeleeMode>,
-    rangedList :ElementList<RangedMode>,  
+    equipment : {carried : ElementList<Equipment>, other : ElementList<Equipment>}, 
+    meleeListIn :ElementList<MeleeMode>,
+    rangedListIn :ElementList<RangedMode>,  
     handsIn : Hand[]
 ) : [grips : WeaponGrip[], hands : Hand[], meleeWeapons : Weapon[], rangedWeapons : Weapon[], rangedSelcted : boolean] {
     
+    const meleeList = filterObject( meleeListIn, a => isAttackEquippped(a, equipment)) as ElementList<MeleeMode>;
+    const rangedList = filterObject( rangedListIn, a => isAttackEquippped(a, equipment)) as ElementList<RangedMode>;
+    
     const grips00 = 
-        meleeGrips(equipment, meleeList)
-        .concat(rangedGrips(equipment, rangedList));
+        meleeGrips(equipment.carried, meleeList)
+        .concat(rangedGrips(equipment.carried, rangedList));
     
     const grips0 = reduceGrips(grips00);
 
@@ -374,13 +392,13 @@ export function resolveWeapons(
         weapons
         .filter(w => w.meleeList.length > 0)
         .sort(compareWeapons)
-        .concat(nonEquipmentMeleeWeapons(meleeWithoutGrip(equipment, meleeList))) ;
+        .concat(nonEquipmentMeleeWeapons(meleeWithoutGrip(equipment.carried, meleeList))) ;
 
     const rangedWeapons = 
         weapons
         .filter(w => w.rangedList.length > 0)
         .sort(compareWeapons) 
-        .concat(nonEquipmentRangedWeapons(rangedWithoutGrip(equipment, rangedList))) ;
+        .concat(nonEquipmentRangedWeapons(rangedWithoutGrip(equipment.carried, rangedList))) ;
 
     const rangedSelcted = hands.some(h => grips.some(g => g.name === h.grip && g.ranged));
                                 
