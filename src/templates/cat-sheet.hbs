@@ -29,6 +29,7 @@
                             <li><a class='tab-item' data-tab='melee'>{{i18n 'GURPS-cat-sheet.meleeTab' 'Melee'}}</a></li>
                             <li><a class='tab-item' data-tab='ranged'>{{i18n 'GURPS-cat-sheet.rangedTab' 'Ranged'}}</a></li>
                             <li><a class='tab-item' data-tab='defences'>{{i18n 'GURPS-cat-sheet.defencesTab' 'Defences'}}</a></li>                            
+                            <li><a class='tab-item' data-tab='criticals'>{{i18n 'GURPS-cat-sheet.defencesTab' 'Criticals'}}</a></li>                            
                         </nav>
                         <div id="slcs-combatContent">
                             <div class='tab' data-tab='melee' data-group='combat-tabs'>
@@ -46,6 +47,11 @@
                             <div class='tab' data-tab='defences' data-group='combat-tabs'>
                                 <div class="col-tabcontent">                             
                                     {{>slcs-defences}}
+                                </div>
+                            </div>
+                            <div class='tab' data-tab='criticals' data-group='combat-tabs'>
+                                <div class="col-tabcontent">                             
+                                    {{>slcs-criticalRolls}}
                                 </div>
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import { getDefenses, defenceOTFs } from './defences.ts';
 import { targets } from './targets.ts';
 import { meleeOTFs, rangedOTFs } from './attacks.ts';
 import { reactionTableExists, drawReactionRoll, reactionOTFs} from './reactions.ts';
+import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
 
@@ -128,6 +129,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       targets: targets(data.actor, false),
       targetsRanged: targets(data.actor, true),
       reactionTableExists: reactionTableExists(),
+      criticalTables: existingCriticalTables(),
     })
   }
 
@@ -204,6 +206,12 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     html.find('.changeequip').on('click', this._onClickEquip.bind(this));
 
     html.find('#slcs-reactionroll button').on('click', drawReactionRoll)
+
+    html.find('#slcs-criticalRolls button').on('click', ev =>{
+      let table = ev.currentTarget.dataset.rolltable as unknown as MyRollTable; 
+      drawTableRoll(table)
+    }
+    )
   }
 
  }

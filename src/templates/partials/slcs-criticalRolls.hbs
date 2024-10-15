@@ -1,0 +1,7 @@
+{{#if (notEmpty criticalTables)}}
+    <div id='slcs-criticalRolls' class='slcs-block'>
+        {{#each criticalTables}}
+            <button data-rolltable="{{this}}">{{this}}</button>
+        {{/each}}
+    </div>
+{{/if}}
