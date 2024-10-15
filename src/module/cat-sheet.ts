@@ -134,7 +134,9 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   }
 
   getCustomHeaderButtons() {
-    return []
+    let buttons = super.getCustomHeaderButtons();
+
+    return buttons;
   }
 
   async setGrip( gripName :string, index : number){
