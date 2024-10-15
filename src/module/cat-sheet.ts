@@ -17,7 +17,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     Hooks.on('targetToken', this._targetToken); 
   }
 
-  _targetToken = () => this.targetTokenInner(true);
+  _targetToken = () => this._targetTokenInner(true);
 
   _tokenTrageted :boolean = false; 
 
