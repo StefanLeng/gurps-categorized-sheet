@@ -1,1 +1,1 @@
-export { TokenRingConfig } from "./ring-config.js";
+export { TokenRingConfig } from "./ring-config.js"

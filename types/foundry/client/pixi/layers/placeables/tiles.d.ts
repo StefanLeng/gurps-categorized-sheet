@@ -4,15 +4,15 @@
  */
 
 declare class TilesLayer<TObject extends Tile> extends PlaceablesLayer<TObject> {
-    static override documentName: "Tile";
+	static override documentName: "Tile"
 
-    static override get layerOptions(): PlaceablesLayerOptions;
+	static override get layerOptions(): PlaceablesLayerOptions
 
-    override get hookName(): string;
+	override get hookName(): string
 
-    override get hud(): TileHUD<TObject>;
+	override get hud(): TileHUD<TObject>
 
-    get tiles(): TObject[];
+	get tiles(): TObject[]
 
-    override quadtree: CanvasQuadtree<TObject>;
+	override quadtree: CanvasQuadtree<TObject>
 }

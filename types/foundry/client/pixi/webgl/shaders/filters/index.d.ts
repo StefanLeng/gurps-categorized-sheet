@@ -1,1 +1,1 @@
-import "./transition.d.ts";
+import "./transition.d.ts"

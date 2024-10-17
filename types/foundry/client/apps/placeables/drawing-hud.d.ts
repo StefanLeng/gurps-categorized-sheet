@@ -3,9 +3,9 @@
  * The DrawingHUD implementation can be configured and replaced via {@link CONFIG.Drawing.hudClass}.
  */
 declare class DrawingHUD extends BasePlaceableHUD<Drawing> {
-    static override get defaultOptions(): ApplicationOptions;
+	static override get defaultOptions(): ApplicationOptions
 
-    override getData(options?: ApplicationOptions): BasePlaceableHUDData<Drawing>;
+	override getData(options?: ApplicationOptions): BasePlaceableHUDData<Drawing>
 
-    override setPosition(options?: ApplicationPosition): void;
+	override setPosition(options?: ApplicationPosition): void
 }

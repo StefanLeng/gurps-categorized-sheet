@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-  		"target": "ES2022",
+	    "target": "ES2022",
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
 		"lib": ["esnext", "dom", "dom.iterable"],
@@ -25,7 +25,7 @@
 		"useDefineForClassFields": true,
 		"noErrorTruncation": true,
 		//"types": ["jest", "jquery", "node"],
-        "typeRoots": ["node_modules/@types", "types/foundry"],
+       // "typeRoots": ["node_modules/@types", "types/foundry"],
   },
-  "include": ["src"]
+ // "include": ["src"]
 }

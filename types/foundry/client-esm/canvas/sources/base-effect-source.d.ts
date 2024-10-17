@@ -12,135 +12,135 @@
  * ```
  */
 export default abstract class BaseEffectSource<TObject extends PlaceableObject | null = PlaceableObject | null> {
-    static sourceType: string;
+	static sourceType: string
 
-    static effectsCollection: string;
+	static effectsCollection: string
 
-    static defaulBaseEffectSourceData: BaseEffectSourceData;
+	static defaulBaseEffectSourceData: BaseEffectSourceData
 
-    /* -------------------------------------------- */
-    /*  Source Data                                 */
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
+	/*  Source Data                                 */
+	/* -------------------------------------------- */
 
-    /** Some other object which is responsible for this source. */
-    object: TObject;
+	/** Some other object which is responsible for this source. */
+	object: TObject
 
-    /** The source id linked to this effect source */
-    sourceId: string;
+	/** The source id linked to this effect source */
+	sourceId: string
 
-    /** The data of this source. */
-    data: BaseEffectSourceData;
+	/** The data of this source. */
+	data: BaseEffectSourceData
 
-    /** The geometric shape of the effect source which is generated later */
-    shape: PIXI.Polygon;
+	/** The geometric shape of the effect source which is generated later */
+	shape: PIXI.Polygon
 
-    /** A collection of boolean flags which control rendering and refresh behavior for the source. */
-    protected _flags: Record<string, boolean | number>;
+	/** A collection of boolean flags which control rendering and refresh behavior for the source. */
+	protected _flags: Record<string, boolean | number>
 
-    /** The x-coordinate of the point source origin. */
-    get x(): number;
+	/** The x-coordinate of the point source origin. */
+	get x(): number
 
-    /** The y-coordinate of the point source origin. */
-    get y(): number;
+	/** The y-coordinate of the point source origin. */
+	get y(): number
 
-    /** The elevation bound to this source. */
-    get elevation(): number;
+	/** The elevation bound to this source. */
+	get elevation(): number
 
-    /* -------------------------------------------- */
-    /*  Source State                                */
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
+	/*  Source State                                */
+	/* -------------------------------------------- */
 
-    /** The EffectsCanvasGroup collection linked to this effect source. */
-    get effectsCollection(): Collection<BaseEffectSource>;
+	/** The EffectsCanvasGroup collection linked to this effect source. */
+	get effectsCollection(): Collection<BaseEffectSource>
 
-    /**
-     * Returns the update ID associated with this source.
-     * The update ID is increased whenever the shape of the source changes.
-     */
-    get updateId(): number;
+	/**
+	 * Returns the update ID associated with this source.
+	 * The update ID is increased whenever the shape of the source changes.
+	 */
+	get updateId(): number
 
-    /**
-     * Is this source currently active?
-     * A source is active if it is attached to an effect collection and is not disabled or suppressed.
-     */
-    get active(): boolean;
+	/**
+	 * Is this source currently active?
+	 * A source is active if it is attached to an effect collection and is not disabled or suppressed.
+	 */
+	get active(): boolean
 
-    /* -------------------------------------------- */
-    /*  Source Suppression Management               */
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
+	/*  Source Suppression Management               */
+	/* -------------------------------------------- */
 
-    /** Is this source temporarily suppressed? */
-    get suppressed(): boolean;
+	/** Is this source temporarily suppressed? */
+	get suppressed(): boolean
 
-    /**
-     * Records of suppression strings with a boolean value.
-     * If any of this record is true, the source is suppressed.
-     * @type {Record<string, boolean>}
-     */
-    suppression: Record<string, boolean>;
+	/**
+	 * Records of suppression strings with a boolean value.
+	 * If any of this record is true, the source is suppressed.
+	 * @type {Record<string, boolean>}
+	 */
+	suppression: Record<string, boolean>
 
-    /* -------------------------------------------- */
-    /*  Source Initialization                 */
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
+	/*  Source Initialization                 */
+	/* -------------------------------------------- */
 
-    /**
-     * Initialize and configure the source using provided data.
-     * @param data      Provided data for configuration
-     * @param [options.reset]   Should source data be reset to default values before applying changes?
-     */
-    initialize(data?: Partial<BaseEffectSourceData>, options?: { reset?: boolean }): this;
+	/**
+	 * Initialize and configure the source using provided data.
+	 * @param data      Provided data for configuration
+	 * @param [options.reset]   Should source data be reset to default values before applying changes?
+	 */
+	initialize(data?: Partial<BaseEffectSourceData>, options?: { reset?: boolean }): this
 
-    /**
-     * Subclass specific data initialization steps.
-     * @param data Provided data for configuration
-     */
-    protected _initialize(data: Partial<BaseEffectSourceData>): void;
+	/**
+	 * Subclass specific data initialization steps.
+	 * @param data Provided data for configuration
+	 */
+	protected _initialize(data: Partial<BaseEffectSourceData>): void
 
-    /** Create the polygon shape (or shapes) for this source using configured data. */
-    protected _createShapes(): void;
+	/** Create the polygon shape (or shapes) for this source using configured data. */
+	protected _createShapes(): void
 
-    /**
-     * Subclass specific configuration steps. Occurs after data initialization and shape computation.
-     * @param changes The fields of data which changed during initialization
-     */
-    protected _configure(changes?: object): void;
+	/**
+	 * Subclass specific configuration steps. Occurs after data initialization and shape computation.
+	 * @param changes The fields of data which changed during initialization
+	 */
+	protected _configure(changes?: object): void
 
-    /* -------------------------------------------- */
-    /*  Point Source Refresh                        */
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
+	/*  Point Source Refresh                        */
+	/* -------------------------------------------- */
 
-    /** Refresh the state and uniforms of the PointSource. */
-    refresh(): void;
+	/** Refresh the state and uniforms of the PointSource. */
+	refresh(): void
 
-    /** Subclass-specific refresh steps. */
-    protected _refresh(): void;
+	/** Subclass-specific refresh steps. */
+	protected _refresh(): void
 
-    /* -------------------------------------------- */
-    /*  Source Destruction                    */
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
+	/*  Source Destruction                    */
+	/* -------------------------------------------- */
 
-    /** Steps that must be performed when the base source is destroyed. */
-    destroy(): void;
+	/** Steps that must be performed when the base source is destroyed. */
+	destroy(): void
 
-    /** Subclass specific destruction steps. */
-    protected _destroy(): void;
+	/** Subclass specific destruction steps. */
+	protected _destroy(): void
 
-    /* -------------------------------------------- */
-    /*  Source Management                           */
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
+	/*  Source Management                           */
+	/* -------------------------------------------- */
 
-    /** Add this BaseEffectSource instance to the active collection. */
-    add(): void;
+	/** Add this BaseEffectSource instance to the active collection. */
+	add(): void
 
-    /* -------------------------------------------- */
+	/* -------------------------------------------- */
 
-    /** Remove this BaseEffectSource instance from the active collection. */
-    remove(): void;
+	/** Remove this BaseEffectSource instance from the active collection. */
+	remove(): void
 }
 
 interface BaseEffectSourceData {
-    x: number;
-    y: number;
-    elevation: number;
-    disabled: boolean;
+	x: number
+	y: number
+	elevation: number
+	disabled: boolean
 }
