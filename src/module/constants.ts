@@ -1,3 +1,12 @@
+export const  CATEGORIES = ["combat" , "exploration", "social", "powers", "technical"] as const;
+type Cat_tuple = typeof CATEGORIES;
+
+export type categories = Cat_tuple[number];
+
+export interface CategoryList {
+    [categories: string]:  Array<string>;
+}
+
 const combatSkills  : Array<string>=
 [
 "Sweep",
@@ -379,16 +388,6 @@ const powersSkills : Array<string> =
 "Thaumatology",
 ];
 
-export interface CategoryList {
-    [index: string]:  Array<string>;
-    combat: Array<string>,
-    social: Array<string>,
-    exploration: Array<string>,
-    technical: Array<string>,
-    powers:Array<string>,  
-    all: Array<string>,
-}
-
 export const skillCategories : CategoryList =
 {
     combat: combatSkills,
@@ -396,7 +395,6 @@ export const skillCategories : CategoryList =
     exploration: explorationSkills,
     technical: technicalSkills,
     powers: powersSkills,
-    all: combatSkills.concat(socialSkills).concat(explorationSkills).concat(technicalSkills).concat(powersSkills),
 }
 
 /*new Set(game.actors.entries().toArray()
@@ -1223,5 +1221,4 @@ export const adsCategories : CategoryList =
     exploration: explorationAds,
     technical: technicalAds,
     powers: powersAds,
-    all: combatAds.concat(socialAds).concat(explorationAds).concat(technicalAds).concat(powersAds),
 }

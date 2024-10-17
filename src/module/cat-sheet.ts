@@ -6,6 +6,7 @@ import { targets } from './targets.ts';
 import { meleeOTFs, rangedOTFs } from './attacks.ts';
 import { reactionTableExists, drawReactionRoll, reactionOTFs} from './reactions.ts';
 import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables.ts';
+import { MODULE_ID } from './settings.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
 
@@ -38,7 +39,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         this.render(false);
       }
     }
-    else if(newEvent)//this is the first call, we need to wait if ther is a second one
+    else if(newEvent)//this is the first call, we need to wait if there is a second one
     {
       this._tokenTrageted = true;
       setTimeout(() => this._targetTokenInner(false), 30);
@@ -106,10 +107,10 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   let selfMods = convertModifiers(data.actor.system.conditions.self.modifiers)
   selfMods.push(...convertModifiers(data.actor.system.conditions.usermods))
 
-  let handsOld = data.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
+  let handsOld = data.actor.flags?.[MODULE_ID]?.hands as Hand[] ?? initHands(this.numberOfHands());
   let [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(data.system.equipment, data.system.melee, data.system.ranged, handsOld);
   this.#grips = grips;
-  this.actor.setFlag("gurps-categorized-sheet", "hands", hands);
+  this.actor.setFlag(MODULE_ID, "hands", hands);
 
   let defences = getDefenses(data.system.currentdodge, grips); 
 
@@ -140,9 +141,9 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   }
 
   async setGrip( gripName :string, index : number){
-    let hands = this.actor.flags?.["gurps-categorized-sheet"]?.hands as Hand[] ?? initHands(this.numberOfHands());
+    let hands = this.actor.flags?.[MODULE_ID]?.hands as Hand[] ?? initHands(this.numberOfHands());
     hands = applyGripToHands(this.#grips, gripName, index, hands);
-    await this.actor.setFlag("gurps-categorized-sheet", "hands", hands);
+    await this.actor.setFlag(MODULE_ID, "hands", hands);
   }
 
   async changeEncumberance(key : string | undefined) {

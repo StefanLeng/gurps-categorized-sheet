@@ -1,9 +1,11 @@
+import { rollTableExists, drawTableRoll } from  './rollTables.ts';
+
 export function reactionTableExists(){
-    return !!game.tables.getName("Reaction Rolls");
+    return rollTableExists("Reaction Rolls");
 }
 
 export function drawReactionRoll() {
-    game.tables.getName("Reaction Rolls")?.draw();
+    drawTableRoll("Reaction Rolls");
     GURPS.ModifierBucket.clear();
 }
   

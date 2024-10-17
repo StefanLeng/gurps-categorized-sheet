@@ -1,4 +1,5 @@
 import { filterObject } from './util.ts';
+import { SYSTEM_ID } from './settings.ts';
 
 interface AttackMode{
     "name": string
@@ -353,7 +354,7 @@ function compareWeapons(a : Weapon, b: Weapon){
 
 function isAttackEquippped(attack: AttackMode, equipment : {carried : ElementList<Equipment>, other : ElementList<Equipment>}) : boolean
 {
-    const filterEquipped = game.settings.get('gurps', 'remove-unequipped-weapons');
+    const filterEquipped = game.settings.get(SYSTEM_ID, 'remove-unequipped-weapons');
     const isEquipped = Object.entries(equipment.carried).some(([_,w]) => w.name === attack.name && (!filterEquipped || w.equipped) );
     const isNotFromWeapon =  !Object.entries(equipment.carried).some(([_,w]) => w.name === attack.name ) && !Object.entries(equipment.other).some(([_,w]) => w.name === attack.name );
     return isEquipped || isNotFromWeapon;
