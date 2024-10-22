@@ -1,0 +1,9 @@
+<section id="slcs-generalTab" class="tab {{tab.cssClass}}" data-group="primary" data-tab="general">
+    <h3 id="slcs-rollTable-title">Roll Table names</h3>
+    <div id="slcs-rollTables">
+        {{#each settings.rollTables}}
+            <div class='label'>{{@key}}</div>
+            <input name='settings.rollTables.{{@key}}' class='slcs-input' type='text' value='{{this}}' />
+        {{/each}}
+    </div>
+</section>

@@ -17,7 +17,6 @@ function rollTableExistsByName(tableName : String){
 
 function drawTableRollByName(tableName : string) {
     game.tables.getName(tableName)?.draw();
-    GURPS.ModifierBucket.clear();
 }
 
 export function rollTableExists(table : MyRollTable) {

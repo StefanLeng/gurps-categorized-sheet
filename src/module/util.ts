@@ -24,3 +24,11 @@ export function encumberanceName(key : string){
 export function convertModifiers(list: Array<string>) {
   return list ? list.map((it: string) => `[${i18n(it)}]`).map((it: string) => {return {mod :GURPS.gurpslink(it)}}) : []
 }
+
+export function removeArrayItem<T>(arr: Array<T>, value: T): Array<T> { 
+  const index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
