@@ -1,9 +1,19 @@
 <section id="slcs-generalTab" class="tab {{tab.cssClass}}" data-group="primary" data-tab="general">
     <h3 id="slcs-rollTable-title">Roll Table names</h3>
-    <div id="slcs-rollTables">
+    <div class="slcs-settingsBlock">
         {{#each settings.rollTables}}
             <div class='label'>{{@key}}</div>
             <input name='settings.rollTables.{{@key}}' class='slcs-input' type='text' value='{{this}}' />
         {{/each}}
+    </div>
+    <h3 id="slcs-modifiers-title">Modifier options</h3>
+     <div class="slcs-settingsBlock">
+        <div class='label'>Use extra effort</div>
+        <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffort" {{checked settings.allowExtraEffort}}/>
+    </div>
+    <h3 id="slcs-displa-title">Display options</h3>
+     <div class="slcs-settingsBlock">
+        <div class='label'>Hide attacks/defences from weapons not hold</div>
+        <input type="checkbox" id="slcs-hide-inactive" name="settings.hideInactiveAttacks" {{checked settings.hideInactiveAttacks}}/>
     </div>
 </section>

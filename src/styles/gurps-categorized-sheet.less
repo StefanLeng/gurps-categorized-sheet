@@ -686,13 +686,17 @@
 
 #slcs-settingsForm{
  
-    #slcs-rollTables{
+    .slcs-settingsBlock{
         display: grid;
         grid-template-columns: 0fr 1fr;
         padding-top: var(--sectiongap);
         padding-bottom: var(--sectiongap);
         gap: var(--sectiongap);
         align-items: center;
+        .label {
+            min-width: 200px;
+            white-space: normal;
+        }    
     }
 
     .itemrow {
