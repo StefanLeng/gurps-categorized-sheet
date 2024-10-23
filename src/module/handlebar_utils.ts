@@ -27,6 +27,7 @@ export function registerHandlebarsPartials() {
     "modules/gurps-categorized-sheet/templates/partials/slcs-equipment.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-spells.hbs",
     "modules/gurps-categorized-sheet/templates/partials/slcs-criticalRolls.hbs",
+    "modules/gurps-categorized-sheet/templates/partials/slcs-traitSorter.hbs",
 ]
 
   templates.forEach(filename => {

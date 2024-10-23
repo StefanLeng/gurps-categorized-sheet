@@ -1,4 +1,5 @@
 import { CatSheetSettings, getSettings, setSettings, sortCategorieSettings } from "./settings.ts";
+import { CATEGORIES } from  './constants.ts';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -10,15 +11,6 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
     this.#dragDrop = this.#createDragDropHandlers();
   }
     public _settings;
-
-    
-    #dragDrop: DragDrop[];
-
-    /* -------------------------------------------- */
-
-    get dragDrop(): DragDrop[] {
-      return this.#dragDrop;
-    }
 
     static override DEFAULT_OPTIONS : Partial<DocumentSheetConfiguration> & { dragDrop: DragDropConfiguration[], scrollY : string[] } = {
         id:  "slcs-settingsForm",
@@ -44,8 +36,14 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
           addItem: this.#onAddItem,
           deleteItem: this.#deleteItem,
         },
-        scrollY:  [".slcs-trait-list"], 
+        scrollY:  [], 
         dragDrop: [{ dragSelector: ".itemrow", dropSelector: '.slcs-trait-list' }],
+    }
+
+    #dragDrop: DragDrop[];
+
+    get dragDrop(): DragDrop[] {
+      return this.#dragDrop;
     }
 
   	#createDragDropHandlers() {
@@ -63,44 +61,31 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
       })
     }
   
-    /* -------------------------------------------- */
-  
     protected _canDragStart(_selector: string): boolean {
       return true;
     }
   
-    /* -------------------------------------------- */
-  
     protected _canDragDrop(_selector: string): boolean {
       return true;
     }
-  
-    /* -------------------------------------------- */
-  
+    
     async _onDragStart(event: DragEvent) {
       const item = event.currentTarget as HTMLElement;
   
       const cat = item.dataset.category;
+      const type = item.dataset.type;
       const i =  Number(item.dataset.index);
-      if ( cat && !isNaN(i)){
+      if ( cat && !isNaN(i) && type){
         const dragData = {
           category: cat,
           index : i,
+          type : type,
         }
         event.dataTransfer?.setData("text/plain", JSON.stringify(dragData));
       }
     }
-  
-  
-      // Set data transfer
-      
-  
-    /* -------------------------------------------- */
-  
     async _onDragOver(_event: DragEvent) {}
-  
-    /* -------------------------------------------- */
-  
+    
     protected async _onDrop(event: DragEvent) {
       const data = TextEditor.getDragEventData(event);
       const target = event.currentTarget as HTMLElement;
@@ -108,15 +93,16 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
       const sourceCat = data.category as string;
       const targetCat = target.dataset.category as string;
       const index = data.index as number;
+      const type = data.type as string;
       if (sourceCat && targetCat){
         if (sourceCat === targetCat) return;
-        const val = this._settings.skills[sourceCat][index];
+        const val = this._settings.items[type][sourceCat][index];
         if (val != undefined && val != null){
-          this._settings.skills[sourceCat].splice(index, 1);
-          this._settings.skills[targetCat].push(val);
+          this._settings.items[type][sourceCat].splice(index, 1);
+          this._settings.items[type][targetCat].push(val);
           this._settings = sortCategorieSettings(this._settings);
-          await this.renderPreserveScroll();
-          this.scrollTo(targetCat, val);
+          await this.render();
+          this._scrollTo(type,targetCat, val);
        }
       }
     }
@@ -130,7 +116,11 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
       },
       skillsTab: {
         template: "modules/gurps-categorized-sheet/templates/settingsFormSkills.hbs",
-        scrollable: ["slcs-trait-list"]
+        scrollable: CATEGORIES.map( i=> `#slcs-skills-${i}`)
+      },
+      traitsTab: {
+        template: "modules/gurps-categorized-sheet/templates/settingsFormTraits.hbs",
+        scrollable:  CATEGORIES.map( i=> `#slcs-traits-${i}`)
       },
       footer: {
           template: "templates/generic/form-footer.hbs",
@@ -156,6 +146,12 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
           icon: "fa-solid fa-cog",
           label: "Skills",
         },      
+        traitsTab: {
+          id: "traits",
+          group: "primary",
+          icon: "fa-solid fa-cog",
+          label: "Traits",
+        },        
       })
     }
   
@@ -195,20 +191,14 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
       this.#dragDrop.forEach(d => d.bind(this.element))
    }
 
-    protected async renderPreserveScroll(){
-      const sc : [string, number][]= $(this.element).find(".slcs-trait-list").toArray().map( i => [i.id ?? "", $(i).scrollTop() ?? 0]);
-      await this.render();
-      sc.forEach( i => $("#"+i[0]).scrollTop((i[1])));
-    }
-
-    protected async scrollTo(cat :string, value: string){
-      const list = $(this.element).find(`#slcs-skills-${cat}`);
+    protected async _scrollTo(type: string, cat :string, value: string){
+      const list = $(this.element).find(`#slcs-${type}-${cat}`);
       const item = list.find(`input[value="${value}"]`);
       list.scrollTop(item[0]?.offsetTop ?? 0);
     }
 
-    protected async scrollToAndFocus(cat :string, value: string){
-      const list = $(this.element).find(`#slcs-skills-${cat}`);
+    protected async _scrollToAndFocus(type: string, cat :string, value: string){
+      const list = $(this.element).find(`#slcs-${type}-${cat}`);
       const item = list.find(`input[value="${value}"]`);
       list.scrollTop(item[0]?.offsetTop ?? 0);
       item.trigger('focus');
@@ -223,10 +213,11 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
     static async #onAddItem(this: SeetingsForm, event: Event, target: HTMLElement): Promise<void> {
       event.preventDefault();
       const cat = target.dataset.category;
-      if (cat){
-        this._settings.skills[cat].push("");
-        await this.renderPreserveScroll();
-        this.scrollToAndFocus(cat, "");
+      const type = target.dataset.type;
+      if (cat && type){
+        this._settings.items[type][cat].push("");
+        await this.render();
+        this._scrollToAndFocus(type, cat, "");
       }
     }
 
@@ -234,9 +225,10 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
       event.preventDefault();
       const cat = target.dataset.category;
       const i =  Number(target.dataset.index);
-      if (cat && !isNaN(i)){
-        this._settings.skills[cat].splice(i, 1);;
-        this.renderPreserveScroll();
+      const type = target.dataset.type;
+      if (cat && !isNaN(i) && type){
+        this._settings.items[type][cat].splice(i, 1);;
+        this.render();
       }
     }
 
@@ -252,9 +244,10 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
       // Do things with the returned FormData
       const newSettings = foundry.utils.expandObject(formData.object).settings as CatSheetSettings;
       this._settings.rollTables = newSettings.rollTables;
-      this._settings.skills = newSettings.skills;
+      this._settings.items.skills = newSettings.items.skills;
+      this._settings.items.traits = newSettings.items.traits;
       this._settings = sortCategorieSettings(this._settings);
-      this.renderPreserveScroll();
+      this.render();
     }
 
 }

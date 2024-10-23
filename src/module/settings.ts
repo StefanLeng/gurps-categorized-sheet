@@ -12,8 +12,11 @@ type RollTables = {
 
 export type CatSheetSettings = {
   rollTables : RollTables,
-  skills : CategoryList,
-  traits : CategoryList,
+  items : {
+    [index : string] : CategoryList, 
+    skills : CategoryList,
+    traits : CategoryList,
+  }
   allowExtraEffort : boolean,
   hideInactiveAttacks : boolean,
 }
@@ -25,8 +28,10 @@ const defaultSettings : CatSheetSettings = {
     "Critical Head Blow" : "Critical Head Blow", 
     "Reaction Rolls" : "Reaction Rolls" 
   },
-  skills: skillCategories,
-  traits : adsCategories,
+  items : {
+    skills: skillCategories,
+    traits : adsCategories,
+  },
   allowExtraEffort : true,
   hideInactiveAttacks : false
 }
@@ -59,14 +64,26 @@ export function registerSettings(): void {
 };
 
   export function getSettings() : CatSheetSettings {
-    return game.settings.get(MODULE_ID, CAT_SHEET_SETTINS);
+    const settings = game.settings.get(MODULE_ID, CAT_SHEET_SETTINS);
+ /*   if (!settings.items ){
+      settings.items =
+      {
+        skills : settings.skills,
+        traits : settings.traits,
+      } 
+      settings.skills = undefined;     
+      settings.traits = undefined;
+    }*/
+    return settings;
   }
 
   export function sortCategorieSettings(settings : CatSheetSettings) : CatSheetSettings{
       return {
         ...settings,
-        skills : sortTraits(settings.skills),
-        traits : sortTraits(settings.skills),
+        items : {
+          skills : sortTraits(settings.items.skills),
+          traits : sortTraits(settings.items.traits),
+        },
       }
   }
 

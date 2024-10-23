@@ -1,25 +1,5 @@
-<section id="slcs-skillTab" class="tab {{tab.cssClass}}" data-group="primary" data-tab="skills">
-    <h3 id="slcs-skill-title">Categorize Skills</h3><div id="slcs-skill-hint" class="slcs-hint"> Drag and drop to change category</div>
-    <div id="slcs-skills">
-        {{#each settings.skills as |cat|}}
-            <div class="scls-trait-container">
-                <div class='slcs-header'>
-                    <div class="slcs-label">{{@key}}</div>
-                    <button type="button" title="Add" data-action="addItem" data-category="{{@key}}" class="slsc-icon-button">
-                        <i class="fas fa-plus"></i>
-                    </button>                
-                </div>
-                <div id="slcs-skills-{{@key}}" class="slcs-trait-list" data-category="{{@key}}" >
-                    {{#each cat as |item|}}
-                        <div class="itemrow" data-category="{{@../key}}" data-index="{{@index}}" >
-                            <input name='settings.skills.{{@../key}}' class='slcs-input' type='text' value='{{item}}' />
-                            <button type="button" title="Delete" data-action="deleteItem" data-category="{{@../key}}" data-index="{{@index}}" class="slsc-icon-button">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    {{/each}}
-                </div>
-            </div>
-        {{/each}}
-    </div>
+<section id="slcs-skillTab" class="tab {{tab.cssClass}} slcs-sortingTab" data-group="primary" data-tab="skills">
+    <h3 id="slcs-skill-title">Categorize Skills</h3>
+    <div id="slcs-skill-hint" class="slcs-hint"> Drag and drop to change category</div>
+    {{>slcs-traitSorter traits=settings.items.skills type="skills"}}
 </section>
