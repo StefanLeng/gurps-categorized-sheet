@@ -1,5 +1,6 @@
 import { filterObject } from './util.ts';
-import { getSettings, SYSTEM_ID } from './settings.ts';
+import { SYSTEM_ID } from './constants.ts';
+import { getMergedSettings } from './actor-settings.ts';
 
 interface AttackMode{
     "name": string
@@ -368,7 +369,8 @@ export function resolveWeapons(
     equipment : {carried : ElementList<Equipment>, other : ElementList<Equipment>}, 
     meleeListIn :ElementList<MeleeMode>,
     rangedListIn :ElementList<RangedMode>,  
-    handsIn : Hand[]
+    handsIn : Hand[],
+    actor : Actor,
 ) : [grips : WeaponGrip[], hands : Hand[], meleeWeapons : Weapon[], rangedWeapons : Weapon[], rangedSelcted : boolean] {
     
     const meleeList = filterObject( meleeListIn, a => isAttackEquippped(a, equipment)) as ElementList<MeleeMode>;
@@ -384,7 +386,7 @@ export function resolveWeapons(
 
     const grips = markSelectd(grips0, hands);
 
-    const hideInactive = getSettings().hideInactiveAttacks;
+    const hideInactive = getMergedSettings(actor).hideInactiveAttacks;
 
     const weapons : Weapon[] = 
         grips

@@ -15,7 +15,7 @@
  */
 
 // Import TypeScript modules
-import { registerSettings } from './settings.js';
+import { registerSettings } from './init.js';
 import { preloadTemplates } from './preloadTemplates.js';
 import { registerHandlebarsPartials, registerHandlebarsHelpers } from './handlebar_utils.ts';
 

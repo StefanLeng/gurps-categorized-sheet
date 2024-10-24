@@ -1,5 +1,5 @@
 import { sheetOTF } from './types.ts';
-import { getSettings } from './settings.ts';
+import { getMergedSettings } from './actor-settings.ts';
 
 const defenceMods : sheetOTF[]=
 [
@@ -93,7 +93,7 @@ function noForbiddenTraits(mod : sheetOTF, actor : any) : boolean{
 }
 
 export function getOTFs(region: string, actor : any){
-    const allowExtraEffort = getSettings().allowExtraEffort;
+    const allowExtraEffort : boolean = getMergedSettings(actor).allowExtraEffort;
     let mods = 
         defenceMods
         .filter(i => i.region === region)

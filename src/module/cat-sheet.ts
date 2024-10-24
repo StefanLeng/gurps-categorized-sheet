@@ -6,7 +6,7 @@ import { targets } from './targets.ts';
 import { getOTFs } from './sheetOTFs.ts';
 import { reactionTableExists, drawReactionRoll} from './reactions.ts';
 import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables.ts';
-import { MODULE_ID } from './settings.ts';
+import { MODULE_ID } from './constants.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
 
@@ -78,28 +78,28 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     
     const categories = {
       combat : {
-        skills : categorizeSkills(data.system.skills, 'combat'),
-        ads : categorizeAds(data.system.ads, 'combat'),
+        skills : categorizeSkills(data.actor, data.system.skills, 'combat'),
+        ads : categorizeAds(data.actor, data.system.ads, 'combat'),
       },
       exploration : {
-        skills : categorizeSkills(data.system.skills, 'exploration'),
-        ads : categorizeAds(data.system.ads, 'exploration'),
+        skills : categorizeSkills(data.actor, data.system.skills, 'exploration'),
+        ads : categorizeAds(data.actor, data.system.ads, 'exploration'),
       },
       social : {
-        skills : categorizeSkills(data.system.skills, 'social'),
-        ads : categorizeAds(data.system.ads, 'social'),
+        skills : categorizeSkills(data.actor, data.system.skills, 'social'),
+        ads : categorizeAds(data.actor, data.system.ads, 'social'),
       },
       technical : {
-        skills : categorizeSkills(data.system.skills, 'technical'),
-        ads : categorizeAds(data.system.ads, 'technical'),
+        skills : categorizeSkills(data.actor, data.system.skills, 'technical'),
+        ads : categorizeAds(data.actor, data.system.ads, 'technical'),
       },
       powers : {
-        skills : categorizeSkills(data.system.skills, 'powers'),
-        ads : categorizeAds(data.system.ads, 'powers'),
+        skills : categorizeSkills(data.actor, data.system.skills, 'powers'),
+        ads : categorizeAds(data.actor, data.system.ads, 'powers'),
       },
       others : {
-        skills : categorizeSkills(data.system.skills, 'others'),
-        ads : categorizeAds(data.system.ads, 'others'),
+        skills : categorizeSkills(data.actor, data.system.skills, 'others'),
+        ads : categorizeAds(data.actor, data.system.ads, 'others'),
       }
     
   };
@@ -108,7 +108,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
   selfMods.push(...convertModifiers(data.actor.system.conditions.usermods))
 
   let handsOld = data.actor.flags?.[MODULE_ID]?.hands as Hand[] ?? initHands(this.numberOfHands());
-  let [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(data.system.equipment, data.system.melee, data.system.ranged, handsOld);
+  let [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(data.system.equipment, data.system.melee, data.system.ranged, handsOld, data.actor);
   this.#grips = grips;
   this.actor.setFlag(MODULE_ID, "hands", hands);
 

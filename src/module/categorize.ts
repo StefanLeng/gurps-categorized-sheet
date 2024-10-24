@@ -1,6 +1,6 @@
-import { CategoryList, CATEGORIES } from "./constants.ts";
-import { getSettings } from './settings.ts';
+import { CategoryList, CATEGORIES } from "./types.ts";
 import { filterObject } from "./util.ts";
+import { getMergedSettings } from "./actor-settings.ts";
 
 function isOthers(categories : CategoryList, name : string){
     return CATEGORIES.every(
@@ -18,10 +18,10 @@ export function categorize (categories : CategoryList, input : Object, category 
     }
 } 
 
-export function categorizeSkills (skills : Object, category : string) : Object {   
-    return  categorize(getSettings().items.skills, skills, category);
+export function categorizeSkills (actor : Actor, skills : Object, category : string) : Object {   
+    return  categorize(getMergedSettings(actor).items.skills, skills, category);
 } 
 
-export function categorizeAds (ads : Object, category : string) : Object {
-    return  categorize(getSettings().items.traits, ads, category);
+export function categorizeAds (actor : Actor, ads : Object, category : string) : Object {
+    return  categorize(getMergedSettings(actor).items.traits, ads, category);
 } 

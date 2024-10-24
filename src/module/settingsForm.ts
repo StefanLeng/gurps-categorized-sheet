@@ -1,5 +1,5 @@
 import { CatSheetSettings, getSettings, setSettings, sortCategorieSettings } from "./settings.ts";
-import { CATEGORIES } from  './constants.ts';
+import { CATEGORIES } from  './types.ts';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 

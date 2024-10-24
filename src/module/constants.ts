@@ -1,11 +1,8 @@
-export const  CATEGORIES = ["combat" , "exploration", "social", "powers", "technical"] as const;
-type Cat_tuple = typeof CATEGORIES;
+import { CategoryList } from "./types.ts";
 
-export type categories = Cat_tuple[number];
-
-export interface CategoryList {
-    [categories: string]:  Array<string>;
-}
+export const MODULE_ID = 'gurps-categorized-sheet';
+export const SYSTEM_ID = 'gurps';
+export const CAT_SHEET_SETTINS = 'cat_sheet_settings'
 
 const combatSkills  : Array<string>=
 [
