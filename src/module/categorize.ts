@@ -19,9 +19,9 @@ export function categorize (categories : CategoryList, input : Object, category 
 } 
 
 export function categorizeSkills (skills : Object, category : string) : Object {   
-    return  categorize(getSettings().skills, skills, category);
+    return  categorize(getSettings().items.skills, skills, category);
 } 
 
 export function categorizeAds (ads : Object, category : string) : Object {
-    return  categorize(getSettings().traits, ads, category);
+    return  categorize(getSettings().items.traits, ads, category);
 } 

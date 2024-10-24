@@ -1,10 +1,10 @@
 import { convertModifiers } from './util.js';
 import { categorizeSkills, categorizeAds } from './categorize.ts';
 import { Hand, initHands, applyGripToHands, WeaponGrip, resolveWeapons } from './weaponGrips.ts';
-import { getDefenses, defenceOTFs } from './defences.ts';
+import { getDefenses } from './defences.ts';
 import { targets } from './targets.ts';
-import { meleeOTFs, rangedOTFs } from './attacks.ts';
-import { reactionTableExists, drawReactionRoll, reactionOTFs} from './reactions.ts';
+import { getOTFs } from './sheetOTFs.ts';
+import { reactionTableExists, drawReactionRoll} from './reactions.ts';
 import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables.ts';
 import { MODULE_ID } from './settings.ts';
 
@@ -122,10 +122,10 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
       rangedWeapons: rangedWeapons,
       hands: hands,
       defences: defences,
-      defenceOTFs: defenceOTFs(data.actor),
-      meleeOTFs: meleeOTFs(data.actor),
-      rangedOTFs: rangedOTFs(data.actor),
-      reactionOTFs: reactionOTFs(data.actor),
+      defenceOTFs: getOTFs("defence", data.actor),
+      meleeOTFs: getOTFs("melee", data.actor),
+      rangedOTFs: getOTFs("ranged", data.actor),
+      reactionOTFs: getOTFs("reactions", data.actor),
       rangedSelected: rangedSelected,
       targets: targets(data.actor, false),
       targetsRanged: targets(data.actor, true),

@@ -1,5 +1,5 @@
 import { filterObject } from './util.ts';
-import { SYSTEM_ID } from './settings.ts';
+import { getSettings, SYSTEM_ID } from './settings.ts';
 
 interface AttackMode{
     "name": string
@@ -311,6 +311,10 @@ function setSelected<T extends Keyed>(mode : T) : T {
     }
 }
 
+export function displaySelected<T extends Keyed>(mode : T, hideInactive : boolean) : boolean {
+    return mode.selected || !hideInactive;
+}
+
 function addGripToWeapons( weapons : Weapon[], grip : WeaponGrip, hands : Hand[]){
     let i = weapons.findIndex(w => w.name === grip.weaponName);
     let selected = hands.some( h => h.grip === grip.name);
@@ -380,12 +384,14 @@ export function resolveWeapons(
 
     const grips = markSelectd(grips0, hands);
 
+    const hideInactive = getSettings().hideInactiveAttacks;
+
     const weapons : Weapon[] = 
         grips
         .reduce((wl: Weapon[], g) => addGripToWeapons(wl, g, hands), [])
         .map(w => {
-            w.meleeList = w.meleeList.sort(compareAttacks);
-            w.rangedList = w.rangedList.sort(compareAttacks);
+            w.meleeList = w.meleeList.filter(i => displaySelected(i, hideInactive)).sort(compareAttacks);
+            w.rangedList = w.rangedList.filter(i => displaySelected(i, hideInactive)).sort(compareAttacks);
             return w;
         });
 
