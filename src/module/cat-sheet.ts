@@ -7,6 +7,7 @@ import { getOTFs } from './sheetOTFs.ts';
 import { reactionTableExists, drawReactionRoll} from './reactions.ts';
 import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables.ts';
 import { MODULE_ID } from './constants.ts';
+import { ActorSeetingsForm } from './actorSettingsForm.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
 
@@ -134,8 +135,23 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     })
   }
 
+  static openConfig(){
+    const form = new ActorSeetingsForm(this.actor);
+    form.render(true);
+  }
+
   getCustomHeaderButtons() {
     let buttons = super.getCustomHeaderButtons();
+    
+    buttons.push(
+        {
+            label: "Sheet config.",
+            class: 'config',
+            icon: 'fas fa-cog',
+            onclick: SLCatSheet.openConfig.bind(this),
+          }
+
+    );
 
     return buttons;
   }

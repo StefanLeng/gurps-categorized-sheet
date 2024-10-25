@@ -32,3 +32,7 @@ export function removeArrayItem<T>(arr: Array<T>, value: T): Array<T> {
   }
   return arr;
 }
+
+export function removeArryDuplicates<T> (arr : T[]) : T[] {
+    return arr.filter((v, i) => i === arr.indexOf(v));
+}

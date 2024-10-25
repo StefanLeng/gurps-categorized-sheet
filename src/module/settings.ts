@@ -2,12 +2,14 @@ import { MyRollTable } from './rollTables.ts';
 import { skillCategories, adsCategories} from "./constants.ts";
 import { CategoryList, CATEGORIES  } from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINS } from './constants.ts';
+import { removeArryDuplicates } from './util.ts';
 
 type RollTables = {
     [k in MyRollTable] : string
 }
 
 export type CatSheetSettings = {
+    version : string;
     rollTables : RollTables,
     items : {
         [index : string] : CategoryList, 
@@ -19,6 +21,7 @@ export type CatSheetSettings = {
 }
 
 export const defaultSettings : CatSheetSettings = {
+    version : '0.0.0',
     rollTables : {
         "Critical Hit" : "Critical Hit" , 
         "Critical Miss" :  "Critical Miss", 
@@ -36,14 +39,22 @@ export const defaultSettings : CatSheetSettings = {
 function sortTraits(cat : CategoryList) : CategoryList{
     const newcat = {...cat} 
     CATEGORIES.forEach(c => {
-        newcat[c].sort();
+        newcat[c] = removeArryDuplicates(newcat[c]).sort();
     });
     return newcat;
 }
 
-export function getSettings() : CatSheetSettings {
-    const settings = game.settings.get(MODULE_ID, CAT_SHEET_SETTINS);
+function migrateSetting (settings : CatSheetSettings){
+    if (foundry.utils.isNewerVersion('0.3.0', settings.version ?? '0.0.0'))
+    {
+        return {...settings, version : '0.3.0'};
+    }
     return settings;
+}
+
+export function getSettings() : CatSheetSettings {
+    const settings = game.settings.get(MODULE_ID, CAT_SHEET_SETTINS) ?? defaultSettings;
+    return migrateSetting(settings);
 }
 
 export function sortCategorieSettings(settings : CatSheetSettings) : CatSheetSettings{

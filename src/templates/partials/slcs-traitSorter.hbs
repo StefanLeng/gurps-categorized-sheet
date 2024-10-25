@@ -3,17 +3,21 @@
             <div class="scls-trait-container">
                 <div class='slcs-header'>
                     <div class="slcs-label">{{@key}}</div>
-                    <button type="button" title="Add" data-action="addItem" data-category="{{@key}}" data-type="{{../type}}" class="slsc-icon-button">
-                        <i class="fas fa-plus"></i>
-                    </button>                
+                    {{#unless ../limitedEditing}}
+                        <button type="button" title="Add" data-action="addItem" data-category="{{@key}}" data-type="{{../type}}" class="slsc-icon-button">
+                            <i class="fas fa-plus"></i>
+                        </button> 
+                    {{/unless}}               
                 </div>
                 <div id="slcs-{{../type}}-{{@key}}" class="slcs-trait-list" data-category="{{@key}}" data-type="{{../type}}">
                     {{#each cat as |item|}}
                         <div class="itemrow" data-category="{{@../key}}" data-index="{{@index}}" data-type="{{../../type}}">
-                            <input name='settings.items.{{../../type}}.{{@../key}}' class='slcs-input' type='text' value='{{item}}' />
-                            <button type="button" title="Delete" data-action="deleteItem" data-category="{{@../key}}" data-index="{{@index}}" data-type="{{../../type}}" class="slsc-icon-button">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <input name='settings.items.{{../../type}}.{{@../key}}' class='slcs-input' type='text' value='{{item}}'  {{disabled (or ../../limitedEditing ../limitedEditing) }} />
+                            {{#unless (or ../../limitedEditing ../limitedEditing)}}
+                                <button type="button" title="Delete" data-action="deleteItem" data-category="{{@../key}}" data-index="{{@index}}" data-type="{{../../type}}" class="slsc-icon-button">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            {{/unless}}  
                         </div>
                     {{/each}}
                 </div>

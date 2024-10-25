@@ -1,4 +1,4 @@
-export type sheetOTF = {
+export type SheetOTF = {
     region : string,
     modifier : string,
     flags? :{

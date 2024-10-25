@@ -1,7 +1,7 @@
-import { sheetOTF } from './types.ts';
+import { SheetOTF } from './types.ts';
 import { getMergedSettings } from './actor-settings.ts';
 
-const defenceMods : sheetOTF[]=
+const defenceMods : SheetOTF[]=
 [
     {region : "defence", modifier: '["+3 to Dodge (retreat)"+3 to Dodge (retreat)]'},
     {region : "defence", modifier: '["+1 to Block/Parry (retreat)"+1 to Block/Parry (retreat)]'},
@@ -80,15 +80,15 @@ const defenceMods : sheetOTF[]=
     {region : "reactions", modifier: '["-2 Repeated attempt" -2 Repeated attempt]'},
 ];
 
-function isSkillReqeuiementFullfilld(mod : sheetOTF, actor : any) : boolean{
+function isSkillReqeuiementFullfilld(mod : SheetOTF, actor : any) : boolean{
     return mod.skillRequiered ? mod.skillRequiered.length === 0 || mod.skillRequiered.some( i => !!GURPS.findSkillSpell(actor, i)) : true;
 }
 
-function isTraitReqeuiementFullfilld(mod : sheetOTF, actor : any) : boolean{
+function isTraitReqeuiementFullfilld(mod : SheetOTF, actor : any) : boolean{
     return mod.traitRequiered ? mod.traitRequiered.length === 0 || mod.traitRequiered.some( i => !!GURPS.findAdDisad (actor, i)) : true;
 }
 
-function noForbiddenTraits(mod : sheetOTF, actor : any) : boolean{
+function noForbiddenTraits(mod : SheetOTF, actor : any) : boolean{
     return mod.traitsForbidden ? mod.traitsForbidden.length === 0 || !mod.traitsForbidden.some( i => !!GURPS.findAdDisad (actor, i)) : true;
 }
 

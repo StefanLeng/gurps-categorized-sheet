@@ -3,6 +3,7 @@ import { MODULE_ID,CAT_SHEET_SETTINS } from "./constants.ts";
 import { CatSheetSettings, getSettings } from "./settings.ts";
 
 export type CatSheetActorSettings = {
+    version : string;
     addedItems : {
         [index : string] : CategoryList, 
         skills : CategoryList,
@@ -13,8 +14,8 @@ export type CatSheetActorSettings = {
         skills : CategoryList,
         traits : CategoryList,
     }
-    allowExtraEffort? : boolean,
-    hideInactiveAttacks? : boolean,
+    allowExtraEffort : boolean | null,
+    hideInactiveAttacks : boolean | null,
 }
 
 const emptyList : CategoryList = {
@@ -26,6 +27,7 @@ const emptyList : CategoryList = {
 }
 
 const defaultSettings : CatSheetActorSettings = {
+    version : '0.3.0',
     addedItems : {
         skills : emptyList,
         traits : emptyList,
@@ -34,11 +36,21 @@ const defaultSettings : CatSheetActorSettings = {
         skills : emptyList,
         traits : emptyList,
     },
+    allowExtraEffort :  null,
+    hideInactiveAttacks :  null,
+}
+
+function migrateSetting (settings : CatSheetActorSettings){
+    if (foundry.utils.isNewerVersion('0.3.0', settings.version ?? '0.0.0'))
+    {
+        return {...settings, version : '0.3.0'};
+    }
+    return settings;
 }
 
 export function getActorSettings(actor : Actor) : CatSheetActorSettings {
-    const settings = actor.getFlag(MODULE_ID, CAT_SHEET_SETTINS) as CatSheetActorSettings | undefined;
-    return settings ?? defaultSettings;
+    const settings = (actor.getFlag(MODULE_ID, CAT_SHEET_SETTINS) ?? defaultSettings) as CatSheetActorSettings;
+    return migrateSetting(settings);
 }
 
 export function setActorSettings(actor : Actor, settings : CatSheetActorSettings) {
@@ -46,21 +58,22 @@ export function setActorSettings(actor : Actor, settings : CatSheetActorSettings
 }
 
 export function mergeSettings(settings : CatSheetSettings, actorSettings : CatSheetActorSettings) : CatSheetSettings {
-    settings.allowExtraEffort = actorSettings.allowExtraEffort ?? settings.allowExtraEffort;
-    settings.hideInactiveAttacks = actorSettings.hideInactiveAttacks ?? settings.hideInactiveAttacks;
+    const newSettings = foundry.utils.deepClone(settings);
+    newSettings.allowExtraEffort = actorSettings.allowExtraEffort ?? newSettings.allowExtraEffort;
+    newSettings.hideInactiveAttacks = actorSettings.hideInactiveAttacks ?? newSettings.hideInactiveAttacks;
     CATEGORIES.forEach(cat => {
         
-        settings.items.skills[cat] = 
-            settings.items.skills[cat]
+        newSettings.items.skills[cat] = 
+            newSettings.items.skills[cat]
             .filter( i => !actorSettings.removedItems.skills[cat].some(x => x === i))
             .concat(actorSettings.addedItems.skills[cat]);
         
-        settings.items.traits[cat] = 
-            settings.items.traits[cat]
+        newSettings.items.traits[cat] = 
+            newSettings.items.traits[cat]
             .filter( i => !actorSettings.removedItems.traits[cat].some(x => x === i))
             .concat(actorSettings.addedItems.traits[cat]);
     });
-    return settings;
+    return newSettings;
 }
 
 export function getMergedSettings(actor : Actor) : CatSheetSettings {

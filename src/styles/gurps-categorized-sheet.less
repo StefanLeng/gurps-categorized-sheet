@@ -684,11 +684,10 @@
     }
 }
 
-#slcs-settingsForm{
+#slcs-settingsForm, #slcs-actorSettingsForm{
  
     .slcs-settingsBlock{
         display: grid;
-        grid-template-columns: 0fr 1fr;
         padding-top: var(--sectiongap);
         padding-bottom: var(--sectiongap);
         gap: var(--sectiongap);
@@ -696,6 +695,7 @@
         .label {
             min-width: 200px;
             white-space: normal;
+            text-align: right;
         }    
     }
 
@@ -734,7 +734,6 @@
 
         .sortingArea {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
             height: 100%;
             padding-top: var(--sectiongap);
             padding-bottom: var(--sectiongap);
@@ -758,5 +757,33 @@
                 gap: 0.2em;
             }
         }
+    }
+}
+    
+#slcs-settingsForm{
+ 
+    .slcs-settingsBlock{
+        grid-template-columns: 0fr 1fr;
+    }
+
+    section.slcs-sortingTab {
+
+        .sortingArea {
+            grid-template-columns: repeat(5, 1fr);
+        }            
+    }
+}
+
+#slcs-actorSettingsForm{
+
+    .slcs-settingsBlock{
+        grid-template-columns: 0fr 0fr 0fr 1fr;
+    }
+
+    section.slcs-sortingTab {
+
+        .sortingArea {
+            grid-template-columns: repeat(6, 1fr);
+        }            
     }
 }
