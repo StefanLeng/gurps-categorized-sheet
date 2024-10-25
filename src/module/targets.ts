@@ -1,29 +1,28 @@
 import { convertModifiers } from './util.js';
 
-interface Hitlocation{
-    where: string,
-    dr: string,
-    penalty: string,
-    split?:{
-        [index: string]: number,
-    }
+interface Hitlocation {
+    where: string;
+    dr: string;
+    penalty: string;
+    split?: {
+        [index: string]: number;
+    };
 }
-interface Target{
-    name: string,
-    targetmodifiers: {mod:string}[],
+interface Target {
+    name: string;
+    targetmodifiers: { mod: string }[];
     hitlocations: {
-        [index: string]: Hitlocation,
-    },
+        [index: string]: Hitlocation;
+    };
 }
 
-function getToken(actor :Actor){
-    let tokens : TokenDocument[] = game.scenes.current.tokens.filter((d : TokenDocument) => d.actorId === actor.id);
-    if(tokens.length = 1)
-      return tokens[0].object;
+function getToken(actor: Actor) {
+    const tokens: TokenDocument[] = game.scenes.current.tokens.filter((d: TokenDocument) => d.actorId === actor.id);
+    if ((tokens.length = 1)) return tokens[0].object;
     return undefined;
 }
 
-function calculateRange(token1 : Token | null | undefined, token2 : Token | null | undefined) {
+function calculateRange(token1: Token | null | undefined, token2: Token | null | undefined) {
     if (!token1 || !token2) return undefined;
     if (token1 == token2) return undefined;
 
@@ -39,34 +38,34 @@ function calculateRange(token1 : Token | null | undefined, token2 : Token | null
     const dist = Math.sqrt(horizontalDistance ** 2 + verticalDistance ** 2) - 1;
     const yards = ruler.convert_to_yards(dist, canvas.scene?.grid.units);
     return {
-      yards: Math.ceil(dist),
-      modifier: ruler.yardsToSpeedRangePenalty(yards),
-    }
-  }
+        yards: Math.ceil(dist),
+        modifier: ruler.yardsToSpeedRangePenalty(yards),
+    };
+}
 
-export function targets(actor : Actor, ranged : boolean) {
-    let results = [];
+export function targets(actor: Actor, ranged: boolean) {
+    const results = [];
     for (const target of Array.from(game.user.targets as Set<Token>)) {
-      let result : Target = {name :"", targetmodifiers: [], hitlocations: {}};
-      result.name = target.name;
- 
-      if (target.actor){
-        const system = target.actor.system as any;
-    
-        result.targetmodifiers = target.actor
-            ? convertModifiers(system.conditions.target.modifiers)
-            : [];
-        
-        result.hitlocations = system.hitlocations;
-      }
-      if (ranged){
-        let mod = calculateRange(getToken(actor), target);
-        if (mod && mod.modifier !== 0)
-          result.targetmodifiers.push(
-            {mod: GURPS.gurpslink(`[${mod.modifier} range to target ${target.actor?.name} (${mod.yards} ${canvas.scene?.grid.units})]`)}
-          )
-      }
-      results.push(result);
+        const result: Target = { name: '', targetmodifiers: [], hitlocations: {} };
+        result.name = target.name;
+
+        if (target.actor) {
+            const system = target.actor.system as any;
+
+            result.targetmodifiers = target.actor ? convertModifiers(system.conditions.target.modifiers) : [];
+
+            result.hitlocations = system.hitlocations;
+        }
+        if (ranged) {
+            const mod = calculateRange(getToken(actor), target);
+            if (mod && mod.modifier !== 0)
+                result.targetmodifiers.push({
+                    mod: GURPS.gurpslink(
+                        `[${mod.modifier} range to target ${target.actor?.name} (${mod.yards} ${canvas.scene?.grid.units})]`,
+                    ),
+                });
+        }
+        results.push(result);
     }
     return results;
-  }
+}

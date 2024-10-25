@@ -21,40 +21,40 @@ import { registerHandlebarsPartials, registerHandlebarsHelpers } from './handleb
 
 // Initialize module
 Hooks.once('gurpsinit', async () => {
-  console.log('gurps-categorized-sheet | Initializing gurps-categorized-sheet');
+    console.log('gurps-categorized-sheet | Initializing gurps-categorized-sheet');
 
-  // Assign custom classes and constants here
+    // Assign custom classes and constants here
 
-  // Register custom module settings
-  registerSettings();
+    // Register custom module settings
+    registerSettings();
 
-  registerHandlebarsHelpers();
+    registerHandlebarsHelpers();
 
-  registerHandlebarsPartials();
-  
-  // Preload Handlebars templates
-  await preloadTemplates();
+    registerHandlebarsPartials();
 
-  //need to do the dynamic import from a variable to keep rollup from bundling it
-  const sheetModuel = './cat-sheet.js';
-  const SLCatSheet = (await import(sheetModuel)).default;
+    // Preload Handlebars templates
+    await preloadTemplates();
 
-   Actors.registerSheet('gurps', SLCatSheet, {
-    types: ['enemy', 'character'],
-    label: 'Categorized Sheet',
-    makeDefault: false,
-  })
+    //need to do the dynamic import from a variable to keep rollup from bundling it
+    const sheetModuel = './cat-sheet.js';
+    const SLCatSheet = (await import(sheetModuel)).default;
+
+    Actors.registerSheet('gurps', SLCatSheet, {
+        types: ['enemy', 'character'],
+        label: 'Categorized Sheet',
+        makeDefault: false,
+    });
 });
 
 // Setup module
 Hooks.once('setup', async () => {
-  // Do anything after initialization but before
-  // ready
+    // Do anything after initialization but before
+    // ready
 });
 
 // When ready
 Hooks.once('ready', async () => {
-  // Do anything once the module is ready
+    // Do anything once the module is ready
 });
 
 // Add any additional hooks if necessary

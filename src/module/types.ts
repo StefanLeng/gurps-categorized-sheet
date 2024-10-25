@@ -1,20 +1,20 @@
 export type SheetOTF = {
-    region : string,
-    modifier : string,
-    flags? :{
-        [index: string] : boolean
-    },
-    skillRequiered?: string[],
-    traitRequiered?: string[],
-    traitsForbidden?: string[],
-}
+    region: string;
+    modifier: string;
+    flags?: {
+        [index: string]: boolean;
+    };
+    skillRequiered?: string[];
+    traitRequiered?: string[];
+    traitsForbidden?: string[];
+};
 
-export const  CATEGORIES = ["combat" , "exploration", "social", "powers", "technical"] as const;
+export const CATEGORIES = ['combat', 'exploration', 'social', 'powers', 'technical'] as const;
 
 type Cat_tuple = typeof CATEGORIES;
 
 export type categories = Cat_tuple[number];
 
 export interface CategoryList {
-    [categories: string]:  Array<string>;
+    [categories: string]: Array<string>;
 }

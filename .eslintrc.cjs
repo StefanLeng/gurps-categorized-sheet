@@ -6,6 +6,8 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
 
+  files: ["**/*.ts", "**/*.tsx, **/*.js, **/*.cjs, **/*.mjs"],
+
   parserOptions: {
     ecmaVersion: 2020,
     extraFileExtensions: ['.cjs', '.mjs'],

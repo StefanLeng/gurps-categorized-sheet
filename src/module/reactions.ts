@@ -1,11 +1,10 @@
-import { rollTableExists, drawTableRoll } from  './rollTables.ts';
+import { rollTableExists, drawTableRoll } from './rollTables.ts';
 
-export function reactionTableExists(){
-    return rollTableExists("Reaction Rolls");
+export function reactionTableExists() {
+    return rollTableExists('Reaction Rolls');
 }
 
 export function drawReactionRoll() {
-    drawTableRoll("Reaction Rolls");
+    drawTableRoll('Reaction Rolls');
     GURPS.ModifierBucket.clear();
 }
-  
