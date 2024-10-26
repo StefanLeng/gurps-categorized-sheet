@@ -1,20 +1,16 @@
 {
   "id": "gurps-categorized-sheet",
   "title": "GURPs Categorized Character Sheet",
-  "description": "<description of the package>",
+  "description": "Additional charcter sheet for the GURPs Game Aid. ",
   "authors": [
     {
-      "name": "Stefan Leng",
-      "email": "<optionally your e-mail address>",
-      "discord": "<optionally your discord username>"
+      "name": "Stefan Leng",      
+      "email": "stefan.leng@gmx.de"
     }
   ],
-  "url": "",
-  "license": "<please choose an appropriate license. https://choosealicense.com/ is a great place to get more information if you are unsure>",
-  "readme": "<optionally the URL to your readme>",
-  "bugs": "<optionally the URL to your issue list>",
-  "changelog": "<optionally the URL to your changelog>",
-  "version": "0.0.0",
+  "url": "This is auto replaced",
+  "license": "LICENSE.txt",
+  "version": "This is auto replaced",
   "compatibility": {
     "minimum": "12",
     "verified": "12"
@@ -35,12 +31,19 @@
     }
   ],
   "relationships": {
-    "systems": [],
+    "systems": [
+        {
+            "id": "gurps",
+            "type": "system",
+            "manifest": "https://raw.githubusercontent.com/crnormand/gurps/release/system.json",
+            "compatibility": {}
+          }    
+    ],
     "requires": [],
     "conflicts": []
   },
   "socket": false,
-  "manifest": "",
-  "download": "https://host/path/to/0.0.0.zip",
+  "manifest": "This is auto replaced",
+  "download": "This is auto replaced",
   "library": false
 }
