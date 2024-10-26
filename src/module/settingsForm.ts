@@ -1,13 +1,11 @@
 import { CatSheetSettings, getSettings, setSettings, sortCategorieSettings } from './settings.ts';
 import { CATEGORIES } from './types.ts';
+import { BasicForm } from './abstractForm.ts';
 
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
-
-class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
+class SeetingsForm extends BasicForm {
     constructor(args: any) {
         super(args);
         this._settings = sortCategorieSettings(foundry.utils.deepClone(getSettings()));
-        this.#dragDrop = this.#createDragDropHandlers();
     }
 
     public _settings;
@@ -39,36 +37,7 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         dragDrop: [{ dragSelector: '.itemrow', dropSelector: '.slcs-trait-list' }],
     };
 
-    #dragDrop: DragDrop[];
-
-    get dragDrop(): DragDrop[] {
-        return this.#dragDrop;
-    }
-
-    #createDragDropHandlers() {
-        return this.options.dragDrop.map((d) => {
-            d.permissions = {
-                dragstart: this._canDragStart.bind(this),
-                drop: this._canDragDrop.bind(this),
-            };
-            d.callbacks = {
-                dragstart: this._onDragStart.bind(this),
-                dragover: this._onDragOver.bind(this),
-                drop: this._onDrop.bind(this),
-            };
-            return new DragDrop(d);
-        });
-    }
-
-    protected _canDragStart(_selector: string): boolean {
-        return true;
-    }
-
-    protected _canDragDrop(_selector: string): boolean {
-        return true;
-    }
-
-    async _onDragStart(event: DragEvent) {
+    override async _onDragStart(event: DragEvent) {
         const item = event.currentTarget as HTMLElement;
         const cat = item.dataset.category;
         const type = item.dataset.type;
@@ -83,9 +52,7 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
-    async _onDragOver(_event: DragEvent) {}
-
-    protected async _onDrop(event: DragEvent) {
+    protected override async _onDrop(event: DragEvent) {
         const data = TextEditor.getDragEventData(event);
         const target = event.currentTarget as HTMLElement;
 
@@ -133,7 +100,7 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         primary: 'general',
     };
 
-    protected _getTabs(): Record<string, Partial<ApplicationTab>> {
+    protected override _getTabs(): Record<string, Partial<ApplicationTab>> {
         return this._markTabs({
             generalTab: {
                 id: 'general',
@@ -156,37 +123,14 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         });
     }
 
-    protected _markTabs(tabs: Record<string, Partial<ApplicationTab>>): Record<string, Partial<ApplicationTab>> {
-        for (const v of Object.values(tabs)) {
-            v.active = this.tabGroups[v.group!] === v.id;
-            v.cssClass = v.active ? 'active' : '';
-            if ('tabs' in v) this._markTabs(v.tabs as Record<string, Partial<ApplicationTab>>);
-        }
-        return tabs;
-    }
-
-    override async _prepareContext(options: ApplicationRenderOptions) {
-        const primaryTabs = Object.fromEntries(
-            Object.entries(this._getTabs()).filter(([_, v]) => v.group === 'primary'),
-        );
+    override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
+        const context = await super._prepareContext(options);
         const settings = this._settings;
         return {
+            ...context,
             settings: settings,
-            primaryTabs,
-            tabs: this._getTabs(),
             buttons: [{ action: 'save', icon: 'fa-solid fa-save', label: 'SETTINGS.Save' }],
         };
-    }
-
-    protected override async _preparePartContext(partId: string, context: Record<string, any>): Promise<object> {
-        context.partId = `${this.id}-${partId}`;
-        context.tab = context.tabs[partId];
-        return context;
-    }
-
-    protected override _onRender(context: object, options: ApplicationRenderOptions): void {
-        super._onRender(context, options);
-        this.#dragDrop.forEach((d) => d.bind(this.element));
     }
 
     protected async _scrollTo(type: string, cat: string, value: string) {

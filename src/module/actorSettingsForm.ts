@@ -1,18 +1,16 @@
-import { getActorSettings, mergeSettings, setActorSettings, CatSheetActorSettings } from './actor-settings.ts';
+import { getActorSettings, mergeSettings, setActorSettings } from './actor-settings.ts';
 import { CATEGORIES } from './types.ts';
 import { getSettings } from './settings.ts';
 import { categorize } from './categorize.ts';
 import { removeArryDuplicates as removeArrayDuplicates } from './util.ts';
+import { BasicForm } from './abstractForm.ts';
 
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
-
-class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
+class ActorSeetingsForm extends BasicForm {
     constructor(actor: Actor) {
-        super();
+        super([]);
         this._actor = actor;
         this._settings = foundry.utils.deepClone(getActorSettings(actor));
         this._items = { skills: {}, traits: {} };
-        this.#dragDrop = this.#createDragDropHandlers();
         this._globalSetting = getSettings();
     }
 
@@ -46,42 +44,11 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         },
         actions: {
             save: this.#onSave,
-            addItem: this.#onAddItem,
-            deleteItem: this.#deleteItem,
         },
         dragDrop: [{ dragSelector: '.itemrow', dropSelector: '.slcs-trait-list' }],
     };
 
-    #dragDrop: DragDrop[];
-
-    get dragDrop(): DragDrop[] {
-        return this.#dragDrop;
-    }
-
-    #createDragDropHandlers() {
-        return this.options.dragDrop.map((d) => {
-            d.permissions = {
-                dragstart: this._canDragStart.bind(this),
-                drop: this._canDragDrop.bind(this),
-            };
-            d.callbacks = {
-                dragstart: this._onDragStart.bind(this),
-                dragover: this._onDragOver.bind(this),
-                drop: this._onDrop.bind(this),
-            };
-            return new DragDrop(d);
-        });
-    }
-
-    protected _canDragStart(_selector: string): boolean {
-        return true;
-    }
-
-    protected _canDragDrop(_selector: string): boolean {
-        return true;
-    }
-
-    async _onDragStart(event: DragEvent) {
+    override async _onDragStart(event: DragEvent) {
         const item = event.currentTarget as HTMLElement;
         const cat = item.dataset.category;
         const type = item.dataset.type;
@@ -95,8 +62,6 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
             event.dataTransfer?.setData('text/plain', JSON.stringify(dragData));
         }
     }
-
-    async _onDragOver(_event: DragEvent) {}
 
     private addItemToCategory(type: string, cat: string, val: string) {
         if (cat != 'others') {
@@ -118,7 +83,7 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
-    protected async _onDrop(event: DragEvent) {
+    protected override async _onDrop(event: DragEvent) {
         const data = TextEditor.getDragEventData(event);
         const target = event.currentTarget as HTMLElement;
         const sourceCat = data.category as string;
@@ -164,7 +129,7 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         primary: 'general',
     };
 
-    protected _getTabs(): Record<string, Partial<ApplicationTab>> {
+    protected override _getTabs(): Record<string, Partial<ApplicationTab>> {
         return this._markTabs({
             generalTab: {
                 id: 'general',
@@ -187,18 +152,8 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         });
     }
 
-    protected _markTabs(tabs: Record<string, Partial<ApplicationTab>>): Record<string, Partial<ApplicationTab>> {
-        for (const v of Object.values(tabs)) {
-            v.active = this.tabGroups[v.group!] === v.id;
-            v.cssClass = v.active ? 'active' : '';
-            if ('tabs' in v) this._markTabs(v.tabs as Record<string, Partial<ApplicationTab>>);
-        }
-        return tabs;
-    }
-    override async _prepareContext(options: ApplicationRenderOptions) {
-        const primaryTabs = Object.fromEntries(
-            Object.entries(this._getTabs()).filter(([_, v]) => v.group === 'primary'),
-        );
+    override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
+        const context = await super._prepareContext(options);
         const mergedSettings = mergeSettings(this._globalSetting, this._settings);
         const actorData = this._actor.system as any;
         // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -219,24 +174,12 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         ).map((i: any) => i.name);
 
         return {
+            ...context,
             globalSettings: this._globalSetting,
             settings: this._settings,
             items: this._items,
-            primaryTabs,
-            tabs: this._getTabs(),
             buttons: [{ action: 'save', icon: 'fa-solid fa-save', label: 'SETTINGS.Save' }],
         };
-    }
-
-    protected override async _preparePartContext(partId: string, context: Record<string, any>): Promise<object> {
-        context.partId = `${this.id}-${partId}`;
-        context.tab = context.tabs[partId];
-        return context;
-    }
-
-    protected override _onRender(context: object, options: ApplicationRenderOptions): void {
-        super._onRender(context, options);
-        this.#dragDrop.forEach((d) => d.bind(this.element));
     }
 
     protected async _scrollTo(type: string, cat: string, value: string) {
@@ -256,28 +199,6 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         event.preventDefault();
         setActorSettings(this._actor, this._settings);
         this.close();
-    }
-
-    static async #onAddItem(this: ActorSeetingsForm, event: Event, target: HTMLElement): Promise<void> {
-        event.preventDefault();
-        const cat = target.dataset.category;
-        const type = target.dataset.type;
-        if (cat && type) {
-            //this._settings.items[type][cat].push("");
-            await this.render();
-            this._scrollToAndFocus(type, cat, '');
-        }
-    }
-
-    static async #deleteItem(this: ActorSeetingsForm, event: Event, target: HTMLElement): Promise<void> {
-        event.preventDefault();
-        const cat = target.dataset.category;
-        const i = Number(target.dataset.index);
-        const type = target.dataset.type;
-        if (cat && !isNaN(i) && type) {
-            //this._settings.items[type][cat].splice(i, 1);;
-            this.render();
-        }
     }
 
     /**
@@ -309,11 +230,6 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
         }
         this.render();
     }
-}
-
-interface ActorSeetingsForm {
-    constructor: typeof ActorSeetingsForm;
-    options: DocumentSheetConfiguration & { dragDrop: DragDropConfiguration[] };
 }
 
 export { ActorSeetingsForm };
