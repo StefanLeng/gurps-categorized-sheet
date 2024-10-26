@@ -1,5 +1,4 @@
 import { CatSheetSettings, getSettings, setSettings, sortCategorieSettings } from './settings.ts';
-import { CATEGORIES } from './types.ts';
 import { BaseSeetingsForm } from './baseSettingsForm.ts';
 
 class SeetingsForm extends BaseSeetingsForm {
@@ -44,32 +43,14 @@ class SeetingsForm extends BaseSeetingsForm {
         return this._settings.items[type][sourceCat][index];
     }
 
-    static override PARTS = {
-        navigation: {
-            template: 'modules/gurps-categorized-sheet/templates/slcs-nav.hbs',
-        },
-        generalTab: {
-            template: 'modules/gurps-categorized-sheet/templates/settingsFormGeneral.hbs',
-        },
-        skillsTab: {
-            template: 'modules/gurps-categorized-sheet/templates/settingsFormSkills.hbs',
-            scrollable: CATEGORIES.map((i) => `#slcs-skills-${i}`),
-        },
-        traitsTab: {
-            template: 'modules/gurps-categorized-sheet/templates/settingsFormTraits.hbs',
-            scrollable: CATEGORIES.map((i) => `#slcs-traits-${i}`),
-        },
-        footer: {
-            template: 'templates/generic/form-footer.hbs',
-        },
-    };
-
     override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
         const context = await super._prepareContext(options);
         const settings = this._settings;
         return {
             ...context,
             settings: settings,
+            skills: this._settings.items.skills,
+            traits: this._settings.items.traits,
         };
     }
 
@@ -104,15 +85,15 @@ class SeetingsForm extends BaseSeetingsForm {
     /**
      * Process form submission for the sheet
      * @this {MyApplication}                      The handler is called with the application as its bound scope
-     * @param {SubmitEvent} event                   The originating form submission event
-     * @param {HTMLFormElement} form                The form element that was submitted
+     * @param {SubmitEvent} _event                   The originating form submission event
+     * @param {HTMLFormElement} _form                The form element that was submitted
      * @param {FormDataExtended} formData           Processed data for the submitted form
      * @returns {Promise<void>}
      */
     static override async settingsFormHandler(
         this: SeetingsForm,
-        event: Event | SubmitEvent,
-        form: HTMLFormElement,
+        _event: Event | SubmitEvent,
+        _form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
         // Do things with the returned FormData

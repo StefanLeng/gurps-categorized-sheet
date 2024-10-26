@@ -65,14 +65,14 @@ abstract class BaseSeetingsForm extends BasicForm {
             template: 'modules/gurps-categorized-sheet/templates/slcs-nav.hbs',
         },
         generalTab: {
-            template: 'modules/gurps-categorized-sheet/templates/actorSettingsFormGeneral.hbs',
+            template: 'modules/gurps-categorized-sheet/templates/settingsFormGeneral.hbs',
         },
         skillsTab: {
-            template: 'modules/gurps-categorized-sheet/templates/actorSettingsFormSkills.hbs',
+            template: 'modules/gurps-categorized-sheet/templates/settingsFormSkills.hbs',
             scrollable: CATEGORIES.map((i) => `#slcs-skills-${i}`),
         },
         traitsTab: {
-            template: 'modules/gurps-categorized-sheet/templates/actorSettingsFormTraits.hbs',
+            template: 'modules/gurps-categorized-sheet/templates/settingsFormTraits.hbs',
             scrollable: CATEGORIES.map((i) => `#slcs-traits-${i}`),
         },
         footer: {
@@ -132,16 +132,16 @@ abstract class BaseSeetingsForm extends BasicForm {
     /**
      * Process form submission for the sheet
      * @this {MyApplication}                      The handler is called with the application as its bound scope
-     * @param {SubmitEvent} event                   The originating form submission event
-     * @param {HTMLFormElement} form                The form element that was submitted
-     * @param {FormDataExtended} formData           Processed data for the submitted form
+     * @param {SubmitEvent} _event                   The originating form submission event
+     * @param {HTMLFormElement} _form                The form element that was submitted
+     * @param {FormDataExtended} _formData           Processed data for the submitted form
      * @returns {Promise<void>}
      */
     static async settingsFormHandler(
         this: BaseSeetingsForm,
-        event: Event | SubmitEvent,
-        form: HTMLFormElement,
-        formData: FormDataExtended,
+        _event: Event | SubmitEvent,
+        _form: HTMLFormElement,
+        _formData: FormDataExtended,
     ) {
         this.render();
     }

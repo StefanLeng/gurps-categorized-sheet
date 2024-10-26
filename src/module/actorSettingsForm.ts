@@ -64,26 +64,6 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         return this._items[type][sourceCat][index];
     }
 
-    static override PARTS = {
-        navigation: {
-            template: 'modules/gurps-categorized-sheet/templates/slcs-nav.hbs',
-        },
-        generalTab: {
-            template: 'modules/gurps-categorized-sheet/templates/actorSettingsFormGeneral.hbs',
-        },
-        skillsTab: {
-            template: 'modules/gurps-categorized-sheet/templates/actorSettingsFormSkills.hbs',
-            scrollable: CATEGORIES.map((i) => `#slcs-skills-${i}`),
-        },
-        traitsTab: {
-            template: 'modules/gurps-categorized-sheet/templates/actorSettingsFormTraits.hbs',
-            scrollable: CATEGORIES.map((i) => `#slcs-traits-${i}`),
-        },
-        footer: {
-            template: 'templates/generic/form-footer.hbs',
-        },
-    };
-
     override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
         const context = await super._prepareContext(options);
         const mergedSettings = mergeSettings(this._globalSetting, this._settings);
@@ -109,7 +89,9 @@ class ActorSeetingsForm extends BaseSeetingsForm {
             ...context,
             globalSettings: this._globalSetting,
             settings: this._settings,
-            items: this._items,
+            skills: this._items.skills,
+            traits: this._items.traits,
+            limitedEditing: true,
         };
     }
 
@@ -122,15 +104,15 @@ class ActorSeetingsForm extends BaseSeetingsForm {
     /**
      * Process form submission for the sheet
      * @this {MyApplication}                      The handler is called with the application as its bound scope
-     * @param {SubmitEvent} event                   The originating form submission event
-     * @param {HTMLFormElement} form                The form element that was submitted
+     * @param {SubmitEvent} _event                   The originating form submission event
+     * @param {HTMLFormElement} _form                The form element that was submitted
      * @param {FormDataExtended} formData           Processed data for the submitted form
      * @returns {Promise<void>}
      */
     static override async settingsFormHandler(
         this: ActorSeetingsForm,
-        event: Event | SubmitEvent,
-        form: HTMLFormElement,
+        _event: Event | SubmitEvent,
+        _form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
         // Do things with the returned FormData

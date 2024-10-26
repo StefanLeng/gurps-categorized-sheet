@@ -80,7 +80,7 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         return tabs;
     }
 
-    override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
+    override async _prepareContext(_options: ApplicationRenderOptions): Promise<object> {
         const primaryTabs = Object.fromEntries(
             Object.entries(this._getTabs()).filter(([_, v]) => v.group === 'primary'),
         );
@@ -104,16 +104,16 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
     /**
      * Process form submission for the sheet
      * @this {MyApplication}                      The handler is called with the application as its bound scope
-     * @param {SubmitEvent} event                   The originating form submission event
-     * @param {HTMLFormElement} form                The form element that was submitted
-     * @param {FormDataExtended} formData           Processed data for the submitted form
+     * @param {SubmitEvent} _event                   The originating form submission event
+     * @param {HTMLFormElement} _form                The form element that was submitted
+     * @param {FormDataExtended} _formData           Processed data for the submitted form
      * @returns {Promise<void>}
      */
     static async formHandler(
         this: BaseForm,
-        event: Event | SubmitEvent,
-        form: HTMLFormElement,
-        formData: FormDataExtended,
+        _event: Event | SubmitEvent,
+        _form: HTMLFormElement,
+        _formData: FormDataExtended,
     ) {
         this.render();
     }
