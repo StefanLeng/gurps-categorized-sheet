@@ -1,8 +1,8 @@
 import { CatSheetSettings, getSettings, setSettings, sortCategorieSettings } from './settings.ts';
 import { CATEGORIES } from './types.ts';
-import { BasicForm } from './abstractForm.ts';
+import { BaseSeetingsForm } from './baseSettingsForm.ts';
 
-class SeetingsForm extends BasicForm {
+class SeetingsForm extends BaseSeetingsForm {
     constructor(args: any) {
         super(args);
         this._settings = sortCategorieSettings(foundry.utils.deepClone(getSettings()));
@@ -10,7 +10,7 @@ class SeetingsForm extends BasicForm {
 
     public _settings;
 
-    static override DEFAULT_OPTIONS: Partial<DocumentSheetConfiguration> & { dragDrop: DragDropConfiguration[] } = {
+    static override DEFAULT_OPTIONS = {
         id: 'slcs-settingsForm',
         tag: 'form',
         form: {
@@ -18,61 +18,30 @@ class SeetingsForm extends BasicForm {
             submitOnChange: true,
             closeOnSubmit: false,
         },
-        position: {
-            width: 1200,
-            height: 640,
-        },
         window: {
-            icon: 'fas fa-gear', // You can now add an icon to the header
             title: 'Categorized Character Sheet configuration',
             controls: [],
-            contentClasses: ['standard-form', 'slcs-form'],
-            resizable: true,
         },
         actions: {
             save: this.#onSave,
             addItem: this.#onAddItem,
             deleteItem: this.#deleteItem,
         },
-        dragDrop: [{ dragSelector: '.itemrow', dropSelector: '.slcs-trait-list' }],
     };
 
-    override async _onDragStart(event: DragEvent) {
-        const item = event.currentTarget as HTMLElement;
-        const cat = item.dataset.category;
-        const type = item.dataset.type;
-        const i = Number(item.dataset.index);
-        if (cat && !isNaN(i) && type) {
-            const dragData = {
-                category: cat,
-                index: i,
-                type: type,
-            };
-            event.dataTransfer?.setData('text/plain', JSON.stringify(dragData));
+    protected override addItemToCategory(type: string, cat: string, val: string) {
+        if (!this._settings.items[type][cat].some((i) => i === val)) {
+            this._settings.items[type][cat].push(val);
         }
+        this._settings = sortCategorieSettings(this._settings);
     }
 
-    protected override async _onDrop(event: DragEvent) {
-        const data = TextEditor.getDragEventData(event);
-        const target = event.currentTarget as HTMLElement;
+    protected override removeItemFromCategory(type: string, cat: string, val: string) {
+        this._settings.items[type][cat] = this._settings.items[type][cat].filter((i) => i != val);
+    }
 
-        const sourceCat = data.category as string;
-        const targetCat = target.dataset.category as string;
-        const index = data.index as number;
-        const type = data.type as string;
-        if (sourceCat && targetCat) {
-            if (sourceCat === targetCat) return;
-            const val = this._settings.items[type][sourceCat][index];
-            if (val != undefined && val != null) {
-                if (!event.shiftKey) {
-                    this._settings.items[type][sourceCat].splice(index, 1);
-                }
-                this._settings.items[type][targetCat].push(val);
-                this._settings = sortCategorieSettings(this._settings);
-                await this.render();
-                this._scrollTo(type, targetCat, val);
-            }
-        }
+    protected override getItemValue(type: string, sourceCat: string, index: number) {
+        return this._settings.items[type][sourceCat][index];
     }
 
     static override PARTS = {
@@ -95,55 +64,13 @@ class SeetingsForm extends BasicForm {
         },
     };
 
-    // Set initial values for tabgroups
-    override tabGroups: Record<string, string> = {
-        primary: 'general',
-    };
-
-    protected override _getTabs(): Record<string, Partial<ApplicationTab>> {
-        return this._markTabs({
-            generalTab: {
-                id: 'general',
-                group: 'primary',
-                icon: 'fa-solid fa-cog',
-                label: 'General',
-            },
-            skillsTab: {
-                id: 'skills',
-                group: 'primary',
-                icon: 'fa-solid fa-cog',
-                label: 'Skills',
-            },
-            traitsTab: {
-                id: 'traits',
-                group: 'primary',
-                icon: 'fa-solid fa-cog',
-                label: 'Traits',
-            },
-        });
-    }
-
     override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
         const context = await super._prepareContext(options);
         const settings = this._settings;
         return {
             ...context,
             settings: settings,
-            buttons: [{ action: 'save', icon: 'fa-solid fa-save', label: 'SETTINGS.Save' }],
         };
-    }
-
-    protected async _scrollTo(type: string, cat: string, value: string) {
-        const list = $(this.element).find(`#slcs-${type}-${cat}`);
-        const item = list.find(`input[value="${value}"]`);
-        list.scrollTop(item[0]?.offsetTop ?? 0);
-    }
-
-    protected async _scrollToAndFocus(type: string, cat: string, value: string) {
-        const list = $(this.element).find(`#slcs-${type}-${cat}`);
-        const item = list.find(`input[value="${value}"]`);
-        list.scrollTop(item[0]?.offsetTop ?? 0);
-        item.trigger('focus');
     }
 
     static async #onSave(this: SeetingsForm, event: Event): Promise<void> {
@@ -182,7 +109,7 @@ class SeetingsForm extends BasicForm {
      * @param {FormDataExtended} formData           Processed data for the submitted form
      * @returns {Promise<void>}
      */
-    static async settingsFormHandler(
+    static override async settingsFormHandler(
         this: SeetingsForm,
         event: Event | SubmitEvent,
         form: HTMLFormElement,
@@ -199,10 +126,4 @@ class SeetingsForm extends BasicForm {
         this.render();
     }
 }
-
-interface SeetingsForm {
-    constructor: typeof SeetingsForm;
-    options: DocumentSheetConfiguration & { dragDrop: DragDropConfiguration[] };
-}
-
 export { SeetingsForm };

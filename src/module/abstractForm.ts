@@ -6,7 +6,8 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         this.#dragDrop = this.#createDragDropHandlers();
     }
 
-    static override DEFAULT_OPTIONS: Partial<DocumentSheetConfiguration> & { dragDrop: DragDropConfiguration[] } = {
+    static override DEFAULT_OPTIONS: Partial<DocumentSheetConfiguration> &
+        Partial<{ dragDrop: DragDropConfiguration[] }> = {
         id: '',
         tag: 'form',
         form: {
@@ -25,18 +26,20 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     #createDragDropHandlers() {
-        return this.options.dragDrop.map((d) => {
-            d.permissions = {
-                dragstart: this._canDragStart.bind(this),
-                drop: this._canDragDrop.bind(this),
-            };
-            d.callbacks = {
-                dragstart: this._onDragStart.bind(this),
-                dragover: this._onDragOver.bind(this),
-                drop: this._onDrop.bind(this),
-            };
-            return new DragDrop(d);
-        });
+        return (
+            this.options?.dragDrop?.map((d) => {
+                d.permissions = {
+                    dragstart: this._canDragStart.bind(this),
+                    drop: this._canDragDrop.bind(this),
+                };
+                d.callbacks = {
+                    dragstart: this._onDragStart.bind(this),
+                    dragover: this._onDragOver.bind(this),
+                    drop: this._onDrop.bind(this),
+                };
+                return new DragDrop(d);
+            }) ?? []
+        );
     }
 
     protected _canDragStart(_selector: string): boolean {
@@ -118,7 +121,7 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
 
 interface BaseForm {
     constructor: typeof BaseForm;
-    options: DocumentSheetConfiguration & { dragDrop: DragDropConfiguration[] };
+    options: DocumentSheetConfiguration & Partial<{ dragDrop: DragDropConfiguration[] }>;
 }
 
 export { BaseForm as BasicForm };
