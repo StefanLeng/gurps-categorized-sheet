@@ -97,7 +97,9 @@ class SeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
             if (sourceCat === targetCat) return;
             const val = this._settings.items[type][sourceCat][index];
             if (val != undefined && val != null) {
-                this._settings.items[type][sourceCat].splice(index, 1);
+                if (!event.shiftKey) {
+                    this._settings.items[type][sourceCat].splice(index, 1);
+                }
                 this._settings.items[type][targetCat].push(val);
                 this._settings = sortCategorieSettings(this._settings);
                 await this.render();

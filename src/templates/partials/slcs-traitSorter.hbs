@@ -1,20 +1,22 @@
+<div id="slcs-trait-hint" class="slcs-hint">  Drag and drop to move to another category, hold shift to copy to another category. </div>
+{{#with this as | list | }}
     <div id="slcs-{{type}}" class="sortingArea">
-        {{#each traits as |cat|}}
+        {{#each list.traits as |cat catkey|}}
             <div class="scls-trait-container">
                 <div class='slcs-header'>
                     <div class="slcs-label">{{@key}}</div>
                     {{#unless ../limitedEditing}}
-                        <button type="button" title="Add" data-action="addItem" data-category="{{@key}}" data-type="{{../type}}" class="slsc-icon-button">
+                        <button type="button" title="Add" data-action="addItem" data-category="{{@key}}" data-type="{{list.type}}" class="slsc-icon-button">
                             <i class="fas fa-plus"></i>
                         </button> 
                     {{/unless}}               
                 </div>
-                <div id="slcs-{{../type}}-{{@key}}" class="slcs-trait-list" data-category="{{@key}}" data-type="{{../type}}">
+                <div id="slcs-{{list.type}}-{{@key}}" class="slcs-trait-list" data-category="{{@key}}" data-type="{{list.type}}">
                     {{#each cat as |item|}}
-                        <div class="itemrow" data-category="{{@../key}}" data-index="{{@index}}" data-type="{{../../type}}">
-                            <input name='settings.items.{{../../type}}.{{@../key}}' class='slcs-input' type='text' value='{{item}}'  {{disabled (or ../../limitedEditing ../limitedEditing) }} />
-                            {{#unless (or ../../limitedEditing ../limitedEditing)}}
-                                <button type="button" title="Delete" data-action="deleteItem" data-category="{{@../key}}" data-index="{{@index}}" data-type="{{../../type}}" class="slsc-icon-button">
+                        <div class="itemrow" data-category="{{catkey}}" data-index="{{@index}}" data-type="{{list.type}}">
+                            <input name='settings.items.{{list.type}}.{{catkey}}' class='slcs-input' type='text' value='{{item}}'  {{disabled list.limitedEditing }} />
+                            {{#unless list.limitedEditing}}
+                                <button type="button" title="Delete" data-action="deleteItem" data-category="{{catkey}}" data-index="{{@index}}" data-type="{{list.type}}" class="slsc-icon-button">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             {{/unless}}  
@@ -24,3 +26,4 @@
             </div>
         {{/each}}
     </div>
+{{/with}}

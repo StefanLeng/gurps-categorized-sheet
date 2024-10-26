@@ -2,7 +2,7 @@ import { getActorSettings, mergeSettings, setActorSettings, CatSheetActorSetting
 import { CATEGORIES } from './types.ts';
 import { getSettings } from './settings.ts';
 import { categorize } from './categorize.ts';
-import { removeArryDuplicates } from './util.ts';
+import { removeArryDuplicates as removeArrayDuplicates } from './util.ts';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -98,21 +98,21 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
 
     async _onDragOver(_event: DragEvent) {}
 
-    private removeItemFromCategory(type: string, cat: string, val: string) {
+    private addItemToCategory(type: string, cat: string, val: string) {
         if (cat != 'others') {
-            if (!this._settings.addedItems[type][cat].some((i) => i != val)) {
+            if (!this._settings.addedItems[type][cat].some((i) => i === val)) {
                 this._settings.addedItems[type][cat].push(val);
-                this._settings.addedItems[type][cat] = removeArryDuplicates(this._settings.addedItems[type][cat]);
+                this._settings.addedItems[type][cat] = removeArrayDuplicates(this._settings.addedItems[type][cat]);
             }
             this._settings.removedItems[type][cat] = this._settings.removedItems[type][cat].filter((i) => i != val);
         }
     }
 
-    private addItemToCategory(type: string, cat: string, val: string) {
+    private removeItemFromCategory(type: string, cat: string, val: string) {
         if (cat != 'others') {
-            if (!this._settings.removedItems[type][cat].some((i) => i != val)) {
+            if (!this._settings.removedItems[type][cat].some((i) => i === val)) {
                 this._settings.removedItems[type][cat].push(val);
-                this._settings.removedItems[type][cat] = removeArryDuplicates(this._settings.removedItems[type][cat]);
+                this._settings.removedItems[type][cat] = removeArrayDuplicates(this._settings.removedItems[type][cat]);
             }
             this._settings.addedItems[type][cat] = this._settings.addedItems[type][cat].filter((i) => i != val);
         }
@@ -129,8 +129,10 @@ class ActorSeetingsForm extends HandlebarsApplicationMixin(ApplicationV2) {
             if (sourceCat === targetCat) return;
             const val = this._items[type][sourceCat][index];
             if (val != undefined && val != null) {
-                this.addItemToCategory(type, sourceCat, val);
-                this.removeItemFromCategory(type, targetCat, val);
+                this.addItemToCategory(type, targetCat, val);
+                if (!event.shiftKey) {
+                    this.removeItemFromCategory(type, sourceCat, val);
+                }
                 await this.render();
                 this._scrollTo(type, targetCat, val);
             }

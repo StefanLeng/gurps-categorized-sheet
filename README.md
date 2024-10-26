@@ -40,7 +40,7 @@ I am also very intrested in any sugesstions for additional content that could be
 
 ### Future plans
 
-I cuurrently plan to add the following features:
+I currently plan to add the following features:
 
 1. Configurable OTFs for all tabs.
 
@@ -54,7 +54,7 @@ I cuurrently plan to add the following features:
 
 6. Maybe add some useful tables to various tabs.
 
-When the new GCS based version of the GURPS Game Aid is ready, I plan to build a new version on that basis. There will be muuch more possibilities on the much richer data model, but this will be a near total rewite.
+When the new GCS based version of the GURPS Game Aid is ready, I plan to build a new version on that basis. There will be much more possibilities on the much richer data model, but this will be a near total rewite.
 
 ### Legal
 
