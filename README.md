@@ -62,13 +62,17 @@ The material presented here is my original creation, intended for use with the [
 
 [GURPS](http://www.sjgames.com/gurps) is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This tool is the original creation of Stefan Leng and is released for free distributionunder the permissions granted in the [Steve Jackson Games Online Policy](http://www.sjgames.com/general/online_policy.html)
 
-<!--
+
 ## Installation
 
 This moduel can be installed via the Foundry Package Manager.
 To install it manually, user thhis Manifest URL.
 https://github.com/StefanLeng/gurps-categorized-sheet/releases/latest/download/module.json
--->
+
+## Cahngelog
+
+Initial Release 0.3.0
+This is a beta release. Please report all problems via [GitHub issues](https://github.com/StefanLeng/gurps-categorized-sheet/issues) and attach the character file if possibe.
 
 ## Development
 
