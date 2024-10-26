@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2022 Johannes Loher
 SPDX-License-Identifier: MIT
 -->
 
-# gurps-categorized-sheet
+# GURPs Categorized Character Sheet
 
 This module adds an additional character sheet to the [GURPS Game Aid](https://github.com/crnormand/gurps).
 
