@@ -69,10 +69,14 @@ This moduel can be installed via the Foundry Package Manager.
 To install it manually, user thhis Manifest URL.
 https://github.com/StefanLeng/gurps-categorized-sheet/releases/latest/download/module.json
 
-## Cahngelog
+## Changelog
 
 Initial Release 0.3.0
 This is a beta release. Please report all problems via [GitHub issues](https://github.com/StefanLeng/gurps-categorized-sheet/issues) and attach the character file if possibe.
+
+0.3.1
+Fix for some display issues with characters imported from GCA.
+Fix for missing attacks from weapons in containers.
 
 ## Development
 

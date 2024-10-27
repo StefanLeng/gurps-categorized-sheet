@@ -39,6 +39,7 @@ interface ElementList<TElement> {
 interface Equipment {
     name: string;
     notes: string;
+    contains?: ElementList<Equipment>;
     equipped: boolean;
 }
 
@@ -127,11 +128,24 @@ export function areReachsCompatible(r1: string, r2: string): boolean {
     return false;
 }
 
+function findRecursive(list: ElementList<Equipment> | undefined, fn: (i: Equipment) => boolean): Equipment | undefined {
+    if (!list) return undefined;
+    const listValues = Object.values(list);
+    if (listValues.length === 0) return undefined;
+    const res = listValues.find(fn);
+    if (!!res) return res;
+    for (let i = 0; i < listValues.length; i++) {
+        const r = findRecursive(listValues[i].contains, fn);
+        if (!!r) return r;
+    }
+    return undefined;
+}
+
 /* assumption: notes on the attack are the VTTNotes from the weapon + the notes from the Attack. The part from the attack represent the skill. */
 export function meleeToGrip(equipment: ElementList<Equipment>, melee: keyedMeleeMode): WeaponGrip {
-    const weapon = Object.entries(equipment).find((w) => w[1].name === melee.name);
-    const weaponName = Array.isArray(weapon) ? weapon[1].name : melee.parry ? emptyHand.weaponName : '';
-    const weaponNote = Array.isArray(weapon) ? weapon[1].notes : '';
+    const weapon = findRecursive(equipment, (w) => w.name === melee.name);
+    const weaponName = weapon ? weapon.name : melee.parry ? emptyHand.weaponName : '';
+    const weaponNote = weapon ? weapon.notes : '';
     const note = melee.notes.replace(weaponNote, '').trim();
     const twoHanded = melee.st.includes('†');
     const fixedReach = melee.reach.includes('*') ? melee.reach : null;

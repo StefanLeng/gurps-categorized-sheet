@@ -7,19 +7,19 @@
         <hr />
         <div class='field big rollable' data-path='attributes.PER.value' data-otf='PER'> {{system.attributes.PER.value}}</div>
         <div class='label'>{{i18n 'GURPS.attributesPERNAME'}} ({{i18n 'GURPS.attributesPER'}})</div>
-        {{#if (ne system.vision system.attributes.PER.value)}}
+        {{#if (ne (toNumber system.vision) (toNumber system.attributes.PER.value))}}
             <div class='field rollable' data-path='vision' data-otf='Vision'>{{system.vision}}</div>
             <div class='label'>{{i18n 'GURPS.vision'}}</div>
         {{/if}}
-        {{#if (ne system.hearing system.attributes.PER.value)}}
+        {{#if (ne (toNumber system.hearing) (toNumber system.attributes.PER.value))}}
             <div class='field rollable' data-path='hearing' data-otf='Hearing'>{{system.hearing}}</div>
             <div class='label'>{{i18n 'GURPS.hearing'}}</div>
         {{/if}}
-        {{#if (ne system.tastesmell system.attributes.PER.value)}}
+        {{#if (ne (toNumber system.tastesmell) (toNumber system.attributes.PER.value))}}
             <div class='field rollable' data-path='tastesmell' data-otf='Taste Smell' >{{system.tastesmell}} </div>
             <div class='label'>{{i18n 'GURPS.tastesmell'}}</div>
         {{/if}}
-        {{#if (ne system.touch system.attributes.PER.value)}}
+        {{#if (ne (toNumber system.touch) (toNumber system.attributes.PER.value))}}
             <div class='field rollable' data-path='touch' data-otf='Touch'>{{system.touch}}</div>
             <div class='label'>{{i18n 'GURPS.touch'}}</div>
         {{/if}}
