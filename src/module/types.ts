@@ -1,3 +1,5 @@
+import { Rec } from './recursiveList.ts';
+
 export type SheetOTF = {
     key: string;
     region: string;
@@ -23,16 +25,25 @@ export const OTF_REGIONS = [
     'technical',
 ] as const;
 
-export type otfRegions = (typeof OTF_REGIONS)[number];
+export type OTFRegion = (typeof OTF_REGIONS)[number];
+
+//---------------------------------------------------//
 
 export const CATEGORIES = ['combat', 'exploration', 'social', 'powers', 'technical'] as const;
 
-type Cat_tuple = typeof CATEGORIES;
+export type Category = (typeof CATEGORIES)[number];
 
-export type categories = Cat_tuple[number];
+export type CategoryOrOthers = Category | 'others';
 
-export type categoriesAndOthers = categories | 'others';
+export type CategoryList = {
+    [categories in Category]: Array<string>;
+};
 
-export interface CategoryList {
-    [categories: string]: Array<string>;
+//---------------------------------------------------//
+
+export interface NamedItem {
+    name: string;
 }
+
+export interface Skill extends Rec<Skill>, NamedItem {}
+export interface AddDisad extends Rec<AddDisad>, NamedItem {}

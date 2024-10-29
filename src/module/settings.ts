@@ -1,7 +1,7 @@
 import { MyRollTable } from './rollTables.ts';
 import { skillCategories, adsCategories } from './constants.ts';
 import { CategoryList, CATEGORIES } from './types.ts';
-import { MODULE_ID, CAT_SHEET_SETTINS } from './constants.ts';
+import { MODULE_ID, CAT_SHEET_SETTINS, SYSTEM_ID } from './constants.ts';
 import { removeArryDuplicates } from './util.ts';
 
 type RollTables = {
@@ -68,4 +68,8 @@ export function sortCategorieSettings(settings: CatSheetSettings): CatSheetSetti
 
 export async function setSettings(settings: CatSheetSettings) {
     game.settings.set(MODULE_ID, CAT_SHEET_SETTINS, settings);
+}
+
+export function getSystemSetting(setting: string) {
+    return game.settings.get(SYSTEM_ID, setting);
 }

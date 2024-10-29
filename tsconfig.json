@@ -26,7 +26,7 @@
 		"useDefineForClassFields": true,
 		"noErrorTruncation": true,
 		//"types": ["jest", "jquery", "node"],
-       // "typeRoots": ["node_modules/@types", "types/foundry"],
+        //"typeRoots": ["node_modules/@types", "types/foundry","jest"],
   },
- // "include": ["src"]
+  //"include": ["src"]
 }
