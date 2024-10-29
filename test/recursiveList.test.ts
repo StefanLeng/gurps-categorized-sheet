@@ -1,5 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
-import { Rec, RecursiveList, findRecursive, emptyList, filterRecursive } from '../src/module/recursiveList.ts';
+import {
+    Rec,
+    RecursiveList,
+    findRecursive,
+    emptyList,
+    filterRecursive,
+    flattenList,
+} from '../src/module/recursiveList.ts';
 
 interface TestRec extends Rec<TestRec> {
     name: string;
@@ -81,6 +88,40 @@ describe('filterRecursive', () => {
                         contains: {},
                     },
                 },
+            },
+        });
+    });
+});
+
+describe('flattenList', () => {
+    it('Should return an empty list if given an empty list', () => {
+        expect(flattenList(empty)).toEqual(empty);
+    });
+    it('Should return all elemnts flat', () => {
+        expect(flattenList(list)).toEqual({
+            '0': {
+                name: 'otto0',
+                contains: emptyList(),
+            },
+            '1': {
+                name: 'otto1',
+                contains: emptyList(),
+            },
+            '12': {
+                name: 'hans2',
+                contains: emptyList(),
+            },
+            '123': {
+                name: 'karl3',
+                contains: emptyList(),
+            },
+            '14': {
+                name: 'karl4',
+                contains: emptyList(),
+            },
+            '145': {
+                name: 'else5',
+                contains: emptyList(),
             },
         });
     });

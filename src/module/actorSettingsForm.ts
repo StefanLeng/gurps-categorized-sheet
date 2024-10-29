@@ -1,9 +1,10 @@
 import { getActorSettings, mergeSettings, setActorSettings } from './actor-settings.ts';
-import { CATEGORIES } from './types.ts';
+import { CATEGORIES, CategoryOrOthers, Skill, AddDisad } from './types.ts';
 import { getSettings } from './settings.ts';
 import { categorize } from './categorize.ts';
 import { removeArryDuplicates as removeArrayDuplicates } from './util.ts';
 import { BaseSeetingsForm } from './baseSettingsForm.ts';
+import { flattenList, RecursiveList } from './recursiveList.ts';
 
 class ActorSeetingsForm extends BaseSeetingsForm {
     constructor(actor: Actor) {
@@ -40,7 +41,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         },
     };
 
-    protected override addItemToCategory(type: string, cat: string, val: string) {
+    protected override addItemToCategory(type: string, cat: CategoryOrOthers, val: string) {
         if (cat != 'others') {
             if (!this._settings.addedItems[type][cat].some((i) => i === val)) {
                 this._settings.addedItems[type][cat].push(val);
@@ -50,7 +51,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         }
     }
 
-    protected override removeItemFromCategory(type: string, cat: string, val: string) {
+    protected override removeItemFromCategory(type: string, cat: CategoryOrOthers, val: string) {
         if (cat != 'others') {
             if (!this._settings.removedItems[type][cat].some((i) => i === val)) {
                 this._settings.removedItems[type][cat].push(val);
@@ -71,18 +72,18 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
         CATEGORIES.forEach((cat) => {
-            self._items.skills[cat] = Object.values(categorize(mergedSettings.items.skills, actorData.skills, cat)).map(
-                (i: any) => i.name,
-            );
-            self._items.traits[cat] = Object.values(categorize(mergedSettings.items.traits, actorData.ads, cat)).map(
-                (i: any) => i.name,
-            );
+            self._items.skills[cat] = Object.values(
+                categorize(mergedSettings.items.skills, flattenList(actorData.skills) as RecursiveList<Skill>, cat),
+            ).map((i: any) => i.name);
+            self._items.traits[cat] = Object.values(
+                categorize(mergedSettings.items.traits, flattenList(actorData.ads) as RecursiveList<AddDisad>, cat),
+            ).map((i: any) => i.name);
         });
         self._items.skills['others'] = Object.values(
-            categorize(mergedSettings.items.skills, actorData.skills, 'others'),
+            categorize(mergedSettings.items.skills, flattenList(actorData.skills) as RecursiveList<Skill>, 'others'),
         ).map((i: any) => i.name);
         self._items.traits['others'] = Object.values(
-            categorize(mergedSettings.items.traits, actorData.ads, 'others'),
+            categorize(mergedSettings.items.traits, flattenList(actorData.ads) as RecursiveList<AddDisad>, 'others'),
         ).map((i: any) => i.name);
 
         return {

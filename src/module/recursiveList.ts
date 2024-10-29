@@ -43,3 +43,17 @@ export function filterRecursive<T extends Rec<T>>(list: RecursiveList<T>, pred: 
     });
     return l2;
 }
+
+export function flattenList<T extends Rec<T>>(list: RecursiveList<T>): RecursiveList<T> {
+    function inner(list: RecursiveList<T>, key: string): [i: string, val: T][] {
+        const listValues = Object.entries(list);
+        return listValues
+            .map(([i, val]) => {
+                const element: [i: string, val: T][] = [[key + i, { ...val, contains: emptyList<T>() }]];
+                const children: [i: string, val: T][] = inner(val.contains, key + i);
+                return element.concat(children);
+            })
+            .flat(1);
+    }
+    return Object.fromEntries(inner(list, ''));
+}
