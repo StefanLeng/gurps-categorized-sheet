@@ -8,6 +8,7 @@ import { reactionTableExists, drawReactionRoll } from './reactions.ts';
 import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables.ts';
 import { MODULE_ID } from './constants.ts';
 import { ActorSeetingsForm } from './actorSettingsForm.ts';
+import { getActorSettings } from './actor-settings.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
     /** @override */
@@ -64,75 +65,78 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     }
 
     numberOfHands() {
-        return 2;
+        return getActorSettings(this.actor).numberOfHands;
     }
 
     #grips: WeaponGrip[] = [];
 
     getData() {
         const data = super.getData();
+        try {
+            const categories = {
+                combat: {
+                    skills: categorizeSkills(data.actor, data.system.skills, 'combat'),
+                    ads: categorizeAds(data.actor, data.system.ads, 'combat'),
+                },
+                exploration: {
+                    skills: categorizeSkills(data.actor, data.system.skills, 'exploration'),
+                    ads: categorizeAds(data.actor, data.system.ads, 'exploration'),
+                },
+                social: {
+                    skills: categorizeSkills(data.actor, data.system.skills, 'social'),
+                    ads: categorizeAds(data.actor, data.system.ads, 'social'),
+                },
+                technical: {
+                    skills: categorizeSkills(data.actor, data.system.skills, 'technical'),
+                    ads: categorizeAds(data.actor, data.system.ads, 'technical'),
+                },
+                powers: {
+                    skills: categorizeSkills(data.actor, data.system.skills, 'powers'),
+                    ads: categorizeAds(data.actor, data.system.ads, 'powers'),
+                },
+                others: {
+                    skills: categorizeSkills(data.actor, data.system.skills, 'others'),
+                    ads: categorizeAds(data.actor, data.system.ads, 'others'),
+                },
+            };
 
-        const categories = {
-            combat: {
-                skills: categorizeSkills(data.actor, data.system.skills, 'combat'),
-                ads: categorizeAds(data.actor, data.system.ads, 'combat'),
-            },
-            exploration: {
-                skills: categorizeSkills(data.actor, data.system.skills, 'exploration'),
-                ads: categorizeAds(data.actor, data.system.ads, 'exploration'),
-            },
-            social: {
-                skills: categorizeSkills(data.actor, data.system.skills, 'social'),
-                ads: categorizeAds(data.actor, data.system.ads, 'social'),
-            },
-            technical: {
-                skills: categorizeSkills(data.actor, data.system.skills, 'technical'),
-                ads: categorizeAds(data.actor, data.system.ads, 'technical'),
-            },
-            powers: {
-                skills: categorizeSkills(data.actor, data.system.skills, 'powers'),
-                ads: categorizeAds(data.actor, data.system.ads, 'powers'),
-            },
-            others: {
-                skills: categorizeSkills(data.actor, data.system.skills, 'others'),
-                ads: categorizeAds(data.actor, data.system.ads, 'others'),
-            },
-        };
+            const selfMods = convertModifiers(data.actor.system.conditions.self.modifiers);
+            selfMods.push(...convertModifiers(data.actor.system.conditions.usermods));
 
-        const selfMods = convertModifiers(data.actor.system.conditions.self.modifiers);
-        selfMods.push(...convertModifiers(data.actor.system.conditions.usermods));
+            const handsOld = initHands(data.actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
+            const [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(
+                data.system.equipment,
+                data.system.melee,
+                data.system.ranged,
+                handsOld,
+                data.actor,
+            );
+            this.#grips = grips;
+            this.actor.setFlag(MODULE_ID, 'hands', hands);
 
-        const handsOld = (data.actor.flags?.[MODULE_ID]?.hands as Hand[]) ?? initHands(this.numberOfHands());
-        const [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(
-            data.system.equipment,
-            data.system.melee,
-            data.system.ranged,
-            handsOld,
-            data.actor,
-        );
-        this.#grips = grips;
-        this.actor.setFlag(MODULE_ID, 'hands', hands);
+            const defences = getDefenses(data.system.currentdodge, grips);
 
-        const defences = getDefenses(data.system.currentdodge, grips);
-
-        return foundry.utils.mergeObject(data, {
-            selfModifiers: selfMods,
-            categories: categories,
-            grips: grips,
-            meleeWeapons: meleeWeapons,
-            rangedWeapons: rangedWeapons,
-            hands: hands,
-            defences: defences,
-            defenceOTFs: getOTFs('defence', data.actor),
-            meleeOTFs: getOTFs('melee', data.actor),
-            rangedOTFs: getOTFs('ranged', data.actor),
-            reactionOTFs: getOTFs('reactions', data.actor),
-            rangedSelected: rangedSelected,
-            targets: targets(data.actor, false),
-            targetsRanged: targets(data.actor, true),
-            reactionTableExists: reactionTableExists(),
-            criticalTables: existingCriticalTables(),
-        });
+            return foundry.utils.mergeObject(data, {
+                selfModifiers: selfMods,
+                categories: categories,
+                grips: grips,
+                meleeWeapons: meleeWeapons,
+                rangedWeapons: rangedWeapons,
+                hands: hands,
+                defences: defences,
+                defenceOTFs: getOTFs('defence', data.actor),
+                meleeOTFs: getOTFs('melee', data.actor),
+                rangedOTFs: getOTFs('ranged', data.actor),
+                reactionOTFs: getOTFs('reactions', data.actor),
+                rangedSelected: rangedSelected,
+                targets: targets(data.actor, false),
+                targetsRanged: targets(data.actor, true),
+                reactionTableExists: reactionTableExists(),
+                criticalTables: existingCriticalTables(),
+            });
+        } catch {
+            return foundry.utils.mergeObject(data, { error: true });
+        }
     }
 
     static openConfig() {
@@ -154,7 +158,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     }
 
     async setGrip(gripName: string, index: number) {
-        let hands = (this.actor.flags?.[MODULE_ID]?.hands as Hand[]) ?? initHands(this.numberOfHands());
+        let hands = initHands(this.actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
         hands = applyGripToHands(this.#grips, gripName, index, hands);
         await this.actor.setFlag(MODULE_ID, 'hands', hands);
     }

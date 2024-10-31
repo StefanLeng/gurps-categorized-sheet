@@ -5,18 +5,18 @@ import { getSystemSetting } from './settings.ts';
 
 interface AttackMode {
     name: string;
-    notes: string;
-    pageref: string;
-    damage: string;
-    st: string;
-    mode: string;
-    level: number;
+    notes?: string;
+    pageref?: string;
+    damage?: string;
+    st?: string;
+    mode?: string;
+    level?: number;
 }
 
 interface MeleeMode extends AttackMode {
-    reach: string;
-    parry: string;
-    block: string;
+    reach?: string;
+    parry?: string;
+    block?: string;
 }
 
 interface Keyed {
@@ -112,7 +112,7 @@ export function splitReach(reach: string): string[] {
 }
 
 export function splitByReach(melee: keyedMeleeMode): keyedMeleeMode[] {
-    const reaches = splitReach(melee.reach);
+    const reaches = splitReach(melee.reach ?? '');
     return reaches.map((r) => {
         return { ...melee, reach: r };
     });
@@ -129,9 +129,9 @@ export function meleeToGrip(equipment: RecursiveList<Equipment>, melee: keyedMel
     const weapon = findRecursive(equipment, (w) => w.name === melee.name);
     const weaponName = weapon ? weapon.name : melee.parry ? emptyHand.weaponName : '';
     const weaponNote = weapon ? weapon.notes : '';
-    const note = melee.notes.replace(weaponNote, '').trim();
-    const twoHanded = melee.st.includes('†');
-    const fixedReach = melee.reach.includes('*') ? melee.reach : null;
+    const note = melee.notes?.replace(weaponNote, '').trim() ?? '';
+    const twoHanded = melee.st?.includes('†') ?? false;
+    const fixedReach = melee.reach?.includes('*') ? melee.reach : null;
     const name =
         weaponName === emptyHand.weaponName
             ? emptyHand.name
@@ -155,11 +155,11 @@ export function meleeToGrip(equipment: RecursiveList<Equipment>, melee: keyedMel
 export function rangedToGrip(equipment: ElementList<Equipment>, ranged: keyedRangedMode): WeaponGrip {
     const weapon = Object.entries(equipment).find((w) => w[1].name === ranged.name);
     const weaponNote = Array.isArray(weapon) ? weapon[1].notes : '';
-    const note = ranged.notes.replace(weaponNote, '').trim();
+    const note = ranged.notes?.replace(weaponNote, '').trim() ?? '';
     return {
         name: ranged.name + (ranged.mode !== '' ? ` ${ranged.mode}` : ''),
         weaponName: Array.isArray(weapon) ? weapon[1].name : '',
-        twoHanded: ranged.st.includes('†'),
+        twoHanded: ranged.st?.includes('†') ?? false,
         note: note,
         weaponNote: weaponNote,
         fixedReach: 'ranged',
@@ -288,9 +288,12 @@ function markSelectd(grips: WeaponGrip[], hands: Hand[]) {
     });
 }
 
-export function initHands(numberOfHands: number) {
-    const hands: Hand[] = [];
-    for (let i = 0; i < numberOfHands; i++) {
+export function initHands(hands_in: Hand[] | undefined, numberOfHands: number) {
+    let hands: Hand[] = hands_in ?? [];
+    if (hands.length > numberOfHands) {
+        hands = [];
+    }
+    for (let i = hands.length; i < numberOfHands; i++) {
         hands.push({ name: 'Hand ' + (i + 1), grip: emptyHand.name });
     }
     return hands;
@@ -337,9 +340,9 @@ export function compareAttacks(a: KeyedAttack | undefined, b: KeyedAttack | unde
         ? -1
         : !a.selected && b.selected
           ? 1
-          : a.mode > b.mode
+          : (a.mode ?? '') > (b.mode ?? '')
             ? 1
-            : a.mode < b.mode
+            : (a.mode ?? '') < (b.mode ?? '')
               ? -1
               : 0;
 }

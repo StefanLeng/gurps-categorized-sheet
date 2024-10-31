@@ -33,7 +33,7 @@ const list: RecursiveList<TestRec> = {
             },
             '4': {
                 name: 'karl4',
-                contains: {
+                colapsed: {
                     '5': {
                         name: 'else5',
                         contains: emptyList(),
@@ -56,6 +56,9 @@ describe('findRecursive', () => {
     });
     it('Should find first element, breadth first, that fits the predicate', () => {
         expect(findRecursive(list, (i) => i.name.startsWith('karl'))?.name).toBe('karl4');
+    });
+    it('Should find elementsin colapsed sections', () => {
+        expect(findRecursive(list, (i) => i.name.startsWith('else'))?.name).toBe('else5');
     });
 });
 
@@ -85,7 +88,7 @@ describe('filterRecursive', () => {
                     },
                     '4': {
                         name: 'karl4',
-                        contains: {},
+                        colapsed: {},
                     },
                 },
             },
@@ -117,7 +120,7 @@ describe('flattenList', () => {
             },
             '14': {
                 name: 'karl4',
-                contains: emptyList(),
+                colapsed: emptyList(),
             },
             '145': {
                 name: 'else5',

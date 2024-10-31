@@ -16,6 +16,7 @@ export type CatSheetActorSettings = {
     };
     allowExtraEffort: boolean | null;
     hideInactiveAttacks: boolean | null;
+    numberOfHands: number;
 };
 
 const emptyList: CategoryList = {
@@ -38,11 +39,15 @@ const defaultSettings: CatSheetActorSettings = {
     },
     allowExtraEffort: null,
     hideInactiveAttacks: null,
+    numberOfHands: 2,
 };
 
 function migrateSetting(settings: CatSheetActorSettings) {
     if (foundry.utils.isNewerVersion('0.3.0', settings.version ?? '0.0.0')) {
         return { ...settings, version: '0.3.0' };
+    }
+    if (foundry.utils.isNewerVersion('0.3.2', settings.version ?? '0.0.0')) {
+        return { ...settings, numberOfHands: defaultSettings.numberOfHands, version: '0.3.2' };
     }
     return settings;
 }

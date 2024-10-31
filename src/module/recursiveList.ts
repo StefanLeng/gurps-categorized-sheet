@@ -3,7 +3,8 @@ export interface ElementList<TElement> {
 }
 
 export interface Rec<T> {
-    contains: ElementList<T>;
+    contains?: ElementList<T>;
+    colapsed?: ElementList<T>;
 }
 
 export type RecursiveList<T extends Rec<T>> = ElementList<T>;
@@ -26,18 +27,21 @@ export function findRecursive<T extends Rec<T>>(list: RecursiveList<T>, pred: (i
     const res = listValues.find(pred);
     if (!!res) return res;
     for (let i = 0; i < listValues.length; i++) {
-        const r = findRecursive(listValues[i].contains, pred);
+        const r = findRecursive(listValues[i].contains ?? emptyList<T>(), pred);
         if (!!r) return r;
+        const c = findRecursive(listValues[i].colapsed ?? emptyList<T>(), pred);
+        if (!!c) return c;
     }
     return undefined;
 }
 
 export function filterRecursive<T extends Rec<T>>(list: RecursiveList<T>, pred: (i: T) => boolean): RecursiveList<T> {
-    const l1 = filterList(list, (i) => pred(i) || !!findRecursive(i.contains, pred));
+    const l1 = filterList(list, (i) => pred(i) || !!findRecursive(i.contains ?? emptyList<T>(), pred));
     const l2 = mapList(l1, (i) => {
         const r = {
             ...i,
-            contains: filterRecursive(i.contains, pred),
+            contains: i.contains ? filterRecursive(i.contains, pred) : undefined,
+            colapsed: i.colapsed ? filterRecursive(i.colapsed, pred) : undefined,
         };
         return r;
     });
@@ -49,9 +53,19 @@ export function flattenList<T extends Rec<T>>(list: RecursiveList<T>): Recursive
         const listValues = Object.entries(list);
         return listValues
             .map(([i, val]) => {
-                const element: [i: string, val: T][] = [[key + i, { ...val, contains: emptyList<T>() }]];
-                const children: [i: string, val: T][] = inner(val.contains, key + i);
-                return element.concat(children);
+                const element: [i: string, val: T][] = [
+                    [
+                        key + i,
+                        {
+                            ...val,
+                            contains: val.contains ? emptyList<T>() : undefined,
+                            colapsed: val.colapsed ? emptyList<T>() : undefined,
+                        },
+                    ],
+                ];
+                const children: [i: string, val: T][] = inner(val.contains ?? emptyList<T>(), key + i);
+                const children2: [i: string, val: T][] = inner(val.colapsed ?? emptyList<T>(), key + i);
+                return element.concat(children).concat(children2);
             })
             .flat(1);
     }

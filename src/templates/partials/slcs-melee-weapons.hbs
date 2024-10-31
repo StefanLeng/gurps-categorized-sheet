@@ -22,7 +22,7 @@
 
                 <div class='usage rollable flex-center  {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
                     data-otf='{{quotedAttackName 'M' this}}'>
-                    <div>{{mode}}</div>
+                    <div>{{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}</div>
                     <div class='list_note'>{{{gurpslink notes}}}</div>
                 </div>
                 <div class='level rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'

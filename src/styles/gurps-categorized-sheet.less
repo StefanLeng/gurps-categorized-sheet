@@ -240,6 +240,8 @@
             #slcs-combatContent{
                 height: 0;
                 min-height: 100%;
+                width: 0;
+                min-width: 100%;
                 .tab[data-tab]{
                     overflow-y: auto;
                 }
@@ -271,6 +273,7 @@
         grid-template-columns: 1fr;
         grid-template-rows: min-content;
         grid-auto-rows: min-content;
+        overflow-y: auto;
         .equipmentlist {
             grid-template-columns: auto auto 1fr repeat(6, auto);
         }
@@ -293,9 +296,15 @@
 
         .fieldblock {
             display: inline-grid;
-            grid-template-columns: repeat(6, 0fr auto);
+            grid-template-columns: repeat(4, 0fr auto) 1fr;
             padding-top: 0.15em;
             align-items: center;
+
+            #slcs-hands{
+                display: inline-grid;
+                grid-template-columns: repeat(2, 0fr auto);
+                align-items: center;        
+            }
 
             .field {
                 text-align: left;
@@ -343,6 +352,7 @@
         align-content: start;
         .tooltip.gga-manual{
             border: none;
+            white-space: normal;
         }    
         gap: 0px 0px;
         .skldraggable:before{
@@ -398,6 +408,7 @@
         align-self: start;
         grid-template-columns: 1fr repeat(9, auto);
         grid-template-rows: 0fr max-content;
+        min-width: 100%;
         .rangeddraggable:before{
             content: none;
         }
@@ -407,6 +418,12 @@
             max-width: 100%;
             white-space: normal;
         }
+    }
+
+    #slcs-ranged-attacks > div {
+        width: min-content;
+        white-space: normal;
+        min-width: 100%;
     }
 
     #slcs-melee-attacks, #slcs-ranged-attacks{
@@ -487,6 +504,7 @@
        // overflow-y: auto;
         .tooltip.gga-manual{
             border: none;
+            white-space: normal;
         }    
         .adsdraggable:before{
             content: none;
@@ -593,11 +611,17 @@
     }
 
     #slcs-spells{
-        grid-template-columns: 1fr repeat(9, auto);
+        grid-template-columns: 1fr repeat(8, auto);
         .spldraggable:before{
             content: none;
         }
     };
+
+    #slcs-spells > div {
+        width: min-content;
+        white-space: normal;
+        min-width: 100%;
+    }
 
     #slcs-reactionroll {
         display: grid;
@@ -696,7 +720,10 @@
             min-width: 200px;
             white-space: normal;
             text-align: right;
-        }    
+        } 
+        input[type="number"]{
+            min-width: 50px;
+        }
     }
 
     .itemrow {

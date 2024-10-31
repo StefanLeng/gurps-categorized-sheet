@@ -35,6 +35,10 @@
                 {{#if (eq settings.hideInactiveAttacks null)}}{{checked globalSettings.hideInactiveAttacks}}{{else}}{{checked settings.hideInactiveAttacks}}{{/if}}/>
             <div class='label global-setting'>Use global setting</div>
             <input type="checkbox" id="slcs-extra-effort" name="settings.hideInactiveAttacksGlobal" {{checked (eq settings.hideInactiveAttacks null)}}/>
+            <div class='label'>Number of Hands</div>
+            <input type="number" id="slcs-number-of-hands" name="settings.numberOfHands" min="0" max="10" step="1" value="{{settings.numberOfHands}}"/>
+            <div></div>
+            <div></div>
         </div>    
     {{/unless}}
 </section>

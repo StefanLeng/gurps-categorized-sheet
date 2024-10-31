@@ -129,6 +129,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
             this._settings.hideInactiveAttacks =
                 newSettings.hideInactiveAttacks ?? this._globalSetting.hideInactiveAttacks;
         }
+        this._settings.numberOfHands = Math.round(newSettings.numberOfHands);
         this.render();
     }
 }

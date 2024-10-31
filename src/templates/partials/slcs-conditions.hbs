@@ -66,20 +66,22 @@
     </div>   
 
     {{#if (eq section 'combat')}}
-        {{#each hands}}
-            <div class='label' for='selectedGrip{{@index}}'>{{name}}:</div>
-            <div class='field' style='border: none'>
-            <select
-                id='selectedGrip{{@index}}'
-                class="gripSelect"
-                data-index="{{@index}}"
-            >
-                {{#each ../grips}}
-                    <option value='{{name}}' {{select-if name ../grip}}>{{name}}</option>
-                {{/each}}
-            </select>
-            </div>
-        {{/each}}
+        <div id="slcs-hands">
+            {{#each hands}}
+                <div class='label' for='selectedGrip{{@index}}'>{{name}}:</div>
+                <div class='field' style='border: none'>
+                <select
+                    id='selectedGrip{{@index}}'
+                    class="gripSelect"
+                    data-index="{{@index}}"
+                >
+                    {{#each ../grips}}
+                        <option value='{{name}}' {{select-if name ../grip}}>{{name}}</option>
+                    {{/each}}
+                </select>
+                </div>
+            {{/each}}
+        </div>
     {{/if}}
 
   </div>
