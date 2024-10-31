@@ -78,6 +78,16 @@ This is a beta release. Please report all problems via [GitHub issues](https://g
 Fix for some display issues with characters imported from GCA.
 Fix for missing attacks from weapons in containers.
 
+0.3.2
+Made number of hands configurable. You can now have more (or less) than 2 hands.
+Display message when an exeption occures when working with unexpected character data. This allows the user to switch to another sheet. 
+Fixed various issues with skill and traits containers.
+Scrollbars for eqipmnet.
+Fixed display of attacks without useage.
+Fixed display of attacks with missing ST or range.
+Fixed layout of the spell list.
+Fixed layout issues with ranged attacks with longer texts.
+
 ## Development
 
 ### Prerequisites
