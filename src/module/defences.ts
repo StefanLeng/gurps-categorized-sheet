@@ -1,4 +1,5 @@
-import { WeaponGrip, keyedMeleeMode, displaySelected } from './weaponGrips.ts';
+import { displaySelected } from './weaponGrips.ts';
+import { keyedMeleeMode, WeaponGrip } from './types.ts';
 import { getSettings } from './settings.ts';
 
 interface Defence {
@@ -24,9 +25,9 @@ function weaponDefences(grips: WeaponGrip[]): WeaponDefence[] {
                 .filter((i) => displaySelected(i, hideInactive))
                 .reduce(
                     (r: [[number, keyedMeleeMode | undefined], [number, keyedMeleeMode | undefined]], m) => {
-                        const b = parseInt(m.block);
+                        const b = parseInt(m.block ?? '');
                         if (!isNaN(b) && b > r[0][0]) r[0] = [b, m];
-                        const p = parseInt(m.parry);
+                        const p = parseInt(m.parry ?? '');
                         if (!isNaN(p) && p > r[1][0]) r[1] = [p, m];
                         return r;
                     },

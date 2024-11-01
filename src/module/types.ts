@@ -47,3 +47,70 @@ export interface NamedItem {
 
 export interface Skill extends Rec<Skill>, NamedItem {}
 export interface AddDisad extends Rec<AddDisad>, NamedItem {}
+
+//---------------------------------------------------//
+
+export interface Keyed {
+    key: string;
+    selected: boolean;
+}
+
+//---------------------------------------------------//
+
+export interface AttackMode {
+    name: string;
+    notes?: string;
+    pageref?: string;
+    damage?: string;
+    st?: string;
+    mode?: string;
+    level?: number;
+}
+
+export interface MeleeMode extends AttackMode {
+    reach?: string;
+    parry?: string;
+    block?: string;
+}
+
+export interface KeyedAttack extends AttackMode, Keyed {}
+
+export interface keyedMeleeMode extends MeleeMode, Keyed {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface RangedMode extends AttackMode {}
+
+export interface keyedRangedMode extends RangedMode, Keyed {}
+
+//---------------------------------------------------//
+
+export interface Equipment extends Rec<Equipment>, NamedItem {
+    notes: string;
+    equipped: boolean;
+}
+
+export interface WeaponGrip {
+    name: string;
+    weaponName: string;
+    twoHanded: boolean;
+    note: string;
+    weaponNote: string;
+    fixedReach: string | null;
+    ranged: boolean;
+    meleeList: keyedMeleeMode[];
+    rangedList: keyedRangedMode[];
+}
+
+export interface Weapon extends Equipment {
+    grips: WeaponGrip[];
+    notes: string;
+    meleeList: keyedMeleeMode[];
+    rangedList: keyedRangedMode[];
+}
+
+//---------------------------------------------------//
+
+export interface Hand {
+    name: string;
+    grip: string;
+}

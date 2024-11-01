@@ -82,7 +82,7 @@ Fix for missing attacks from weapons in containers.
 Made number of hands configurable. You can now have more (or less) than 2 hands.
 Display message when an exeption occures when working with unexpected character data. This allows the user to switch to another sheet. 
 Fixed various issues with skill and traits containers.
-Scrollbars for eqipmnet.
+Scrollbars for equipmnet.
 Fixed display of attacks without useage.
 Fixed display of attacks with missing ST or range.
 Fixed layout of the spell list.

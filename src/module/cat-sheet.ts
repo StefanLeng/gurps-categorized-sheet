@@ -1,6 +1,6 @@
 import { convertModifiers } from './util.js';
 import { categorizeSkills, categorizeAds } from './categorize.ts';
-import { Hand, initHands, applyGripToHands, WeaponGrip, resolveWeapons } from './weaponGrips.ts';
+import { initHands, applyGripToHands, resolveWeapons } from './weaponGrips.ts';
 import { getDefenses } from './defences.ts';
 import { targets } from './targets.ts';
 import { getOTFs } from './sheetOTFs.ts';
@@ -9,6 +9,7 @@ import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables
 import { MODULE_ID } from './constants.ts';
 import { ActorSeetingsForm } from './actorSettingsForm.ts';
 import { getActorSettings } from './actor-settings.ts';
+import { Hand, WeaponGrip } from './types.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
     /** @override */

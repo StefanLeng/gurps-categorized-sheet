@@ -1,23 +1,16 @@
 import { describe, expect, it } from '@jest/globals';
-import {
-    Rec,
-    RecursiveList,
-    findRecursive,
-    emptyList,
-    filterRecursive,
-    flattenList,
-} from '../src/module/recursiveList.ts';
+import * as RecursiveList from '../src/module/recursiveList.ts';
 
-interface TestRec extends Rec<TestRec> {
+interface TestRec extends RecursiveList.Rec<TestRec> {
     name: string;
 }
 
-const empty: RecursiveList<TestRec> = {};
+const empty: RecursiveList.List<TestRec> = {};
 
-const list: RecursiveList<TestRec> = {
+const list: RecursiveList.List<TestRec> = {
     '0': {
         name: 'otto0',
-        contains: emptyList(),
+        contains: RecursiveList.emptyList(),
     },
     '1': {
         name: 'otto1',
@@ -27,7 +20,7 @@ const list: RecursiveList<TestRec> = {
                 contains: {
                     '3': {
                         name: 'karl3',
-                        contains: emptyList(),
+                        contains: RecursiveList.emptyList(),
                     },
                 },
             },
@@ -36,7 +29,7 @@ const list: RecursiveList<TestRec> = {
                 colapsed: {
                     '5': {
                         name: 'else5',
-                        contains: emptyList(),
+                        contains: RecursiveList.emptyList(),
                     },
                 },
             },
@@ -46,34 +39,34 @@ const list: RecursiveList<TestRec> = {
 
 describe('findRecursive', () => {
     it('Should find nothing in an empty list', () => {
-        expect(findRecursive(empty, () => true)).toBeUndefined();
+        expect(RecursiveList.find(empty, () => true)).toBeUndefined();
     });
     it('Should find nothing with a predicate that match nothing', () => {
-        expect(findRecursive(list, () => false)).toBeUndefined();
+        expect(RecursiveList.find(list, () => false)).toBeUndefined();
     });
     it('Should find first element that fits the predicate', () => {
-        expect(findRecursive(list, () => true)?.name).toBe('otto0');
+        expect(RecursiveList.find(list, () => true)?.name).toBe('otto0');
     });
     it('Should find first element, breadth first, that fits the predicate', () => {
-        expect(findRecursive(list, (i) => i.name.startsWith('karl'))?.name).toBe('karl4');
+        expect(RecursiveList.find(list, (i) => i.name.startsWith('karl'))?.name).toBe('karl4');
     });
     it('Should find elementsin colapsed sections', () => {
-        expect(findRecursive(list, (i) => i.name.startsWith('else'))?.name).toBe('else5');
+        expect(RecursiveList.find(list, (i) => i.name.startsWith('else'))?.name).toBe('else5');
     });
 });
 
 describe('filterRecursive', () => {
     it('Should return an empty list if given an empty list', () => {
-        expect(filterRecursive(empty, () => true)).toEqual(empty);
+        expect(RecursiveList.filter(empty, () => true)).toEqual(empty);
     });
     it('Should return an empty list a predicate that match nothing', () => {
-        expect(filterRecursive(list, () => false)).toEqual(empty);
+        expect(RecursiveList.filter(list, () => false)).toEqual(empty);
     });
     it('Should return an exact copy of the input list with a predicate that match anything', () => {
-        expect(filterRecursive(list, () => true)).toEqual(list);
+        expect(RecursiveList.filter(list, () => true)).toEqual(list);
     });
     it('Should return elemnts that fits the predicat and there parents', () => {
-        expect(filterRecursive(list, (i) => i.name.startsWith('karl'))).toEqual({
+        expect(RecursiveList.filter(list, (i) => i.name.startsWith('karl'))).toEqual({
             '1': {
                 name: 'otto1',
                 contains: {
@@ -82,7 +75,7 @@ describe('filterRecursive', () => {
                         contains: {
                             '3': {
                                 name: 'karl3',
-                                contains: emptyList(),
+                                contains: RecursiveList.emptyList(),
                             },
                         },
                     },
@@ -98,33 +91,33 @@ describe('filterRecursive', () => {
 
 describe('flattenList', () => {
     it('Should return an empty list if given an empty list', () => {
-        expect(flattenList(empty)).toEqual(empty);
+        expect(RecursiveList.flatten(empty)).toEqual(empty);
     });
     it('Should return all elemnts flat', () => {
-        expect(flattenList(list)).toEqual({
+        expect(RecursiveList.flatten(list)).toEqual({
             '0': {
                 name: 'otto0',
-                contains: emptyList(),
+                contains: RecursiveList.emptyList(),
             },
             '1': {
                 name: 'otto1',
-                contains: emptyList(),
+                contains: RecursiveList.emptyList(),
             },
             '12': {
                 name: 'hans2',
-                contains: emptyList(),
+                contains: RecursiveList.emptyList(),
             },
             '123': {
                 name: 'karl3',
-                contains: emptyList(),
+                contains: RecursiveList.emptyList(),
             },
             '14': {
                 name: 'karl4',
-                colapsed: emptyList(),
+                colapsed: RecursiveList.emptyList(),
             },
             '145': {
                 name: 'else5',
-                contains: emptyList(),
+                contains: RecursiveList.emptyList(),
             },
         });
     });

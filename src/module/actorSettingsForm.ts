@@ -4,7 +4,7 @@ import { getSettings } from './settings.ts';
 import { categorize } from './categorize.ts';
 import { removeArryDuplicates as removeArrayDuplicates } from './util.ts';
 import { BaseSeetingsForm } from './baseSettingsForm.ts';
-import { flattenList, RecursiveList } from './recursiveList.ts';
+import * as RecursiveList from './recursiveList.ts';
 
 class ActorSeetingsForm extends BaseSeetingsForm {
     constructor(actor: Actor) {
@@ -69,22 +69,24 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         const context = await super._prepareContext(options);
         const mergedSettings = mergeSettings(this._globalSetting, this._settings);
         const actorData = this._actor.system as any;
+        const skills = RecursiveList.flatten(actorData.skills) as RecursiveList.List<Skill>;
+        const traits = RecursiveList.flatten(actorData.ads) as RecursiveList.List<AddDisad>;
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
         CATEGORIES.forEach((cat) => {
-            self._items.skills[cat] = Object.values(
-                categorize(mergedSettings.items.skills, flattenList(actorData.skills) as RecursiveList<Skill>, cat),
-            ).map((i: any) => i.name);
-            self._items.traits[cat] = Object.values(
-                categorize(mergedSettings.items.traits, flattenList(actorData.ads) as RecursiveList<AddDisad>, cat),
-            ).map((i: any) => i.name);
+            self._items.skills[cat] = Object.values(categorize(mergedSettings.items.skills, skills, cat)).map(
+                (i: any) => i.name,
+            );
+            self._items.traits[cat] = Object.values(categorize(mergedSettings.items.traits, traits, cat)).map(
+                (i: any) => i.name,
+            );
         });
-        self._items.skills['others'] = Object.values(
-            categorize(mergedSettings.items.skills, flattenList(actorData.skills) as RecursiveList<Skill>, 'others'),
-        ).map((i: any) => i.name);
-        self._items.traits['others'] = Object.values(
-            categorize(mergedSettings.items.traits, flattenList(actorData.ads) as RecursiveList<AddDisad>, 'others'),
-        ).map((i: any) => i.name);
+        self._items.skills['others'] = Object.values(categorize(mergedSettings.items.skills, skills, 'others')).map(
+            (i: any) => i.name,
+        );
+        self._items.traits['others'] = Object.values(categorize(mergedSettings.items.traits, traits, 'others')).map(
+            (i: any) => i.name,
+        );
 
         return {
             ...context,

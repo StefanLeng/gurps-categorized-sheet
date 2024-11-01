@@ -1,4 +1,5 @@
 import { CatSheetSettings, getSettings, setSettings, sortCategorieSettings } from './settings.ts';
+import { Category } from './types.ts';
 import { BaseSeetingsForm } from './baseSettingsForm.ts';
 
 class SeetingsForm extends BaseSeetingsForm {
@@ -28,19 +29,19 @@ class SeetingsForm extends BaseSeetingsForm {
         },
     };
 
-    protected override addItemToCategory(type: string, cat: string, val: string) {
+    protected override addItemToCategory(type: string, cat: Category, val: string) {
         if (!this._settings.items[type][cat].some((i) => i === val)) {
             this._settings.items[type][cat].push(val);
         }
         this._settings = sortCategorieSettings(this._settings);
     }
 
-    protected override removeItemFromCategory(type: string, cat: string, val: string) {
+    protected override removeItemFromCategory(type: string, cat: Category, val: string) {
         this._settings.items[type][cat] = this._settings.items[type][cat].filter((i) => i != val);
     }
 
-    protected override getItemValue(type: string, sourceCat: string, index: number) {
-        return this._settings.items[type][sourceCat][index];
+    protected override getItemValue(type: string, cat: Category, index: number) {
+        return this._settings.items[type][cat][index];
     }
 
     override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
@@ -62,7 +63,7 @@ class SeetingsForm extends BaseSeetingsForm {
 
     static async #onAddItem(this: SeetingsForm, event: Event, target: HTMLElement): Promise<void> {
         event.preventDefault();
-        const cat = target.dataset.category;
+        const cat = target.dataset.category as Category;
         const type = target.dataset.type;
         if (cat && type) {
             this._settings.items[type][cat].push('');
@@ -73,7 +74,7 @@ class SeetingsForm extends BaseSeetingsForm {
 
     static async #deleteItem(this: SeetingsForm, event: Event, target: HTMLElement): Promise<void> {
         event.preventDefault();
-        const cat = target.dataset.category;
+        const cat = target.dataset.category as Category;
         const i = Number(target.dataset.index);
         const type = target.dataset.type;
         if (cat && !isNaN(i) && type) {

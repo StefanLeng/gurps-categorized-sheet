@@ -1,3 +1,5 @@
+import { NamedItem } from './types.ts';
+
 export interface ElementList<TElement> {
     [index: string]: TElement;
 }
@@ -7,49 +9,65 @@ export interface Rec<T> {
     colapsed?: ElementList<T>;
 }
 
-export type RecursiveList<T extends Rec<T>> = ElementList<T>;
+export type List<T extends Rec<T>> = ElementList<T>;
 
 export function emptyList<T>(): ElementList<T> {
     return {};
 }
 
-export function filterList<T>(list: ElementList<T>, pred: (i: T) => boolean): ElementList<T> {
+function filterList<T>(list: ElementList<T>, pred: (i: T) => boolean): ElementList<T> {
     return Object.fromEntries(Object.entries(list).filter(([_, val]) => pred(val)));
 }
 
-export function mapList<T, U>(list: ElementList<T>, fn: (i: T) => U): ElementList<U> {
+function mapList<T, U>(list: ElementList<T>, fn: (i: T) => U): ElementList<U> {
     return Object.fromEntries(Object.entries(list).map(([i, val]) => [i, fn(val)]));
 }
 
-export function findRecursive<T extends Rec<T>>(list: RecursiveList<T>, pred: (i: T) => boolean): T | undefined {
+export function find<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): T | undefined {
     const listValues = Object.values(list);
     if (listValues.length === 0) return undefined;
     const res = listValues.find(pred);
     if (!!res) return res;
     for (let i = 0; i < listValues.length; i++) {
-        const r = findRecursive(listValues[i].contains ?? emptyList<T>(), pred);
+        const r = find(listValues[i].contains ?? emptyList<T>(), pred);
         if (!!r) return r;
-        const c = findRecursive(listValues[i].colapsed ?? emptyList<T>(), pred);
+        const c = find(listValues[i].colapsed ?? emptyList<T>(), pred);
         if (!!c) return c;
     }
     return undefined;
 }
 
-export function filterRecursive<T extends Rec<T>>(list: RecursiveList<T>, pred: (i: T) => boolean): RecursiveList<T> {
-    const l1 = filterList(list, (i) => pred(i) || !!findRecursive(i.contains ?? emptyList<T>(), pred));
+export function findByName<T extends Rec<T> & NamedItem>(list: List<T>, name: string): T | undefined {
+    return find(list, (w) => w.name === name);
+}
+
+export function some<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): boolean {
+    return !!find(list, pred);
+}
+
+export function every<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): boolean {
+    return !some(list, (i) => !pred(i));
+}
+
+export function nameExists<T extends Rec<T> & NamedItem>(list: List<T>, name: string): boolean {
+    return !!find(list, (w) => w.name === name);
+}
+
+export function filter<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): List<T> {
+    const l1 = filterList(list, (i) => pred(i) || !!find(i.contains ?? emptyList<T>(), pred));
     const l2 = mapList(l1, (i) => {
         const r = {
             ...i,
-            contains: i.contains ? filterRecursive(i.contains, pred) : undefined,
-            colapsed: i.colapsed ? filterRecursive(i.colapsed, pred) : undefined,
+            contains: i.contains ? filter(i.contains, pred) : undefined,
+            colapsed: i.colapsed ? filter(i.colapsed, pred) : undefined,
         };
         return r;
     });
     return l2;
 }
 
-export function flattenList<T extends Rec<T>>(list: RecursiveList<T>): RecursiveList<T> {
-    function inner(list: RecursiveList<T>, key: string): [i: string, val: T][] {
+export function flatten<T extends Rec<T>>(list: List<T>): List<T> {
+    function inner(list: List<T>, key: string): [i: string, val: T][] {
         const listValues = Object.entries(list);
         return listValues
             .map(([i, val]) => {

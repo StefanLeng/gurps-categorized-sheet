@@ -1,6 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { splitReach, areReachsCompatible, applyGripToHands, WeaponGrip } from '../src/module/weaponGrips.ts';
+import { splitReach, areReachsCompatible } from '../src/module/weaponRreach.ts';
+
+import { applyGripToHands } from '../src/module/weaponGrips.ts';
+import { WeaponGrip } from 'src/module/types.ts';
 
 describe('The splitReach fuction', () => {
     it('Should return a input without * unchanged in an array', () => {
