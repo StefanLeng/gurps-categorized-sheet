@@ -68,6 +68,7 @@
                         </div>
                         <div id='slcs-col2' class ='slcs-col'>
                             {{>slcs-sense-rolls}}
+                            {{>slcs-otf-region OTFs=explorationOTFs type='exploration'}}
                             {{>slcs-lifting}}
                         </div>    
                     </div>                
@@ -80,6 +81,7 @@
                         </div>
                         <div id='slcs-col2' class ='slcs-col'>
                             {{>slcs-description}}
+                            {{>slcs-otf-region OTFs=socialOTFs type='social'}}
                             {{>slcs-reactions}}
                         </div>    
                     </div>                
@@ -91,6 +93,7 @@
                             {{>slcs-advantages ads=categories.technical.ads}}
                         </div>
                         <div id='slcs-col2' class ='slcs-col'>
+                            {{>slcs-otf-region OTFs=technicalOTFs type='technical'}}
                             {{>slcs-lifting}}
                         </div>    
                     </div>                
@@ -102,6 +105,7 @@
                             {{>slcs-advantages ads=categories.powers.ads}}
                         </div>
                         <div id='slcs-col2' class ='slcs-col'>
+                            {{>slcs-otf-region OTFs=powersOTFs type='powers'}}
                             {{>slcs-spells}}
                         </div>    
                     </div>                   

@@ -30,6 +30,7 @@ export async function registerHandlebarsPartials() {
         'slcs-criticalRolls',
         'slcs-traitSorter',
         'slcs-sense-rolls',
+        'slcs-otf-region',
     ];
 
     for (const name of templates) {

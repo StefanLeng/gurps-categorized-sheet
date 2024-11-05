@@ -1,4 +1,4 @@
-import { OTFScope, SheetOTF } from './types.ts';
+import { OTFRegion, OTFScope, SheetOTF } from './types.ts';
 import { getMergedSettings } from './actor-settings.ts';
 
 function isSkillReqeuiementFullfilld(mod: SheetOTF, actor: any): boolean {
@@ -19,7 +19,7 @@ function noForbiddenTraits(mod: SheetOTF, actor: any): boolean {
         : true;
 }
 
-export function getOTFs(region: string, actor: any) {
+export function getOTFs(region: OTFRegion, actor: any) {
     const allowExtraEffort: boolean = getMergedSettings(actor).allowExtraEffort;
     const mods = getMergedSettings(actor)
         .sheetOTFs.filter((i) => i.region === region && i.active)
