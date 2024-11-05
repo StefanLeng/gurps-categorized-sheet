@@ -1,18 +1,45 @@
-import { getActorSettings, mergeSettings, setActorSettings } from './actor-settings.ts';
-import { CATEGORIES, CategoryOrOthers, Skill, AddDisad } from './types.ts';
+import { getActorSettings, mergeSettings, mergOTFs, setActorSettings } from './actor-settings.ts';
+import { CATEGORIES, CategoryOrOthers, Skill, AddDisad, OTFRegion, CategoryList } from './types.ts';
 import { getSettings } from './settings.ts';
 import { categorize } from './categorize.ts';
 import { removeArryDuplicates as removeArrayDuplicates } from './util.ts';
 import { BaseSeetingsForm } from './baseSettingsForm.ts';
 import * as RecursiveList from './recursiveList.ts';
+import { newOTF } from './sheetOTFs.ts';
+
+interface NewOTF {
+    region?: OTFRegion[];
+    code?: string[];
+    flags?: {
+        [index: string]: boolean;
+    }[];
+    skillRequiered?: string[];
+    traitRequiered?: string[];
+    traitsForbidden?: string[];
+    active: boolean[];
+}
+
+interface NewSettings {
+    items: {
+        skills: CategoryList;
+        traits: CategoryList;
+    };
+    allowExtraEffort: boolean;
+    allowExtraEffortGlobal: boolean;
+    hideInactiveAttacks: boolean;
+    hideInactiveAttacksGlobal: boolean;
+    sheetOTFs: NewOTF;
+    numberOfHands: number;
+}
 
 class ActorSeetingsForm extends BaseSeetingsForm {
     constructor(actor: Actor) {
         super([]);
         this._actor = actor;
-        this._settings = foundry.utils.deepClone(getActorSettings(actor));
-        this._items = { skills: {}, traits: {} };
         this._globalSetting = getSettings();
+        this._settings = foundry.utils.deepClone(getActorSettings(actor));
+        this._settings.sheetOTFs = mergOTFs(this._settings, this._globalSetting);
+        this._items = { skills: {}, traits: {} };
     }
 
     protected _actor;
@@ -38,6 +65,8 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         },
         actions: {
             save: this.#onSave,
+            addOTF: this.#addOTF,
+            deleteOTF: this.#deteteOTF,
         },
     };
 
@@ -90,6 +119,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
 
         return {
             ...context,
+            OTFScope: 'actor',
             globalSettings: this._globalSetting,
             settings: this._settings,
             skills: this._items.skills,
@@ -104,14 +134,45 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         this.close();
     }
 
-    /**
-     * Process form submission for the sheet
-     * @this {MyApplication}                      The handler is called with the application as its bound scope
-     * @param {SubmitEvent} _event                   The originating form submission event
-     * @param {HTMLFormElement} _form                The form element that was submitted
-     * @param {FormDataExtended} formData           Processed data for the submitted form
-     * @returns {Promise<void>}
-     */
+    static async #addOTF(this: ActorSeetingsForm, event: Event) {
+        event.preventDefault();
+        this._settings.sheetOTFs.unshift(newOTF('actor'));
+        await this.render();
+    }
+
+    static async #deteteOTF(this: ActorSeetingsForm, event: Event, target: HTMLElement) {
+        event.preventDefault();
+        const i = Number(target.dataset.index);
+        if (!isNaN(i)) {
+            this._settings.sheetOTFs.splice(i, 1);
+            await this.render();
+        }
+    }
+
+    private updateOTFs(newOTFs: NewOTF) {
+        this._settings.sheetOTFs = this._settings.sheetOTFs.map((o, i) => {
+            if (o.scope !== 'actor') {
+                return { ...o, active: newOTFs.active[i] };
+            } else {
+                return {
+                    ...o,
+                    active: newOTFs.active[i],
+                    region: newOTFs.region ? newOTFs.region[i] : o.region,
+                    code: newOTFs.code ? newOTFs.code[i] : o.code,
+                    skillRequiered: newOTFs.skillRequiered
+                        ? newOTFs.skillRequiered[i].split(',').filter((s) => s !== '')
+                        : o.skillRequiered,
+                    traitRequiered: newOTFs.traitRequiered
+                        ? newOTFs.traitRequiered[i].split(',').filter((s) => s !== '')
+                        : o.traitRequiered,
+                    traitsForbidden: newOTFs.traitsForbidden
+                        ? newOTFs.traitsForbidden[i].split(',').filter((s) => s !== '')
+                        : o.traitsForbidden,
+                };
+            }
+        });
+    }
+
     static override async settingsFormHandler(
         this: ActorSeetingsForm,
         _event: Event | SubmitEvent,
@@ -119,7 +180,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         formData: FormDataExtended,
     ) {
         // Do things with the returned FormData
-        const newSettings = foundry.utils.expandObject(formData.object).settings as any;
+        const newSettings = foundry.utils.expandObject(formData.object).settings as NewSettings;
         if (newSettings.allowExtraEffortGlobal) {
             this._settings.allowExtraEffort = null;
         } else {
@@ -132,6 +193,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
                 newSettings.hideInactiveAttacks ?? this._globalSetting.hideInactiveAttacks;
         }
         this._settings.numberOfHands = Math.round(newSettings.numberOfHands);
+        this.updateOTFs(newSettings.sheetOTFs);
         this.render();
     }
 }

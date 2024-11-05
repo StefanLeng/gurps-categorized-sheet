@@ -1,4 +1,4 @@
-import { CATEGORIES } from './types.ts';
+import { CATEGORIES, OTF_REGIONS } from './types.ts';
 import { BasicForm } from './abstractForm.ts';
 
 abstract class BaseSeetingsForm extends BasicForm {
@@ -75,6 +75,10 @@ abstract class BaseSeetingsForm extends BasicForm {
             template: 'modules/gurps-categorized-sheet/templates/settingsFormTraits.hbs',
             scrollable: CATEGORIES.map((i) => `#slcs-traits-${i}`),
         },
+        OTFsTab: {
+            template: 'modules/gurps-categorized-sheet/templates/settingsFormOTFs.hbs',
+            scrollable: ['#slcs-sheet-OTFs .OTF-config'],
+        },
         footer: {
             template: 'templates/generic/form-footer.hbs',
         },
@@ -105,6 +109,12 @@ abstract class BaseSeetingsForm extends BasicForm {
                 icon: 'fa-solid fa-cog',
                 label: 'Traits',
             },
+            OTFsTab: {
+                id: 'OTFs',
+                group: 'primary',
+                icon: 'fa-solid fa-cog',
+                label: 'Sheet OTFs',
+            },
         });
     }
 
@@ -112,6 +122,7 @@ abstract class BaseSeetingsForm extends BasicForm {
         const context = await super._prepareContext(options);
         return {
             ...context,
+            otfRegions: OTF_REGIONS,
             buttons: [{ action: 'save', icon: 'fa-solid fa-save', label: 'SETTINGS.Save' }],
         };
     }

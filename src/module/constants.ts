@@ -1,4 +1,4 @@
-import { CategoryList } from './types.ts';
+import { CategoryList, OTFRegion, SheetOTF } from './types.ts';
 
 export const MODULE_ID = 'gurps-categorized-sheet';
 export const SYSTEM_ID = 'gurps';
@@ -1209,3 +1209,159 @@ export const adsCategories: CategoryList = {
     technical: technicalAds,
     powers: powersAds,
 };
+
+export const systemOTFs: SheetOTF[] = [
+    { key: 'g00001', region: 'defence', code: '["+3 to Dodge (retreat)"+3 to Dodge (retreat)]' },
+    { key: 'g00002', region: 'defence', code: '["+1 to Block/Parry (retreat)"+1 to Block/Parry (retreat)]' },
+    { key: 'g00003', region: 'defence', code: '["−2 attacked from side"-2 to defence (attacked from side)]' },
+    {
+        key: 'g00004',
+        region: 'defence',
+        code: '["−1 to defenses due to Deceptive attack"-1 to defenses due to Deceptive attack]',
+    },
+    {
+        key: 'g00005',
+        region: 'defence',
+        code: '["+2 Feverish Defense *Cost 1FP"+2 Feverish Defense *Cost 1FP]',
+        flags: {
+            extraEffort: true,
+        },
+    },
+    {
+        key: 'g00006',
+        region: 'defence',
+        code: '["Acrobatic Dodge"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [Dodge]]',
+        skillRequiered: ['acrobatics'],
+    },
+    {
+        key: 'g00007',
+        region: 'defence',
+        code: '["Acrobatic Dodge (Retreat)"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [+3 Retreat]\\\\/r [Dodge]]',
+        skillRequiered: ['acrobatics'],
+    },
+    {
+        key: 'g00008',
+        region: 'defence',
+        code: '["Acrobatic Dodge (Feverish)"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [+2 Feverish Defense *Cost 1FP]\\\\/r [Dodge]]',
+        flags: {
+            extraEffort: true,
+        },
+        skillRequiered: ['acrobatics'],
+    },
+    {
+        key: 'g00009',
+        region: 'defence',
+        code: '["Acrobatic Dodge (Feverish/Retreat)"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [+2 Feverish Defense *Cost 1FP]\\\\/r [+3 Retreat]\\\\/r [Dodge]]',
+        flags: {
+            extraEffort: true,
+        },
+        skillRequiered: ['acrobatics'],
+    },
+    { key: 'g00010', region: 'melee', code: '["+4 to hit (Telegraphic Attack)"+4 to hit (Telegraphic Attack)]' },
+    { key: 'g00011', region: 'melee', code: '["−2 to hit (Deceptive Attack)"-2 to hit (Deceptive Attack)]' },
+    {
+        key: 'g00012',
+        region: 'melee',
+        code: '["−4 to hit (Move and Attack) *Max:9"-4 to hit (Move and Attack) *Max:9]',
+    },
+    {
+        key: 'g00013',
+        region: 'melee',
+        code: '["+0 Heroic Charge *Cost 1FP"+0 Heroic Charge *Cost 1FP]',
+        flags: {
+            extraEffort: true,
+        },
+    },
+    {
+        key: 'g00014',
+        region: 'melee',
+        code: '["+2 damage (Mighty Blow) *Cost 1FP"+2 damage (Mighty Blow) *Cost 1FP]',
+        flags: {
+            extraEffort: true,
+        },
+    },
+    { key: 'g00015', region: 'melee', code: '["+4 to hit (Determined Attack)"+4 to hit (Determined Attack)]' },
+    { key: 'g00016', region: 'melee', code: '["+2 damage (Strong Attack)"+2 damage (Strong Attack)]' },
+    {
+        key: 'g00017',
+        region: 'melee',
+        code: '["-3 Rapid Strike (Weapon Master)" -3 Rapid Strike]',
+        traitRequiered: ['Weapon Master'],
+    },
+    {
+        key: 'g00018',
+        region: 'melee',
+        code: '["-3 Rapid Strike (TbaM)" -3 Rapid Strike]',
+        traitRequiered: ['Trained by a Master'],
+    },
+    {
+        key: 'g00019',
+        region: 'melee',
+        code: '["-6 Rapid Strike" -6 Rapid Strike]',
+        traitsForbidden: ['Weapon Master', 'Trained by a Master'],
+    },
+    {
+        key: 'g00020',
+        region: 'melee',
+        code: '["-1 Flurry of blows (Weapon Master) *Cost 1FP" -1 Flurry of Blows *Cost 1FP]',
+        flags: {
+            extraEffort: true,
+        },
+        traitRequiered: ['Weapon Master'],
+    },
+    {
+        key: 'g00021',
+        region: 'melee',
+        code: '["-1 Flurry of blows (TbaM) *Cost 1FP" -1 Flurry of Blows *Cost 1FP]',
+        flags: {
+            extraEffort: true,
+        },
+        traitRequiered: ['Trained by a Master'],
+    },
+    {
+        key: 'g00022',
+        region: 'melee',
+        code: '["-3 Flurry of blows *Cost 1FP" -3 Flurry of Blows *Cost 1FP]',
+        flags: {
+            extraEffort: true,
+        },
+        traitsForbidden: ['Weapon Master', 'Trained by a Master'],
+    },
+    { key: 'g00023', region: 'ranged', code: '["+1 Aim"+1 Aim]' },
+    { key: 'g00024', region: 'ranged', code: '["+1 to hit (Determined Attack)"+1 to hit (Determined Attack)]' },
+    {
+        key: 'g00025',
+        region: 'ranged',
+        code: '["-3 Rapid Strike (Thrown Weapon, Weapon Master)" -3 Rapid Strike]',
+        flags: {
+            extraEffort: true,
+        },
+        traitRequiered: ['Weapon Master'],
+    },
+    {
+        key: 'g00026',
+        region: 'ranged',
+        code: '["-3 Rapid Strike (Thrown Weapon, TbaM)" -3 Rapid Strike]',
+        flags: {
+            extraEffort: true,
+        },
+        traitRequiered: ['Trained by a Master'],
+    },
+    {
+        key: 'g00027',
+        region: 'ranged',
+        code: '["-6 Rapid Strike (Thrown Weapon)" -6 Rapid Strike]',
+        flags: {
+            extraEffort: true,
+        },
+        traitsForbidden: ['Weapon Master', 'Trained by a Master'],
+    },
+    {
+        key: 'g00028',
+        region: 'reaction',
+        code: '["+2 Successful roll against a appropriate skill" +2 Successful roll against a appropriate skill]',
+    },
+    { key: 'g00029', region: 'reaction', code: '["-2 Repeated attempt" -2 Repeated attempt]' },
+].map((i) => {
+    return { ...i, region: i.region as OTFRegion, active: true, scope: 'module' };
+});

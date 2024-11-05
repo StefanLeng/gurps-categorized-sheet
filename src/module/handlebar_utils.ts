@@ -1,43 +1,43 @@
 import { encumberanceName } from './util.ts';
 
+const partialPath = 'modules/gurps-categorized-sheet/templates/partials/';
 // === register Handlebars partials ===
 // Partial name will be the last component of the path name, e.g.: 'systems/gurps/templates/actor/foo.hbs" -- the name is "foo".
 // Use it in an HTML/HBS file like this: {{> foo }}.
 // See https://handlebarsjs.com/guide/partials.html#partials for more documentation.
-export function registerHandlebarsPartials() {
+export async function registerHandlebarsPartials() {
     const templates = [
-        'modules/gurps-categorized-sheet/templates/partials/slcs-basic-attributes.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-portrait.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-secondary-attributes.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-modifierlist.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-conditions.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-skills.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-melee-attacks.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-ranged-attacks.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-defences.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-advantages.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-hpfptracker.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-hpfp.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-melee-weapons.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-ranged-weapons.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-target.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-lifting.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-reactions.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-description.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-equipment.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-spells.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-criticalRolls.hbs',
-        'modules/gurps-categorized-sheet/templates/partials/slcs-traitSorter.hbs',
+        'slcs-basic-attributes',
+        'slcs-portrait',
+        'slcs-secondary-attributes',
+        'slcs-modifierlist',
+        'slcs-conditions',
+        'slcs-skills',
+        'slcs-melee-attacks',
+        'slcs-ranged-attacks',
+        'slcs-defences',
+        'slcs-advantages',
+        'slcs-hpfptracker',
+        'slcs-hpfp',
+        'slcs-melee-weapons',
+        'slcs-ranged-weapons',
+        'slcs-target',
+        'slcs-lifting',
+        'slcs-reactions',
+        'slcs-description',
+        'slcs-equipment',
+        'slcs-spells',
+        'slcs-criticalRolls',
+        'slcs-traitSorter',
+        'slcs-sense-rolls',
     ];
 
-    templates.forEach((filename) => {
-        const name = filename.substr(filename.lastIndexOf('/') + 1).replace(/(.*)\.hbs/, '$1');
-        fetch(filename)
-            .then((it) => it.text())
-            .then(async (text) => {
-                Handlebars.registerPartial(name, text);
-            });
-    });
+    for (const name of templates) {
+        const filename = partialPath + name + '.hbs';
+        const it = await fetch(filename);
+        const text = await it.text();
+        Handlebars.registerPartial(name, text);
+    }
 }
 
 export function registerHandlebarsHelpers() {

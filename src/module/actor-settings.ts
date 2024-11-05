@@ -1,4 +1,4 @@
-import { CategoryList, CATEGORIES } from './types.ts';
+import { CategoryList, CATEGORIES, SheetOTF } from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINS } from './constants.ts';
 import { CatSheetSettings, getSettings } from './settings.ts';
 
@@ -17,6 +17,7 @@ export type CatSheetActorSettings = {
     allowExtraEffort: boolean | null;
     hideInactiveAttacks: boolean | null;
     numberOfHands: number;
+    sheetOTFs: SheetOTF[];
 };
 
 const emptyList: CategoryList = {
@@ -40,6 +41,7 @@ const defaultSettings: CatSheetActorSettings = {
     allowExtraEffort: null,
     hideInactiveAttacks: null,
     numberOfHands: 2,
+    sheetOTFs: [],
 };
 
 function migrateSetting(settings: CatSheetActorSettings) {
@@ -48,6 +50,9 @@ function migrateSetting(settings: CatSheetActorSettings) {
     }
     if (foundry.utils.isNewerVersion('0.3.2', settings.version ?? '0.0.0')) {
         return { ...settings, numberOfHands: defaultSettings.numberOfHands, version: '0.3.2' };
+    }
+    if (foundry.utils.isNewerVersion('0.3.3', settings.version ?? '0.0.0')) {
+        return { ...settings, sheetOTFs: defaultSettings.sheetOTFs, version: '0.3.3' };
     }
     return settings;
 }
@@ -74,7 +79,18 @@ export function mergeSettings(settings: CatSheetSettings, actorSettings: CatShee
             .filter((i) => !actorSettings.removedItems.traits[cat].some((x) => x === i))
             .concat(actorSettings.addedItems.traits[cat]);
     });
+    newSettings.sheetOTFs = mergOTFs(actorSettings, settings);
     return newSettings;
+}
+
+export function mergOTFs(actorSettings: CatSheetActorSettings, settings: CatSheetSettings) {
+    return actorSettings.sheetOTFs
+        .filter((i) => i.scope === 'actor')
+        .concat(
+            settings.sheetOTFs.map((s) => {
+                return { ...s, active: actorSettings.sheetOTFs.find((a) => a.key === s.key)?.active ?? s.active };
+            }),
+        );
 }
 
 export function getMergedSettings(actor: Actor): CatSheetSettings {

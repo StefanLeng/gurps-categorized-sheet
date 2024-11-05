@@ -1,18 +1,6 @@
 import { Rec } from './recursiveList.ts';
 
-export type SheetOTF = {
-    key: string;
-    region: string;
-    modifier: string;
-    flags?: {
-        [index: string]: boolean;
-    };
-    skillRequiered?: string[];
-    traitRequiered?: string[];
-    traitsForbidden?: string[];
-    active: boolean;
-    userDefined: boolean;
-};
+export type OTFScope = 'module' | 'global' | 'actor';
 
 export const OTF_REGIONS = [
     'defence',
@@ -23,9 +11,24 @@ export const OTF_REGIONS = [
     'social',
     'powers',
     'technical',
+    '',
 ] as const;
 
 export type OTFRegion = (typeof OTF_REGIONS)[number];
+
+export type SheetOTF = {
+    key: string;
+    region: OTFRegion;
+    code: string;
+    flags?: {
+        [index: string]: boolean;
+    };
+    skillRequiered?: string[];
+    traitRequiered?: string[];
+    traitsForbidden?: string[];
+    active: boolean;
+    scope: OTFScope;
+};
 
 //---------------------------------------------------//
 

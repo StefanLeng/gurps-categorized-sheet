@@ -1,0 +1,52 @@
+<section id="slcs-OFTTab" class="tab {{tab.cssClass}} " data-group="primary" data-tab="OTFs">
+    <h3 id="slcs-OTFs-title">Sheet OTFs</h3>
+    <button type="button" title="Add" data-action="addOTF" class="slsc-icon-button">
+        <i class="fas fa-plus"></i>
+    </button> 
+    <div id='slcs-sheet-OTFs' class='slcs-block'>
+        <div  class='OTF-config gga-table'>
+            <div class='OTF-enable header'>Enabled</div>
+            <div class='OTF-region header'>Region</div>
+            <div class='code header'>Code</div>
+            <div class='skills-requierd header'>Skills requierd</div>
+            <div class='traits-requierd header'>Traits requierd</div>
+            <div class='traits-forbidden header'>Traits forbidden</div>
+            <div class='flags header'></div>
+            <div class="delete header"></div>
+            
+            {{#stripes settings.sheetOTFs 'even' 'odd'}}
+                <input type="checkbox" class="OTF-region {{stripeClass}}" name="settings.sheetOTFs.active" {{checked active}}/>
+                <div class="OTF-region {{stripeClass}}">
+                    <select
+                        {{disabled (ne scope ../OTFScope)}}
+                        name="settings.sheetOTFs.region"
+                    >
+                        {{#each ../otfRegions}}
+                            <option value='{{this}}' {{select-if ../region this}}>{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="code {{stripeClass}}">
+                    <textarea name='settings.sheetOTFs.code' class='slcs-textarea' rows="2" {{disabled (ne scope ../OTFScope) }}>{{code}}</textarea>
+                </div>
+                <div class="skills-requierd {{stripeClass}}">
+                    <textarea name='settings.sheetOTFs.skillRequiered' class='slcs-textarea' rows="2" {{disabled (ne scope ../OTFScope) }}>{{skillRequiered}}</textarea>        
+                </div>
+                <div class="traits-requierd {{stripeClass}}">
+                    <textarea name='settings.sheetOTFs.traitRequiered' class='slcs-textarea' rows="2" {{disabled (ne scope ../OTFScope) }}>{{traitRequiered}}</textarea>
+                </div>
+                <div class="traits-forbidden {{stripeClass}}">
+                   <textarea name='settings.sheetOTFs.traitsForbidden' class='slcs-textarea' rows="2" {{disabled (ne scope ../OTFScope) }}>{{traitsForbidden}}</textarea>
+                </div>   
+                <div class="flags {{stripeClass}}"></div>   
+                <div class="delete {{stripeClass}}">
+                    {{#if (eq scope ../OTFScope)}}
+                        <button type="button" title="Delete" data-action="deleteOTF" data-index="{{@index}}" class="slsc-icon-button">
+                            <i class="fas fa-trash"></i>
+                        </button> 
+                    {{/if}}
+                </div>
+            {{/stripes}}
+        </div>
+    </div>
+</section>

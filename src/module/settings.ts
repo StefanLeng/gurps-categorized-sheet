@@ -1,16 +1,16 @@
 import { MyRollTable } from './rollTables.ts';
-import { skillCategories, adsCategories } from './constants.ts';
-import { CategoryList, CATEGORIES } from './types.ts';
+import { skillCategories, adsCategories, systemOTFs } from './constants.ts';
+import { CategoryList, CATEGORIES, SheetOTF } from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINS, SYSTEM_ID } from './constants.ts';
 import { removeArryDuplicates } from './util.ts';
 
-type RollTables = {
+export type RollTableNames = {
     [k in MyRollTable]: string;
 };
 
 export type CatSheetSettings = {
     version: string;
-    rollTables: RollTables;
+    rollTables: RollTableNames;
     items: {
         [index: string]: CategoryList;
         skills: CategoryList;
@@ -18,10 +18,11 @@ export type CatSheetSettings = {
     };
     allowExtraEffort: boolean;
     hideInactiveAttacks: boolean;
+    sheetOTFs: SheetOTF[];
 };
 
 export const defaultSettings: CatSheetSettings = {
-    version: '0.0.0',
+    version: '0.3.3',
     rollTables: {
         'Critical Hit': 'Critical Hit',
         'Critical Miss': 'Critical Miss',
@@ -34,6 +35,7 @@ export const defaultSettings: CatSheetSettings = {
     },
     allowExtraEffort: true,
     hideInactiveAttacks: false,
+    sheetOTFs: systemOTFs,
 };
 
 function sortTraits(cat: CategoryList): CategoryList {
@@ -47,6 +49,9 @@ function sortTraits(cat: CategoryList): CategoryList {
 function migrateSetting(settings: CatSheetSettings) {
     if (foundry.utils.isNewerVersion('0.3.0', settings.version ?? '0.0.0')) {
         return { ...settings, version: '0.3.0' };
+    }
+    if (foundry.utils.isNewerVersion('0.3.3', settings.version ?? '0.0.0')) {
+        return { ...settings, version: '0.3.3', sheetOTFs: defaultSettings.sheetOTFs };
     }
     return settings;
 }
