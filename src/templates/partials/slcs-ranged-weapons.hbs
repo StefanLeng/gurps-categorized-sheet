@@ -44,9 +44,5 @@
         {{/stripesouter}}
     </div>
     {{>speed-range-table}}
-    {{#unless (eq rangedOTFs "") }}
-        <div id='slcs-rangedOTFs' class="slcs-block slcs-otflist">
-            {{{gurpslink rangedOTFs}}}
-        </div>
-    {{/unless}}
+    {{>slcs-otf-region OTFs=rangedOTFs type='ranged'}}
 {{/if}}
