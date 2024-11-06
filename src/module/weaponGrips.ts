@@ -1,4 +1,3 @@
-import { filterObject } from './util.ts';
 import { getMergedSettings, getActorSettings } from './actor-settings.ts';
 import * as RecursiveList from './recursiveList.ts';
 import { getSystemSetting } from './settings.ts';
@@ -28,29 +27,38 @@ const emptyHand: WeaponGrip = {
     rangedList: [],
 };
 
+function isMelee(m: MeleeMode | RangedMode): m is MeleeMode {
+    return (m as MeleeMode).reach !== undefined;
+}
+
+function isRanged(m: MeleeMode | RangedMode): m is RangedMode {
+    return (m as RangedMode).acc !== undefined;
+}
+
 /* assumption: notes on the attack are the VTTNotes from the weapon + the notes from the Attack. The part from the attack represent the skill. */
-function meleeToGrip(
+function attackToGrip(
     equipment: RecursiveList.List<Equipment>,
-    melee: keyedMeleeMode,
+    attack: keyedMeleeMode | keyedRangedMode,
     emptyHandWeapons: { name: string; usage: string }[],
 ): WeaponGrip {
-    const weapon = RecursiveList.findBestNameFit(equipment, melee.name);
+    const weapon = RecursiveList.findBestNameFit(equipment, attack.name);
     const weaponName = weapon
         ? weapon.name
-        : emptyHandWeapons.some((w) => (w.name === melee.name && w.usage === melee.mode) ?? '')
+        : emptyHandWeapons.some((w) => (w.name === attack.name && w.usage === attack.mode) ?? '')
           ? emptyHand.weaponName
           : '';
     const weaponNote = weapon ? weapon.notes : '';
-    const note = weaponName !== emptyHand.weaponName ? (melee.notes?.replace(weaponNote, '').trim() ?? '') : '';
-    const twoHanded = melee.st?.includes('†') ?? false;
-    const fixedReach = melee.reach?.includes('*') ? melee.reach : null;
-    const name =
-        weaponName === emptyHand.weaponName
+    const note = weaponName !== emptyHand.weaponName ? (attack.notes?.replace(weaponNote, '').trim() ?? '') : '';
+    const twoHanded = attack.st?.includes('†') ?? false;
+    const fixedReach = isMelee(attack) ? (attack.reach?.includes('*') ? attack.reach : null) : 'ranged';
+    const name = isMelee(attack)
+        ? weaponName === emptyHand.weaponName
             ? emptyHand.name
-            : melee.name +
+            : attack.name +
               (note !== '' ? ` (${note})` : '') +
               (twoHanded ? ' two handed' : '') +
-              (fixedReach !== null ? ` ${fixedReach}` : '');
+              (fixedReach !== null ? ` ${fixedReach}` : '')
+        : attack.name + (attack.mode !== '' ? ` ${attack.mode}` : '');
     return {
         name: name,
         weaponName: weaponName,
@@ -58,35 +66,9 @@ function meleeToGrip(
         note: note,
         weaponNote: weaponNote,
         fixedReach: fixedReach,
-        ranged: false,
-        meleeList: [{ ...melee, notes: note }],
-        rangedList: [],
-    };
-}
-
-function rangedToGrip(
-    equipment: RecursiveList.List<Equipment>,
-    ranged: keyedRangedMode,
-    emptyHandWeapons: { name: string; usage: string }[],
-): WeaponGrip {
-    const weapon = RecursiveList.findBestNameFit(equipment, ranged.name);
-    const weaponName = weapon
-        ? weapon.name
-        : emptyHandWeapons.some((w) => (w.name === ranged.name && w.usage === ranged.mode) ?? '')
-          ? emptyHand.weaponName
-          : '';
-    const weaponNote = weapon ? weapon.notes : '';
-    const note = ranged.notes?.replace(weaponNote, '').trim() ?? '';
-    return {
-        name: ranged.name + (ranged.mode !== '' ? ` ${ranged.mode}` : ''),
-        weaponName: weaponName,
-        twoHanded: ranged.st?.includes('†') ?? false,
-        note: note,
-        weaponNote: weaponNote,
-        fixedReach: 'ranged',
-        ranged: true,
-        meleeList: [],
-        rangedList: [{ ...ranged, notes: note }],
+        ranged: isRanged(attack),
+        meleeList: isMelee(attack) ? [{ ...attack, notes: note }] : [],
+        rangedList: isRanged(attack) ? [{ ...attack, notes: note }] : [],
     };
 }
 
@@ -108,36 +90,25 @@ function combineGrips(grip1: WeaponGrip, grip2: WeaponGrip) {
     };
 }
 
-function meleeGrips(
+function makeGrips(
     equipment: RecursiveList.List<Equipment>,
-    melees: RecursiveList.ElementList<MeleeMode>,
+    melees: RecursiveList.ElementList<MeleeMode | RangedMode>,
+    ranged: RecursiveList.ElementList<MeleeMode | RangedMode>,
     emptyHandWeapons: { name: string; usage: string }[],
 ) {
     const grips = Object.entries(melees)
+        .concat(Object.entries(ranged))
         .map(([k, m]) => {
             return { ...m, key: k, selected: false };
         })
         //.flatMap(m => splitByReach(m))
-        .map((m) => meleeToGrip(equipment, m, emptyHandWeapons))
+        .map((m) => attackToGrip(equipment, m, emptyHandWeapons))
         .filter((g) => g.weaponName !== '');
 
     if (grips.findIndex((g) => g.name === emptyHand.name) < 0) {
         grips.push(emptyHand);
     }
     return grips;
-}
-
-function rangedGrips(
-    equipment: RecursiveList.List<Equipment>,
-    ranged: RecursiveList.ElementList<RangedMode>,
-    emptyHandWeapons: { name: string; usage: string }[],
-) {
-    return Object.entries(ranged)
-        .map(([k, m]) => {
-            return { ...m, key: k, selected: false };
-        })
-        .map((m) => rangedToGrip(equipment, m, emptyHandWeapons))
-        .filter((g) => g.weaponName !== '');
 }
 
 function reduceGrips(grips: WeaponGrip[]) {
@@ -165,37 +136,23 @@ function attackWithoutGrip<T extends AttackMode>(
         );
 }
 
-function nonEquipmentMeleeWeapons(modes: keyedMeleeMode[]) {
-    return modes.reduce((wl: Weapon[], m) => {
+function nonEquipmentWeapons(
+    modes: keyedMeleeMode[] | keyedRangedMode[],
+    modes2: keyedMeleeMode[] | keyedRangedMode[],
+) {
+    return modes.concat(modes2).reduce((wl: Weapon[], m) => {
         const i = wl.findIndex((w) => w.name === m.name);
         if (i >= 0) {
-            wl[i].meleeList.push(m);
+            if (isMelee(m)) {
+                wl[i].meleeList.push(m);
+            } else wl[i].rangedList.push(m);
         } else {
             wl.push({
                 name: m.name,
                 notes: '',
                 grips: [],
-                meleeList: [m],
-                rangedList: [],
-                equipped: false,
-            });
-        }
-        return wl;
-    }, []);
-}
-
-function nonEquipmentRangedWeapons(modes: keyedRangedMode[]) {
-    return modes.reduce((wl: Weapon[], m) => {
-        const i = wl.findIndex((w) => w.name === m.name);
-        if (i >= 0) {
-            wl[i].rangedList.push(m);
-        } else {
-            wl.push({
-                name: m.name,
-                notes: '',
-                grips: [],
-                meleeList: [],
-                rangedList: [m],
+                meleeList: isMelee(m) ? [m] : [],
+                rangedList: isRanged(m) ? [m] : [],
                 equipped: false,
             });
         }
@@ -282,6 +239,18 @@ function isAttackEquippped(
     return isEquipped || isNotFromWeapon;
 }
 
+function fixMelee(mode: MeleeMode): MeleeMode {
+    if (mode.reach === undefined) {
+        return { ...mode, reach: '' };
+    } else return mode;
+}
+
+function fixRanged(mode: RangedMode): RangedMode {
+    if (mode.acc === undefined) {
+        return { ...mode, acc: '' };
+    } else return mode;
+}
+
 export function resolveWeapons(
     equipment: { carried: RecursiveList.List<Equipment>; other: RecursiveList.List<Equipment> },
     meleeListIn: RecursiveList.ElementList<MeleeMode>,
@@ -290,15 +259,11 @@ export function resolveWeapons(
     actor: Actor,
 ): [grips: WeaponGrip[], hands: Hand[], meleeWeapons: Weapon[], rangedWeapons: Weapon[]] {
     const emptyHandWeapons = getActorSettings(actor).emptyHandAttacs ?? [];
-    const meleeList = filterObject(meleeListIn, (a) =>
-        isAttackEquippped(a, equipment),
-    ) as RecursiveList.ElementList<MeleeMode>;
-    const rangedList = filterObject(rangedListIn, (a) =>
-        isAttackEquippped(a, equipment),
-    ) as RecursiveList.ElementList<RangedMode>;
-    const grips00 = meleeGrips(equipment.carried, meleeList, emptyHandWeapons).concat(
-        rangedGrips(equipment.carried, rangedList, emptyHandWeapons),
-    );
+    const meleeList0 = RecursiveList.filterList(meleeListIn, (a) => isAttackEquippped(a, equipment));
+    const meleeList = RecursiveList.mapList(meleeList0, fixMelee);
+    const rangedList0 = RecursiveList.filterList(rangedListIn, (a) => isAttackEquippped(a, equipment));
+    const rangedList = RecursiveList.mapList(rangedList0, fixRanged);
+    const grips00 = makeGrips(equipment.carried, meleeList, rangedList, emptyHandWeapons);
     const grips0 = reduceGrips(grips00);
 
     const hands = handsIn.map((h) => {
@@ -314,17 +279,16 @@ export function resolveWeapons(
             w.meleeList = w.meleeList.filter((i) => displaySelected(i, hideInactive)).sort(compareAttacks);
             w.rangedList = w.rangedList.filter((i) => displaySelected(i, hideInactive)).sort(compareAttacks);
             return w;
-        });
+        })
+        .concat(
+            nonEquipmentWeapons(
+                attackWithoutGrip(equipment.carried, meleeList, emptyHandWeapons),
+                attackWithoutGrip(equipment.carried, rangedList, emptyHandWeapons),
+            ),
+        );
 
-    const meeleWeapons = weapons
-        .filter((w) => w.meleeList.length > 0)
-        .sort(compareWeapons)
-        .concat(nonEquipmentMeleeWeapons(attackWithoutGrip(equipment.carried, meleeList, emptyHandWeapons)));
-
-    const rangedWeapons = weapons
-        .filter((w) => w.rangedList.length > 0)
-        .sort(compareWeapons)
-        .concat(nonEquipmentRangedWeapons(attackWithoutGrip(equipment.carried, rangedList, emptyHandWeapons)));
+    const meeleWeapons = weapons.filter((w) => w.meleeList.length > 0).sort(compareWeapons);
+    const rangedWeapons = weapons.filter((w) => w.rangedList.length > 0).sort(compareWeapons);
 
     return [grips, hands, meeleWeapons, rangedWeapons];
 }

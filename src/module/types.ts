@@ -71,7 +71,7 @@ export interface AttackMode {
 }
 
 export interface MeleeMode extends AttackMode {
-    reach?: string;
+    reach: string;
     parry?: string;
     block?: string;
 }
@@ -80,8 +80,9 @@ export interface KeyedAttack extends AttackMode, Keyed {}
 
 export interface keyedMeleeMode extends MeleeMode, Keyed {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface RangedMode extends AttackMode {}
+export interface RangedMode extends AttackMode {
+    acc: string;
+}
 
 export interface keyedRangedMode extends RangedMode, Keyed {}
 

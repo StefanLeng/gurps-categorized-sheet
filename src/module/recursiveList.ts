@@ -15,11 +15,11 @@ export function emptyList<T>(): ElementList<T> {
     return {};
 }
 
-function filterList<T>(list: ElementList<T>, pred: (i: T) => boolean): ElementList<T> {
+export function filterList<T>(list: ElementList<T>, pred: (i: T) => boolean): ElementList<T> {
     return Object.fromEntries(Object.entries(list).filter(([_, val]) => pred(val)));
 }
 
-function mapList<T, U>(list: ElementList<T>, fn: (i: T) => U): ElementList<U> {
+export function mapList<T, U>(list: ElementList<T>, fn: (i: T) => U): ElementList<U> {
     return Object.fromEntries(Object.entries(list).map(([i, val]) => [i, fn(val)]));
 }
 
