@@ -105,7 +105,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             selfMods.push(...convertModifiers(data.actor.system.conditions.usermods));
 
             const handsOld = initHands(data.actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
-            const [grips, hands, meleeWeapons, rangedWeapons, rangedSelected] = resolveWeapons(
+            const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons(
                 data.system.equipment,
                 data.system.melee,
                 data.system.ranged,
@@ -133,7 +133,6 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
                 explorationOTFs: getOTFs('exploration', data.actor),
                 powersOTFs: getOTFs('powers', data.actor),
                 technicalOTFs: getOTFs('technical', data.actor),
-                rangedSelected: rangedSelected,
                 targets: targets(data.actor, false),
                 targetsRanged: targets(data.actor, true),
                 reactionTableExists: reactionTableExists(),

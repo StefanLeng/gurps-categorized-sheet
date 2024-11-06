@@ -1,6 +1,7 @@
-import { CategoryList, CATEGORIES, SheetOTF } from './types.ts';
+import { CategoryList, CATEGORIES, SheetOTF, Equipment, MeleeMode } from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINS } from './constants.ts';
 import { CatSheetSettings, getSettings } from './settings.ts';
+import * as RecursiveList from './recursiveList.ts';
 
 export type CatSheetActorSettings = {
     version: string;
@@ -18,6 +19,7 @@ export type CatSheetActorSettings = {
     hideInactiveAttacks: boolean | null;
     numberOfHands: number;
     sheetOTFs: SheetOTF[];
+    emptyHandAttacs?: { name: string; usage: string }[];
 };
 
 const emptyList: CategoryList = {
@@ -42,24 +44,42 @@ const defaultSettings: CatSheetActorSettings = {
     hideInactiveAttacks: null,
     numberOfHands: 2,
     sheetOTFs: [],
+    emptyHandAttacs: [],
 };
 
 function migrateSetting(settings: CatSheetActorSettings) {
+    let newSettings = settings;
     if (foundry.utils.isNewerVersion('0.3.0', settings.version ?? '0.0.0')) {
-        return { ...settings, version: '0.3.0' };
+        newSettings = { ...newSettings, version: '0.3.0' };
     }
     if (foundry.utils.isNewerVersion('0.3.2', settings.version ?? '0.0.0')) {
-        return { ...settings, numberOfHands: defaultSettings.numberOfHands, version: '0.3.2' };
+        newSettings = { ...newSettings, numberOfHands: defaultSettings.numberOfHands, version: '0.3.2' };
     }
     if (foundry.utils.isNewerVersion('0.3.3', settings.version ?? '0.0.0')) {
-        return { ...settings, sheetOTFs: defaultSettings.sheetOTFs, version: '0.3.3' };
+        newSettings = { ...newSettings, sheetOTFs: defaultSettings.sheetOTFs, version: '0.3.3' };
     }
-    return settings;
+    if (!newSettings.emptyHandAttacs) {
+        newSettings.emptyHandAttacs = [];
+    }
+    return newSettings;
+}
+
+function punch(equipment: RecursiveList.List<Equipment>, melees: RecursiveList.ElementList<MeleeMode>) {
+    //todo: make generic and merge with next fuction
+    return Object.entries(melees)
+        .map(([_, m]) => {
+            return { name: m.name, usage: m.mode ?? '' };
+        })
+        .filter((m) => !RecursiveList.nameExists(equipment, m.name) && m.usage === 'Punch');
 }
 
 export function getActorSettings(actor: Actor): CatSheetActorSettings {
     const settings = (actor.getFlag(MODULE_ID, CAT_SHEET_SETTINS) ?? defaultSettings) as CatSheetActorSettings;
-    return migrateSetting(settings);
+    const migratedSetting = migrateSetting(settings);
+    if (migratedSetting.emptyHandAttacs?.length === 0) {
+        migratedSetting.emptyHandAttacs = punch((actor.system as any).equipment, (actor.system as any).melee);
+    }
+    return migratedSetting;
 }
 
 export function setActorSettings(actor: Actor, settings: CatSheetActorSettings) {
