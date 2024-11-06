@@ -70,7 +70,7 @@ function punch(equipment: RecursiveList.List<Equipment>, melees: RecursiveList.E
         .map(([_, m]) => {
             return { name: m.name, usage: m.mode ?? '' };
         })
-        .filter((m) => !RecursiveList.nameExists(equipment, m.name) && m.usage === 'Punch');
+        .filter((m) => !RecursiveList.nameStartExists(equipment, m.name) && m.usage === 'Punch');
 }
 
 export function getActorSettings(actor: Actor): CatSheetActorSettings {

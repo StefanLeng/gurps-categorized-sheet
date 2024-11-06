@@ -41,6 +41,10 @@ export function findByName<T extends Rec<T> & NamedItem>(list: List<T>, name: st
     return find(list, (w) => w.name === name);
 }
 
+export function findByNameStart<T extends Rec<T> & NamedItem>(list: List<T>, name: string): T | undefined {
+    return find(list, (w) => name.startsWith(w.name));
+}
+
 export function some<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): boolean {
     return !!find(list, pred);
 }
@@ -53,6 +57,18 @@ export function nameExists<T extends Rec<T> & NamedItem>(list: List<T>, name: st
     return !!find(list, (w) => w.name === name);
 }
 
+export function nameStartExists<T extends Rec<T> & NamedItem>(list: List<T>, name: string): boolean {
+    return !!find(list, (w) => name.startsWith(w.name));
+}
+
+export function findBestNameFit<T extends Rec<T> & NamedItem>(list: List<T>, name: string): T | undefined {
+    const flat = flatten(list);
+    const filtered = Object.values(flat)
+        .filter((val) => name.startsWith(val.name))
+        .sort((val, val1) => val1.name.length - val.name.length);
+    if (filtered.length > 0) return filtered[0];
+    return undefined;
+}
 export function filter<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): List<T> {
     const l1 = filterList(list, (i) => pred(i) || !!find(i.contains ?? emptyList<T>(), pred));
     const l2 = mapList(l1, (i) => {

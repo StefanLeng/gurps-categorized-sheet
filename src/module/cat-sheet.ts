@@ -10,6 +10,7 @@ import { MODULE_ID } from './constants.ts';
 import { ActorSeetingsForm } from './actorSettingsForm.ts';
 import { getActorSettings } from './actor-settings.ts';
 import { Hand, WeaponGrip } from './types.ts';
+import { emptyList } from './recursiveList.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
     /** @override */
@@ -106,9 +107,9 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
             const handsOld = initHands(data.actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
             const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons(
-                data.system.equipment,
-                data.system.melee,
-                data.system.ranged,
+                data.system.equipment ?? emptyList,
+                data.system.melee ?? emptyList,
+                data.system.ranged ?? emptyList,
                 handsOld,
                 data.actor,
             );

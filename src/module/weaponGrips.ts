@@ -34,7 +34,7 @@ function meleeToGrip(
     melee: keyedMeleeMode,
     emptyHandWeapons: { name: string; usage: string }[],
 ): WeaponGrip {
-    const weapon = RecursiveList.findByName(equipment, melee.name);
+    const weapon = RecursiveList.findBestNameFit(equipment, melee.name);
     const weaponName = weapon
         ? weapon.name
         : emptyHandWeapons.some((w) => (w.name === melee.name && w.usage === melee.mode) ?? '')
@@ -69,7 +69,7 @@ function rangedToGrip(
     ranged: keyedRangedMode,
     emptyHandWeapons: { name: string; usage: string }[],
 ): WeaponGrip {
-    const weapon = RecursiveList.findByName(equipment, ranged.name);
+    const weapon = RecursiveList.findBestNameFit(equipment, ranged.name);
     const weaponName = weapon
         ? weapon.name
         : emptyHandWeapons.some((w) => (w.name === ranged.name && w.usage === ranged.mode) ?? '')
@@ -160,7 +160,7 @@ function attackWithoutGrip<T extends AttackMode>(
         })
         .filter(
             (m) =>
-                !RecursiveList.nameExists(equipment, m.name) &&
+                !RecursiveList.nameStartExists(equipment, m.name) &&
                 !emptyHandWeapons.some((w) => (w.name === m.name && w.usage === m.mode) ?? ''),
         );
 }
@@ -274,11 +274,11 @@ function isAttackEquippped(
     const filterEquipped = getSystemSetting('remove-unequipped-weapons');
     const isEquipped = RecursiveList.some(
         equipment.carried,
-        (w) => w.name === attack.name && (!filterEquipped || w.equipped),
+        (w) => attack.name.startsWith(w.name) && (!filterEquipped || w.equipped),
     );
     const isNotFromWeapon =
-        !RecursiveList.nameExists(equipment.carried, attack.name) &&
-        !RecursiveList.nameExists(equipment.other, attack.name);
+        !RecursiveList.nameStartExists(equipment.carried, attack.name) &&
+        !RecursiveList.nameStartExists(equipment.other, attack.name);
     return isEquipped || isNotFromWeapon;
 }
 
