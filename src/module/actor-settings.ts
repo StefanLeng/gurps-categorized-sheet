@@ -1,4 +1,4 @@
-import { CategoryList, CATEGORIES, SheetOTF, Equipment, MeleeMode } from './types.ts';
+import { CategoryList, CATEGORIES, SheetOTF, Equipment, MeleeMode, AttackMode } from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINS } from './constants.ts';
 import { CatSheetSettings, getSettings } from './settings.ts';
 import * as RecursiveList from './recursiveList.ts';
@@ -19,7 +19,7 @@ export type CatSheetActorSettings = {
     hideInactiveAttacks: boolean | null;
     numberOfHands: number;
     sheetOTFs: SheetOTF[];
-    emptyHandAttacs?: { name: string; usage: string }[];
+    emptyHandAttacks?: { name: string; usage: string }[];
 };
 
 const emptyList: CategoryList = {
@@ -44,7 +44,7 @@ const defaultSettings: CatSheetActorSettings = {
     hideInactiveAttacks: null,
     numberOfHands: 2,
     sheetOTFs: [],
-    emptyHandAttacs: [],
+    emptyHandAttacks: [],
 };
 
 function migrateSetting(settings: CatSheetActorSettings) {
@@ -58,26 +58,44 @@ function migrateSetting(settings: CatSheetActorSettings) {
     if (foundry.utils.isNewerVersion('0.3.3', settings.version ?? '0.0.0')) {
         newSettings = { ...newSettings, sheetOTFs: defaultSettings.sheetOTFs, version: '0.3.3' };
     }
-    if (!newSettings.emptyHandAttacs) {
-        newSettings.emptyHandAttacs = [];
+    if (!newSettings.emptyHandAttacks) {
+        newSettings.emptyHandAttacks = [];
     }
     return newSettings;
 }
 
 function punch(equipment: RecursiveList.List<Equipment>, melees: RecursiveList.ElementList<MeleeMode>) {
-    //todo: make generic and merge with next fuction
-    return Object.entries(melees)
-        .map(([_, m]) => {
+    return Object.values(melees)
+        .map((m) => {
             return { name: m.name, usage: m.mode ?? '' };
         })
         .filter((m) => !RecursiveList.nameStartExists(equipment, m.name) && m.usage === 'Punch');
 }
 
+export function attacksWithoutGrip<T extends AttackMode>(
+    equipment: RecursiveList.List<Equipment>,
+    melees: RecursiveList.ElementList<T>,
+    emptyHandWeapons: { name: string; usage: string }[],
+) {
+    return Object.entries(melees)
+        .map(([k, m]) => {
+            return { ...m, key: k, selected: true };
+        })
+        .filter((m) => !RecursiveList.nameStartExists(equipment, m.name))
+        .map((m) => {
+            return {
+                name: m.name,
+                usage: m.mode,
+                selected: emptyHandWeapons.some((w) => w.name === m.name && w.usage === (m.mode ?? '')),
+            };
+        });
+}
+
 export function getActorSettings(actor: Actor): CatSheetActorSettings {
     const settings = (actor.getFlag(MODULE_ID, CAT_SHEET_SETTINS) ?? defaultSettings) as CatSheetActorSettings;
     const migratedSetting = migrateSetting(settings);
-    if (migratedSetting.emptyHandAttacs?.length === 0) {
-        migratedSetting.emptyHandAttacs = punch((actor.system as any).equipment, (actor.system as any).melee);
+    if (migratedSetting.emptyHandAttacks?.length === 0) {
+        migratedSetting.emptyHandAttacks = punch((actor.system as any).equipment, (actor.system as any).melee);
     }
     return migratedSetting;
 }

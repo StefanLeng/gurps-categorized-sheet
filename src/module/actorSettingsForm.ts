@@ -1,4 +1,4 @@
-import { getActorSettings, mergeSettings, mergOTFs, setActorSettings } from './actor-settings.ts';
+import { attacksWithoutGrip, getActorSettings, mergeSettings, mergOTFs, setActorSettings } from './actor-settings.ts';
 import { CATEGORIES, CategoryOrOthers, Skill, AddDisad, OTFRegion, CategoryList } from './types.ts';
 import { getSettings } from './settings.ts';
 import { categorize } from './categorize.ts';
@@ -30,6 +30,7 @@ interface NewSettings {
     hideInactiveAttacksGlobal: boolean;
     sheetOTFs: NewOTF;
     numberOfHands: number;
+    emptyHandAttacks: boolean[];
 }
 
 class ActorSeetingsForm extends BaseSeetingsForm {
@@ -40,8 +41,21 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         this._settings = foundry.utils.deepClone(getActorSettings(actor));
         this._settings.sheetOTFs = mergOTFs(this._settings, this._globalSetting);
         this._items = { skills: {}, traits: {} };
+        const actorData = this._actor.system as any;
+        this._attacksWithoutGrip = attacksWithoutGrip(
+            actorData.equipment.carried,
+            actorData.melee ?? RecursiveList.emptyList,
+            this._settings.emptyHandAttacks ?? [],
+        ).concat(
+            attacksWithoutGrip(
+                actorData.equipment.carried,
+                actorData.ranged ?? RecursiveList.emptyList,
+                this._settings.emptyHandAttacks ?? [],
+            ),
+        );
     }
 
+    protected _attacksWithoutGrip;
     protected _actor;
     public _settings;
     protected _items: {
@@ -125,6 +139,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
             skills: this._items.skills,
             traits: this._items.traits,
             limitedEditing: true,
+            attacksWithoutGrip: this._attacksWithoutGrip,
         };
     }
 
@@ -191,6 +206,16 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         } else {
             this._settings.hideInactiveAttacks =
                 newSettings.hideInactiveAttacks ?? this._globalSetting.hideInactiveAttacks;
+        }
+        if (newSettings.emptyHandAttacks) {
+            this._attacksWithoutGrip = this._attacksWithoutGrip.map((m, i) => {
+                return { ...m, selected: newSettings.emptyHandAttacks[i] };
+            });
+            this._settings.emptyHandAttacks = this._attacksWithoutGrip
+                .filter((e) => e.selected)
+                .map((e) => {
+                    return { name: e.name, usage: e.usage ?? '' };
+                });
         }
         this._settings.numberOfHands = Math.round(newSettings.numberOfHands);
         this.updateOTFs(newSettings.sheetOTFs);

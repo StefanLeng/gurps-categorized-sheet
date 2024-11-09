@@ -723,6 +723,14 @@
         }
     }
 
+    .slcs-settingsBlock.single{
+        grid-template-columns: 0fr 1fr;
+    }
+    
+    .slcs-settingsBlock.double{
+        grid-template-columns: 0fr 0fr 0fr 1fr;
+    }
+
     .itemrow {
         display: grid;
         grid-template-columns: 1fr 0fr;
@@ -783,6 +791,15 @@
         }
     }
 
+    #slcs-generalTab {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+        #slcs-emptyHandWepons{
+            grid-template-columns: 1fr 1fr 0fr;
+        }
+    }
+
     #slcs-OFTTab.active {
         height: 100%;
         display: grid;
@@ -830,11 +847,6 @@
 }
     
 #slcs-settingsForm{
- 
-    .slcs-settingsBlock{
-        grid-template-columns: 0fr 1fr;
-    }
-
     section.slcs-sortingTab {
 
         .sortingArea {
@@ -844,11 +856,6 @@
 }
 
 #slcs-actorSettingsForm{
-
-    .slcs-settingsBlock{
-        grid-template-columns: 0fr 0fr 0fr 1fr;
-    }
-
     section.slcs-sortingTab {
 
         .sortingArea {

@@ -132,7 +132,7 @@ function attackWithoutGrip<T extends AttackMode>(
         .filter(
             (m) =>
                 !RecursiveList.nameStartExists(equipment, m.name) &&
-                !emptyHandWeapons.some((w) => (w.name === m.name && w.usage === m.mode) ?? ''),
+                !emptyHandWeapons.some((w) => w.name === m.name && w.usage === (m.mode ?? '')),
         );
 }
 
@@ -258,7 +258,7 @@ export function resolveWeapons(
     handsIn: Hand[],
     actor: Actor,
 ): [grips: WeaponGrip[], hands: Hand[], meleeWeapons: Weapon[], rangedWeapons: Weapon[]] {
-    const emptyHandWeapons = getActorSettings(actor).emptyHandAttacs ?? [];
+    const emptyHandWeapons = getActorSettings(actor).emptyHandAttacks ?? [];
     const meleeList0 = RecursiveList.filterList(meleeListIn, (a) => isAttackEquippped(a, equipment));
     const meleeList = RecursiveList.mapList(meleeList0, fixMelee);
     const rangedList0 = RecursiveList.filterList(rangedListIn, (a) => isAttackEquippped(a, equipment));

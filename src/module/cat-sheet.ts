@@ -107,7 +107,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
             const handsOld = initHands(data.actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
             const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons(
-                data.system.equipment ?? emptyList,
+                data.system.equipment,
                 data.system.melee ?? emptyList,
                 data.system.ranged ?? emptyList,
                 handsOld,

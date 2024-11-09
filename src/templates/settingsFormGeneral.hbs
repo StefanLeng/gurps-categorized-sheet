@@ -1,44 +1,61 @@
 <section id="slcs-generalTab" class="tab {{tab.cssClass}}" data-group="primary" data-tab="general">
-    {{#unless limitedEditing}}
-    <h3 id="slcs-rollTable-title">Roll Table names</h3>
-        <div class="slcs-settingsBlock">
-            {{#each settings.rollTables}}
-                <div class='label'>{{@key}}</div>
-                <input name='settings.rollTables.{{@key}}' class='slcs-input' type='text' value='{{this}}' />
-            {{/each}}
-        </div>
+    <div id="col1" class="slcs_col">
         <h3 id="slcs-modifiers-title">Modifier options</h3>
-        <div class="slcs-settingsBlock">
+        <div class="slcs-settingsBlock slcs-block {{#if limitedEditing}}double{{else}}single{{/if}}">
             <div class='label'>Use extra effort</div>
-            <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffort" {{checked settings.allowExtraEffort}}/>
+            {{#unless limitedEditing}}
+                <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffort" {{checked settings.allowExtraEffort}}/>
+            {{else}}
+                <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffort"
+                    {{disabled (eq settings.allowExtraEffort null)}} 
+                    {{#if (eq settings.allowExtraEffort null)}}{{checked globalSettings.allowExtraEffort}}{{else}}{{checked settings.allowExtraEffort}}{{/if}}/>
+                <div class='label global-setting'>Use global setting</div>
+                <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffortGlobal" {{checked (eq settings.allowExtraEffort null)}}/>            
+            {{/unless}}
         </div>
+        
         <h3 id="slcs-displa-title">Display options</h3>
-        <div class="slcs-settingsBlock">
+        <div class="slcs-settingsBlock slcs-block {{#if limitedEditing}}double{{else}}single{{/if}}">
             <div class='label'>Hide attacks/defences from weapons not hold</div>
-            <input type="checkbox" id="slcs-hide-inactive" name="settings.hideInactiveAttacks" {{checked settings.hideInactiveAttacks}}/>
-        </div>
-    {{else}}
-        <h3 id="slcs-modifiers-title">Modifier options</h3>
-        <div class="slcs-settingsBlock">
-            <div class='label'>Use extra effort</div>
-            <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffort"
-                {{disabled (eq settings.allowExtraEffort null)}} 
-                {{#if (eq settings.allowExtraEffort null)}}{{checked globalSettings.allowExtraEffort}}{{else}}{{checked settings.allowExtraEffort}}{{/if}}/>
-            <div class='label global-setting'>Use global setting</div>
-            <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffortGlobal" {{checked (eq settings.allowExtraEffort null)}}/>
-        </div>
-        <h3 id="slcs-displa-title">Display options</h3>
-        <div class="slcs-settingsBlock">
-            <div class='label'>Hide attacks/defences from weapons not hold</div>
-            <input type="checkbox" id="slcs-hide-inactive" name="settings.hideInactiveAttacks" 
-                {{disabled (eq settings.hideInactiveAttacks null)}} 
-                {{#if (eq settings.hideInactiveAttacks null)}}{{checked globalSettings.hideInactiveAttacks}}{{else}}{{checked settings.hideInactiveAttacks}}{{/if}}/>
-            <div class='label global-setting'>Use global setting</div>
-            <input type="checkbox" id="slcs-extra-effort" name="settings.hideInactiveAttacksGlobal" {{checked (eq settings.hideInactiveAttacks null)}}/>
-            <div class='label'>Number of Hands</div>
-            <input type="number" id="slcs-number-of-hands" name="settings.numberOfHands" min="0" max="10" step="1" value="{{settings.numberOfHands}}"/>
-            <div></div>
-            <div></div>
-        </div>    
-    {{/unless}}
+            {{#unless limitedEditing}}
+                <input type="checkbox" id="slcs-hide-inactive" name="settings.hideInactiveAttacks" {{checked settings.hideInactiveAttacks}}/>
+            {{else}}
+                <input type="checkbox" id="slcs-hide-inactive" name="settings.hideInactiveAttacks" 
+                    {{disabled (eq settings.hideInactiveAttacks null)}} 
+                    {{#if (eq settings.hideInactiveAttacks null)}}{{checked globalSettings.hideInactiveAttacks}}{{else}}{{checked settings.hideInactiveAttacks}}{{/if}}/>
+                <div class='label global-setting'>Use global setting</div>
+                <input type="checkbox" id="slcs-extra-effort" name="settings.hideInactiveAttacksGlobal" {{checked (eq settings.hideInactiveAttacks null)}}/>
+            {{/unless}}
+        </div>        
+    </div>
+    <div id="col2" class="slcs_col">
+        {{#unless limitedEditing}}
+            <h3 id="slcs-rollTable-title">Roll Table names</h3>
+            <div class="slcs-settingsBlock slcs-block single">
+                {{#each settings.rollTables}}
+                    <div class='label'>{{@key}}</div>
+                    <input name='settings.rollTables.{{@key}}' class='slcs-input' type='text' value='{{this}}' />
+                {{/each}}
+            </div>
+        {{/unless}}
+
+        {{#if limitedEditing}}
+            <h3 id="slcs-displa-title">Character Setup</h3>
+            <div class="slcs-settingsBlock single">
+                <div class='label'>Number of Hands</div>
+                <input type="number" id="slcs-number-of-hands" name="settings.numberOfHands" min="0" max="10" step="1" value="{{settings.numberOfHands}}"/>
+            </div>
+
+            <div id='slcs-emptyHandWepons' class='gga-table slcs-block'>
+                <div class='name header'>Non Equipment Weapon</div>
+                <div class='usage header'>Attack</div>
+                <div class='emptyHand header'>Needs Empty Hand</div>
+                 {{#stripes attacksWithoutGrip 'even' 'odd' }}
+                    <div class='name gga-right {{stripeClass}}'>{{name}}</div>
+                    <div class='usage gga-right {{stripeClass}}'>{{usage}}</div>
+                    <input type="checkbox" name="settings.emptyHandAttacks" {{checked selected}}/>
+                 {{/stripes}}
+            </div>
+        {{/if}}
+    </div>
 </section>
