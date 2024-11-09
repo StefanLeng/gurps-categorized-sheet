@@ -124,10 +124,11 @@ function attackWithoutGrip<T extends AttackMode>(
     equipment: RecursiveList.List<Equipment>,
     melees: RecursiveList.ElementList<T>,
     emptyHandWeapons: { name: string; usage: string }[],
+    attacksPossible: boolean,
 ): (T & Keyed)[] {
     return Object.entries(melees)
         .map(([k, m]) => {
-            return { ...m, key: k, selected: true };
+            return { ...m, key: k, selected: attacksPossible };
         })
         .filter(
             (m) =>
@@ -160,11 +161,11 @@ function nonEquipmentWeapons(
     }, []);
 }
 
-function markSelectd(grips: WeaponGrip[], hands: Hand[]) {
+function markSelectd(grips: WeaponGrip[], hands: Hand[], attackPossible: boolean) {
     return grips.map((g) => {
         const selected = hands.some((h) => h.grip === g.name);
-        g.meleeList = selected ? g.meleeList.map(setSelected) : g.meleeList;
-        g.rangedList = selected ? g.rangedList.map(setSelected) : g.rangedList;
+        g.meleeList = selected && attackPossible ? g.meleeList.map(setSelected) : g.meleeList;
+        g.rangedList = selected && attackPossible ? g.rangedList.map(setSelected) : g.rangedList;
         return g;
     });
 }
@@ -180,22 +181,19 @@ export function displaySelected<T extends Keyed>(mode: T, hideInactive: boolean)
     return mode.selected || !hideInactive;
 }
 
-function addGripToWeapons(weapons: Weapon[], grip: WeaponGrip, hands: Hand[]) {
+function addGripToWeapons(weapons: Weapon[], grip: WeaponGrip) {
     const i = weapons.findIndex((w) => w.name === grip.weaponName);
-    const selected = hands.some((h) => h.grip === grip.name);
     if (i >= 0) {
         weapons[i].grips.push(grip);
-        weapons[i].meleeList = weapons[i].meleeList.concat(selected ? grip.meleeList.map(setSelected) : grip.meleeList);
-        weapons[i].rangedList = weapons[i].rangedList.concat(
-            selected ? grip.rangedList.map(setSelected) : grip.rangedList,
-        );
+        weapons[i].meleeList = weapons[i].meleeList.concat(grip.meleeList);
+        weapons[i].rangedList = weapons[i].rangedList.concat(grip.rangedList);
     } else {
         weapons.push({
             name: grip.weaponName,
             notes: grip.weaponNote,
             grips: [grip],
-            meleeList: selected ? grip.meleeList.map(setSelected) : grip.meleeList,
-            rangedList: selected ? grip.rangedList.map(setSelected) : grip.rangedList,
+            meleeList: grip.meleeList,
+            rangedList: grip.rangedList,
             equipped: true,
         });
     }
@@ -251,6 +249,22 @@ function fixRanged(mode: RangedMode): RangedMode {
     } else return mode;
 }
 
+function attackPossible(actor: Actor) {
+    const attackManeuvers = [
+        'attack',
+        'allout_attack',
+        'aoa_determined',
+        'aoa_double',
+        'aoa_feint',
+        'aoa_strong',
+        'aoa_suppress',
+        'move_and_attack',
+        'undefined', //returned out of combat!
+    ];
+    const maneuver = (actor.system as any).conditions.maneuver;
+    return !!maneuver ? attackManeuvers.some((i) => i === maneuver) : true;
+}
+
 export function resolveWeapons(
     equipment: { carried: RecursiveList.List<Equipment>; other: RecursiveList.List<Equipment> },
     meleeListIn: RecursiveList.ElementList<MeleeMode>,
@@ -270,11 +284,13 @@ export function resolveWeapons(
         return { ...h, grip: grips0.find((g) => g.name === h.grip)?.name ?? emptyHand.name };
     });
 
-    const grips = markSelectd(grips0, hands);
+    const attacksPossible = attackPossible(actor);
+
+    const grips = markSelectd(grips0, hands, attacksPossible);
     const hideInactive = getMergedSettings(actor).hideInactiveAttacks;
 
     const weapons: Weapon[] = grips
-        .reduce((wl: Weapon[], g) => addGripToWeapons(wl, g, hands), [])
+        .reduce(addGripToWeapons, [])
         .map((w) => {
             w.meleeList = w.meleeList.filter((i) => displaySelected(i, hideInactive)).sort(compareAttacks);
             w.rangedList = w.rangedList.filter((i) => displaySelected(i, hideInactive)).sort(compareAttacks);
@@ -282,8 +298,12 @@ export function resolveWeapons(
         })
         .concat(
             nonEquipmentWeapons(
-                attackWithoutGrip(equipment.carried, meleeList, emptyHandWeapons),
-                attackWithoutGrip(equipment.carried, rangedList, emptyHandWeapons),
+                attackWithoutGrip(equipment.carried, meleeList, emptyHandWeapons, attacksPossible)
+                    .filter((i) => displaySelected(i, hideInactive))
+                    .sort(compareAttacks),
+                attackWithoutGrip(equipment.carried, rangedList, emptyHandWeapons, attacksPossible)
+                    .filter((i) => displaySelected(i, hideInactive))
+                    .sort(compareAttacks),
             ),
         );
 
