@@ -1,6 +1,7 @@
 import { displaySelected } from './weaponGrips.ts';
 import { keyedMeleeMode, WeaponGrip } from './types.ts';
 import { getSettings } from './settings.ts';
+import { getMergedSettings } from './actor-settings.ts';
 
 interface Defence {
     name: string;
@@ -17,7 +18,7 @@ interface WeaponDefence extends Defence {
 function compareDefences(a: WeaponDefence, b: WeaponDefence) {
     return a.selected && !b.selected ? -1 : !a.selected && b.selected ? 1 : b.level - a.level;
 }
-function weaponDefences(grips: WeaponGrip[]): WeaponDefence[] {
+function weaponDefences(grips: WeaponGrip[], defencePossible: boolean): WeaponDefence[] {
     const hideInactive = getSettings().hideInactiveAttacks;
     return grips
         .map((g) =>
@@ -45,7 +46,7 @@ function weaponDefences(grips: WeaponGrip[]): WeaponDefence[] {
                     level: x[0][0],
                     type: 'block',
                     attack: x[0][1],
-                    selected: x[0][1].selected,
+                    selected: x[0][1].selected && defencePossible,
                 } as WeaponDefence;
             } else if (x[1][1] !== undefined) {
                 return {
@@ -54,7 +55,7 @@ function weaponDefences(grips: WeaponGrip[]): WeaponDefence[] {
                     level: x[1][0],
                     type: 'parry',
                     attack: x[1][1],
-                    selected: x[1][1].selected,
+                    selected: x[1][1].selected && defencePossible,
                 } as WeaponDefence;
             }
             return {
@@ -70,17 +71,20 @@ function weaponDefences(grips: WeaponGrip[]): WeaponDefence[] {
             (def, i, arr) =>
                 i === arr.findIndex((v) => v.name === def.name && v.level === def.level && v.type === def.type) &&
                 def.type !== 'none',
-        ); //remaove duplicates}
+        ); //remove duplicates}
 }
 
-export function getDefenses(dodge: number, grips: WeaponGrip[]): Defence[] {
+export function getDefenses(dodge: number, grips: WeaponGrip[], actor: Actor): Defence[] {
+    const hideInactive = getMergedSettings(actor).hideInactiveAttacks;
+    const maneuver = (actor.system as any).conditions.maneuver;
     const defences: Defence[] = [];
+    const defencePossible = (GURPS.Maneuvers.get(maneuver)?.flags.gurps?.defense ?? 'all') !== 'none';
     defences.push({
         name: '',
         level: dodge,
         type: 'dodge',
-        selected: true,
+        selected: defencePossible,
         notes: '',
     });
-    return defences.concat(weaponDefences(grips));
+    return defences.concat(weaponDefences(grips, defencePossible)).filter((d) => d.selected || !hideInactive);
 }

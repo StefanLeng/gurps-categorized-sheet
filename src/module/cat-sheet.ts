@@ -116,7 +116,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             this.#grips = grips;
             this.actor.setFlag(MODULE_ID, 'hands', hands);
 
-            const defences = getDefenses(data.system.currentdodge, grips);
+            const defences = getDefenses(data.system.currentdodge, grips, this.actor);
 
             return foundry.utils.mergeObject(data, {
                 selfModifiers: selfMods,
