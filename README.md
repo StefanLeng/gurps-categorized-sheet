@@ -17,7 +17,7 @@ Skills and traits are categorized to appear on the appropriate tab. Anything not
 
 3. You can choose what weapon you grip with each hand. For weapons with different grips (e.g. one-handed vr. two-hnaded), these can be selected. Attacks and defences by weapons not griped are shown in a lighter color, but at still selectable by default. You can chose not to display them at all in the options.
 
-4. Many OTF appropriate to the character and the situation displayed at various sections of the sheet. Also modificators from any conditions are displayed  direclty on the sheet.
+4. Many OTF appropriate to the character and the situation displayed at various sections of the sheet. You can add your on in the configuraotion, both  globaly and per character. Also modificators from any conditions are displayed  direclty on the sheet.
 
 5. If you traget an token, the hit locations and any target modifier of the targeted token are displayed on the combat tab.
 
@@ -34,7 +34,7 @@ The categorization of skills and traits are based on there names. If you use tra
 
 ### Status of Development
 
-This is a beta release. The sheet uses some heuristics to extract the possible grips for weapons from the limited data avaiable in the current version of the GURPS Game Aid. They work for the setups I have tested, but I expect that there are situations that give in wired results. I am also not sure that the layout works for every character.
+The sheet uses some heuristics to extract the possible grips for weapons from the limited data avaiable in the current version of the GURPS Game Aid. They work for the setups I have tested, but I expect that there are situations that give in wired results. I am also not sure that the layout works for every character.
 If you notice any broken display, please open a [GitHub issue](https://github.com/StefanLeng/gurps-categorized-sheet/issues)  and attach the character file if possibe.
 I am also very intrested in any sugesstions for additional content that could be uesfull to include on any of the tabs (but take in account that the _combat_ tab is allready quite packed).
 
@@ -42,17 +42,11 @@ I am also very intrested in any sugesstions for additional content that could be
 
 I currently plan to add the following features:
 
-1. Configurable OTFs for all tabs.
+1. Jumping and hiking calculator on the exploration tab.
 
-2. Jumping and hiking calculator on the exploration tab.
+2. Maybe additional combat options from the GURPS Martial Arts book.
 
-3. Attack and defence modifier dependig on the choosen manuever.
-
-4. More configuration options.
-
-5. Maybe additional combat options from the GURPS Martial Arts book.
-
-6. Maybe add some useful tables to various tabs.
+3. Maybe add some useful tables to various tabs.
 
 When the new GCS based version of the GURPS Game Aid is ready, I plan to build a new version on that basis. There will be much more possibilities on the much richer data model, but this will be a near total rewite.
 
@@ -87,6 +81,14 @@ Fixed display of attacks without useage.
 Fixed display of attacks with missing ST or range.
 Fixed layout of the spell list.
 Fixed layout issues with ranged attacks with longer texts.
+
+0.4.0
+You can now configure your own OTFs for various parts of the sheet. These can be conditional by skills, traits or chosen manuever.
+Deactivate or activate attacks, defences and OTFs based on chosen manuever.
+Show all sense rolls on exploration tab.
+Configure per actor witch non-weapon attacks uses an empty hand.
+More fixes for equipment in containers.
+Fix for attacks not showing if the weapon name has postfixes (e.g. for TL)  
 
 ## Development
 
