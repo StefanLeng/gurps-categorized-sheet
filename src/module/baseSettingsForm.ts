@@ -123,6 +123,7 @@ abstract class BaseSeetingsForm extends BasicForm {
         return {
             ...context,
             otfRegions: OTF_REGIONS,
+            manuevers: Object.values(GURPS.Maneuvers.getAll()),
             buttons: [{ action: 'save', icon: 'fa-solid fa-save', label: 'SETTINGS.Save' }],
         };
     }

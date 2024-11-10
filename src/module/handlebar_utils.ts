@@ -111,4 +111,8 @@ export function registerHandlebarsHelpers() {
     });
 
     Handlebars.registerHelper('encumberanceName', encumberanceName);
+
+    Handlebars.registerHelper('select-if-included', function (value: string, expectedArray: string[] | undefined) {
+        return expectedArray?.some((i) => i === value) ? 'selected' : '';
+    });
 }

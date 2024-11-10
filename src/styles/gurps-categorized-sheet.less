@@ -791,7 +791,7 @@
         }
     }
 
-    #slcs-generalTab {
+    #slcs-generalTab.active {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1em;
@@ -805,7 +805,7 @@
         display: grid;
         grid-template-rows: 0fr 0fr 1fr;
         .OTF-config.gga-table {
-            grid-template-columns: 0fr 0fr 1fr 0fr 0fr 0fr 0fr 0fr;
+            grid-template-columns: 0fr 0fr 1fr 0fr 0fr 0fr 0fr 0fr 0fr;
             overflow-y: auto;
             width: 0;
             min-width: 100%;
@@ -833,6 +833,18 @@
             }
             select{
                 width: 7em;
+            }
+            multi-select{
+                width: 12em;
+                .tags.input-element-tags{
+                    justify-content: flex-start;
+                    .tag{
+                        border: none;
+                    }
+                }
+            }
+            multi-select:disabled select:disabled {
+                display: none;
             }
         }
         .OTF-config > div.code {

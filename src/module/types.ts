@@ -26,6 +26,7 @@ export type SheetOTF = {
     skillRequiered?: string[];
     traitRequiered?: string[];
     traitsForbidden?: string[];
+    manueverRequiered?: string[];
     active: boolean;
     scope: OTFScope;
 };

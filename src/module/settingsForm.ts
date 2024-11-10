@@ -12,6 +12,7 @@ interface NewOTF {
     skillRequiered?: string[];
     traitRequiered?: string[];
     traitsForbidden?: string[];
+    manueverRequiered?: string[][];
     active: boolean[];
 }
 
@@ -144,6 +145,7 @@ class SeetingsForm extends BaseSeetingsForm {
                     traitsForbidden: newOTFs.traitsForbidden
                         ? newOTFs.traitsForbidden[i].split(',').filter((s) => s !== '')
                         : o.traitsForbidden,
+                    manueverRequiered: newOTFs.manueverRequiered ? newOTFs.manueverRequiered[i] : o.manueverRequiered,
                 };
             }
         });

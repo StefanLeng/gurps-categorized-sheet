@@ -1280,8 +1280,18 @@ export const systemOTFs: SheetOTF[] = [
             extraEffort: true,
         },
     },
-    { key: 'g00015', region: 'melee', code: '["+4 to hit (Determined Attack)"+4 to hit (Determined Attack)]' },
-    { key: 'g00016', region: 'melee', code: '["+2 damage (Strong Attack)"+2 damage (Strong Attack)]' },
+    {
+        key: 'g00015',
+        region: 'melee',
+        code: '["+4 to hit (Determined Attack)"+4 to hit (Determined Attack)]',
+        manueverRequiered: ['allout_attack', 'aoa_determined'],
+    },
+    {
+        key: 'g00016',
+        region: 'melee',
+        code: '["+2 damage (Strong Attack)"+2 damage (Strong Attack)],',
+        manueverRequiered: ['allout_attack', 'aoa_strong'],
+    },
     {
         key: 'g00017',
         region: 'melee',
@@ -1328,7 +1338,12 @@ export const systemOTFs: SheetOTF[] = [
         traitsForbidden: ['Weapon Master', 'Trained by a Master'],
     },
     { key: 'g00023', region: 'ranged', code: '["+1 Aim"+1 Aim]' },
-    { key: 'g00024', region: 'ranged', code: '["+1 to hit (Determined Attack)"+1 to hit (Determined Attack)]' },
+    {
+        key: 'g00024',
+        region: 'ranged',
+        code: '["+1 to hit (Determined Attack)"+1 to hit (Determined Attack)]',
+        manueverRequiered: ['allout_attack', 'aoa_determined'],
+    },
     {
         key: 'g00025',
         region: 'ranged',
@@ -1362,6 +1377,12 @@ export const systemOTFs: SheetOTF[] = [
         code: '["+2 Successful roll against a appropriate skill" +2 Successful roll against a appropriate skill]',
     },
     { key: 'g00029', region: 'reaction', code: '["-2 Repeated attempt" -2 Repeated attempt]' },
+    {
+        key: 'g00030',
+        region: 'defence',
+        code: '["+2 All-Out Defense"+2 All-Out Defense]',
+        manueverRequiered: ['allout_defense', 'aod_dodge', 'aod_parry', 'aod_block'],
+    },
 ].map((i) => {
     return { ...i, region: i.region as OTFRegion, active: true, scope: 'module' };
 });

@@ -11,6 +11,7 @@
             <div class='skills-requierd header'>Skills requierd</div>
             <div class='traits-requierd header'>Traits requierd</div>
             <div class='traits-forbidden header'>Traits forbidden</div>
+            <div class='manuevers-requierd header'>Manuevers requierd</div>
             <div class='flags header'></div>
             <div class="delete header"></div>
             
@@ -37,7 +38,17 @@
                 </div>
                 <div class="traits-forbidden {{stripeClass}}">
                    <textarea name='settings.sheetOTFs.traitsForbidden' class='slcs-textarea' rows="2" {{disabled (ne scope ../OTFScope) }}>{{traitsForbidden}}</textarea>
-                </div>   
+                </div> 
+                <div class="OTF-menuever {{stripeClass}}">
+                    <multi-select
+                        {{disabled (ne scope ../OTFScope)}}
+                        name="settings.sheetOTFs.manueverRequiered"
+                    >
+                        {{#each ../manuevers}}
+                            <option value='{{this.name}}' {{select-if-included this.name ../manueverRequiered}}>{{i18n this._data.label}}</option>
+                        {{/each}}
+                    </select>
+                </div>  
                 <div class="flags {{stripeClass}}"></div>   
                 <div class="delete {{stripeClass}}">
                     {{#if (eq scope ../OTFScope)}}
