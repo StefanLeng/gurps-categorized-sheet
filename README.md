@@ -17,7 +17,7 @@ Skills and traits are categorized to appear on the appropriate tab. Anything not
 
 3. You can choose what weapon you grip with each hand. For weapons with different grips (e.g. one-handed vr. two-hnaded), these can be selected. Attacks and defences by weapons not griped are shown in a lighter color, but at still selectable by default. You can chose not to display them at all in the options.
 
-4. Many OTF appropriate to the character and the situation displayed at various sections of the sheet. You can add your on in the configuraotion, both  globaly and per character. Also modificators from any conditions are displayed  direclty on the sheet.
+4. Many OTF appropriate to the character and the situation displayed at various sections of the sheet. You can add your on in the configuration, both globaly and per character. Also modificators from any conditions are displayed  direclty on the sheet.
 
 5. If you traget an token, the hit locations and any target modifier of the targeted token are displayed on the combat tab.
 
