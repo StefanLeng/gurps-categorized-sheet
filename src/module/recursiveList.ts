@@ -70,7 +70,10 @@ export function findBestNameFit<T extends Rec<T> & NamedItem>(list: List<T>, nam
     return undefined;
 }
 export function filter<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): List<T> {
-    const l1 = filterList(list, (i) => pred(i) || !!find(i.contains ?? emptyList<T>(), pred));
+    const l1 = filterList(
+        list,
+        (i) => pred(i) || !!find(i.contains ?? emptyList<T>(), pred) || !!find(i.colapsed ?? emptyList<T>(), pred),
+    );
     const l2 = mapList(l1, (i) => {
         const r = {
             ...i,

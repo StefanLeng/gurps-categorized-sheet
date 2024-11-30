@@ -87,6 +87,24 @@ describe('filterRecursive', () => {
             },
         });
     });
+    it('Should return colapsed elemnts that fits the predicat and there parents', () => {
+        expect(RecursiveList.filter(list, (i) => i.name.startsWith('else'))).toEqual({
+            '1': {
+                name: 'otto1',
+                contains: {
+                    '4': {
+                        name: 'karl4',
+                        colapsed: {
+                            '5': {
+                                name: 'else5',
+                                contains: RecursiveList.emptyList(),
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    });
 });
 
 describe('flattenList', () => {
