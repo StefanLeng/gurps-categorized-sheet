@@ -26,7 +26,7 @@ const list: RecursiveList.List<TestRec> = {
             },
             '4': {
                 name: 'karl4',
-                colapsed: {
+                collapsed: {
                     '5': {
                         name: 'else5',
                         contains: RecursiveList.emptyList(),
@@ -81,7 +81,7 @@ describe('filterRecursive', () => {
                     },
                     '4': {
                         name: 'karl4',
-                        colapsed: {},
+                        collapsed: {},
                     },
                 },
             },
@@ -94,7 +94,7 @@ describe('filterRecursive', () => {
                 contains: {
                     '4': {
                         name: 'karl4',
-                        colapsed: {
+                        collapsed: {
                             '5': {
                                 name: 'else5',
                                 contains: RecursiveList.emptyList(),
@@ -115,27 +115,21 @@ describe('flattenList', () => {
         expect(RecursiveList.flatten(list)).toEqual({
             '0': {
                 name: 'otto0',
-                contains: RecursiveList.emptyList(),
             },
             '1': {
                 name: 'otto1',
-                contains: RecursiveList.emptyList(),
             },
             '12': {
                 name: 'hans2',
-                contains: RecursiveList.emptyList(),
             },
             '123': {
                 name: 'karl3',
-                contains: RecursiveList.emptyList(),
             },
             '14': {
                 name: 'karl4',
-                colapsed: RecursiveList.emptyList(),
             },
             '145': {
                 name: 'else5',
-                contains: RecursiveList.emptyList(),
             },
         });
     });

@@ -6,7 +6,7 @@ export interface ElementList<TElement> {
 
 export interface Rec<T> {
     contains?: ElementList<T>;
-    colapsed?: ElementList<T>;
+    collapsed?: ElementList<T>;
 }
 
 export type List<T extends Rec<T>> = ElementList<T>;
@@ -31,7 +31,7 @@ export function find<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): 
     for (let i = 0; i < listValues.length; i++) {
         const r = find(listValues[i].contains ?? emptyList<T>(), pred);
         if (!!r) return r;
-        const c = find(listValues[i].colapsed ?? emptyList<T>(), pred);
+        const c = find(listValues[i].collapsed ?? emptyList<T>(), pred);
         if (!!c) return c;
     }
     return undefined;
@@ -72,13 +72,13 @@ export function findBestNameFit<T extends Rec<T> & NamedItem>(list: List<T>, nam
 export function filter<T extends Rec<T>>(list: List<T>, pred: (i: T) => boolean): List<T> {
     const l1 = filterList(
         list,
-        (i) => pred(i) || !!find(i.contains ?? emptyList<T>(), pred) || !!find(i.colapsed ?? emptyList<T>(), pred),
+        (i) => pred(i) || !!find(i.contains ?? emptyList<T>(), pred) || !!find(i.collapsed ?? emptyList<T>(), pred),
     );
     const l2 = mapList(l1, (i) => {
         const r = {
             ...i,
             contains: i.contains ? filter(i.contains, pred) : undefined,
-            colapsed: i.colapsed ? filter(i.colapsed, pred) : undefined,
+            collapsed: i.collapsed ? filter(i.collapsed, pred) : undefined,
         };
         return r;
     });
@@ -95,13 +95,13 @@ export function flatten<T extends Rec<T>>(list: List<T>): List<T> {
                         key + i,
                         {
                             ...val,
-                            contains: val.contains ? emptyList<T>() : undefined,
-                            colapsed: val.colapsed ? emptyList<T>() : undefined,
+                            contains: undefined,
+                            collapsed: undefined,
                         },
                     ],
                 ];
                 const children: [i: string, val: T][] = inner(val.contains ?? emptyList<T>(), key + i);
-                const children2: [i: string, val: T][] = inner(val.colapsed ?? emptyList<T>(), key + i);
+                const children2: [i: string, val: T][] = inner(val.collapsed ?? emptyList<T>(), key + i);
                 return element.concat(children).concat(children2);
             })
             .flat(1);
