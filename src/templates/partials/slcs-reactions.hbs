@@ -14,7 +14,7 @@
 </div>
 {{/if}}
 <div id='slcs-reactionroll' class='slcs-block'>
-  <button>Reaction Roll</button>
+  {{#if  reactionTableExists }}<button>Reaction Roll</button>{{else}}<div id="missing-table">No Reaction Roll Table found.</div>{{/if}}
   <div id='slcs-reactionOTFs' class="slcs-otflist">
       {{{gurpslink reactionOTFs}}}
   </div>

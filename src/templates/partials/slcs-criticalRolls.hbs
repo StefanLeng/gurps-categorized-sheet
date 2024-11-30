@@ -1,7 +1,8 @@
-{{#if (notEmpty criticalTables)}}
-    <div id='slcs-criticalRolls' class='slcs-block'>
-        {{#each criticalTables}}
-            <button data-rolltable="{{this}}">{{this}}</button>
-        {{/each}}
-    </div>
-{{/if}}
+<div id='slcs-criticalRolls' class='slcs-block'>
+    {{#each criticalTables}}
+        <button data-rolltable="{{this}}">{{this}}</button>
+    {{else}}
+        <div>No Critical Tables found.</div>
+    {{/each}}
+</div>
+
