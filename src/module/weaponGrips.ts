@@ -40,6 +40,7 @@ function attackToGrip(
     equipment: RecursiveList.List<Equipment>,
     attack: keyedMeleeMode | keyedRangedMode,
     emptyHandWeapons: { name: string; usage: string }[],
+    ST: number,
 ): WeaponGrip {
     const weapon = RecursiveList.findBestNameFit(equipment, attack.name);
     const weaponName = weapon
@@ -49,20 +50,24 @@ function attackToGrip(
           : '';
     const weaponNote = weapon ? weapon.notes : '';
     const note = weaponName !== emptyHand.weaponName ? (attack.notes?.replace(weaponNote, '').trim() ?? '') : '';
-    const twoHanded = attack.st?.includes('†') ?? false;
+    const numStr = attack.st?.match(/[\d]+/g);
+    const twoHanded = (attack.st?.includes('†') ?? false) || (attack.st?.includes('‡') ?? false);
+    const weaponSt = !!numStr ? Number.parseInt(numStr[0]) : NaN;
+    const highST = ST >= weaponSt * 1.5;
     const fixedReach = isMelee(attack) ? (attack.reach?.includes('*') ? attack.reach : null) : 'ranged';
     const name = isMelee(attack)
         ? weaponName === emptyHand.weaponName
             ? emptyHand.name
             : attack.name +
               (note !== '' ? ` (${note})` : '') +
-              (twoHanded ? ' two handed' : '') +
+              (twoHanded ? (highST ? ' (high ST)' : ' two handed') : '') +
               (fixedReach !== null ? ` ${fixedReach}` : '')
-        : attack.name + (attack.mode !== '' ? ` ${attack.mode}` : '');
-    return {
+        : attack.name + (attack.mode !== '' ? ` ${attack.mode}` : '') + (twoHanded && highST ? ' (high ST)' : '');
+
+    const grip: WeaponGrip = {
         name: name,
         weaponName: weaponName,
-        twoHanded: twoHanded,
+        twoHanded: twoHanded && !highST,
         note: note,
         weaponNote: weaponNote,
         fixedReach: fixedReach,
@@ -70,6 +75,8 @@ function attackToGrip(
         meleeList: isMelee(attack) ? [{ ...attack, notes: note }] : [],
         rangedList: isRanged(attack) ? [{ ...attack, notes: note }] : [],
     };
+
+    return grip;
 }
 
 function areGripsEqual(grip1: WeaponGrip, grip2: WeaponGrip) {
@@ -95,6 +102,7 @@ function makeGrips(
     melees: RecursiveList.ElementList<MeleeMode | RangedMode>,
     ranged: RecursiveList.ElementList<MeleeMode | RangedMode>,
     emptyHandWeapons: { name: string; usage: string }[],
+    ST: number,
 ) {
     const grips = Object.entries(melees)
         .concat(Object.entries(ranged))
@@ -102,7 +110,7 @@ function makeGrips(
             return { ...m, key: k, selected: false };
         })
         //.flatMap(m => splitByReach(m))
-        .map((m) => attackToGrip(equipment, m, emptyHandWeapons))
+        .map((m) => attackToGrip(equipment, m, emptyHandWeapons, ST))
         .filter((g) => g.weaponName !== '');
 
     if (grips.findIndex((g) => g.name === emptyHand.name) < 0) {
@@ -273,11 +281,18 @@ export function resolveWeapons(
     actor: Actor,
 ): [grips: WeaponGrip[], hands: Hand[], meleeWeapons: Weapon[], rangedWeapons: Weapon[]] {
     const emptyHandWeapons = getActorSettings(actor).emptyHandAttacks ?? [];
+    const mergedSetting = getMergedSettings(actor);
     const meleeList0 = RecursiveList.filterList(meleeListIn, (a) => isAttackEquippped(a, equipment));
     const meleeList = RecursiveList.mapList(meleeList0, fixMelee);
     const rangedList0 = RecursiveList.filterList(rangedListIn, (a) => isAttackEquippped(a, equipment));
     const rangedList = RecursiveList.mapList(rangedList0, fixRanged);
-    const grips00 = makeGrips(equipment.carried, meleeList, rangedList, emptyHandWeapons);
+    const grips00 = makeGrips(
+        equipment.carried,
+        meleeList,
+        rangedList,
+        emptyHandWeapons,
+        mergedSetting.highStrengthOneHanded ? (actor.system as any).attributes.ST.value : 0,
+    );
     const grips0 = reduceGrips(grips00);
 
     const hands = handsIn.map((h) => {
@@ -287,7 +302,7 @@ export function resolveWeapons(
     const attacksPossible = attackPossible(actor);
 
     const grips = markSelectd(grips0, hands, attacksPossible);
-    const hideInactive = getMergedSettings(actor).hideInactiveAttacks;
+    const hideInactive = mergedSetting.hideInactiveAttacks;
 
     const weapons: Weapon[] = grips
         .reduce(addGripToWeapons, [])

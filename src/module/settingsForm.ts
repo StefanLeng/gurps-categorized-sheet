@@ -24,6 +24,7 @@ interface NewSettings {
     };
     allowExtraEffort: boolean;
     hideInactiveAttacks: boolean;
+    highStrengthOneHanded: boolean;
     sheetOTFs: NewOTF;
 }
 
@@ -170,6 +171,7 @@ class SeetingsForm extends BaseSeetingsForm {
         this._settings.rollTables = newSettings.rollTables;
         this._settings.allowExtraEffort = newSettings.allowExtraEffort;
         this._settings.hideInactiveAttacks = newSettings.hideInactiveAttacks;
+        this._settings.highStrengthOneHanded = newSettings.highStrengthOneHanded;
         this._settings.items.skills = newSettings.items.skills;
         this._settings.items.traits = newSettings.items.traits;
         this._settings = sortCategorieSettings(this._settings);

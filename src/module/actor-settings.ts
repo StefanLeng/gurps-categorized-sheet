@@ -17,6 +17,7 @@ export type CatSheetActorSettings = {
     };
     allowExtraEffort: boolean | null;
     hideInactiveAttacks: boolean | null;
+    highStrengthOneHanded: boolean | null;
     numberOfHands: number;
     sheetOTFs: SheetOTF[];
     emptyHandAttacks?: { name: string; usage: string }[];
@@ -42,6 +43,7 @@ const defaultSettings: CatSheetActorSettings = {
     },
     allowExtraEffort: null,
     hideInactiveAttacks: null,
+    highStrengthOneHanded: null,
     numberOfHands: 2,
     sheetOTFs: [],
     emptyHandAttacks: [],
@@ -60,6 +62,13 @@ function migrateSetting(settings: CatSheetActorSettings) {
     }
     if (!newSettings.emptyHandAttacks) {
         newSettings.emptyHandAttacks = [];
+    }
+    if (foundry.utils.isNewerVersion('0.4.1', settings.version ?? '0.0.0')) {
+        newSettings = {
+            ...newSettings,
+            version: '0.4.1',
+            highStrengthOneHanded: defaultSettings.highStrengthOneHanded,
+        };
     }
     return newSettings;
 }
@@ -108,6 +117,7 @@ export function mergeSettings(settings: CatSheetSettings, actorSettings: CatShee
     const newSettings = foundry.utils.deepClone(settings);
     newSettings.allowExtraEffort = actorSettings.allowExtraEffort ?? newSettings.allowExtraEffort;
     newSettings.hideInactiveAttacks = actorSettings.hideInactiveAttacks ?? newSettings.hideInactiveAttacks;
+    newSettings.highStrengthOneHanded = actorSettings.highStrengthOneHanded ?? newSettings.highStrengthOneHanded;
     CATEGORIES.forEach((cat) => {
         newSettings.items.skills[cat] = newSettings.items.skills[cat]
             .filter((i) => !actorSettings.removedItems.skills[cat].some((x) => x === i))

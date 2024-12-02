@@ -19,6 +19,7 @@ export type CatSheetSettings = {
     allowExtraEffort: boolean;
     hideInactiveAttacks: boolean;
     sheetOTFs: SheetOTF[];
+    highStrengthOneHanded: boolean;
 };
 
 export const defaultSettings: CatSheetSettings = {
@@ -36,6 +37,7 @@ export const defaultSettings: CatSheetSettings = {
     allowExtraEffort: true,
     hideInactiveAttacks: false,
     sheetOTFs: systemOTFs,
+    highStrengthOneHanded: false,
 };
 
 function sortTraits(cat: CategoryList): CategoryList {
@@ -47,13 +49,21 @@ function sortTraits(cat: CategoryList): CategoryList {
 }
 
 function migrateSetting(settings: CatSheetSettings) {
+    let newSettings = settings;
     if (foundry.utils.isNewerVersion('0.3.0', settings.version ?? '0.0.0')) {
-        return { ...settings, version: '0.3.0' };
+        newSettings = { ...newSettings, version: '0.3.0' };
     }
     if (foundry.utils.isNewerVersion('0.3.3', settings.version ?? '0.0.0')) {
-        return { ...settings, version: '0.3.3', sheetOTFs: defaultSettings.sheetOTFs };
+        newSettings = { ...newSettings, version: '0.3.3', sheetOTFs: defaultSettings.sheetOTFs };
     }
-    return settings;
+    if (foundry.utils.isNewerVersion('0.4.1', settings.version ?? '0.0.0')) {
+        newSettings = {
+            ...newSettings,
+            version: '0.4.1',
+            highStrengthOneHanded: defaultSettings.highStrengthOneHanded,
+        };
+    }
+    return newSettings;
 }
 
 export function getSettings(): CatSheetSettings {

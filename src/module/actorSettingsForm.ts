@@ -29,6 +29,8 @@ interface NewSettings {
     allowExtraEffortGlobal: boolean;
     hideInactiveAttacks: boolean;
     hideInactiveAttacksGlobal: boolean;
+    highStrengthOneHanded: boolean;
+    highStrengthOneHandedGlobal: boolean;
     sheetOTFs: NewOTF;
     numberOfHands: number;
     emptyHandAttacks: boolean[];
@@ -208,6 +210,12 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         } else {
             this._settings.hideInactiveAttacks =
                 newSettings.hideInactiveAttacks ?? this._globalSetting.hideInactiveAttacks;
+        }
+        if (newSettings.highStrengthOneHandedGlobal) {
+            this._settings.highStrengthOneHanded = null;
+        } else {
+            this._settings.highStrengthOneHanded =
+                newSettings.highStrengthOneHanded ?? this._globalSetting.highStrengthOneHanded;
         }
         if (newSettings.emptyHandAttacks) {
             this._attacksWithoutGrip = this._attacksWithoutGrip.map((m, i) => {

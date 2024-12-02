@@ -10,7 +10,7 @@
                     {{disabled (eq settings.allowExtraEffort null)}} 
                     {{#if (eq settings.allowExtraEffort null)}}{{checked globalSettings.allowExtraEffort}}{{else}}{{checked settings.allowExtraEffort}}{{/if}}/>
                 <div class='label global-setting'>Use global setting</div>
-                <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffortGlobal" {{checked (eq settings.allowExtraEffort null)}}/>            
+                <input type="checkbox" name="settings.allowExtraEffortGlobal" {{checked (eq settings.allowExtraEffort null)}}/>            
             {{/unless}}
         </div>
         
@@ -24,9 +24,19 @@
                     {{disabled (eq settings.hideInactiveAttacks null)}} 
                     {{#if (eq settings.hideInactiveAttacks null)}}{{checked globalSettings.hideInactiveAttacks}}{{else}}{{checked settings.hideInactiveAttacks}}{{/if}}/>
                 <div class='label global-setting'>Use global setting</div>
-                <input type="checkbox" id="slcs-extra-effort" name="settings.hideInactiveAttacksGlobal" {{checked (eq settings.hideInactiveAttacks null)}}/>
+                <input type="checkbox"  name="settings.hideInactiveAttacksGlobal" {{checked (eq settings.hideInactiveAttacks null)}}/>
             {{/unless}}
-        </div>        
+            <div class='label'>Allow two handed weapons to be wielded one-handed with high Strength</div>
+            {{#unless limitedEditing}}
+                <input type="checkbox" id="slcs-highStrengthOneHanded" name="settings.highStrengthOneHanded" {{checked settings.highStrengthOneHanded}}/>
+            {{else}}
+                <input type="checkbox" id="slcs-highStrengthOneHanded" name="settings.highStrengthOneHanded" 
+                    {{disabled (eq settings.highStrengthOneHanded null)}} 
+                    {{#if (eq settings.highStrengthOneHanded null)}}{{checked globalSettings.highStrengthOneHanded}}{{else}}{{checked settings.highStrengthOneHanded}}{{/if}}/>
+                <div class='label global-setting'>Use global setting</div>
+                <input type="checkbox" name="settings.highStrengthOneHandedGlobal" {{checked (eq settings.highStrengthOneHanded null)}}/>
+            {{/unless}}       
+         </div>        
     </div>
     <div id="col2" class="slcs_col">
         {{#unless limitedEditing}}
