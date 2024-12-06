@@ -94,9 +94,9 @@ More fixes for equipment in containers.
 Fix for attacks not showing if the weapon name has postfixes (e.g. for TL)  
 
 0.4.1
-Fix for containers disappearing von lists if collapsed
-Better handling of missing roll tables
-Option to allow two-handed weapons to be wielded one-handed with heigh enough strength. Activated by a setting, because in some situations this rule gives nonsencial results.
+Fix for containers disappearing from lists if collapsed.
+Better handling of missing roll tables.
+Option to allow two-handed weapons to be wielded one-handed with heigh enough strength. Activated by a setting, because in some situations this rule gives nonsensial results.
 Fix layout for larger than default fonts. 
 
 ## Development
