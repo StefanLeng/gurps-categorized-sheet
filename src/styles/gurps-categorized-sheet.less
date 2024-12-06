@@ -21,7 +21,7 @@
     --sectiongap: 0.3em;
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 150px max-content 1fr;
+    grid-template-rows: min-content max-content 1fr;
     grid-template-areas: 
       "header"
       "navtabs"
@@ -43,10 +43,6 @@
         grid-gap: 0px var(--sectiongap)
     }
     
-    #slcs-header > div{
-        max-height: 150px;
-    }
-
     #slcs-main{
         grid-area: main;
         height: 0;
@@ -94,6 +90,8 @@
         grid-area: modifiers;
         overflow-y: auto;   
         border: var(--standardborder);
+        height: 0;
+        min-height: 100%;
         .gga-table > div.situation{
             max-height: 3em;
             overflow-y: auto;
@@ -157,7 +155,6 @@
     .slcs-sheet-tabs {
         display: block;
         font-size: 110%;
-        height: 32px;
         border-bottom: 1px solid #333;
         flex-grow: 0;
     
@@ -292,7 +289,9 @@
         }
 
         .fieldblock {
-            display: inline-grid;
+            display: inline-flex;
+            flex-flow: row;
+            flex-wrap: wrap;
             grid-template-columns: repeat(4, 0fr auto) 1fr;
             padding-top: 0.15em;
             align-items: center;
@@ -362,6 +361,7 @@
         }
         .list_note{
             padding: 0 var(--rowmargin) 0 var(--rowmargin);
+            display: block;
             grid-column-start: 1;
             grid-column-end: 5;
             max-width: 100%;
