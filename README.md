@@ -28,6 +28,9 @@ Skills and traits are categorized to appear on the appropriate tab. Anything not
 The module configuration lets the GM provide the roll table names, change the categorization of skills and items, and configure various default behaviors.
 Most configurations can be overriden for specific characters via the _Sheet config._ button in the title bar of the character sheet.
 
+Note on roll tables: The sheet allows rolls for criticals and reaction rolls. The tables are not inculded for legal resons and you need to provide them yourself. In the settings, the names of your tables must be set.
+For reaction rolls to use the modifiers from the mofiier bucket, the roll formular must be set up as 3d6 + @gmodc.
+
 ### Limitations
 
 The categorization of skills and traits are based on there names. If you use translated names, this will fail and anything will be displayed on the _Others_ tab. However, you can assinge the item manually to the correct tab in the configuration.
@@ -89,6 +92,12 @@ Show all sense rolls on exploration tab.
 Configure per actor witch non-weapon attacks uses an empty hand.
 More fixes for equipment in containers.
 Fix for attacks not showing if the weapon name has postfixes (e.g. for TL)  
+
+0.4.1
+Fix for containers disappearing von lists if collapsed
+Better handling of missing roll tables
+Option to allow two-handed weapons to be wielded one-handed with heigh enough strength. Activated by a setting, because in some situations this rule gives nonsencial results.
+Fix layout for larger than default fonts. 
 
 ## Development
 
