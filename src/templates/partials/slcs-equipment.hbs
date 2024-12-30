@@ -40,9 +40,9 @@
             </div>
 
             <div class='qty flex-center {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
-                <button class='equipmentbutton bold' data-operation='equipment-dec'>&minus;</button>
+                <i class='fa-solid fa-circle-minus equipmentbutton' data-operation='equipment-dec'></i>
                 <span>{{this.count}}</span>
-                <button class='equipmentbutton' data-operation='equipment-inc'>+</button>
+                <i class='fa-solid fa-circle-plus equipmentbutton' data-operation='equipment-inc'></i>
             </div>
 
             <div class='eqtdraggable equipmenu{{../container}} {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
@@ -61,11 +61,16 @@
             </div>
 
             <div class='uses flex-center {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
-                {{#if (or (gt this.maxuses 0) (ne this.uses '0'))}}
-                {{#if (isNum this.uses)}}<button class='equipmentbutton bold' data-operation='equipment-dec-uses' {{#if (lt
-                    this.uses 1)}}disabled{{/if}}>&minus;</button>{{/if}}
+                {{#if (and (ne maxuses 0) (ne maxuses '0'))}}
+                {{#if (isNum this.uses)}}
+                    {{#if (lt uses 1)}}
+                        <i class='fa-solid fa-circle-minus equipmentbutton disabled'></i>
+                    {{else}}
+                        <i class='fa-solid fa-circle-minus equipmentbutton' data-operation='equipment-dec-uses'></i>
+                    {{/if}}
+                {{/if}}
                 <span>{{this.uses}}</span>
-                {{#if (isNum this.uses)}}<button class='equipmentbutton' data-operation='equipment-inc-uses'>+</button>{{/if}}
+                {{#if (isNum this.uses)}}<i class='fa-solid fa-circle-plus equipmentbutton' data-operation='equipment-inc-uses'></i>{{/if}}
                 {{/if}}
             </div>
             <div class='cost gga-right {{stripeClass}}'>{{toLocaleString (toNumber this.cost)}}</div>

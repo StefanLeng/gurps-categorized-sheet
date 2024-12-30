@@ -170,11 +170,15 @@
         font-weight: bold;
         background-color: #e8ffe8;
         font-size: 105%;
+        color: black;
     }
 
     .tab-item {
         line-height: 32px;
         font-weight: normal;
+        background: inherit;
+        box-shadow: none;
+        font-size: inherit;
     }
 
     #slcs-navtabs{
@@ -560,7 +564,7 @@
 
     #slcs-DR, .slcs-location {
         display: grid;
-        grid-template-columns: repeat(4, 1fr 0fr);
+        grid-template-columns: repeat(4, 1fr max-content);
         .dr{
             margin-right: 0.3em;
         }
@@ -577,7 +581,7 @@
         grid-template:
             'header header'
             'desc lift';
-        grid-template-columns: 0fr 1fr;
+        grid-template-columns: max-content 1fr;
         grid-template-rows: 0fr;
     }
 

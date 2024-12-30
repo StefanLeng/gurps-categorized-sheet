@@ -19,9 +19,16 @@ export function encumberanceName(key: string) {
     return names[key] ?? 'Unkonwn';
 }
 
+function getModDescription(text: string) {
+    const regex = /^(.*?)(?=[#@])/;
+    const desc = text.match(regex)?.[1];
+    return !!desc ? desc.trim() : text;
+}
+
 export function convertModifiers(list: Array<string>) {
     return list
         ? list
+              .map((it: string) => getModDescription(it))
               .map((it: string) => `[${i18n(it)}]`)
               .map((it: string) => {
                   return { mod: GURPS.gurpslink(it) };
