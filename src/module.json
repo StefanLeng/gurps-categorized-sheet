@@ -36,7 +36,9 @@
             "id": "gurps",
             "type": "system",
             "manifest": "https://raw.githubusercontent.com/crnormand/gurps/release/system.json",
-            "compatibility": {}
+            "compatibility":{ 
+                "minimum": "0.17.17"
+            }
           }    
     ],
     "requires": [],

@@ -99,6 +99,9 @@ Better handling of missing roll tables.
 Option to allow two-handed weapons to be wielded one-handed with heigh enough strength. Activated by a setting, because in some situations this rule gives nonsensial results.
 Fix layout for larger than default fonts. 
 
+0.4.2 
+Compatiblity fixes for GGA 0.17.17.
+
 ## Development
 
 ### Prerequisites
