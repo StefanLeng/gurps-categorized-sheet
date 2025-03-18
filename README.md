@@ -102,6 +102,10 @@ Fix layout for larger than default fonts.
 0.4.2 
 Compatiblity fixes for GGA 0.17.17.
 
+0.5.0
+"All" tab with all traits and skills
+Display Basic Speed
+
 ## Development
 
 ### Prerequisites
