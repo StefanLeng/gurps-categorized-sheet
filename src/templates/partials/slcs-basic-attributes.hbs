@@ -9,7 +9,11 @@
         <div class='field big rollable' data-path='attributes.HT.value' data-otf='HT'>{{system.attributes.HT.value}}</div>
         <div class='label'>{{i18n 'GURPS.attributesHTNAME'}} ({{i18n 'GURPS.attributesHT'}})</div>
         <hr />
-        <div class='field'>{{system.currentmove}}</div>
-        <div class='label '>{{i18n 'GURPS.move'}}</div>
+        <div class = 'doubleField'> 
+            <div class='field'>{{system.currentmove}}</div>
+            <div class='label '>{{i18n 'GURPS.move'}}</div>
+            <div class='field'>{{system.basicspeed.value}}</div>
+            <div class='label '>{{i18n 'GURPS.speed'}}</div>
+        </div>
     </div>
 </div>

@@ -16,6 +16,7 @@
                 <li><a class='tab-item' data-tab='powers'>{{i18n 'GURPS-cat-sheet.powersTab' 'Powers & Magic'}}</a></li>
                 <li><a class='tab-item' data-tab='others'>{{i18n 'GURPS-cat-sheet.othersTab' 'Others'}}</a></li>
                 <li><a class='tab-item' data-tab='equipment'>{{i18n 'GURPS-cat-sheet.equipmentTab' 'Equipment'}}</a></li>
+                <li><a class='tab-item' data-tab='all'>{{i18n 'GURPS-cat-sheet.all' 'All'}}</a></li>
             </nav>
             <div id="slcs-main">
                 <div class='tab' data-tab='combat' data-group='primary-tabs'>
@@ -125,6 +126,16 @@
                         {{>slcs-equipment container='carried'}}
                         {{>slcs-equipment container='other'}}
                     </div>
+                </div>
+                <div class='tab' data-tab='all' data-group='primary-tabs'>
+                    <div id="slcs-all-tab" class='slcs-tab-content'>
+                        <div id='slcs-col1' class ='slcs-col'>
+                            {{>slcs-advantages ads=system.ads}}
+                        </div>
+                        <div id='slcs-col2' class ='slcs-col'>
+                            {{>slcs-skills skills=system.skills}}
+                        </div>    
+                    </div>                    
                 </div>
             </div>
         </div>

@@ -124,6 +124,17 @@
         font-size: var(--font-size-14);
     }
 
+    .doubleField{
+        grid-column-end: span 2;
+        display: grid;
+        grid-template-columns: 0fr 1fr 0fr 1fr;
+        align-items: baseline;
+        margin-left: 3px;
+        .field{
+            margin-left: 0;
+        }
+    }
+
     .field{
         margin-left: 6px;
         margin-top: 3px;
