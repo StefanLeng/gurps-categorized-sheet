@@ -51,7 +51,7 @@
 
         {{#if limitedEditing}}
             <h3 id="slcs-displa-title">Character Setup</h3>
-            <div class="slcs-settingsBlock single">
+            <div class="slcs-settingsBlock double">
                 <div class='label'>Number of Hands</div>
                 <input type="number" id="slcs-number-of-hands" name="settings.numberOfHands" min="0" max="10" step="1" value="{{settings.numberOfHands}}"/>
             </div>
@@ -61,8 +61,8 @@
                 <div class='usage header'>Attack</div>
                 <div class='emptyHand header'>Needs Empty Hand</div>
                  {{#stripes attacksWithoutGrip 'even' 'odd' }}
-                    <div class='name gga-right {{stripeClass}}'>{{name}}</div>
-                    <div class='usage gga-right {{stripeClass}}'>{{usage}}</div>
+                    <div class='name {{stripeClass}}'>{{name}}</div>
+                    <div class='usage {{stripeClass}}'>{{usage}}</div>
                     <input type="checkbox" name="settings.emptyHandAttacks" {{checked selected}}/>
                  {{/stripes}}
             </div>
