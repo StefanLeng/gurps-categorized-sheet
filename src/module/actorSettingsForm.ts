@@ -71,7 +71,6 @@ class ActorSeetingsForm extends BaseSeetingsForm {
     static override DEFAULT_OPTIONS = {
         id: 'slcs-actorSettingsForm',
         tag: 'form',
-        classes: ['theme-light'],
         form: {
             handler: ActorSeetingsForm.settingsFormHandler,
             submitOnChange: true,

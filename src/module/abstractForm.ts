@@ -10,6 +10,7 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         Partial<{ dragDrop: DragDropConfiguration[] }> = {
         id: '',
         tag: 'form',
+        classes: ['theme-light'],
         form: {
             handler: BaseForm.formHandler,
             submitOnChange: true,
