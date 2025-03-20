@@ -98,7 +98,7 @@ export interface WeaponGrip {
     name: string;
     weaponName: string;
     twoHanded: boolean;
-    note: string;
+    skill: string;
     weaponNote: string;
     fixedReach: string | null;
     ranged: boolean;

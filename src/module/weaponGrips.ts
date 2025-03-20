@@ -19,7 +19,7 @@ const emptyHand: WeaponGrip = {
     name: 'Empty Hand',
     weaponName: 'Empty Hand',
     twoHanded: false,
-    note: '',
+    skill: '',
     weaponNote: '',
     fixedReach: null,
     ranged: false,
@@ -35,7 +35,7 @@ function isRanged(m: MeleeMode | RangedMode): m is RangedMode {
     return (m as RangedMode).acc !== undefined;
 }
 
-/* assumption: notes on the attack are the VTTNotes from the weapon + the notes from the Attack. The part from the attack represent the skill. */
+/* assumption: notes on the attack are the VTTNotes from the weapon + the notes from the Attack.*/
 function attackToGrip(
     equipment: RecursiveList.List<Equipment>,
     attack: keyedMeleeMode | keyedRangedMode,
@@ -55,11 +55,12 @@ function attackToGrip(
     const weaponSt = !!numStr ? Number.parseInt(numStr[0]) : NaN;
     const highST = ST >= weaponSt * 1.5;
     const fixedReach = isMelee(attack) ? (attack.reach?.includes('*') ? attack.reach : null) : 'ranged';
+    const skill = ''; //we can not determine the skill at the moment
     const name = isMelee(attack)
         ? weaponName === emptyHand.weaponName
             ? emptyHand.name
             : attack.name +
-              (note !== '' ? ` (${note})` : '') +
+              (skill !== '' ? ` (${skill})` : '') +
               (twoHanded ? (highST ? ' (high ST)' : ' two handed') : '') +
               (fixedReach !== null ? ` ${fixedReach}` : '')
         : attack.name + (attack.mode !== '' ? ` ${attack.mode}` : '') + (twoHanded && highST ? ' (high ST)' : '');
@@ -68,7 +69,7 @@ function attackToGrip(
         name: name,
         weaponName: weaponName,
         twoHanded: twoHanded && !highST,
-        note: note,
+        skill: skill,
         weaponNote: weaponNote,
         fixedReach: fixedReach,
         ranged: isRanged(attack),
@@ -83,7 +84,7 @@ function areGripsEqual(grip1: WeaponGrip, grip2: WeaponGrip) {
     return (
         grip1.weaponName === grip2.weaponName &&
         grip1.twoHanded === grip2.twoHanded &&
-        grip1.note === grip2.note &&
+        grip1.skill === grip2.skill &&
         grip1.fixedReach === grip2.fixedReach &&
         grip1.ranged === grip2.ranged
     );

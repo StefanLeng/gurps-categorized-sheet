@@ -42,7 +42,7 @@ function weaponDefences(grips: WeaponGrip[], defencePossible: boolean): WeaponDe
             if (x[0][0] > x[1][0] && x[0][1] !== undefined) {
                 return {
                     name: x[0][1].name,
-                    notes: x[0][1].notes,
+                    notes: '',
                     level: x[0][0],
                     type: 'block',
                     attack: x[0][1],
@@ -51,7 +51,7 @@ function weaponDefences(grips: WeaponGrip[], defencePossible: boolean): WeaponDe
             } else if (x[1][1] !== undefined) {
                 return {
                     name: x[1][1].name,
-                    notes: x[1][1].notes,
+                    notes: '',
                     level: x[1][0],
                     type: 'parry',
                     attack: x[1][1],

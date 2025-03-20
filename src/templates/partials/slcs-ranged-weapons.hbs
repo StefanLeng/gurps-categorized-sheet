@@ -25,9 +25,13 @@
                     </div>
                 {{/if}}
 
-                <div class='usage rollable flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>
-                    <div>{{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}</div>
-                    <div class='list_note'>{{{gurpslink notes}}}</div>
+                <div class='usage  flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>
+                    <div class='rollable flex-center {{#if (empty notes)}}no-notes{{/if}}'  data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>
+                      {{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}
+                    </div>
+                    {{#if (notEmpty notes)}}
+                        <div class='list_note'>{{{gurpslink notes}}}</div>
+                    {{/if}}
                 </div>
                 <div class='level rollable flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{level}}</div>
                 <div class='acc gga-right {{gmod this.acc}} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='Acc for {{this.name}}' data-otf='{{{displayNumber this.acc}}} Acc'> {{{displayNumber this.acc showPlus=false}}} </div>
