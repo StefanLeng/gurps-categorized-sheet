@@ -106,6 +106,12 @@ Compatiblity fixes for GGA 0.17.17.
 "All" tab with all traits and skills
 Display Basic Speed
 
+0.5.1
+Added quick notes to others tab.
+Fixed styling of settings if dark color scheme is activ
+Fixed OTFs in Wepon usange notes
+Removed splitting weapon grips on usage notes. This was menat to seperate usages taht uses differnt skills, but the usage notes often contain other things than the skill. Grip separation by skill will have to wait for an enhnanced GGA data model.
+
 ## Development
 
 ### Prerequisites
