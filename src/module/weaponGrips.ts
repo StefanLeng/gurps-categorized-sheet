@@ -25,6 +25,7 @@ const emptyHand: WeaponGrip = {
     ranged: false,
     meleeList: [],
     rangedList: [],
+    ready: true,
 };
 
 function isMelee(m: MeleeMode | RangedMode): m is MeleeMode {
@@ -75,18 +76,29 @@ function attackToGrip(
         ranged: isRanged(attack),
         meleeList: isMelee(attack) ? [{ ...attack, notes: note }] : [],
         rangedList: isRanged(attack) ? [{ ...attack, notes: note }] : [],
+        ready: true,
     };
 
     return grip;
+}
+
+function makeUnready(grip: WeaponGrip): WeaponGrip {
+    return {
+        ...grip,
+        name: `${grip.weaponName}${grip.twoHanded ? ' t.h.' : ''} (unready)`,
+        ready: false,
+        meleeList: [],
+        rangedList: [],
+    };
 }
 
 function areGripsEqual(grip1: WeaponGrip, grip2: WeaponGrip) {
     return (
         grip1.weaponName === grip2.weaponName &&
         grip1.twoHanded === grip2.twoHanded &&
-        grip1.skill === grip2.skill &&
-        grip1.fixedReach === grip2.fixedReach &&
-        grip1.ranged === grip2.ranged
+        grip1.ready === grip2.ready &&
+        ((grip1.skill === grip2.skill && grip1.fixedReach === grip2.fixedReach && grip1.ranged === grip2.ranged) ||
+            !grip1.ready)
     );
 }
 
@@ -112,7 +124,8 @@ function makeGrips(
         })
         //.flatMap(m => splitByReach(m))
         .map((m) => attackToGrip(equipment, m, emptyHandWeapons, ST))
-        .filter((g) => g.weaponName !== '');
+        .filter((g) => g.weaponName !== '')
+        .flatMap((m) => (m.name === emptyHand.name ? [m] : [m, makeUnready(m)]));
 
     if (grips.findIndex((g) => g.name === emptyHand.name) < 0) {
         grips.push(emptyHand);

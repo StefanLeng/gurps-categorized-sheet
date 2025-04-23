@@ -104,6 +104,7 @@ export interface WeaponGrip {
     ranged: boolean;
     meleeList: keyedMeleeMode[];
     rangedList: keyedRangedMode[];
+    ready: boolean;
 }
 
 export interface Weapon extends Equipment {

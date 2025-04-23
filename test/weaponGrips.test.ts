@@ -75,6 +75,7 @@ const grips: WeaponGrip[] = [
         ranged: false,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
     {
         name: 'Large Knife',
@@ -86,6 +87,7 @@ const grips: WeaponGrip[] = [
         ranged: false,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
     {
         name: 'Spear 1*',
@@ -97,6 +99,7 @@ const grips: WeaponGrip[] = [
         ranged: false,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
     {
         name: 'Spear two handed 1*',
@@ -108,6 +111,7 @@ const grips: WeaponGrip[] = [
         ranged: false,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
     {
         name: 'Spear two handed 2*',
@@ -119,6 +123,7 @@ const grips: WeaponGrip[] = [
         ranged: false,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
     {
         name: 'Spear (Staff) two handed',
@@ -130,6 +135,7 @@ const grips: WeaponGrip[] = [
         ranged: false,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
     {
         name: 'Large Knife Thrown',
@@ -141,6 +147,7 @@ const grips: WeaponGrip[] = [
         ranged: true,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
     {
         name: 'Spear Thrown',
@@ -152,6 +159,7 @@ const grips: WeaponGrip[] = [
         ranged: true,
         meleeList: [],
         rangedList: [],
+        ready: true,
     },
 ];
 
