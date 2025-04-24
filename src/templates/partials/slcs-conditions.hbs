@@ -76,7 +76,7 @@
                     data-index="{{@index}}"
                 >
                     {{#each ../grips}}
-                        <option value='{{name}}' {{select-if name ../grip}}>{{name}}</option>
+                        <option value='{{name}}' {{select-if name ../grip}} class ="sle-grip {{#unless ready}}unredy{{/unless}}"><span>{{name}}</span></option>
                     {{/each}}
                 </select>
                 </div>

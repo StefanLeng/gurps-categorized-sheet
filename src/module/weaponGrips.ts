@@ -62,7 +62,7 @@ function attackToGrip(
             ? emptyHand.name
             : attack.name +
               (skill !== '' ? ` (${skill})` : '') +
-              (twoHanded ? (highST ? ' (high ST)' : ' two handed') : '') +
+              (twoHanded ? (highST ? ' (high ST)' : ' t.h.') : '') +
               (fixedReach !== null ? ` ${fixedReach}` : '')
         : attack.name + (attack.mode !== '' ? ` ${attack.mode}` : '') + (twoHanded && highST ? ' (high ST)' : '');
 
