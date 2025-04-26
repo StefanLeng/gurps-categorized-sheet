@@ -112,6 +112,11 @@ Fixed styling of settings if dark color scheme is activ
 Fixed OTFs in wepon usage notes
 Removed splitting weapon grips on usage notes. This was meant to seperate usages that uses differnt skills, but the usage notes often contain other things than the skill. Grip separation by skill will have to wait for an enhnanced GGA data model.
 
+0.6.0
+You can now select a "unready" grip for all weapons.
+Refined grip display.
+Favorites Tab: Configure your favorite traits and skills in the sheet configuraton for fast accsess on the "Favs" tab.
+
 ## Development
 
 ### Prerequisites

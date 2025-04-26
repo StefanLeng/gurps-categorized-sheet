@@ -71,10 +71,10 @@ function migrateSetting(settings: CatSheetActorSettings) {
             highStrengthOneHanded: defaultSettings.highStrengthOneHanded,
         };
     }
-    if (foundry.utils.isNewerVersion('0.5.0', settings.version ?? '0.0.0')) {
+    if (foundry.utils.isNewerVersion('0.6.0', settings.version ?? '0.0.0')) {
         newSettings = {
             ...newSettings,
-            version: '0.5.0',
+            version: '0.6.0',
             addedItems: {
                 skills: { ...newSettings.addedItems.skills, fav: [] },
                 traits: { ...newSettings.addedItems.traits, fav: [] },
