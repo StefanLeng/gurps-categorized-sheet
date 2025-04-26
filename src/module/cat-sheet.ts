@@ -100,6 +100,10 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
                     skills: categorizeSkills(data.actor, data.system.skills, 'others'),
                     ads: categorizeAds(data.actor, data.system.ads, 'others'),
                 },
+                favs: {
+                    skills: categorizeSkills(data.actor, data.system.skills, 'fav'),
+                    ads: categorizeAds(data.actor, data.system.ads, 'fav'),
+                },
             };
 
             const selfMods = convertModifiers(data.actor.system.conditions.self.modifiers);

@@ -385,6 +385,7 @@ export const skillCategories: CategoryList = {
     exploration: explorationSkills,
     technical: technicalSkills,
     powers: powersSkills,
+    fav: [],
 };
 
 /*new Set(game.actors.entries().toArray()
@@ -1208,6 +1209,7 @@ export const adsCategories: CategoryList = {
     exploration: explorationAds,
     technical: technicalAds,
     powers: powersAds,
+    fav: [],
 };
 
 export const systemOTFs: SheetOTF[] = [

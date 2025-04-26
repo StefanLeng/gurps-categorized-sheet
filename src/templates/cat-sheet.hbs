@@ -17,6 +17,7 @@
                 <li><a class='tab-item' data-tab='others'>{{i18n 'GURPS-cat-sheet.othersTab' 'Others'}}</a></li>
                 <li><a class='tab-item' data-tab='equipment'>{{i18n 'GURPS-cat-sheet.equipmentTab' 'Equipment'}}</a></li>
                 <li><a class='tab-item' data-tab='all'>{{i18n 'GURPS-cat-sheet.all' 'All'}}</a></li>
+                <li><a class='tab-item' data-tab='fav'>{{i18n 'GURPS-cat-sheet.fav' 'Favs.'}}</a></li>
             </nav>
             <div id="slcs-main">
                 <div class='tab' data-tab='combat' data-group='primary-tabs'>
@@ -135,6 +136,17 @@
                         </div>
                         <div id='slcs-col2' class ='slcs-col'>
                             {{>slcs-skills skills=system.skills}}
+                        </div>    
+                    </div>   
+                </div>                 
+                <div class='tab' data-tab='fav' data-group='primary-tabs'>
+                    <div id="slcs-fav-tab" class='slcs-tab-content'>
+                        <div id='slcs-col1' class ='slcs-col'>
+                            <div>Add traits or skills in the sheet configuration.</div>
+                            {{>slcs-advantages ads=categories.favs.ads}}
+                        </div>
+                        <div id='slcs-col2' class ='slcs-col'>
+                            {{>slcs-skills skills=categories.favs.skills}}
                         </div>    
                     </div>                    
                 </div>

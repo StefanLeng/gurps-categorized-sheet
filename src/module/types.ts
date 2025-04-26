@@ -33,7 +33,7 @@ export type SheetOTF = {
 
 //---------------------------------------------------//
 
-export const CATEGORIES = ['combat', 'exploration', 'social', 'powers', 'technical'] as const;
+export const CATEGORIES = ['combat', 'exploration', 'social', 'powers', 'technical', 'fav'] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 

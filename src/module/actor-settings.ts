@@ -29,6 +29,7 @@ const emptyList: CategoryList = {
     social: [],
     technical: [],
     powers: [],
+    fav: [],
 };
 
 const defaultSettings: CatSheetActorSettings = {
@@ -68,6 +69,20 @@ function migrateSetting(settings: CatSheetActorSettings) {
             ...newSettings,
             version: '0.4.1',
             highStrengthOneHanded: defaultSettings.highStrengthOneHanded,
+        };
+    }
+    if (foundry.utils.isNewerVersion('0.5.0', settings.version ?? '0.0.0')) {
+        newSettings = {
+            ...newSettings,
+            version: '0.5.0',
+            addedItems: {
+                skills: { ...newSettings.addedItems.skills, fav: [] },
+                traits: { ...newSettings.addedItems.traits, fav: [] },
+            },
+            removedItems: {
+                skills: { ...newSettings.removedItems.skills, fav: [] },
+                traits: { ...newSettings.removedItems.traits, fav: [] },
+            },
         };
     }
     return newSettings;
