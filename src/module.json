@@ -12,8 +12,8 @@
   "license": "LICENSE.txt",
   "version": "This is auto replaced",
   "compatibility": {
-    "minimum": "12",
-    "verified": "12"
+    "minimum": "13",
+    "verified": "13"
   },
   "scripts": [],
   "esmodules": [
@@ -37,7 +37,7 @@
             "type": "system",
             "manifest": "https://raw.githubusercontent.com/crnormand/gurps/release/system.json",
             "compatibility":{ 
-                "minimum": "0.17.17"
+                "minimum": "0.18.0"
             }
           }    
     ],
