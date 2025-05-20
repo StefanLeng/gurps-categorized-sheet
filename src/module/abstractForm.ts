@@ -38,7 +38,8 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
                     dragover: this._onDragOver.bind(this),
                     drop: this._onDrop.bind(this),
                 };
-                return new DragDrop(d);
+                //@ts-expect-error need to update foundry types
+                return new foundry.applications.ux.DragDrop.implementation(d);
             }) ?? []
         );
     }
