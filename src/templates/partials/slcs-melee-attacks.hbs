@@ -1,10 +1,10 @@
 {{#if (notEmpty melee)}}
     <div id='slcs-melee-attacks' class='gga-table with-notes slcs-block'>
-        <div class='desc header'>{{i18n 'GURPS.meleeWeapons'}}</div>
-        <div class='usage header'>{{i18n 'GURPS.usage'}}</div>
-        <div class='level header'>{{i18n 'GURPS.level'}}</div>
-        <div class='damage header'>{{i18n 'GURPS.damage'}}</div>
-        <div class='reach header'>{{i18n 'GURPS.reach'}}</div>
+        <div class='desc header'>{{localize  'GURPS.meleeWeapons'}}</div>
+        <div class='usage header'>{{localize  'GURPS.usage'}}</div>
+        <div class='level header'>{{localize  'GURPS.level'}}</div>
+        <div class='damage header'>{{localize  'GURPS.damage'}}</div>
+        <div class='reach header'>{{localize  'GURPS.reach'}}</div>
 
         {{#stripes melee 'even' 'odd' }}
             <div class='meleedraggable  {{stripeClass}}' data-key='system.melee.{{key}}'>

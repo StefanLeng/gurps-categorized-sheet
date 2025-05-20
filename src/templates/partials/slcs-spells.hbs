@@ -1,14 +1,14 @@
 {{#if (notEmpty system.spells)}}
     <div id='slcs-spells' class='gga-table with-notes'>
-        <div class='desc header'>{{i18n 'GURPS.spells'}}</div>
-        <div class='cls header'>{{i18n 'GURPS.spellClass'}}</div>
-        <div class='mana header'>{{i18n 'GURPS.spellCost'}}</div>
-        <div class='mana_maintain header'>{{i18n 'GURPS.spellMaintain'}}</div>
-        <div class='time header'>{{i18n 'GURPS.spellTime'}}</div>
-        <div class='duration header'>{{i18n 'GURPS.spellDuration'}}</div>
-        <div class='sl header'>{{i18n 'GURPS.sl'}}</div>
-        <div class='rsl header'>{{i18n 'GURPS.rsl'}}</div>
-        <div class='ref header'>{{i18n "GURPS.abbrevRef"}}</div>
+        <div class='desc header'>{{localize  'GURPS.spells'}}</div>
+        <div class='cls header'>{{localize  'GURPS.spellClass'}}</div>
+        <div class='mana header'>{{localize  'GURPS.spellCost'}}</div>
+        <div class='mana_maintain header'>{{localize  'GURPS.spellMaintain'}}</div>
+        <div class='time header'>{{localize  'GURPS.spellTime'}}</div>
+        <div class='duration header'>{{localize  'GURPS.spellDuration'}}</div>
+        <div class='sl header'>{{localize  'GURPS.sl'}}</div>
+        <div class='rsl header'>{{localize  'GURPS.rsl'}}</div>
+        <div class='ref header'>{{localize  "GURPS.abbrevRef"}}</div>
 
         {{#stripes (flatlist system.spells) 'even' 'odd'}}
             {{#unless isCollapsed}}

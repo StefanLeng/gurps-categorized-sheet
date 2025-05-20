@@ -45,7 +45,7 @@
                         name="settings.sheetOTFs.manueverRequiered"
                     >
                         {{#each ../manuevers}}
-                            <option value='{{this.name}}' {{select-if-included this.name ../manueverRequiered}}>{{i18n this._data.label}}</option>
+                            <option value='{{this.name}}' {{select-if-included this.name ../manueverRequiered}}>{{localize  this._data.label}}</option>
                         {{/each}}
                     </select>
                 </div>  

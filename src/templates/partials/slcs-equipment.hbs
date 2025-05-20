@@ -1,18 +1,18 @@
 <div id='slcs-equipment{{container}}' class='equipmentlist gga-table with-notes slcs-block'>
-	<div class='equipped header'>{{#if (eq container 'carried')}}{{i18n 'GURPS.equipmentEquipped'}}{{/if}}</div>
+	<div class='equipped header'>{{#if (eq container 'carried')}}{{localize  'GURPS.equipmentEquipped'}}{{/if}}</div>
 	<div class='qty header' data-key='system.equipment.{{container}}'>
-		{{i18n 'GURPS.equipmentQuantity'}}
+		{{localize  'GURPS.equipmentQuantity'}}
 	</div>
 
 	<div class='desc header eqtdragtarget' data-key='system.equipment.{{container}}'>
 		<div class='headermenu'>
 			<span>
 				{{#if (eq container 'carried')}}
-				{{i18n "GURPS.equipmentCarried"}}
+				{{localize  "GURPS.equipmentCarried"}}
 				({{toLocaleString eqtsummary.eqtlbs}}
 				lb; ${{toLocaleString eqtsummary.eqtcost}})
 				{{else}}
-				{{i18n "GURPS.equipmentOther"}}
+				{{localize  "GURPS.equipmentOther"}}
 				(${{toLocaleString eqtsummary.othercost}})
 				{{/if}}
 			</span>
@@ -20,12 +20,12 @@
 		</div>
 	</div>
 
-	<div class='uses header'>{{i18n 'GURPS.equipmentUses'}}</div>
+	<div class='uses header'>{{localize  'GURPS.equipmentUses'}}</div>
 	<div class='cost header'>$</div>
 	<div class='weight header'><i class='fas fa-weight-hanging'></i></div>
 	<div class='sum_cost header'>&sum; $</div>
 	<div class='sum_weight header'><span>&sum; <i class='fas fa-weight-hanging'></i></span></div>
-	<div class='ref header'>{{i18n 'GURPS.pdfRef'}}</div>
+	<div class='ref header'>{{localize  'GURPS.pdfRef'}}</div>
 
 	{{#stripes (flatlist (lookup system.equipment container)) 'even' 'odd' }}
         {{#unless isCollapsed}}

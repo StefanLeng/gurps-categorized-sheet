@@ -1,7 +1,7 @@
 {{#if (notEmpty system.reactions)}}
 <div id='slcs-reactions' class='gga-table slcs-block'>
-  <div class='modifier header gga-right'>{{i18n 'GURPS.modifier'}}</div>
-  <div class='situation header'>{{i18n 'GURPS.reaction'}}</div>
+  <div class='modifier header gga-right'>{{localize  'GURPS.modifier'}}</div>
+  <div class='situation header'>{{localize  'GURPS.reaction'}}</div>
 
   {{#stripes system.reactions 'even' 'odd' }}
       <div class='modifier gmod gga-right {{stripeClass}}' data-name='Reaction {{situation}}' data-otf='{{displayNumber modifier}} {{situation}}'>
