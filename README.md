@@ -117,6 +117,9 @@ You can now select a "unready" grip for all weapons.
 Refined grip display.
 Favorites Tab: Configure your favorite traits and skills in the sheet configuraton for fast accsess on the "Favs" tab.
 
+0.7.0
+Compatiblity with GGA 0.18.0 and Foundry 13
+
 ## Development
 
 ### Prerequisites
