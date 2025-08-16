@@ -120,6 +120,10 @@ Favorites Tab: Configure your favorite traits and skills in the sheet configurat
 0.7.0
 Compatiblity with GGA 0.18.0 and Foundry 13
 
+0.7.1
+Fixed crash at target range calc
+Better error logging
+
 ## Development
 
 ### Prerequisites
