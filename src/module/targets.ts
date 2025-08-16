@@ -24,22 +24,22 @@ function getToken(actor: Actor) {
 
 function calculateRange(token1: Token | null | undefined, token2: Token | null | undefined) {
     if (!token1 || !token2) return undefined;
-    if (token1 == token2) return undefined;
+    if (token1 === token2) return undefined;
+    if (!canvas.scene) return undefined;
 
-    // const ruler = new Ruler() as Ruler & { totalDistance: number }
     const ruler = new CONFIG.Canvas.rulerClass(game.user);
-    ruler._state = Ruler.STATES.MEASURING;
-    ruler._addWaypoint({ x: token1.x, y: token1.y }, { snap: false });
-    ruler.measure({ x: token2.x, y: token2.y }, { gridSpaces: true });
-    const horizontalDistance = ruler.totalDistance;
-    const verticalDistance = Math.abs(token1.document.elevation - token2.document.elevation);
-    ruler.clear();
 
-    const dist = Math.sqrt(horizontalDistance ** 2 + verticalDistance ** 2) - 1;
-    const yards = ruler.convert_to_yards(dist, canvas.scene?.grid.units);
+    let dist = canvas.grid.measurePath([token1.document, token2.document]).distance;
+
+    if (game.release.generation === 12) {
+        const verticalDistance = Math.abs(token1.document.elevation - token2.document.elevation);
+        dist = Math.sqrt(Math.pow(dist, 2) + Math.pow(verticalDistance, 2)) - 1;
+    }
+
+    const yards = GURPS.Length.from(dist, canvas.scene.grid.units).to(GURPS.Length.Unit.Yard).value;
     return {
         yards: Math.ceil(dist),
-        modifier: ruler.yardsToSpeedRangePenalty(yards),
+        modifier: ruler.yardsToRangePenalty(yards),
     };
 }
 

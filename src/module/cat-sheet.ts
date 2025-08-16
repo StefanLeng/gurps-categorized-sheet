@@ -143,7 +143,8 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
                 reactionTableExists: reactionTableExists(),
                 criticalTables: existingCriticalTables(),
             });
-        } catch {
+        } catch (e) {
+            console.error(e);
             return foundry.utils.mergeObject(data, { error: true });
         }
     }
