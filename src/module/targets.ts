@@ -53,7 +53,10 @@ export function targets(actor: Actor, ranged: boolean) {
         if (target.actor) {
             const system = target.actor.system as any;
 
-            result.targetmodifiers = target.actor ? convertModifiers(system.conditions.target.modifiers) : [];
+            const targetMods = system.conditions.target.modifiers as Array<string>;
+            const filterdMods = targetMods.filter((s) => !s.includes(ranged ? '#melee' : '#ranged'));
+
+            result.targetmodifiers = target.actor ? convertModifiers(filterdMods) : [];
 
             result.hitlocations = system.hitlocations;
         }
