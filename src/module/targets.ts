@@ -1,4 +1,5 @@
 import { convertModifiers } from './util.js';
+import { SYSTEM_ID, SETTING_USE_SIZE_MODIFIER_DIFFERENCE_IN_MELEE } from './constants.ts';
 
 interface Hitlocation {
     where: string;
@@ -44,6 +45,25 @@ function calculateRange(token1: Token | null | undefined, token2: Token | null |
     };
 }
 
+function getSizeModifier(source: Token | null | undefined, target: Token | null | undefined): string | undefined {
+    if (!source?.actor || !target?.actor) return undefined;
+    if (source === target) return undefined;
+    if (!game.settings.get(SYSTEM_ID, SETTING_USE_SIZE_MODIFIER_DIFFERENCE_IN_MELEE)) return undefined;
+
+    const attackerSM = (foundry.utils.getProperty(source.actor, 'system.traits.sizemod') || 0) as number;
+    const targetSM = (foundry.utils.getProperty(target.actor, 'system.traits.sizemod') || 0) as number;
+    const sizeDiff = targetSM - attackerSM;
+    if (sizeDiff !== 0) {
+        const smText = `${sizeDiff >= 0 ? '+' : ''}${sizeDiff}`;
+        return game.i18n.format('GURPS.modifiersSizeDifference', {
+            sm: smText,
+            sourceSM: attackerSM,
+            targetSM: targetSM,
+        });
+    }
+    return undefined;
+}
+
 export function targets(actor: Actor, ranged: boolean) {
     const results = [];
     for (const target of Array.from(game.user.targets as Set<Token>)) {
@@ -67,6 +87,12 @@ export function targets(actor: Actor, ranged: boolean) {
                     mod: GURPS.gurpslink(
                         `[${mod.modifier} range to target ${target.actor?.name} (${mod.yards} ${canvas.scene?.grid.units})]`,
                     ),
+                });
+        } else {
+            const mod = getSizeModifier(getToken(actor), target);
+            if (mod)
+                result.targetmodifiers.push({
+                    mod: GURPS.gurpslink(`[${mod}]`),
                 });
         }
         results.push(result);

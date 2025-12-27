@@ -3,6 +3,7 @@ import { CategoryList, OTFRegion, SheetOTF } from './types.ts';
 export const MODULE_ID = 'gurps-categorized-sheet';
 export const SYSTEM_ID = 'gurps';
 export const CAT_SHEET_SETTINS = 'cat_sheet_settings';
+export const SETTING_USE_SIZE_MODIFIER_DIFFERENCE_IN_MELEE = 'use-size-modifier-difference-in-melee';
 
 const combatSkills: Array<string> = [
     'Sweep',
