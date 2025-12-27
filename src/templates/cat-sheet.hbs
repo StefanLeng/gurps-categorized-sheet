@@ -32,7 +32,10 @@
                                 <li><a class='tab-item' data-tab='melee'>{{i18nFallback  'GURPS-cat-sheet.meleeTab' 'Melee'}}</a></li>
                                 <li><a class='tab-item' data-tab='ranged'>{{i18nFallback  'GURPS-cat-sheet.rangedTab' 'Ranged'}}</a></li>
                                 <li><a class='tab-item' data-tab='defences'>{{i18nFallback  'GURPS-cat-sheet.defencesTab' 'Defences'}}</a></li>                            
-                                <li><a class='tab-item' data-tab='criticals'>{{i18nFallback  'GURPS-cat-sheet.defencesTab' 'Criticals'}}</a></li>                            
+                                <li><a class='tab-item' data-tab='criticals'>{{i18nFallback  'GURPS-cat-sheet.defencesTab' 'Criticals'}}</a></li>
+                                {{#if (notEmpty system.additionalresources.tracker)}}                            
+                                    <li><a class='tab-item' data-tab='resources'>{{i18nFallback  'GURPS-cat-sheet.resourcesTab' 'Resources'}}</a></li>
+                                {{/if}}                       
                             </nav>
                             <div id="slcs-combatContent">
                                 <div class='tab' data-tab='melee' data-group='combat-tabs'>
@@ -57,7 +60,11 @@
                                         {{>slcs-criticalRolls}}
                                     </div>
                                 </div>
-                            </div>
+                                <div class='tab' data-tab='resources' data-group='combat-tabs'>
+                                    <div class="col-tabcontent">                             
+                                        {{>slcs-trackers}}
+                                    </div>
+                                </div>                            </div>
                         </div>
                     </div>
                 </div>

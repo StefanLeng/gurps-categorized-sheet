@@ -32,6 +32,8 @@ export async function registerHandlebarsPartials() {
         'slcs-sense-rolls',
         'slcs-otf-region',
         'slcs-qnotes',
+        'slcs-resource-tracker',
+        'slcs-trackers',
     ];
 
     for (const name of templates) {

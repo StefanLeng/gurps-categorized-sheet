@@ -1,0 +1,12 @@
+<div class='slcs-combat-trackers'>
+  <div class='slcs-tracker-scroller'>
+    {{#each system.additionalresources.tracker}}
+      {{>slcs-resource-tracker
+          label=name
+          resource=this
+          name=(concat 'additionalresources.tracker.' (zeroFill @index 4))
+          editable=true
+        }}
+    {{/each}}
+  </div>
+</div>

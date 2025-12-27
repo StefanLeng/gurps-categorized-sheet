@@ -524,6 +524,21 @@
         }
     }
 
+    .slcs-combat-trackers {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr min-content;  
+        .slcs-tracker-scroller {
+            display: flex;
+            flex-flow: row wrap;
+            gap: var(--sectiongap);
+            //background-color: #eee;
+            .tracked-resource {
+                width: min-content;
+            }
+        }
+    }
+
     #slcs-advantages{
         grid-template-columns: 1fr auto;
         align-content: start;
