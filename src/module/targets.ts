@@ -29,7 +29,8 @@ function calculateRange(token1: Token | null | undefined, token2: Token | null |
 
     const ruler = new CONFIG.Canvas.rulerClass(game.user);
 
-    let dist = canvas.grid.measurePath([token1.document, token2.document]).distance;
+    const path = canvas.grid.measurePath([token1.document, token2.document]);
+    let dist = canvas.grid.isGridless ? path.distance : path.spaces;
 
     if (game.release.generation === 12) {
         const verticalDistance = Math.abs(token1.document.elevation - token2.document.elevation);
