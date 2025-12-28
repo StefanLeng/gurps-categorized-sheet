@@ -35,6 +35,7 @@ export async function registerHandlebarsPartials() {
         'slcs-resource-tracker',
         'slcs-trackers',
         'slcs-speed-range-table',
+        'slcs-conditional-injury',
     ];
 
     for (const name of templates) {

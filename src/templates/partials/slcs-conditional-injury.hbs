@@ -1,0 +1,55 @@
+<div class='conditional-injury'>
+  <div class='header major-heading'>Injury</div>
+  <div class='tracked-resource no-border'>
+    <div class='header minor-heading slcs-severity'>Severity</div>
+    <div class='spinner slcs-severity'>
+      <button data-operation='ci-severity-dec'><i class='fas fa-minus'></i></button>
+
+      <input
+        class='gcs-attr-input'
+        name='system.conditionalinjury.injury.severity'
+        type='text'
+        value='{{system.conditionalinjury.injury.severity}}'
+        data-dtype='String'
+        data-operation='ci-severity-set'
+      />
+
+      <button data-operation='ci-severity-inc'><i class='fas fa-plus'></i></button>
+      <button data-operation='ci-reset'><i class='fas fa-undo'></i></button>
+    </div>
+    <div class='header minor-heading scls-time-to-heal'>Time to Heal</div>
+    <div class='spinner scls-time-to-heal'>
+      <button data-operation='ci-days-dec'><i class='fas fa-minus'></i></button>
+      <input
+        class='gcs-attr-input'
+        name='injury.daystoheal'
+        type='text'
+        value='{{system.conditionalinjury.injury.daystoheal}}'
+        placeholder=''
+        data-dtype='Number'
+        data-operation='ci-days-set'
+      />
+      <button class='no-gap' data-operation='ci-days-inc'><i class='fas fa-plus'></i></button>
+      <div style='font-size: 85%;'>&nbsp;Days</div>
+    </div>
+    <div class='basic-value fieldblock2'>
+        <div class='field'>{{system.conditionalinjury.RT.value}}&nbsp;RT</div>
+        <div class='label'>{{system.HP.max}}&nbsp;HP</div>
+    </div>
+    <div class='condition-block'>
+      <div class='tooltip-wrapper'>
+        <div class='tooltip condition {{ciCurrentGrossEffects system.conditionalinjury.injury.severity "style"}}'>
+          {{ciCurrentGrossEffects system.conditionalinjury.injury.severity 'label'}}
+          <span class='tooltiptext'>
+            <div class='fieldblock'>
+              {{#ciSeveritiesTooltip}}
+                <div class='field condensed noedit'>{{severity}}</div>
+                <div class='label'>{{label}}</div>
+              {{/ciSeveritiesTooltip}}
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

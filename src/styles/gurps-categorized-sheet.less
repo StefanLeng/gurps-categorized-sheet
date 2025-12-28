@@ -577,8 +577,6 @@
         gap: var(--sectiongap);
         .tracked-resource{
             display: grid;
-            grid-template-columns: min-content 1f;
-            grid-template-rows: auto auto;
             grid-template-areas: 
                 "header header"
                 "value value"
@@ -590,11 +588,12 @@
                 grid-area: value;
             }
             .basic-value{
+                font-size: var(--font-size-11);
                 grid-area: basic;
                 display: grid;
                 grid-template-columns: min-content 1fr;
                 .label{
-                    font-size: var(--font-size-14);
+                    font-size: var(--font-size-11);
                     padding-left: 0;                
                 }
                 .field{
@@ -608,6 +607,31 @@
                     border: 0;
                 }
             }            
+        }
+        .conditional-injury{
+            .tracked-resource{
+                grid-template-areas: 
+                    "header header"
+                    "value value"
+                    "header2 header2"
+                    "value2 value2"
+                    "basic condition";
+                .header.slcs-severity{
+                    grid-area: header;
+                }
+                .spinner.slcs-severity{
+                    grid-area: value;
+                }
+                .header.scls-time-to-heal{
+                    grid-area: header2;
+                }
+                .spinner.scls-time-to-heal{
+                    grid-area: value2;
+                }
+                .basic-value{
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
         }
     }
 
