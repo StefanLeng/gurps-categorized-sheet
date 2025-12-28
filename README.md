@@ -124,6 +124,14 @@ Compatiblity with GGA 0.18.0 and Foundry 13
 Fixed crash at target range calc
 Better error logging
 
+0.8.0
+Added sub-tab for custon Resource Trackers to the combat tab
+Support GGA option for Relative Size Modifier in Melee
+Support GGA option for Conditional Injury
+Fix Range Modifier calculation as in GGA 0.18.10
+Better filtering for target modifiers on the melee and ranged sub-tabs
+Some html and CSS refactoring to remove IDs that are non-unique if multiple sheets are open  
+
 ## Development
 
 ### Prerequisites
