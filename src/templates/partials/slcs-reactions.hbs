@@ -1,5 +1,5 @@
 {{#if (notEmpty system.reactions)}}
-<div id='slcs-reactions' class='gga-table slcs-block'>
+<div class='slcs-reactions gga-table slcs-block'>
   <div class='modifier header gga-right'>{{localize  'GURPS.modifier'}}</div>
   <div class='situation header'>{{localize  'GURPS.reaction'}}</div>
 
@@ -13,9 +13,9 @@
   {{/stripes}}
 </div>
 {{/if}}
-<div id='slcs-reactionroll' class='slcs-block'>
-  {{#if  reactionTableExists }}<button>Reaction Roll</button>{{else}}<div id="missing-table">No Reaction Roll Table found.</div>{{/if}}
-  <div id='slcs-reactionOTFs' class="slcs-otflist">
+<div class='slcs-reactionroll slcs-block'>
+  {{#if  reactionTableExists }}<button>Reaction Roll</button>{{else}}<div class="slsc-missing-table">No Reaction Roll Table found.</div>{{/if}}
+  <div class="slcs-reactionOTFs slcs-otflist">
       {{{gurpslink reactionOTFs}}}
   </div>
 </div>

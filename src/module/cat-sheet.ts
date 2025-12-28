@@ -53,8 +53,8 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             width: 900,
             height: 650,
             tabs: [
-                { navSelector: '#slcs-navtabs', contentSelector: '#slcs-main', initial: 'combat' },
-                { navSelector: '#slcs-combattabs', contentSelector: '#slcs-combatContent', initial: 'attacks' },
+                { navSelector: '.slcs-main-tabs', contentSelector: '.slcs-main', initial: 'combat' },
+                { navSelector: '.slcs-combattabs', contentSelector: '.slcs-combatContent', initial: 'attacks' },
             ],
             dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
         });
@@ -196,14 +196,14 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
     activateListeners(html: JQuery<HTMLElement>) {
         super.activateListeners(html);
 
-        html.find('#slcs-conditions details').on('click', (ev) => {
+        html.find('.slcs-conditions details').on('click', (ev) => {
             ev.preventDefault();
             const target: any = $(ev.currentTarget)[0];
             target.open = !target.open;
         });
 
         // Handle the "Maneuver" dropdown.
-        html.find('#slcs-conditions details#maneuver .popup .button').on('click', (ev) => {
+        html.find('.slcs-conditions details.maneuver .popup .button').on('click', (ev) => {
             ev.preventDefault();
             const details: any = $(ev.currentTarget).closest('details');
             const target: any = $(ev.currentTarget)[0];
@@ -212,7 +212,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         });
 
         // Handle the "Posture" dropdown.
-        html.find('#slcs-conditions details#posture .popup .button').on('click', (ev) => {
+        html.find('.slcs-conditions details.posture .popup .button').on('click', (ev) => {
             ev.preventDefault();
             const details: any = $(ev.currentTarget).closest('details');
             const target: any = $(ev.currentTarget)[0];
@@ -227,7 +227,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             this.setGrip(target.val() as string, index);
         });
 
-        html.find('#slcs-encumberance').on('change', (ev) => {
+        html.find('.slcs-encumberance').on('change', (ev) => {
             ev.preventDefault();
             const target = $(ev.currentTarget);
             this.changeEncumberance(target.val() as string);
@@ -235,9 +235,9 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
         html.find('.changeequip').on('click', this._onClickEquip.bind(this));
 
-        html.find('#slcs-reactionroll button').on('click', drawReactionRoll);
+        html.find('.slcs-reactionroll button').on('click', drawReactionRoll);
 
-        html.find('#slcs-criticalRolls button').on('click', (ev) => {
+        html.find('.slcs-criticalRolls button').on('click', (ev) => {
             const table = ev.currentTarget.dataset.rolltable as unknown as MyRollTable;
             drawTableRoll(table);
         });

@@ -69,7 +69,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
     protected _globalSetting;
 
     static override DEFAULT_OPTIONS = {
-        id: 'slcs-actorSettingsForm',
+        classes: ['slcs-actorSettingsForm'],
         tag: 'form',
         form: {
             handler: ActorSeetingsForm.settingsFormHandler,

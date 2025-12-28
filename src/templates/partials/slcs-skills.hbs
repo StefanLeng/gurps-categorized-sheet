@@ -1,5 +1,5 @@
 {{#if (notEmpty skills)}}
-    <div id='slcs-skills' class='gga-table with-notes slcs-block'>
+    <div class='slcs-skills gga-table with-notes slcs-block'>
         {{#stripes (flatlist skills) 'even' 'odd' }}
             {{#unless isCollapsed}}
                 <div class='skldraggable {{stripeClass}}' data-key='system.skills.{{@key}}'>

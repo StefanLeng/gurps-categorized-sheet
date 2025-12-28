@@ -34,6 +34,7 @@ export async function registerHandlebarsPartials() {
         'slcs-qnotes',
         'slcs-resource-tracker',
         'slcs-trackers',
+        'slcs-speed-range-table',
     ];
 
     for (const name of templates) {

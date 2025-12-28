@@ -37,7 +37,7 @@ class SeetingsForm extends BaseSeetingsForm {
     public _settings;
 
     static override DEFAULT_OPTIONS = {
-        id: 'slcs-settingsForm',
+        classes: ['slcs-settingsForm'],
         tag: 'form',
         form: {
             handler: SeetingsForm.settingsFormHandler,

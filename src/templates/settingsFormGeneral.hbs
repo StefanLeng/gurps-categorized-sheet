@@ -1,12 +1,12 @@
-<section id="slcs-generalTab" class="tab {{tab.cssClass}}" data-group="primary" data-tab="general">
-    <div id="col1" class="slcs_col">
-        <h3 id="slcs-modifiers-title">Modifier options</h3>
+<section class="slcs-generalTab tab {{tab.cssClass}}" data-group="primary" data-tab="general">
+    <div  class="slcs_col col1">
+        <h3 class="slcs-modifiers-title">Modifier options</h3>
         <div class="slcs-settingsBlock slcs-block {{#if limitedEditing}}double{{else}}single{{/if}}">
             <div class='label'>Use extra effort</div>
             {{#unless limitedEditing}}
-                <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffort" {{checked settings.allowExtraEffort}}/>
+                <input type="checkbox" class="slcs-extra-effort" name="settings.allowExtraEffort" {{checked settings.allowExtraEffort}}/>
             {{else}}
-                <input type="checkbox" id="slcs-extra-effort" name="settings.allowExtraEffort"
+                <input type="checkbox" class="slcs-extra-effort" name="settings.allowExtraEffort"
                     {{disabled (eq settings.allowExtraEffort null)}} 
                     {{#if (eq settings.allowExtraEffort null)}}{{checked globalSettings.allowExtraEffort}}{{else}}{{checked settings.allowExtraEffort}}{{/if}}/>
                 <div class='label global-setting'>Use global setting</div>
@@ -14,13 +14,13 @@
             {{/unless}}
         </div>
         
-        <h3 id="slcs-displa-title">Display options</h3>
+        <h3 class="slcs-display-title">Display options</h3>
         <div class="slcs-settingsBlock slcs-block {{#if limitedEditing}}double{{else}}single{{/if}}">
             <div class='label'>Hide attacks/defences from weapons not hold</div>
             {{#unless limitedEditing}}
-                <input type="checkbox" id="slcs-hide-inactive" name="settings.hideInactiveAttacks" {{checked settings.hideInactiveAttacks}}/>
+                <input type="checkbox" class="slcs-hide-inactive" name="settings.hideInactiveAttacks" {{checked settings.hideInactiveAttacks}}/>
             {{else}}
-                <input type="checkbox" id="slcs-hide-inactive" name="settings.hideInactiveAttacks" 
+                <input type="checkbox" class="slcs-hide-inactive" name="settings.hideInactiveAttacks" 
                     {{disabled (eq settings.hideInactiveAttacks null)}} 
                     {{#if (eq settings.hideInactiveAttacks null)}}{{checked globalSettings.hideInactiveAttacks}}{{else}}{{checked settings.hideInactiveAttacks}}{{/if}}/>
                 <div class='label global-setting'>Use global setting</div>
@@ -28,9 +28,9 @@
             {{/unless}}
             <div class='label'>Allow two handed weapons to be wielded one-handed with high Strength</div>
             {{#unless limitedEditing}}
-                <input type="checkbox" id="slcs-highStrengthOneHanded" name="settings.highStrengthOneHanded" {{checked settings.highStrengthOneHanded}}/>
+                <input type="checkbox" class="slcs-highStrengthOneHanded" name="settings.highStrengthOneHanded" {{checked settings.highStrengthOneHanded}}/>
             {{else}}
-                <input type="checkbox" id="slcs-highStrengthOneHanded" name="settings.highStrengthOneHanded" 
+                <input type="checkbox" class="slcs-highStrengthOneHanded" name="settings.highStrengthOneHanded" 
                     {{disabled (eq settings.highStrengthOneHanded null)}} 
                     {{#if (eq settings.highStrengthOneHanded null)}}{{checked globalSettings.highStrengthOneHanded}}{{else}}{{checked settings.highStrengthOneHanded}}{{/if}}/>
                 <div class='label global-setting'>Use global setting</div>
@@ -38,9 +38,9 @@
             {{/unless}}       
          </div>        
     </div>
-    <div id="col2" class="slcs_col">
+    <div class="slcs_col col2">
         {{#unless limitedEditing}}
-            <h3 id="slcs-rollTable-title">Roll Table names</h3>
+            <h3 class="slcs-rollTable-title">Roll Table names</h3>
             <div class="slcs-settingsBlock slcs-block single">
                 {{#each settings.rollTables}}
                     <div class='label'>{{@key}}</div>
@@ -50,13 +50,13 @@
         {{/unless}}
 
         {{#if limitedEditing}}
-            <h3 id="slcs-displa-title">Character Setup</h3>
+            <h3 class="slcs-display-title">Character Setup</h3>
             <div class="slcs-settingsBlock double">
                 <div class='label'>Number of Hands</div>
-                <input type="number" id="slcs-number-of-hands" name="settings.numberOfHands" min="0" max="10" step="1" value="{{settings.numberOfHands}}"/>
+                <input type="number" class="slcs-number-of-hands" name="settings.numberOfHands" min="0" max="10" step="1" value="{{settings.numberOfHands}}"/>
             </div>
 
-            <div id='slcs-emptyHandWepons' class='gga-table slcs-block'>
+            <div class='slcs-emptyHandWepons gga-table slcs-block'>
                 <div class='name header'>Non Equipment Weapon</div>
                 <div class='usage header'>Attack</div>
                 <div class='emptyHand header'>Needs Empty Hand</div>

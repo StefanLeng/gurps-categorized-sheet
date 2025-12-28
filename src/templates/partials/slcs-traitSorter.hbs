@@ -1,6 +1,6 @@
-<div id="slcs-trait-hint" class="slcs-hint">  Drag and drop to move to another category, hold shift to copy to another category. </div>
+<div class="slcs-hint">  Drag and drop to move to another category, hold shift to copy to another category. </div>
 {{#with this as | list | }}
-    <div id="slcs-{{type}}" class="sortingArea">
+    <div class="slcs-{{type}} sortingArea">
         {{#each list.traits as |cat catkey|}}
             <div class="scls-trait-container">
                 <div class='slcs-header'>
@@ -11,7 +11,7 @@
                         </button> 
                     {{/unless}}               
                 </div>
-                <div id="slcs-{{list.type}}-{{@key}}" class="slcs-trait-list" data-category="{{@key}}" data-type="{{list.type}}">
+                <div class="slcs-trait-list" data-category="{{@key}}" data-type="{{list.type}}">
                     {{#each cat as |item|}}
                         <div class="itemrow" data-category="{{catkey}}" data-index="{{@index}}" data-type="{{list.type}}">
                             <input name='settings.items.{{list.type}}.{{catkey}}' class='slcs-input' type='text' value='{{item}}'  {{disabled list.limitedEditing }} />

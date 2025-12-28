@@ -1,5 +1,5 @@
 {{#if (notEmpty ads)}}
-    <div id='slcs-advantages' class='gga-table with-notes slcs-block'>
+    <div class='slcs-advantages gga-table with-notes slcs-block'>
         {{#stripes (flatlist ads) 'even' 'odd' }}
             {{#unless isCollapsed}}
                  <div class='adsdraggable {{stripeClass}}' data-key='system.ads.{{@key}}'>

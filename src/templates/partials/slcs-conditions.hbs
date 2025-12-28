@@ -1,10 +1,10 @@
-<div id='slcs-conditions' class="slcs-block">
+<div class="slcs-block slcs-conditions">
   <div class='fieldblock'>
 
     {{#if (ne system.conditions.maneuver 'undefined')}}
         <div class='label'>{{localize  'GURPS.maneuver'}}:</div>
         <div class='field details'>
-          <details id='maneuver'>
+          <details class='maneuver'>
             <summary>
               {{#with (getManeuver system.conditions.maneuver) as |maneuver|}}
                 <img class='button' src='{{maneuver.icon}}' title='{{localize  maneuver.label}}' alt='{{maneuver.name}}' />
@@ -21,7 +21,7 @@
 
     <div class='label'>{{localize  'GURPS.modifierPosture'}}:</div>
     <div class='field details'>
-        <details id='posture'>
+        <details class='posture'>
           <summary>
             {{#with (getPosture system.conditions.posture) as |posture|}}
               <img class='button' src='{{posture.img}}' title='{{localize  posture.name}}' alt='{{posture.id}}' />
@@ -56,7 +56,7 @@
     <div class='label' for="slcs-encumberance">Encumb.:</div>
     <div class='field' style='border: none'>
       <select
-        id='slcs-encumberance'
+        class='slcs-encumberance'
         {{disabled (automaticEncumbrance)}}
       >
         {{#each system.encumbrance}}
@@ -66,7 +66,7 @@
     </div>   
 
     {{#if (eq section 'combat')}}
-        <div id="slcs-hands">
+        <div class="slcs-hands">
             {{#each hands}}
                 <div class='label' for='selectedGrip{{@index}}'>{{name}}:</div>
                 <div class='field' style='border: none'>

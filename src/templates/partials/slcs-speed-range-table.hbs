@@ -1,0 +1,15 @@
+<div class='slcs-speed-range-table slcs-block'>
+  <div class='header'>Speed/Range Table</div>
+  <div class='slcs-range-table' style='--count: {{ranges.length}}'>
+    <div class='label'>Measure (yd)</div>
+    {{#stripes ranges 'odd' 'even'}}
+      <div class='label {{stripeClass}}'>{{this.max}}</div>
+    {{/stripes}}
+    <div class='label'>Modifier</div>
+    {{#stripes ranges 'odd' 'even' }}
+      <div class='label {{stripeClass}} {{gmod this}}' data-name='{{this.moddesc}}'>
+        {{{displayNumber this.penalty}}}
+      </div>
+    {{/stripes}}
+  </div>
+</div>

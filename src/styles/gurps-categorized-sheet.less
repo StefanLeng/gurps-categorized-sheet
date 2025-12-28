@@ -17,8 +17,9 @@
     min-height: 600px;
 }
 
-#cat-sheet{
+.slcs-sheet{
     --sectiongap: 0.3em;
+    --stripeColor: #e8ffe8;
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: min-content max-content 1fr;
@@ -33,7 +34,7 @@
         height:100%;
     }
 
-    #slcs-header{
+    .slcs-header{
         grid-area: header;
         display: grid;
         grid-template-columns: 100px 1fr 1fr min-content 3fr;
@@ -43,18 +44,18 @@
         grid-gap: 0px var(--sectiongap)
     }
     
-    #slcs-main{
+    .slcs-main{
         grid-area: main;
         height: 0;
         min-height: 100%;
     }
 
-    #qnotes{
+    .qnotes{
         grid-area: unset;
         display: block;
     }
 
-    #slcs-portrait{
+    .slcs-portrait{
         display: grid;
         grid-area: portrait;
         grid-template-rows: 1fr min-content;
@@ -78,11 +79,11 @@
         }
     }
 
-    #slsc-basic-attributes{
+    .slsc-basic-attributes{
         grid-area: basicattr;
     }
 
-    #slsc-secondary-attributes{
+    .slsc-secondary-attributes{
         grid-area: secattr;
     }
 
@@ -90,7 +91,7 @@
         border: none;
     }
 
-    #slcs-modifierlist  
+    .slcs-modifierlist  
     {
         grid-area: modifiers;
         overflow-y: auto;   
@@ -107,7 +108,7 @@
         }
     }
 
-    #slcs-modifierlist > div.gga-table{
+    .slcs-modifierlist > div.gga-table{
         grid-template-columns: 0fr 1fr;
         grid-template-rows: auto;
         padding: 3px;
@@ -167,7 +168,7 @@
         margin-top: 0.2em;
         margin-bottom: 0.1em;
     }
-
+    
     .slcs-sheet-tabs {
         display: block;
         font-size: 110%;
@@ -184,8 +185,7 @@
         text-decoration: underline;
         text-shadow: none;
         font-weight: bold;
-        background-color: #e8ffe8;
-        font-size: 105%;
+        background-color: var(--stripeColor);
         color: black;
     }
 
@@ -197,7 +197,7 @@
         font-size: inherit;
     }
 
-    #slcs-navtabs{
+    .slcs-main-tabs{
         grid-area: navtabs;
     }
     
@@ -231,11 +231,11 @@
     }
 
     .even{
-        background-color: #e8ffe8;
+        background-color: var(--stripeColor);;
     }
 
     .odd.evenOuter {
-        background-color: #e8ffe8;
+        background-color: var(--stripeColor);;
     }
 
     .even.evenOuter {
@@ -243,18 +243,18 @@
     }
 
 
-    #slcs-combat-tab{
+    .slcs-combat-tab{
         grid-template-rows: min-content 1fr;
         grid-template-areas:
             'condition condition'
             'col1 col2';
-        #slcs-conditions{
+        .slcs-conditions{
             grid-area: condition;
         }
-        #slcs-col2{
+        .slcs-col2{
             overflow-y: unset;
             grid-template-rows: min-content 1fr;    
-            #slcs-combatContent{
+            .slcs-combatContent{
                 height: 0;
                 min-height: 100%;
                 width: 0;
@@ -266,24 +266,24 @@
         }    
     }
     
-    #slcs-exploration-tab{
+    .slcs-exploration-tab{
         grid-template-rows: min-content 1fr;
         grid-template-areas:
             'condition condition'
             'col1 col2';
-        #slcs-conditions{
+        .slcs-conditions{
             grid-area: condition;
         }  
-        #slcs-sense-rolls .fieldblock {
+        .slcs-sense-rolls .fieldblock {
             grid-template-columns: 0fr 1fr 0fr 1fr 0fr 1fr 0fr 1fr;
         }  
     }
 
-     #slcs-powers-tab.slcs-tab-content {
+    .slcs-powers-tab.slcs-tab-content {
         grid-template-columns: 3fr 5fr;
     }
     
-    #slcs-equipment-tab.slcs-tab-content {
+    .slcs-equipment-tab.slcs-tab-content {
         grid-template-columns: 1fr;
         grid-template-rows: min-content;
         grid-auto-rows: min-content;
@@ -291,13 +291,13 @@
         .equipmentlist {
             grid-template-columns: auto auto 1fr repeat(6, auto);
         }
-        #slcs-equipmentother .equipped {
+        .slcs-equipmentother .equipped {
             padding: 0;
             border-right: none;
         }
     }
 
-    #slcs-conditions{
+    .slcs-conditions{
         .label {
             display: flex;
             flex-flow: row;
@@ -316,7 +316,7 @@
             padding-top: 0.15em;
             align-items: center;
 
-            #slcs-hands{
+            .slcs-hands{
                 display: inline-grid;
                 grid-template-columns: repeat(2, 0fr auto);
                 align-items: center;     
@@ -366,7 +366,7 @@
         }
     }
 
-    #slcs-skills{
+    .slcs-skills{
         --rowmargin: 0.3em;
         grid-template-columns: 1fr repeat(3, auto);
         align-content: start;
@@ -404,13 +404,13 @@
         }
     }
 
-    #slcs-skills > div{
+    .slcs-skills > div{
         border-bottom: none;
         border-top: 1px solid lightgrey;
         border-right: 1px solid lightgrey;
     }
 
-    #slcs-melee-attacks{
+    .slcs-melee-attacks{
         align-self: start;
         grid-template-columns: 1fr minmax(min-content, 1fr) repeat(3, auto);
         grid-template-rows: 0fr max-content;
@@ -425,7 +425,7 @@
         }
     }
 
-    #slcs-ranged-attacks{
+    .slcs-ranged-attacks{
         align-self: start;
         grid-template-columns: 1fr repeat(9, auto);
         grid-template-rows: 0fr max-content;
@@ -441,13 +441,13 @@
         }
     }
 
-    #slcs-ranged-attacks > div {
+    .slcs-ranged-attacks > div {
         width: min-content;
         white-space: normal;
         min-width: 100%;
     }
 
-    #slcs-melee-attacks, #slcs-ranged-attacks{
+    .slcs-melee-attacks, .slcs-ranged-attacks{
         color: gray;
         .rollable, .gmod{
             color: gray;
@@ -483,11 +483,22 @@
         }
     }
 
-    #speed-range-table{
-        grid-area: unset;
+    .slcs-speed-range-table{
+         .slcs-range-table {
+            display: grid;
+            border: 1px solid lightgray;
+            align-content: stretch;
+            grid-template-columns: 3fr repeat(var(--count), 1fr);
+            grid-template-rows: 0fr 0fr;
+            .label {
+                text-align: end;
+                border-right: 1px solid lightgray;
+                border-bottom: 1px solid lightgray;
+            }
+        }
     }
 
-    #slcs-defences{
+    .slcs-defences{
         border: none;
         display: grid;
         grid-template-columns: min-content 1fr;
@@ -532,18 +543,15 @@
             display: flex;
             flex-flow: row wrap;
             gap: var(--sectiongap);
-            //background-color: #eee;
             .tracked-resource {
                 width: min-content;
             }
         }
     }
 
-    #slcs-advantages{
+    .slcs-advantages{
         grid-template-columns: 1fr auto;
         align-content: start;
-        //max-height: 300px;
-       // overflow-y: auto;
         .tooltip.gga-manual{
             border: none;
             white-space: normal;
@@ -559,11 +567,11 @@
             }
         }
         .even{
-            background-color: #e8ffe8;
+            background-color: var(--stripeColor);;
         }
     }
 
-    #slcs-hpfp{
+    .slcs-hpfp{
         display: grid;
         grid-template-columns: min-content;
         gap: var(--sectiongap);
@@ -603,7 +611,7 @@
         }
     }
 
-    #slcs-DR, .slcs-location {
+    .slcs-DR, .slcs-location {
         display: grid;
         grid-template-columns: repeat(4, 1fr max-content);
         .dr{
@@ -618,7 +626,7 @@
         grid-auto-rows: min-content;
     }
 
-    #slcs-lifting {
+    .slcs-lifting {
         grid-template:
             'header header'
             'desc lift';
@@ -626,11 +634,11 @@
         grid-template-rows: 0fr;
     }
 
-    #slcs-reactions {
+    .slcs-reactions {
         grid-template-columns: 0fr 1fr;
     }
 
-    #slcs-description {
+    .slcs-description {
         display: grid;
         grid-template:
              'block1 block2 block3';
@@ -652,20 +660,20 @@
         }
     }
 
-    #slcs-spells{
+    .slcs-spells{
         grid-template-columns: 1fr repeat(8, auto);
         .spldraggable:before{
             content: none;
         }
     };
 
-    #slcs-spells > div {
+    .slcs-spells > div {
         width: min-content;
         white-space: normal;
         min-width: 100%;
     }
 
-    #slcs-reactionroll {
+    .slcs-reactionroll {
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
         grid-template-rows: min-content min-content;
@@ -677,16 +685,16 @@
         button{
             grid-area: butto;
         }
-        #missing-table{
+        .slsc-missing-table{
             grid-area: butto;
             white-space: nowrap;
         }
-        #slcs-reactionOTFs{
+        .slcs-reactionOTFs{
             grid-area: otf;
         }
     }
 
-    #slcs-criticalRolls {
+    .slcs-criticalRolls {
         display: grid;
         grid-template-columns: 0.5fr;
         justify-content: center;
@@ -754,7 +762,7 @@
     }
 }
 
-#slcs-settingsForm, #slcs-actorSettingsForm{
+.slcs-settingsForm, .slcs-actorSettingsForm{
     --color-text-primary: var(--color-dark-2);
  
     .slcs-settingsBlock{
@@ -841,18 +849,18 @@
         }
     }
 
-    #slcs-generalTab.active {
+    .slcs-generalTab.active {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1em;
-        #slcs-emptyHandWepons{
+        .slcs-emptyHandWepons{
             grid-template-columns: 1fr 1fr 0fr;
             width: 100%;
             margin-top: 0.3em;
         }
     }
 
-    #slcs-OFTTab.active {
+    .slcs-OFTTab.active {
         height: 100%;
         display: grid;
         grid-template-rows: 0fr 0fr 1fr;
@@ -910,7 +918,7 @@
     }
 }
     
-#slcs-settingsForm{
+.slcs-settingsForm{
     section.slcs-sortingTab {
 
         .sortingArea {
@@ -919,7 +927,7 @@
     }
 }
 
-#slcs-actorSettingsForm{
+.slcs-actorSettingsForm{
     section.slcs-sortingTab {
 
         .sortingArea {

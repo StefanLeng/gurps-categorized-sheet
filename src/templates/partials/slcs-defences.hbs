@@ -1,5 +1,5 @@
 {{#if (notEmpty defences)}}
-    <div id='slcs-defences' class="slcs-block">
+    <div class="slcs-defences slcs-block">
         <div class='defence-main'>
             {{#each defences}}
                 <div class="group }{{#if selected}} selected{{/if}}">
@@ -30,7 +30,7 @@
     </div>	
     {{>slcs-otf-region OTFs=defenceOTFs type='defence'}}
 {{/if}}
-<div id="slcs-DR" class="slcs-block gga-table">
+<div class="slcs-DR slcs-block gga-table">
     {{#each system.hitlocations}}
         <div class='where'>{{where}}</div>
         <div class='dr'>{{localize  'GURPS.hitLocationDR'}}: {{dr}}{{#each split as | this key |}}<span title='{{localize  key key}}'>/{{this}}{{#if (ne key 'cr')}}*{{/if}}</span>{{/each}}</div>
