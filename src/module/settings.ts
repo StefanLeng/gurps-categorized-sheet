@@ -43,6 +43,7 @@ export const defaultSettings: CatSheetSettings = {
 function sortTraits(cat: CategoryList): CategoryList {
     const newcat = { ...cat };
     CATEGORIES.forEach((c) => {
+        newcat[c] ||= [];
         newcat[c] = removeArryDuplicates(newcat[c]).sort();
     });
     return newcat;
