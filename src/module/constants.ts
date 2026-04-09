@@ -2,7 +2,7 @@ import { CategoryList, OTFRegion, SheetOTF } from './types.ts';
 
 export const MODULE_ID = 'gurps-categorized-sheet';
 export const SYSTEM_ID = 'gurps';
-export const CAT_SHEET_SETTINS = 'cat_sheet_settings';
+export const CAT_SHEET_SETTINGS = 'cat_sheet_settings';
 export const SETTING_USE_SIZE_MODIFIER_DIFFERENCE_IN_MELEE = 'use-size-modifier-difference-in-melee';
 
 const combatSkills: Array<string> = [
@@ -1214,17 +1214,17 @@ export const adsCategories: CategoryList = {
 };
 
 export const systemOTFs: SheetOTF[] = [
-    { key: 'g00001', region: 'defence', code: '["+3 to Dodge (retreat)"+3 to Dodge (retreat)]' },
-    { key: 'g00002', region: 'defence', code: '["+1 to Block/Parry (retreat)"+1 to Block/Parry (retreat)]' },
-    { key: 'g00003', region: 'defence', code: '["−2 attacked from side"-2 to defence (attacked from side)]' },
+    { key: 'g00001', region: 'defense', code: '["+3 to Dodge (retreat)"+3 to Dodge (retreat)]' },
+    { key: 'g00002', region: 'defense', code: '["+1 to Block/Parry (retreat)"+1 to Block/Parry (retreat)]' },
+    { key: 'g00003', region: 'defense', code: '["−2 attacked from side"-2 to defense (attacked from side)]' },
     {
         key: 'g00004',
-        region: 'defence',
+        region: 'defense',
         code: '["−1 to defenses due to Deceptive attack"-1 to defenses due to Deceptive attack]',
     },
     {
         key: 'g00005',
-        region: 'defence',
+        region: 'defense',
         code: '["+2 Feverish Defense *Cost 1FP"+2 Feverish Defense *Cost 1FP]',
         flags: {
             extraEffort: true,
@@ -1232,33 +1232,33 @@ export const systemOTFs: SheetOTF[] = [
     },
     {
         key: 'g00006',
-        region: 'defence',
+        region: 'defense',
         code: '["Acrobatic Dodge"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [Dodge]]',
-        skillRequiered: ['acrobatics'],
+        skillRequired: ['acrobatics'],
     },
     {
         key: 'g00007',
-        region: 'defence',
+        region: 'defense',
         code: '["Acrobatic Dodge (Retreat)"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [+3 Retreat]\\\\/r [Dodge]]',
-        skillRequiered: ['acrobatics'],
+        skillRequired: ['acrobatics'],
     },
     {
         key: 'g00008',
-        region: 'defence',
+        region: 'defense',
         code: '["Acrobatic Dodge (Feverish)"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [+2 Feverish Defense *Cost 1FP]\\\\/r [Dodge]]',
         flags: {
             extraEffort: true,
         },
-        skillRequiered: ['acrobatics'],
+        skillRequired: ['acrobatics'],
     },
     {
         key: 'g00009',
-        region: 'defence',
+        region: 'defense',
         code: '["Acrobatic Dodge (Feverish/Retreat)"/if [S:Acrobatics|DX-6] /r [+2 Acrobatics] /else [-2 Failed Acrobatics]\\\\/r [+2 Feverish Defense *Cost 1FP]\\\\/r [+3 Retreat]\\\\/r [Dodge]]',
         flags: {
             extraEffort: true,
         },
-        skillRequiered: ['acrobatics'],
+        skillRequired: ['acrobatics'],
     },
     { key: 'g00010', region: 'melee', code: '["+4 to hit (Telegraphic Attack)"+4 to hit (Telegraphic Attack)]' },
     { key: 'g00011', region: 'melee', code: '["−2 to hit (Deceptive Attack)"-2 to hit (Deceptive Attack)]' },
@@ -1287,25 +1287,25 @@ export const systemOTFs: SheetOTF[] = [
         key: 'g00015',
         region: 'melee',
         code: '["+4 to hit (Determined Attack)"+4 to hit (Determined Attack)]',
-        manueverRequiered: ['allout_attack', 'aoa_determined'],
+        manueverRequired: ['allout_attack', 'aoa_determined'],
     },
     {
         key: 'g00016',
         region: 'melee',
         code: '["+2 damage (Strong Attack)"+2 damage (Strong Attack)],',
-        manueverRequiered: ['allout_attack', 'aoa_strong'],
+        manueverRequired: ['allout_attack', 'aoa_strong'],
     },
     {
         key: 'g00017',
         region: 'melee',
         code: '["-3 Rapid Strike (Weapon Master)" -3 Rapid Strike]',
-        traitRequiered: ['Weapon Master'],
+        traitRequired: ['Weapon Master'],
     },
     {
         key: 'g00018',
         region: 'melee',
         code: '["-3 Rapid Strike (TbaM)" -3 Rapid Strike]',
-        traitRequiered: ['Trained by a Master'],
+        traitRequired: ['Trained by a Master'],
     },
     {
         key: 'g00019',
@@ -1320,7 +1320,7 @@ export const systemOTFs: SheetOTF[] = [
         flags: {
             extraEffort: true,
         },
-        traitRequiered: ['Weapon Master'],
+        traitRequired: ['Weapon Master'],
     },
     {
         key: 'g00021',
@@ -1329,7 +1329,7 @@ export const systemOTFs: SheetOTF[] = [
         flags: {
             extraEffort: true,
         },
-        traitRequiered: ['Trained by a Master'],
+        traitRequired: ['Trained by a Master'],
     },
     {
         key: 'g00022',
@@ -1345,7 +1345,7 @@ export const systemOTFs: SheetOTF[] = [
         key: 'g00024',
         region: 'ranged',
         code: '["+1 to hit (Determined Attack)"+1 to hit (Determined Attack)]',
-        manueverRequiered: ['allout_attack', 'aoa_determined'],
+        manueverRequired: ['allout_attack', 'aoa_determined'],
     },
     {
         key: 'g00025',
@@ -1354,7 +1354,7 @@ export const systemOTFs: SheetOTF[] = [
         flags: {
             extraEffort: true,
         },
-        traitRequiered: ['Weapon Master'],
+        traitRequired: ['Weapon Master'],
     },
     {
         key: 'g00026',
@@ -1363,7 +1363,7 @@ export const systemOTFs: SheetOTF[] = [
         flags: {
             extraEffort: true,
         },
-        traitRequiered: ['Trained by a Master'],
+        traitRequired: ['Trained by a Master'],
     },
     {
         key: 'g00027',
@@ -1382,9 +1382,9 @@ export const systemOTFs: SheetOTF[] = [
     { key: 'g00029', region: 'reaction', code: '["-2 Repeated attempt" -2 Repeated attempt]' },
     {
         key: 'g00030',
-        region: 'defence',
+        region: 'defense',
         code: '["+2 All-Out Defense"+2 All-Out Defense]',
-        manueverRequiered: ['allout_defense', 'aod_dodge', 'aod_parry', 'aod_block'],
+        manueverRequired: ['allout_defense', 'aod_dodge', 'aod_parry', 'aod_block'],
     },
 ].map((i) => {
     return { ...i, region: i.region as OTFRegion, active: true, scope: 'module' };

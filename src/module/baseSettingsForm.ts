@@ -1,7 +1,7 @@
 import { CATEGORIES, OTF_REGIONS } from './types.ts';
 import { BasicForm } from './abstractForm.ts';
 
-abstract class BaseSeetingsForm extends BasicForm {
+abstract class BaseSettingsForm extends BasicForm {
     static override DEFAULT_OPTIONS: Partial<DocumentSheetConfiguration> &
         Partial<{ dragDrop: DragDropConfiguration[] }> = {
         position: {
@@ -15,7 +15,7 @@ abstract class BaseSeetingsForm extends BasicForm {
             resizable: true,
         },
         actions: {},
-        dragDrop: [{ dragSelector: '.itemrow', dropSelector: '.slcs-trait-list' }],
+        dragDrop: [{ dragSelector: '.item-row', dropSelector: '.slcs-trait-list' }],
     };
 
     override async _onDragStart(event: DragEvent) {
@@ -84,7 +84,7 @@ abstract class BaseSeetingsForm extends BasicForm {
         },
     };
 
-    // Set initial values for tabgroups
+    // Set initial values for tab groups
     override tabGroups: Record<string, string> = {
         primary: 'general',
     };
@@ -150,7 +150,7 @@ abstract class BaseSeetingsForm extends BasicForm {
      * @returns {Promise<void>}
      */
     static async settingsFormHandler(
-        this: BaseSeetingsForm,
+        this: BaseSettingsForm,
         _event: Event | SubmitEvent,
         _form: HTMLFormElement,
         _formData: FormDataExtended,
@@ -159,4 +159,4 @@ abstract class BaseSeetingsForm extends BasicForm {
     }
 }
 
-export { BaseSeetingsForm };
+export { BaseSettingsForm as BaseSettingsForm };

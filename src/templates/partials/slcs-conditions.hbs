@@ -53,14 +53,14 @@
       </select>
     </div>
     
-    <div class='label' for="slcs-encumberance">Encumb.:</div>
+    <div class='label' for="slcs-encumbrance">Encumb.:</div>
     <div class='field' style='border: none'>
       <select
-        class='slcs-encumberance'
+        class='slcs-encumbrance'
         {{disabled (automaticEncumbrance)}}
       >
         {{#each system.encumbrance}}
-          <option value='{{@key}}' {{select-if current true}}>{{encumberanceName key}} (&le; {{weight}})</option>
+          <option value='{{@key}}' {{select-if current true}}>{{encumbranceName key}} (&le; {{weight}})</option>
         {{/each}}
       </select>
     </div>   
@@ -76,7 +76,7 @@
                     data-index="{{@index}}"
                 >
                     {{#each ../grips}}
-                        <option value='{{name}}' {{select-if name ../grip}} class ="sle-grip {{#unless ready}}unredy{{/unless}}"><span>{{name}}</span></option>
+                        <option value='{{name}}' {{select-if name ../grip}} class ="sle-grip {{#unless ready}}unready{{/unless}}"><span>{{name}}</span></option>
                     {{/each}}
                 </select>
                 </div>

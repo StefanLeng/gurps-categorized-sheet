@@ -3,7 +3,7 @@ import { Rec } from './recursiveList.ts';
 export type OTFScope = 'module' | 'global' | 'actor';
 
 export const OTF_REGIONS = [
-    'defence',
+    'defense',
     'melee',
     'ranged',
     'reaction',
@@ -23,10 +23,10 @@ export type SheetOTF = {
     flags?: {
         [index: string]: boolean;
     };
-    skillRequiered?: string[];
-    traitRequiered?: string[];
+    skillRequired?: string[];
+    traitRequired?: string[];
     traitsForbidden?: string[];
-    manueverRequiered?: string[];
+    manueverRequired?: string[];
     active: boolean;
     scope: OTFScope;
 };

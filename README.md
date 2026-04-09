@@ -15,7 +15,7 @@ This module adds an additional character sheet to the [GURPS Game Aid](https://g
 2. Thematic tabs that displays just the information needed in common game situations: _Combat_, _Exploration_ & _Stealth_, _Social_, _Technical & Research_, _Powers & Magic_. 
 Skills and traits are categorized to appear on the appropriate tab. Anything not coverd by the regular tabs will appear on the _Others_ tab.
 
-3. You can choose what weapon you grip with each hand. For weapons with different grips (e.g. one-handed vr. two-hnaded), these can be selected. Attacks and defences by weapons not griped are shown in a lighter color, but at still selectable by default. You can chose not to display them at all in the options.
+3. You can choose what weapon you grip with each hand. For weapons with different grips (e.g. one-handed vr. two-hnaded), these can be selected. Attacks and defenses by weapons not griped are shown in a lighter color, but at still selectable by default. You can chose not to display them at all in the options.
 
 4. Many OTF appropriate to the character and the situation displayed at various sections of the sheet. You can add your on in the configuration, both globaly and per character. Also modificators from any conditions are displayed  direclty on the sheet.
 
@@ -87,7 +87,7 @@ Fixed layout issues with ranged attacks with longer texts.
 
 0.4.0
 You can now configure your own OTFs for various parts of the sheet. These can be conditional by skills, traits or chosen manuever.
-Deactivate or activate attacks, defences and OTFs based on chosen manuever.
+Deactivate or activate attacks, defenses and OTFs based on chosen manuever.
 Show all sense rolls on exploration tab.
 Configure per actor witch non-weapon attacks uses an empty hand.
 More fixes for equipment in containers.

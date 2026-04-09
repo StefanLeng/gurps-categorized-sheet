@@ -63,7 +63,7 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         },
     };
 
-    // Set initial values for tabgroups
+    // Set initial values for tab groups
     override tabGroups: Record<string, string> = {
         primary: 'general',
     };

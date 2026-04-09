@@ -10,9 +10,9 @@
             </div>
             <nav class='slcs-sheet-tabs slcs-main-tabs' data-group='primary-tabs'>
                 <li><a class='tab-item' data-tab='combat'>{{i18nFallback  'GURPS-cat-sheet.combatTab' 'Combat'}}</a></li>
-                <li><a class='tab-item' data-tab='exploration'>{{i18nFallback  'GURPS-cat-sheet.explrationTab' 'Exploration & Stealth'}}</a></li>
+                <li><a class='tab-item' data-tab='exploration'>{{i18nFallback  'GURPS-cat-sheet.explorationTab' 'Exploration & Stealth'}}</a></li>
                 <li><a class='tab-item' data-tab='social'>{{i18nFallback  'GURPS-cat-sheet.socialTab' 'Social'}}</a></li>
-                <li><a class='tab-item' data-tab='technical'>{{i18nFallback  'GURPS-cat-sheet.technicalTab' 'Technical & Reseach'}}</a></li>
+                <li><a class='tab-item' data-tab='technical'>{{i18nFallback  'GURPS-cat-sheet.technicalTab' 'Technical & Research'}}</a></li>
                 <li><a class='tab-item' data-tab='powers'>{{i18nFallback  'GURPS-cat-sheet.powersTab' 'Powers & Magic'}}</a></li>
                 <li><a class='tab-item' data-tab='others'>{{i18nFallback  'GURPS-cat-sheet.othersTab' 'Others'}}</a></li>
                 <li><a class='tab-item' data-tab='equipment'>{{i18nFallback  'GURPS-cat-sheet.equipmentTab' 'Equipment'}}</a></li>
@@ -28,11 +28,11 @@
                             {{>slcs-advantages ads=categories.combat.ads}}
                         </div>
                         <div class ='slcs-col slcs-col2'>
-                            <nav class='slcs-sheet-tabs slcs-combattabs' data-group='combat-tabs'>
+                            <nav class='slcs-sheet-tabs slcs-combat-tabs' data-group='combat-tabs'>
                                 <li><a class='tab-item' data-tab='melee'>{{i18nFallback  'GURPS-cat-sheet.meleeTab' 'Melee'}}</a></li>
                                 <li><a class='tab-item' data-tab='ranged'>{{i18nFallback  'GURPS-cat-sheet.rangedTab' 'Ranged'}}</a></li>
-                                <li><a class='tab-item' data-tab='defences'>{{i18nFallback  'GURPS-cat-sheet.defencesTab' 'Defences'}}</a></li>                            
-                                <li><a class='tab-item' data-tab='criticals'>{{i18nFallback  'GURPS-cat-sheet.defencesTab' 'Criticals'}}</a></li>
+                                <li><a class='tab-item' data-tab='defenses'>{{i18nFallback  'GURPS-cat-sheet.defensesTab' 'Defenses'}}</a></li>                            
+                                <li><a class='tab-item' data-tab='criticals'>{{i18nFallback  'GURPS-cat-sheet.defensesTab' 'Criticals'}}</a></li>
                                 {{#if (notEmpty system.additionalresources.tracker)}}                            
                                     <li><a class='tab-item' data-tab='resources'>{{i18nFallback  'GURPS-cat-sheet.resourcesTab' 'Resources'}}</a></li>
                                 {{/if}}                       
@@ -50,9 +50,9 @@
                                         {{>slcs-target targets=targetsRanged}}
                                     </div>
                                 </div>
-                                <div class='tab' data-tab='defences' data-group='combat-tabs'>
+                                <div class='tab' data-tab='defenses' data-group='combat-tabs'>
                                     <div class="col-tabcontent">                             
-                                        {{>slcs-defences}}
+                                        {{>slcs-defenses}}
                                     </div>
                                 </div>
                                 <div class='tab' data-tab='criticals' data-group='combat-tabs'>
@@ -160,7 +160,7 @@
             </div>
         </div>
     {{else}}
-        <div>An uncepexted error occured when reading the character data. Please open an issue at https://github.com/StefanLeng/gurps-categorized-sheet/issues and attach an expoert of the character.</div>
+        <div>An unexpected error occurred when reading the character data. Please open an issue at https://github.com/StefanLeng/gurps-categorized-sheet/issues and attach an export of the character.</div>
     {{/unless}}
 </form>
  

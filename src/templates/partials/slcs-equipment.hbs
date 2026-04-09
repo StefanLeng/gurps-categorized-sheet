@@ -29,7 +29,7 @@
 
 	{{#stripes (flatlist (lookup system.equipment container)) 'even' 'odd' }}
         {{#unless isCollapsed}}
-            <div class='equipped changeequip flex-center  {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
+            <div class='equipped change-equipped flex-center  {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
                 {{#if (eq ../container 'carried')}}
                 {{#if this.equipped}}
                 <i class="fas fa-check-circle"></i>

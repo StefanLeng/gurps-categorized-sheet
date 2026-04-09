@@ -183,7 +183,7 @@ function nonEquipmentWeapons(
     }, []);
 }
 
-function markSelectd(grips: WeaponGrip[], hands: Hand[], attackPossible: boolean) {
+function markSelected(grips: WeaponGrip[], hands: Hand[], attackPossible: boolean) {
     return grips.map((g) => {
         const selected = hands.some((h) => h.grip === g.name);
         g.meleeList = selected && attackPossible ? g.meleeList.map(setSelected) : g.meleeList;
@@ -244,7 +244,7 @@ function compareWeapons(a: Weapon, b: Weapon) {
     return isSelected(a) && !isSelected(b) ? -1 : !isSelected(a) && isSelected(b) ? 1 : a.name > b.name ? 1 : -1;
 }
 
-function isAttackEquippped(
+function isAttackEquipped(
     attack: AttackMode,
     equipment: { carried: RecursiveList.List<Equipment>; other: RecursiveList.List<Equipment> },
 ): boolean {
@@ -296,9 +296,9 @@ export function resolveWeapons(
 ): [grips: WeaponGrip[], hands: Hand[], meleeWeapons: Weapon[], rangedWeapons: Weapon[]] {
     const emptyHandWeapons = getActorSettings(actor).emptyHandAttacks ?? [];
     const mergedSetting = getMergedSettings(actor);
-    const meleeList0 = RecursiveList.filterList(meleeListIn, (a) => isAttackEquippped(a, equipment));
+    const meleeList0 = RecursiveList.filterList(meleeListIn, (a) => isAttackEquipped(a, equipment));
     const meleeList = RecursiveList.mapList(meleeList0, fixMelee);
-    const rangedList0 = RecursiveList.filterList(rangedListIn, (a) => isAttackEquippped(a, equipment));
+    const rangedList0 = RecursiveList.filterList(rangedListIn, (a) => isAttackEquipped(a, equipment));
     const rangedList = RecursiveList.mapList(rangedList0, fixRanged);
     const grips00 = makeGrips(
         equipment.carried,
@@ -315,7 +315,7 @@ export function resolveWeapons(
 
     const attacksPossible = attackPossible(actor);
 
-    const grips = markSelectd(grips0, hands, attacksPossible);
+    const grips = markSelected(grips0, hands, attacksPossible);
     const hideInactive = mergedSetting.hideInactiveAttacks;
 
     const weapons: Weapon[] = grips
@@ -336,10 +336,10 @@ export function resolveWeapons(
             ),
         );
 
-    const meeleWeapons = weapons.filter((w) => w.meleeList.length > 0).sort(compareWeapons);
+    const meleeWeapons = weapons.filter((w) => w.meleeList.length > 0).sort(compareWeapons);
     const rangedWeapons = weapons.filter((w) => w.rangedList.length > 0).sort(compareWeapons);
 
-    return [grips, hands, meeleWeapons, rangedWeapons];
+    return [grips, hands, meleeWeapons, rangedWeapons];
 }
 
 export function applyGripToHands(grips: WeaponGrip[], gripName: string, index: number, hands: Hand[]) {

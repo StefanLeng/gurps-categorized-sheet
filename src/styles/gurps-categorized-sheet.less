@@ -79,11 +79,11 @@
         }
     }
 
-    .slsc-basic-attributes{
+    .slcs-basic-attributes{
         grid-area: basicattr;
     }
 
-    .slsc-secondary-attributes{
+    .slcs-secondary-attributes{
         grid-area: secattr;
     }
 
@@ -498,12 +498,12 @@
         }
     }
 
-    .slcs-defences{
+    .slcs-defenses{
         border: none;
         display: grid;
         grid-template-columns: min-content 1fr;
         gap: var(--sectiongap);
-        .defence-main {
+        .defense-main {
             display: grid;
             grid-auto-flow: column;
             grid-template-columns: none;
@@ -622,10 +622,10 @@
                 .spinner.slcs-severity{
                     grid-area: value;
                 }
-                .header.scls-time-to-heal{
+                .header.slcs-time-to-heal{
                     grid-area: header2;
                 }
-                .spinner.scls-time-to-heal{
+                .spinner.slcs-time-to-heal{
                     grid-area: value2;
                 }
                 .basic-value{
@@ -697,20 +697,20 @@
         min-width: 100%;
     }
 
-    .slcs-reactionroll {
+    .slcs-reaction-roll {
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
         grid-template-rows: min-content min-content;
         grid-template-areas: 
-            "empty1 butto empty2"
+            "empty1 buttonArea empty2"
             "otf otf otf";
         justify-content: center;
         padding-top: var(--sectiongap);
         button{
-            grid-area: butto;
+            grid-area: buttonArea;
         }
-        .slsc-missing-table{
-            grid-area: butto;
+        .slcs-missing-table{
+            grid-area: buttonArea;
             white-space: nowrap;
         }
         .slcs-reactionOTFs{
@@ -813,7 +813,7 @@
         grid-template-columns: 0fr 0fr 0fr 1fr;
     }
 
-    .itemrow {
+    .item-row {
         display: grid;
         grid-template-columns: 1fr 0fr;
         grid-auto-rows: min-content;
@@ -835,7 +835,7 @@
         }   
     }
     
-    button.slsc-icon-button {
+    button.slcs-icon-button {
         height: auto;
         padding: 0 0.3em;
         i {
@@ -855,7 +855,7 @@
         }
 
         
-        .scls-trait-container {
+        .slcs-trait-container {
             min-height: 100%;
             height: 0;
             display: grid;
@@ -877,7 +877,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1em;
-        .slcs-emptyHandWepons{
+        .slcs-emptyHandWeapons{
             grid-template-columns: 1fr 1fr 0fr;
             width: 100%;
             margin-top: 0.3em;

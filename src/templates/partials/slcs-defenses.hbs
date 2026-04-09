@@ -1,7 +1,7 @@
-{{#if (notEmpty defences)}}
-    <div class="slcs-defences slcs-block">
-        <div class='defence-main'>
-            {{#each defences}}
+{{#if (notEmpty defenses)}}
+    <div class="slcs-defenses slcs-block">
+        <div class='defense-main'>
+            {{#each defenses}}
                 <div class="group }{{#if selected}} selected{{/if}}">
                     {{#if (eq type "dodge")}}
                         <div class='label big'>{{localize  'GURPS.dodge'}}:<br/></div>
@@ -28,7 +28,7 @@
         </div>
         <div class= 'Spacer'></div>
     </div>	
-    {{>slcs-otf-region OTFs=defenceOTFs type='defence'}}
+    {{>slcs-otf-region OTFs=defenseOTFs type='defense'}}
 {{/if}}
 <div class="slcs-DR slcs-block gga-table">
     {{#each system.hitlocations}}
