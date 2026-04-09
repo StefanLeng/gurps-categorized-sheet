@@ -1,7 +1,7 @@
 {
   "id": "gurps-categorized-sheet",
   "title": "GURPs Categorized Character Sheet",
-  "description": "Additional charcter sheet for the GURPs Game Aid. ",
+  "description": "Additional character sheet for the GURPs Game Aid. ",
   "authors": [
     {
       "name": "Stefan Leng",      
@@ -13,7 +13,7 @@
   "version": "This is auto replaced",
   "compatibility": {
     "minimum": "12",
-    "verified": "13"
+    "verified": "14"
   },
   "scripts": [],
   "esmodules": [
