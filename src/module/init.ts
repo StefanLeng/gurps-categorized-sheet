@@ -1,5 +1,5 @@
-import { SeetingsForm } from './settingsForm.ts';
-import { MODULE_ID, CAT_SHEET_SETTINS } from './constants.ts';
+import { SettingsForm } from './settingsForm.ts';
+import { MODULE_ID, CAT_SHEET_SETTINGS } from './constants.ts';
 import { defaultSettings } from './settings.ts';
 
 export function registerSettings(): void {
@@ -8,11 +8,11 @@ export function registerSettings(): void {
         label: 'Configure', // The text label used in the button
         hint: 'Configure settings for the Categorized Character Sheet',
         icon: 'fas fa-bars', // A Font Awesome icon used in the submenu button
-        type: SeetingsForm, // A FormApplication subclass
+        type: SettingsForm, // A FormApplication subclass
         restricted: true, // Restrict this submenu to gamemaster only?
     });
 
-    game.settings.register(MODULE_ID, CAT_SHEET_SETTINS, {
+    game.settings.register(MODULE_ID, CAT_SHEET_SETTINGS, {
         scope: 'world', // "world" = sync to db, "client" = local storage
         config: false, // we will use the menu above to edit this setting
         type: Object,

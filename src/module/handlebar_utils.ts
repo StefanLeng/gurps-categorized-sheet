@@ -1,4 +1,4 @@
-import { encumberanceName } from './util.ts';
+import { encumbranceName } from './util.ts';
 
 const partialPath = 'modules/gurps-categorized-sheet/templates/partials/';
 // === register Handlebars partials ===
@@ -15,7 +15,7 @@ export async function registerHandlebarsPartials() {
         'slcs-skills',
         'slcs-melee-attacks',
         'slcs-ranged-attacks',
-        'slcs-defences',
+        'slcs-defenses',
         'slcs-advantages',
         'slcs-hpfptracker',
         'slcs-hpfp',
@@ -115,7 +115,7 @@ export function registerHandlebarsHelpers() {
         }
     });
 
-    Handlebars.registerHelper('encumberanceName', encumberanceName);
+    Handlebars.registerHelper('encumbranceName', encumbranceName);
 
     Handlebars.registerHelper('select-if-included', function (value: string, expectedArray: string[] | undefined) {
         return expectedArray?.some((i) => i === value) ? 'selected' : '';

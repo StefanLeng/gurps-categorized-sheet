@@ -74,9 +74,9 @@ export function targets(actor: Actor, ranged: boolean) {
             const system = target.actor.system as any;
 
             const targetMods = system.conditions.target.modifiers as Array<string>;
-            const filterdMods = targetMods.filter((s) => !s.includes(ranged ? '#melee' : '#ranged'));
+            const filteredMods = targetMods.filter((s) => !s.includes(ranged ? '#melee' : '#ranged'));
 
-            result.targetmodifiers = target.actor ? convertModifiers(filterdMods) : [];
+            result.targetmodifiers = target.actor ? convertModifiers(filteredMods) : [];
 
             result.hitlocations = system.hitlocations;
         }

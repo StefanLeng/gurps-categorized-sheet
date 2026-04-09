@@ -7,7 +7,7 @@ function isOthers(categories: CategoryList, name: string) {
     return CATEGORIES.every((c) => !categories[c].some((n: string) => name.startsWith(n)));
 }
 
-function isInCategorie(categories: CategoryList, category: Category, name: string): boolean {
+function isInCategory(categories: CategoryList, category: Category, name: string): boolean {
     return categories[category].some((n: string) => name.startsWith(n));
 }
 
@@ -19,7 +19,7 @@ export function categorize<T extends RecursiveList.Rec<T> & NamedItem>(
     if (category === 'others') {
         return RecursiveList.filter(input, (i) => isOthers(categories, i.name));
     } else {
-        return RecursiveList.filter(input, (i) => isInCategorie(categories, category, i.name));
+        return RecursiveList.filter(input, (i) => isInCategory(categories, category, i.name));
     }
 }
 

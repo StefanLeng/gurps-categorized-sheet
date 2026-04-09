@@ -1,9 +1,3 @@
-<!--
-SPDX-FileCopyrightText: 2022 Johannes Loher
-
-SPDX-License-Identifier: MIT
--->
-
 # GURPs Categorized Character Sheet
 
 This module adds an additional character sheet to the [GURPS Game Aid](https://github.com/crnormand/gurps).
@@ -13,33 +7,33 @@ This module adds an additional character sheet to the [GURPS Game Aid](https://g
 1. Focus only on in-game use, not on character creation, points, etc.
 
 2. Thematic tabs that displays just the information needed in common game situations: _Combat_, _Exploration_ & _Stealth_, _Social_, _Technical & Research_, _Powers & Magic_. 
-Skills and traits are categorized to appear on the appropriate tab. Anything not coverd by the regular tabs will appear on the _Others_ tab.
+Skills and traits are categorized to appear on the appropriate tab. Anything not covered by the regular tabs will appear on the _Others_ tab.
 
-3. You can choose what weapon you grip with each hand. For weapons with different grips (e.g. one-handed vr. two-hnaded), these can be selected. Attacks and defences by weapons not griped are shown in a lighter color, but at still selectable by default. You can chose not to display them at all in the options.
+3. You can choose what weapon you grip with each hand. For weapons with different grips (e.g. one-handed vr. two-handed), these can be selected. Attacks and defenses by weapons not griped are shown in a lighter color, but at still selectable by default. You can chose not to display them at all in the options.
 
-4. Many OTF appropriate to the character and the situation displayed at various sections of the sheet. You can add your on in the configuration, both globaly and per character. Also modificators from any conditions are displayed  direclty on the sheet.
+4. Many OTF appropriate to the character and the situation displayed at various sections of the sheet. You can add your on in the configuration, both globally and per character. Also modifiers from any conditions are displayed  directly on the sheet.
 
-5. If you traget an token, the hit locations and any target modifier of the targeted token are displayed on the combat tab.
+5. If you target an token, the hit locations and any target modifier of the targeted token are displayed on the combat tab.
 
 6. Roll on Tables for criticals and reactions directly from the sheet (The roll tables are not included, you need to set them up yourself and provide the roll table names in the configuration).
 
 ### Configuration
 
 The module configuration lets the GM provide the roll table names, change the categorization of skills and items, and configure various default behaviors.
-Most configurations can be overriden for specific characters via the _Sheet config._ button in the title bar of the character sheet.
+Most configurations can be overridden for specific characters via the _Sheet config._ button in the title bar of the character sheet.
 
-Note on roll tables: The sheet allows rolls for criticals and reaction rolls. The tables are not inculded for legal resons and you need to provide them yourself. In the settings, the names of your tables must be set.
-For reaction rolls to use the modifiers from the mofiier bucket, the roll formular must be set up as 3d6 + @gmodc.
+Note on roll tables: The sheet allows rolls for criticals and reaction rolls. The tables are not included for legal reasons and you need to provide them yourself. In the settings, the names of your tables must be set.
+For reaction rolls to use the modifiers from the modifier bucket, the roll formula must be set up as 3d6 + @gmodc.
 
 ### Limitations
 
-The categorization of skills and traits are based on there names. If you use translated names, this will fail and anything will be displayed on the _Others_ tab. However, you can assinge the item manually to the correct tab in the configuration.
+The categorization of skills and traits are based on there names. If you use translated names, this will fail and anything will be displayed on the _Others_ tab. However, you can assign the item manually to the correct tab in the configuration.
 
 ### Status of Development
 
-The sheet uses some heuristics to extract the possible grips for weapons from the limited data avaiable in the current version of the GURPS Game Aid. They work for the setups I have tested, but I expect that there are situations that give in wired results. I am also not sure that the layout works for every character.
-If you notice any broken display, please open a [GitHub issue](https://github.com/StefanLeng/gurps-categorized-sheet/issues)  and attach the character file if possibe.
-I am also very intrested in any sugesstions for additional content that could be uesfull to include on any of the tabs (but take in account that the _combat_ tab is allready quite packed).
+The sheet uses some heuristics to extract the possible grips for weapons from the limited data available in the current version of the GURPS Game Aid. They work for the setups I have tested, but I expect that there are situations that give in wired results. I am also not sure that the layout works for every character.
+If you notice any broken display, please open a [GitHub issue](https://github.com/StefanLeng/gurps-categorized-sheet/issues)  and attach the character file if possible.
+I am also very interested in any suggestions for additional content that could be useful to include on any of the tabs (but take in account that the _combat_ tab is already quite packed).
 
 ### Future plans
 
@@ -51,25 +45,25 @@ I currently plan to add the following features:
 
 3. Maybe add some useful tables to various tabs.
 
-When the new GCS based version of the GURPS Game Aid is ready, I plan to build a new version on that basis. There will be much more possibilities on the much richer data model, but this will be a near total rewite.
+When the new GCS based version of the GURPS Game Aid is ready, I plan to build a new version on that basis. There will be much more possibilities on the much richer data model, but this will be a near total rewrite.
 
 ### Legal
 
 The material presented here is my original creation, intended for use with the [GURPS](http://www.sjgames.com/gurps) system from [Steve Jackson Games](ttp://www.sjgames.com). This material is not official and is not endorsed by Steve Jackson Games.
 
-[GURPS](http://www.sjgames.com/gurps) is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This tool is the original creation of Stefan Leng and is released for free distributionunder the permissions granted in the [Steve Jackson Games Online Policy](http://www.sjgames.com/general/online_policy.html)
+[GURPS](http://www.sjgames.com/gurps) is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This tool is the original creation of Stefan Leng and is released for free distribution under the permissions granted in the [Steve Jackson Games Online Policy](http://www.sjgames.com/general/online_policy.html)
 
 
 ## Installation
 
-This moduel can be installed via the Foundry Package Manager.
-To install it manually, user thhis Manifest URL.
+This module can be installed via the Foundry Package Manager.
+To install it manually, user this Manifest URL.
 https://github.com/StefanLeng/gurps-categorized-sheet/releases/latest/download/module.json
 
 ## Changelog
 
 Initial Release 0.3.0
-This is a beta release. Please report all problems via [GitHub issues](https://github.com/StefanLeng/gurps-categorized-sheet/issues) and attach the character file if possibe.
+This is a beta release. Please report all problems via [GitHub issues](https://github.com/StefanLeng/gurps-categorized-sheet/issues) and attach the character file if possible.
 
 0.3.1
 Fix for some display issues with characters imported from GCA.
@@ -77,17 +71,17 @@ Fix for missing attacks from weapons in containers.
 
 0.3.2
 Made number of hands configurable. You can now have more (or less) than 2 hands.
-Display message when an exeption occures when working with unexpected character data. This allows the user to switch to another sheet. 
+Display message when an exception occurs when working with unexpected character data. This allows the user to switch to another sheet. 
 Fixed various issues with skill and traits containers.
-Scrollbars for equipmnet.
-Fixed display of attacks without useage.
+Scrollbars for equipment.
+Fixed display of attacks without usage.
 Fixed display of attacks with missing ST or range.
 Fixed layout of the spell list.
 Fixed layout issues with ranged attacks with longer texts.
 
 0.4.0
 You can now configure your own OTFs for various parts of the sheet. These can be conditional by skills, traits or chosen manuever.
-Deactivate or activate attacks, defences and OTFs based on chosen manuever.
+Deactivate or activate attacks, defenses and OTFs based on chosen manuever.
 Show all sense rolls on exploration tab.
 Configure per actor witch non-weapon attacks uses an empty hand.
 More fixes for equipment in containers.
@@ -96,11 +90,11 @@ Fix for attacks not showing if the weapon name has postfixes (e.g. for TL)
 0.4.1
 Fix for containers disappearing from lists if collapsed.
 Better handling of missing roll tables.
-Option to allow two-handed weapons to be wielded one-handed with heigh enough strength. Activated by a setting, because in some situations this rule gives nonsensial results.
+Option to allow two-handed weapons to be wielded one-handed with heigh enough strength. Activated by a setting, because in some situations this rule gives nonsensical results.
 Fix layout for larger than default fonts. 
 
 0.4.2 
-Compatiblity fixes for GGA 0.17.17.
+Compatibility fixes for GGA 0.17.17.
 
 0.5.0
 "All" tab with all traits and skills
@@ -108,29 +102,35 @@ Display Basic Speed
 
 0.5.1
 Added quick notes to others tab.
-Fixed styling of settings if dark color scheme is activ
-Fixed OTFs in wepon usage notes
-Removed splitting weapon grips on usage notes. This was meant to seperate usages that uses differnt skills, but the usage notes often contain other things than the skill. Grip separation by skill will have to wait for an enhnanced GGA data model.
+Fixed styling of settings if dark color scheme is active
+Fixed OTFs in weapon usage notes
+Removed splitting weapon grips on usage notes. This was meant to separate usages that uses different skills, but the usage notes often contain other things than the skill. Grip separation by skill will have to wait for an enhanced GGA data model.
 
 0.6.0
 You can now select a "unready" grip for all weapons.
 Refined grip display.
-Favorites Tab: Configure your favorite traits and skills in the sheet configuraton for fast accsess on the "Favs" tab.
+Favorites Tab: Configure your favorite traits and skills in the sheet configuration for fast access on the "Favs" tab.
 
 0.7.0
-Compatiblity with GGA 0.18.0 and Foundry 13
+Compatibility with GGA 0.18.0 and Foundry 13
 
 0.7.1
 Fixed crash at target range calc
 Better error logging
 
 0.8.0
-Added sub-tab for custon Resource Trackers to the combat tab
+Added sub-tab for custom Resource Trackers to the combat tab
 Support GGA option for Relative Size Modifier in Melee
 Support GGA option for Conditional Injury
 Fix Range Modifier calculation as in GGA 0.18.10
 Better filtering for target modifiers on the melee and ranged sub-tabs
 Some html and CSS refactoring to remove IDs that are non-unique if multiple sheets are open  
+
+0.8.1
+some internal refactoring 
+fix some styling issues with the current GGA version
+fix: No parry's and blocks where selected on maneuvers that don't allow attacks 
+verified for Foundry V14
 
 ## Development
 

@@ -1,8 +1,8 @@
 import { MyRollTable } from './rollTables.ts';
 import { skillCategories, adsCategories, systemOTFs } from './constants.ts';
 import { CategoryList, CATEGORIES, SheetOTF } from './types.ts';
-import { MODULE_ID, CAT_SHEET_SETTINS, SYSTEM_ID } from './constants.ts';
-import { removeArryDuplicates } from './util.ts';
+import { MODULE_ID, CAT_SHEET_SETTINGS, SYSTEM_ID } from './constants.ts';
+import { removeArrayDuplicates } from './util.ts';
 
 export type RollTableNames = {
     [k in MyRollTable]: string;
@@ -41,11 +41,12 @@ export const defaultSettings: CatSheetSettings = {
 };
 
 function sortTraits(cat: CategoryList): CategoryList {
-    const newcat = { ...cat };
+    const newCat = { ...cat };
     CATEGORIES.forEach((c) => {
-        newcat[c] = removeArryDuplicates(newcat[c]).sort();
+        newCat[c] ||= [];
+        newCat[c] = removeArrayDuplicates(newCat[c]).sort();
     });
-    return newcat;
+    return newCat;
 }
 
 function migrateSetting(settings: CatSheetSettings) {
@@ -73,15 +74,24 @@ function migrateSetting(settings: CatSheetSettings) {
             },
         };
     }
+    if (foundry.utils.isNewerVersion('0.8.1', settings.version ?? '0.0.0')) {
+        newSettings = {
+            ...newSettings,
+            version: '0.8.1',
+            sheetOTFs: newSettings.sheetOTFs.map((s: any) => {
+                return { ...s, region: s.region === 'defence' ? 'defense' : s.region };
+            }),
+        };
+    }
     return newSettings;
 }
 
 export function getSettings(): CatSheetSettings {
-    const settings = game.settings.get(MODULE_ID, CAT_SHEET_SETTINS) ?? defaultSettings;
+    const settings = game.settings.get(MODULE_ID, CAT_SHEET_SETTINGS) ?? defaultSettings;
     return migrateSetting(settings);
 }
 
-export function sortCategorieSettings(settings: CatSheetSettings): CatSheetSettings {
+export function sortCategorySettings(settings: CatSheetSettings): CatSheetSettings {
     return {
         ...settings,
         items: {
@@ -92,7 +102,7 @@ export function sortCategorieSettings(settings: CatSheetSettings): CatSheetSetti
 }
 
 export async function setSettings(settings: CatSheetSettings) {
-    game.settings.set(MODULE_ID, CAT_SHEET_SETTINS, settings);
+    game.settings.set(MODULE_ID, CAT_SHEET_SETTINGS, settings);
 }
 
 export function getSystemSetting(setting: string) {

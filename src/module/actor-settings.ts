@@ -1,5 +1,5 @@
 import { CategoryList, CATEGORIES, SheetOTF, Equipment, MeleeMode, AttackMode } from './types.ts';
-import { MODULE_ID, CAT_SHEET_SETTINS } from './constants.ts';
+import { MODULE_ID, CAT_SHEET_SETTINGS } from './constants.ts';
 import { CatSheetSettings, getSettings } from './settings.ts';
 import * as RecursiveList from './recursiveList.ts';
 
@@ -85,6 +85,15 @@ function migrateSetting(settings: CatSheetActorSettings) {
             },
         };
     }
+    if (foundry.utils.isNewerVersion('0.8.1', settings.version ?? '0.0.0')) {
+        newSettings = {
+            ...newSettings,
+            version: '0.8.1',
+            sheetOTFs: newSettings.sheetOTFs.map((s: any) => {
+                return { ...s, region: s.region === 'defence' ? 'defense' : s.region };
+            }),
+        };
+    }
     return newSettings;
 }
 
@@ -116,7 +125,7 @@ export function attacksWithoutGrip<T extends AttackMode>(
 }
 
 export function getActorSettings(actor: Actor): CatSheetActorSettings {
-    const settings = (actor.getFlag(MODULE_ID, CAT_SHEET_SETTINS) ?? defaultSettings) as CatSheetActorSettings;
+    const settings = (actor.getFlag(MODULE_ID, CAT_SHEET_SETTINGS) ?? defaultSettings) as CatSheetActorSettings;
     const migratedSetting = migrateSetting(settings);
     if (migratedSetting.emptyHandAttacks?.length === 0) {
         migratedSetting.emptyHandAttacks = punch((actor.system as any).equipment, (actor.system as any).melee);
@@ -125,7 +134,7 @@ export function getActorSettings(actor: Actor): CatSheetActorSettings {
 }
 
 export function setActorSettings(actor: Actor, settings: CatSheetActorSettings) {
-    actor.setFlag(MODULE_ID, CAT_SHEET_SETTINS, settings);
+    actor.setFlag(MODULE_ID, CAT_SHEET_SETTINGS, settings);
 }
 
 export function mergeSettings(settings: CatSheetSettings, actorSettings: CatSheetActorSettings): CatSheetSettings {
@@ -142,11 +151,11 @@ export function mergeSettings(settings: CatSheetSettings, actorSettings: CatShee
             .filter((i) => !actorSettings.removedItems.traits[cat].some((x) => x === i))
             .concat(actorSettings.addedItems.traits[cat]);
     });
-    newSettings.sheetOTFs = mergOTFs(actorSettings, settings);
+    newSettings.sheetOTFs = mergeOTFs(actorSettings, settings);
     return newSettings;
 }
 
-export function mergOTFs(actorSettings: CatSheetActorSettings, settings: CatSheetSettings) {
+export function mergeOTFs(actorSettings: CatSheetActorSettings, settings: CatSheetSettings) {
     return actorSettings.sheetOTFs
         .filter((i) => i.scope === 'actor')
         .concat(

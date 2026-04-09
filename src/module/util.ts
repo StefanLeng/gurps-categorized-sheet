@@ -8,7 +8,7 @@ export function filterObject(obj: object, callback: (val: any) => boolean): obje
     return Object.fromEntries(Object.entries(obj).filter(([_, val]) => callback(val)));
 }
 
-export function encumberanceName(key: string) {
+export function encumbranceName(key: string) {
     const names: { [index: string]: string } = {
         enc0: 'None',
         enc1: 'Light',
@@ -16,7 +16,7 @@ export function encumberanceName(key: string) {
         enc3: 'Heavy',
         enc4: 'x-Heavy',
     };
-    return names[key] ?? 'Unkonwn';
+    return names[key] ?? 'Unknown';
 }
 
 function getModDescription(text: string) {
@@ -44,6 +44,6 @@ export function removeArrayItem<T>(arr: Array<T>, value: T): Array<T> {
     return arr;
 }
 
-export function removeArryDuplicates<T>(arr: T[]): T[] {
+export function removeArrayDuplicates<T>(arr: T[]): T[] {
     return arr.filter((v, i) => i === arr.indexOf(v));
 }

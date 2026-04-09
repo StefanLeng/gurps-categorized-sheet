@@ -1,6 +1,6 @@
-import { getSettings, RollTableNames, setSettings, sortCategorieSettings } from './settings.ts';
+import { getSettings, RollTableNames, setSettings, sortCategorySettings } from './settings.ts';
 import { Category, CategoryList, OTFRegion } from './types.ts';
-import { BaseSeetingsForm } from './baseSettingsForm.ts';
+import { BaseSettingsForm } from './baseSettingsForm.ts';
 import { newOTF } from './sheetOTFs.ts';
 
 interface NewOTF {
@@ -9,10 +9,10 @@ interface NewOTF {
     flags?: {
         [index: string]: boolean;
     }[];
-    skillRequiered?: string[];
-    traitRequiered?: string[];
+    skillRequired?: string[];
+    traitRequired?: string[];
     traitsForbidden?: string[];
-    manueverRequiered?: string[][];
+    manueverRequired?: string[][];
     active: boolean[];
 }
 
@@ -28,10 +28,10 @@ interface NewSettings {
     sheetOTFs: NewOTF;
 }
 
-class SeetingsForm extends BaseSeetingsForm {
+class SettingsForm extends BaseSettingsForm {
     constructor(args: any) {
         super(args);
-        this._settings = sortCategorieSettings(foundry.utils.deepClone(getSettings()));
+        this._settings = sortCategorySettings(foundry.utils.deepClone(getSettings()));
     }
 
     public _settings;
@@ -40,7 +40,7 @@ class SeetingsForm extends BaseSeetingsForm {
         classes: ['slcs-settingsForm'],
         tag: 'form',
         form: {
-            handler: SeetingsForm.settingsFormHandler,
+            handler: SettingsForm.settingsFormHandler,
             submitOnChange: true,
             closeOnSubmit: false,
         },
@@ -53,7 +53,7 @@ class SeetingsForm extends BaseSeetingsForm {
             addItem: this.#onAddItem,
             deleteItem: this.#deleteItem,
             addOTF: this.#addOTF,
-            deleteOTF: this.#deteteOTF,
+            deleteOTF: this.#deleteOTF,
         },
     };
 
@@ -61,7 +61,7 @@ class SeetingsForm extends BaseSeetingsForm {
         if (!this._settings.items[type][cat].some((i) => i === val)) {
             this._settings.items[type][cat].push(val);
         }
-        this._settings = sortCategorieSettings(this._settings);
+        this._settings = sortCategorySettings(this._settings);
     }
 
     protected override removeItemFromCategory(type: string, cat: Category, val: string) {
@@ -84,13 +84,13 @@ class SeetingsForm extends BaseSeetingsForm {
         };
     }
 
-    static async #addOTF(this: SeetingsForm, event: Event) {
+    static async #addOTF(this: SettingsForm, event: Event) {
         event.preventDefault();
         this._settings.sheetOTFs.unshift(newOTF('global'));
         await this.render();
     }
 
-    static async #deteteOTF(this: SeetingsForm, event: Event, target: HTMLElement) {
+    static async #deleteOTF(this: SettingsForm, event: Event, target: HTMLElement) {
         event.preventDefault();
         const i = Number(target.dataset.index);
         if (!isNaN(i)) {
@@ -99,13 +99,13 @@ class SeetingsForm extends BaseSeetingsForm {
         }
     }
 
-    static async #onSave(this: SeetingsForm, event: Event): Promise<void> {
+    static async #onSave(this: SettingsForm, event: Event): Promise<void> {
         event.preventDefault();
         setSettings(this._settings);
         this.close();
     }
 
-    static async #onAddItem(this: SeetingsForm, event: Event, target: HTMLElement): Promise<void> {
+    static async #onAddItem(this: SettingsForm, event: Event, target: HTMLElement): Promise<void> {
         event.preventDefault();
         const cat = target.dataset.category as Category;
         const type = target.dataset.type;
@@ -116,7 +116,7 @@ class SeetingsForm extends BaseSeetingsForm {
         }
     }
 
-    static async #deleteItem(this: SeetingsForm, event: Event, target: HTMLElement): Promise<void> {
+    static async #deleteItem(this: SettingsForm, event: Event, target: HTMLElement): Promise<void> {
         event.preventDefault();
         const cat = target.dataset.category as Category;
         const i = Number(target.dataset.index);
@@ -137,16 +137,16 @@ class SeetingsForm extends BaseSeetingsForm {
                     active: newOTFs.active[i],
                     region: newOTFs.region ? newOTFs.region[i] : o.region,
                     code: newOTFs.code ? newOTFs.code[i] : o.code,
-                    skillRequiered: newOTFs.skillRequiered
-                        ? newOTFs.skillRequiered[i].split(',').filter((s) => s !== '')
-                        : o.skillRequiered,
-                    traitRequiered: newOTFs.traitRequiered
-                        ? newOTFs.traitRequiered[i].split(',').filter((s) => s !== '')
-                        : o.traitRequiered,
+                    skillRequired: newOTFs.skillRequired
+                        ? newOTFs.skillRequired[i].split(',').filter((s) => s !== '')
+                        : o.skillRequired,
+                    traitRequired: newOTFs.traitRequired
+                        ? newOTFs.traitRequired[i].split(',').filter((s) => s !== '')
+                        : o.traitRequired,
                     traitsForbidden: newOTFs.traitsForbidden
                         ? newOTFs.traitsForbidden[i].split(',').filter((s) => s !== '')
                         : o.traitsForbidden,
-                    manueverRequiered: newOTFs.manueverRequiered ? newOTFs.manueverRequiered[i] : o.manueverRequiered,
+                    manueverRequired: newOTFs.manueverRequired ? newOTFs.manueverRequired[i] : o.manueverRequired,
                 };
             }
         });
@@ -161,7 +161,7 @@ class SeetingsForm extends BaseSeetingsForm {
      * @returns {Promise<void>}
      */
     static override async settingsFormHandler(
-        this: SeetingsForm,
+        this: SettingsForm,
         _event: Event | SubmitEvent,
         _form: HTMLFormElement,
         formData: FormDataExtended,
@@ -174,9 +174,9 @@ class SeetingsForm extends BaseSeetingsForm {
         this._settings.highStrengthOneHanded = newSettings.highStrengthOneHanded;
         this._settings.items.skills = newSettings.items.skills;
         this._settings.items.traits = newSettings.items.traits;
-        this._settings = sortCategorieSettings(this._settings);
+        this._settings = sortCategorySettings(this._settings);
         this.updateOTFs(newSettings.sheetOTFs);
         this.render();
     }
 }
-export { SeetingsForm };
+export { SettingsForm as SettingsForm };

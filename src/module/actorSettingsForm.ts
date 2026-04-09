@@ -1,9 +1,9 @@
-import { attacksWithoutGrip, getActorSettings, mergeSettings, mergOTFs, setActorSettings } from './actor-settings.ts';
+import { attacksWithoutGrip, getActorSettings, mergeSettings, mergeOTFs, setActorSettings } from './actor-settings.ts';
 import { CATEGORIES, CategoryOrOthers, Skill, AddDisad, OTFRegion, CategoryList } from './types.ts';
 import { getSettings } from './settings.ts';
 import { categorize } from './categorize.ts';
-import { removeArryDuplicates as removeArrayDuplicates } from './util.ts';
-import { BaseSeetingsForm } from './baseSettingsForm.ts';
+import { removeArrayDuplicates as removeArrayDuplicates } from './util.ts';
+import { BaseSettingsForm } from './baseSettingsForm.ts';
 import * as RecursiveList from './recursiveList.ts';
 import { newOTF } from './sheetOTFs.ts';
 
@@ -13,10 +13,10 @@ interface NewOTF {
     flags?: {
         [index: string]: boolean;
     }[];
-    skillRequiered?: string[];
-    traitRequiered?: string[];
+    skillRequired?: string[];
+    traitRequired?: string[];
     traitsForbidden?: string[];
-    manueverRequiered?: string[][];
+    manueverRequired?: string[][];
     active: boolean[];
 }
 
@@ -36,13 +36,13 @@ interface NewSettings {
     emptyHandAttacks: boolean[];
 }
 
-class ActorSeetingsForm extends BaseSeetingsForm {
+class ActorSettingsForm extends BaseSettingsForm {
     constructor(actor: Actor) {
         super([]);
         this._actor = actor;
         this._globalSetting = getSettings();
         this._settings = foundry.utils.deepClone(getActorSettings(actor));
-        this._settings.sheetOTFs = mergOTFs(this._settings, this._globalSetting);
+        this._settings.sheetOTFs = mergeOTFs(this._settings, this._globalSetting);
         this._items = { skills: {}, traits: {} };
         const actorData = this._actor.system as any;
         this._attacksWithoutGrip = attacksWithoutGrip(
@@ -72,7 +72,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         classes: ['slcs-actorSettingsForm'],
         tag: 'form',
         form: {
-            handler: ActorSeetingsForm.settingsFormHandler,
+            handler: ActorSettingsForm.settingsFormHandler,
             submitOnChange: true,
             closeOnSubmit: false,
         },
@@ -83,7 +83,7 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         actions: {
             save: this.#onSave,
             addOTF: this.#addOTF,
-            deleteOTF: this.#deteteOTF,
+            deleteOTF: this.#deleteOTF,
         },
     };
 
@@ -146,19 +146,19 @@ class ActorSeetingsForm extends BaseSeetingsForm {
         };
     }
 
-    static async #onSave(this: ActorSeetingsForm, event: Event): Promise<void> {
+    static async #onSave(this: ActorSettingsForm, event: Event): Promise<void> {
         event.preventDefault();
         setActorSettings(this._actor, this._settings);
         this.close();
     }
 
-    static async #addOTF(this: ActorSeetingsForm, event: Event) {
+    static async #addOTF(this: ActorSettingsForm, event: Event) {
         event.preventDefault();
         this._settings.sheetOTFs.unshift(newOTF('actor'));
         await this.render();
     }
 
-    static async #deteteOTF(this: ActorSeetingsForm, event: Event, target: HTMLElement) {
+    static async #deleteOTF(this: ActorSettingsForm, event: Event, target: HTMLElement) {
         event.preventDefault();
         const i = Number(target.dataset.index);
         if (!isNaN(i)) {
@@ -177,23 +177,23 @@ class ActorSeetingsForm extends BaseSeetingsForm {
                     active: newOTFs.active[i],
                     region: newOTFs.region ? newOTFs.region[i] : o.region,
                     code: newOTFs.code ? newOTFs.code[i] : o.code,
-                    skillRequiered: newOTFs.skillRequiered
-                        ? newOTFs.skillRequiered[i].split(',').filter((s) => s !== '')
-                        : o.skillRequiered,
-                    traitRequiered: newOTFs.traitRequiered
-                        ? newOTFs.traitRequiered[i].split(',').filter((s) => s !== '')
-                        : o.traitRequiered,
+                    skillRequired: newOTFs.skillRequired
+                        ? newOTFs.skillRequired[i].split(',').filter((s) => s !== '')
+                        : o.skillRequired,
+                    traitRequired: newOTFs.traitRequired
+                        ? newOTFs.traitRequired[i].split(',').filter((s) => s !== '')
+                        : o.traitRequired,
                     traitsForbidden: newOTFs.traitsForbidden
                         ? newOTFs.traitsForbidden[i].split(',').filter((s) => s !== '')
                         : o.traitsForbidden,
-                    manueverRequiered: newOTFs.manueverRequiered ? newOTFs.manueverRequiered[i] : o.manueverRequiered,
+                    manueverRequired: newOTFs.manueverRequired ? newOTFs.manueverRequired[i] : o.manueverRequired,
                 };
             }
         });
     }
 
     static override async settingsFormHandler(
-        this: ActorSeetingsForm,
+        this: ActorSettingsForm,
         _event: Event | SubmitEvent,
         _form: HTMLFormElement,
         formData: FormDataExtended,
@@ -233,4 +233,4 @@ class ActorSeetingsForm extends BaseSeetingsForm {
     }
 }
 
-export { ActorSeetingsForm };
+export { ActorSettingsForm as ActorSettingsForm };
