@@ -1,9 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { splitReach, areReachsCompatible } from '../src/module/weaponRreach.ts';
+import { splitReach, areReachesCompatible } from '../src/module/weaponRreach.ts';
 
 import { applyGripToHands } from '../src/module/weaponGrips.ts';
-import { WeaponGrip } from 'src/module/types.ts';
+import { WeaponGrip } from '../src/module/types.ts';
 
 describe('The splitReach fuction', () => {
     it('Should return a input without * unchanged in an array', () => {
@@ -36,7 +36,7 @@ describe('The areReachsCompatible fuction', () => {
         ['1*', '1*'],
         ['2*', '2*'],
     ])('Should treat equal reaches as compatible', (a: string, b: string) => {
-        expect(areReachsCompatible(a, b)).toEqual(true);
+        expect(areReachesCompatible(a, b)).toEqual(true);
     });
     it.each([
         ['1', '2'],
@@ -44,7 +44,7 @@ describe('The areReachsCompatible fuction', () => {
         ['1', '2-3'],
         ['1', 'C,1'],
     ])('Should treat all reaches without * as compatible', (a: string, b: string) => {
-        expect(areReachsCompatible(a, b)).toEqual(true);
+        expect(areReachesCompatible(a, b)).toEqual(true);
     });
     it.each([
         ['1*', '2*'],
@@ -52,7 +52,7 @@ describe('The areReachsCompatible fuction', () => {
         ['C*', '1*'],
         ['1*', 'C*'],
     ])('Should treat differnt reaches with * as incompatible', (a: string, b: string) => {
-        expect(areReachsCompatible(a, b)).toEqual(false);
+        expect(areReachesCompatible(a, b)).toEqual(false);
     });
     it.each([
         ['1*', '1'],
@@ -60,7 +60,7 @@ describe('The areReachsCompatible fuction', () => {
         ['C', '1*'],
         ['1', 'C*'],
     ])('Should treat  reaches with * as incompatible wiht reaches without *', (a: string, b: string) => {
-        expect(areReachsCompatible(a, b)).toEqual(false);
+        expect(areReachesCompatible(a, b)).toEqual(false);
     });
 });
 

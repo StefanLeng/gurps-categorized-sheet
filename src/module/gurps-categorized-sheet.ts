@@ -40,21 +40,7 @@ Hooks.once('gurpsinit', async () => {
     const SLCatSheet = (await import(sheetModule)).default;
 
     Actors.registerSheet('gurps', SLCatSheet, {
-        types: ['enemy', 'character'],
         label: 'Categorized Sheet',
         makeDefault: false,
     });
 });
-
-// Setup module
-Hooks.once('setup', async () => {
-    // Do anything after initialization but before
-    // ready
-});
-
-// When ready
-Hooks.once('ready', async () => {
-    // Do anything once the module is ready
-});
-
-// Add any additional hooks if necessary

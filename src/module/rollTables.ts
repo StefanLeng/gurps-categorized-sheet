@@ -13,11 +13,11 @@ function tableName(table: MyRollTable): string {
 }
 
 function rollTableExistsByName(tableName: string) {
-    return !!game.tables.getName(tableName);
+    return !!game.tables?.getName(tableName);
 }
 
 function drawTableRollByName(tableName: string) {
-    game.tables.getName(tableName)?.draw();
+    game.tables?.getName(tableName)?.draw();
 }
 
 export function rollTableExists(table: MyRollTable) {

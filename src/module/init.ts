@@ -3,7 +3,7 @@ import { MODULE_ID, CAT_SHEET_SETTINGS } from './constants.ts';
 import { defaultSettings } from './settings.ts';
 
 export function registerSettings(): void {
-    game.settings.registerMenu(MODULE_ID, 'cat-sheet-settings', {
+    game.settings?.registerMenu(MODULE_ID, 'cat-sheet-settings', {
         name: 'Categorized Sheet settings',
         label: 'Configure', // The text label used in the button
         hint: 'Configure settings for the Categorized Character Sheet',
@@ -12,7 +12,7 @@ export function registerSettings(): void {
         restricted: true, // Restrict this submenu to gamemaster only?
     });
 
-    game.settings.register(MODULE_ID, CAT_SHEET_SETTINGS, {
+    game.settings?.register(MODULE_ID, CAT_SHEET_SETTINGS, {
         scope: 'world', // "world" = sync to db, "client" = local storage
         config: false, // we will use the menu above to edit this setting
         type: Object,

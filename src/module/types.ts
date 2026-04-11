@@ -1,4 +1,5 @@
 import { Rec } from './recursiveList.ts';
+import { MyRollTable } from './rollTables.ts';
 
 export type OTFScope = 'module' | 'global' | 'actor';
 
@@ -119,4 +120,65 @@ export interface Weapon extends Equipment {
 export interface Hand {
     name: string;
     grip: string;
+}
+
+export type CatSheetActorSettings = {
+    version: string;
+    addedItems: {
+        [index: string]: CategoryList;
+        skills: CategoryList;
+        traits: CategoryList;
+    };
+    removedItems: {
+        [index: string]: CategoryList;
+        skills: CategoryList;
+        traits: CategoryList;
+    };
+    allowExtraEffort: boolean | null;
+    hideInactiveAttacks: boolean | null;
+    highStrengthOneHanded: boolean | null;
+    numberOfHands: number;
+    sheetOTFs: SheetOTF[];
+    emptyHandAttacks?: { name: string; usage: string }[];
+};
+
+export type RollTableNames = {
+    [k in MyRollTable]: string;
+};
+
+export type CatSheetSettings = {
+    version: string;
+    rollTables: RollTableNames;
+    items: {
+        [index: string]: CategoryList;
+        skills: CategoryList;
+        traits: CategoryList;
+    };
+    allowExtraEffort: boolean;
+    hideInactiveAttacks: boolean;
+    sheetOTFs: SheetOTF[];
+    highStrengthOneHanded: boolean;
+};
+
+declare module 'fvtt-types/configuration' {
+    interface FlagConfig {
+        Actor: {
+            ['gurps-categorized-sheet']: {
+                ['cat_sheet_settings']: CatSheetActorSettings;
+            };
+        };
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Hooks {
+        interface HookConfig {
+            gurpsinit: () => void;
+        }
+    }
+
+    interface SettingConfig {
+        'gurps-categorized-sheet.cat_sheet_settings': CatSheetSettings;
+        'gurps.remove-unequipped-weapons': boolean;
+        'gurps.use-size-modifier-difference-in-melee': boolean;
+    }
 }

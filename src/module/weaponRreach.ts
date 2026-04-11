@@ -1,4 +1,4 @@
-/*The funktions in this file are currently unused*/
+/*The functions in this file are currently unused*/
 
 import { keyedMeleeMode } from './types.ts';
 
@@ -45,7 +45,7 @@ export function splitByReach(melee: keyedMeleeMode): keyedMeleeMode[] {
     });
 }
 
-export function areReachsCompatible(r1: string, r2: string): boolean {
+export function areReachesCompatible(r1: string, r2: string): boolean {
     if (r1 === r2) return true;
     if (!r1.includes('*') && !r2.includes('*')) return true;
     return false;

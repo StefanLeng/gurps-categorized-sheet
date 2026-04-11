@@ -6,6 +6,7 @@ import { removeArrayDuplicates as removeArrayDuplicates } from './util.ts';
 import { BaseSettingsForm } from './baseSettingsForm.ts';
 import * as RecursiveList from './recursiveList.ts';
 import { newOTF } from './sheetOTFs.ts';
+import type { DeepPartial } from 'fvtt-types/utils';
 
 interface NewOTF {
     region?: OTFRegion[];
@@ -68,7 +69,11 @@ class ActorSettingsForm extends BaseSettingsForm {
     };
     protected _globalSetting;
 
-    static override DEFAULT_OPTIONS = {
+    static override DEFAULT_OPTIONS: DeepPartial<
+        foundry.applications.api.ApplicationV2.DefaultOptions & {
+            dragDrop: foundry.applications.ux.DragDrop.Configuration[];
+        }
+    > = {
         classes: ['slcs-actorSettingsForm'],
         tag: 'form',
         form: {
@@ -111,7 +116,7 @@ class ActorSettingsForm extends BaseSettingsForm {
         return this._items[type][sourceCat][index];
     }
 
-    override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
+    override async _prepareContext(options: foundry.applications.api.ApplicationV2.RenderOptions): Promise<object> {
         const context = await super._prepareContext(options);
         const mergedSettings = mergeSettings(this._globalSetting, this._settings);
         const actorData = this._actor.system as any;
@@ -199,7 +204,7 @@ class ActorSettingsForm extends BaseSettingsForm {
         formData: FormDataExtended,
     ) {
         // Do things with the returned FormData
-        const newSettings = foundry.utils.expandObject(formData.object).settings as NewSettings;
+        const newSettings = (foundry.utils.expandObject(formData.object) as any).settings as NewSettings;
         if (newSettings.allowExtraEffortGlobal) {
             this._settings.allowExtraEffort = null;
         } else {

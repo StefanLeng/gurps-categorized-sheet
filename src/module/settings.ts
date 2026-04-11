@@ -1,26 +1,7 @@
-import { MyRollTable } from './rollTables.ts';
 import { skillCategories, adsCategories, systemOTFs } from './constants.ts';
-import { CategoryList, CATEGORIES, SheetOTF } from './types.ts';
+import { CategoryList, CATEGORIES, CatSheetSettings } from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINGS, SYSTEM_ID } from './constants.ts';
 import { removeArrayDuplicates } from './util.ts';
-
-export type RollTableNames = {
-    [k in MyRollTable]: string;
-};
-
-export type CatSheetSettings = {
-    version: string;
-    rollTables: RollTableNames;
-    items: {
-        [index: string]: CategoryList;
-        skills: CategoryList;
-        traits: CategoryList;
-    };
-    allowExtraEffort: boolean;
-    hideInactiveAttacks: boolean;
-    sheetOTFs: SheetOTF[];
-    highStrengthOneHanded: boolean;
-};
 
 export const defaultSettings: CatSheetSettings = {
     version: '0.3.3',
@@ -87,7 +68,7 @@ function migrateSetting(settings: CatSheetSettings) {
 }
 
 export function getSettings(): CatSheetSettings {
-    const settings = game.settings.get(MODULE_ID, CAT_SHEET_SETTINGS) ?? defaultSettings;
+    const settings = game.settings?.get(MODULE_ID, CAT_SHEET_SETTINGS) ?? defaultSettings;
     return migrateSetting(settings);
 }
 
@@ -102,9 +83,9 @@ export function sortCategorySettings(settings: CatSheetSettings): CatSheetSettin
 }
 
 export async function setSettings(settings: CatSheetSettings) {
-    game.settings.set(MODULE_ID, CAT_SHEET_SETTINGS, settings);
+    game.settings?.set(MODULE_ID, CAT_SHEET_SETTINGS, settings);
 }
 
-export function getSystemSetting(setting: string) {
-    return game.settings.get(SYSTEM_ID, setting);
+export function getSystemSetting(setting: 'remove-unequipped-weapons') {
+    return game.settings?.get(SYSTEM_ID, setting);
 }

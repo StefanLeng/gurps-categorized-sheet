@@ -1,27 +1,15 @@
-import { CategoryList, CATEGORIES, SheetOTF, Equipment, MeleeMode, AttackMode } from './types.ts';
+import {
+    CategoryList,
+    CATEGORIES,
+    CatSheetActorSettings,
+    Equipment,
+    MeleeMode,
+    AttackMode,
+    CatSheetSettings,
+} from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINGS } from './constants.ts';
-import { CatSheetSettings, getSettings } from './settings.ts';
+import { getSettings } from './settings.ts';
 import * as RecursiveList from './recursiveList.ts';
-
-export type CatSheetActorSettings = {
-    version: string;
-    addedItems: {
-        [index: string]: CategoryList;
-        skills: CategoryList;
-        traits: CategoryList;
-    };
-    removedItems: {
-        [index: string]: CategoryList;
-        skills: CategoryList;
-        traits: CategoryList;
-    };
-    allowExtraEffort: boolean | null;
-    hideInactiveAttacks: boolean | null;
-    highStrengthOneHanded: boolean | null;
-    numberOfHands: number;
-    sheetOTFs: SheetOTF[];
-    emptyHandAttacks?: { name: string; usage: string }[];
-};
 
 const emptyList: CategoryList = {
     combat: [],
@@ -125,7 +113,7 @@ export function attacksWithoutGrip<T extends AttackMode>(
 }
 
 export function getActorSettings(actor: Actor): CatSheetActorSettings {
-    const settings = (actor.getFlag(MODULE_ID, CAT_SHEET_SETTINGS) ?? defaultSettings) as CatSheetActorSettings;
+    const settings = actor.getFlag(MODULE_ID, CAT_SHEET_SETTINGS) ?? defaultSettings;
     const migratedSetting = migrateSetting(settings);
     if (migratedSetting.emptyHandAttacks?.length === 0) {
         migratedSetting.emptyHandAttacks = punch((actor.system as any).equipment, (actor.system as any).melee);

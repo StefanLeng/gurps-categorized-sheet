@@ -1,14 +1,18 @@
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+import type { DeepPartial } from 'fvtt-types/utils';
 
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
-    constructor(args: any) {
+    constructor(args?: any) {
         super(args);
         this.#dragDrop = this.#createDragDropHandlers();
     }
 
-    static override DEFAULT_OPTIONS: Partial<DocumentSheetConfiguration> &
-        Partial<{ dragDrop: DragDropConfiguration[] }> = {
-        id: '',
+    static override DEFAULT_OPTIONS: DeepPartial<
+        foundry.applications.api.ApplicationV2.DefaultOptions & {
+            dragDrop: foundry.applications.ux.DragDrop.Configuration[];
+        }
+    > = {
+        //id: 'base-form',
         tag: 'form',
         classes: ['theme-light'],
         form: {
@@ -38,16 +42,16 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
                     dragover: this._onDragOver.bind(this),
                     drop: this._onDrop.bind(this),
                 };
-                return new DragDrop(d);
+                return new foundry.applications.ux.DragDrop(d);
             }) ?? []
         );
     }
 
-    protected _canDragStart(_selector: string): boolean {
+    protected _canDragStart(_selector: foundry.applications.ux.DragDrop.DragSelector): boolean {
         return true;
     }
 
-    protected _canDragDrop(_selector: string): boolean {
+    protected _canDragDrop(_selector: foundry.applications.ux.DragDrop.DragSelector): boolean {
         return true;
     }
 
@@ -68,20 +72,21 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         primary: 'general',
     };
 
-    protected _getTabs(): Record<string, Partial<ApplicationTab>> {
+    protected _getTabs() {
         return this._markTabs({});
     }
 
-    protected _markTabs(tabs: Record<string, Partial<ApplicationTab>>): Record<string, Partial<ApplicationTab>> {
+    protected _markTabs(tabs: Record<string, Partial<foundry.applications.api.ApplicationV2.Tab>>) {
         for (const v of Object.values(tabs)) {
             v.active = this.tabGroups[v.group!] === v.id;
             v.cssClass = v.active ? 'active' : '';
-            if ('tabs' in v) this._markTabs(v.tabs as Record<string, Partial<ApplicationTab>>);
+            if ('tabs' in v)
+                this._markTabs(v.tabs as Record<string, Partial<foundry.applications.api.ApplicationV2.Tab>>);
         }
         return tabs;
     }
 
-    override async _prepareContext(_options: ApplicationRenderOptions): Promise<object> {
+    override async _prepareContext(_options: foundry.applications.api.ApplicationV2.RenderOptions): Promise<object> {
         const primaryTabs = Object.fromEntries(
             Object.entries(this._getTabs()).filter(([_, v]) => v.group === 'primary'),
         );
@@ -97,7 +102,10 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         return context;
     }
 
-    protected override _onRender(context: object, options: ApplicationRenderOptions): void {
+    protected override async _onRender(
+        context: DeepPartial<foundry.applications.api.ApplicationV2.RenderContext>,
+        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
+    ): Promise<void> {
         super._onRender(context, options);
         this.#dragDrop.forEach((d) => d.bind(this.element));
     }
@@ -122,7 +130,9 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
 
 interface BaseForm {
     constructor: typeof BaseForm;
-    options: DocumentSheetConfiguration & Partial<{ dragDrop: DragDropConfiguration[] }>;
+    options: foundry.applications.api.ApplicationV2.Configuration & {
+        dragDrop: foundry.applications.ux.DragDrop.Configuration[];
+    };
 }
 
 export { BaseForm as BasicForm };

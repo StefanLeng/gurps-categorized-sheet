@@ -1,9 +1,13 @@
 import { CATEGORIES, OTF_REGIONS } from './types.ts';
 import { BasicForm } from './abstractForm.ts';
+import type { DeepPartial } from 'fvtt-types/utils';
 
 abstract class BaseSettingsForm extends BasicForm {
-    static override DEFAULT_OPTIONS: Partial<DocumentSheetConfiguration> &
-        Partial<{ dragDrop: DragDropConfiguration[] }> = {
+    static override DEFAULT_OPTIONS: DeepPartial<
+        foundry.applications.api.ApplicationV2.DefaultOptions & {
+            dragDrop: foundry.applications.ux.DragDrop.Configuration[];
+        }
+    > = {
         position: {
             width: 1200,
             height: 640,
@@ -40,7 +44,7 @@ abstract class BaseSettingsForm extends BasicForm {
     protected abstract getItemValue(type: string, sourceCat: string, index: number): string;
 
     protected override async _onDrop(event: DragEvent) {
-        const data = TextEditor.getDragEventData(event);
+        const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event) as any;
         const target = event.currentTarget as HTMLElement;
         const sourceCat = data.category as string;
         const targetCat = target.dataset.category as string;
@@ -89,7 +93,7 @@ abstract class BaseSettingsForm extends BasicForm {
         primary: 'general',
     };
 
-    protected override _getTabs(): Record<string, Partial<ApplicationTab>> {
+    protected override _getTabs(): Record<string, Partial<foundry.applications.api.ApplicationV2.Tab>> {
         return this._markTabs({
             generalTab: {
                 id: 'general',
@@ -118,7 +122,7 @@ abstract class BaseSettingsForm extends BasicForm {
         });
     }
 
-    override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
+    override async _prepareContext(options: foundry.applications.api.ApplicationV2.RenderOptions): Promise<object> {
         const context = await super._prepareContext(options);
         return {
             ...context,

@@ -1,5 +1,5 @@
-import { getSettings, RollTableNames, setSettings, sortCategorySettings } from './settings.ts';
-import { Category, CategoryList, OTFRegion } from './types.ts';
+import { getSettings, setSettings, sortCategorySettings } from './settings.ts';
+import { Category, CategoryList, OTFRegion, RollTableNames } from './types.ts';
 import { BaseSettingsForm } from './baseSettingsForm.ts';
 import { newOTF } from './sheetOTFs.ts';
 
@@ -29,8 +29,8 @@ interface NewSettings {
 }
 
 class SettingsForm extends BaseSettingsForm {
-    constructor(args: any) {
-        super(args);
+    constructor() {
+        super();
         this._settings = sortCategorySettings(foundry.utils.deepClone(getSettings()));
     }
 
@@ -72,7 +72,7 @@ class SettingsForm extends BaseSettingsForm {
         return this._settings.items[type][cat][index];
     }
 
-    override async _prepareContext(options: ApplicationRenderOptions): Promise<object> {
+    override async _prepareContext(options: foundry.applications.api.ApplicationV2.RenderOptions): Promise<object> {
         const context = await super._prepareContext(options);
         const settings = this._settings;
         return {
@@ -167,7 +167,7 @@ class SettingsForm extends BaseSettingsForm {
         formData: FormDataExtended,
     ) {
         // Do things with the returned FormData
-        const newSettings = foundry.utils.expandObject(formData.object).settings as NewSettings;
+        const newSettings = (foundry.utils.expandObject(formData.object) as any).settings as NewSettings;
         this._settings.rollTables = newSettings.rollTables;
         this._settings.allowExtraEffort = newSettings.allowExtraEffort;
         this._settings.hideInactiveAttacks = newSettings.hideInactiveAttacks;

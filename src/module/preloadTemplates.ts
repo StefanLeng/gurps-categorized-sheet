@@ -5,5 +5,5 @@
 export async function preloadTemplates(): Promise<void> {
     const templatePaths: string[] = ['modules/gurps-categorized-sheet/templates/cat-sheet.hbs'];
 
-    return loadTemplates(templatePaths);
+    foundry.applications.handlebars.loadTemplates(templatePaths);
 }
