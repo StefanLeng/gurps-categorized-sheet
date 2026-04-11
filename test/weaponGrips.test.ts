@@ -5,7 +5,7 @@ import { splitReach, areReachesCompatible } from '../src/module/weaponRreach.ts'
 import { applyGripToHands } from '../src/module/weaponGrips.ts';
 import { WeaponGrip } from '../src/module/types.ts';
 
-describe('The splitReach fuction', () => {
+describe('The splitReach function', () => {
     it('Should return a input without * unchanged in an array', () => {
         expect(splitReach('1-2')).toEqual(['1-2']);
     });
@@ -18,18 +18,18 @@ describe('The splitReach fuction', () => {
     it('Should expand a range with * to single reaches', () => {
         expect(splitReach('1-3*')).toEqual(['1*', '2*', '3*']);
     });
-    it('Should handle C* correcly', () => {
+    it('Should handle C* correctly', () => {
         expect(splitReach('C*')).toEqual(['C*']);
     });
-    it('Should handle C,1* correcly', () => {
+    it('Should handle C,1* correctly', () => {
         expect(splitReach('C,1*')).toEqual(['C*', '1*']);
     });
-    it('Should handle C-2* correcly', () => {
+    it('Should handle C-2* correctly', () => {
         expect(splitReach('C-2*')).toEqual(['C*', '1*', '2*']);
     });
 });
 
-describe('The areReachsCompatible fuction', () => {
+describe('The areReachesCompatible function', () => {
     it.each([
         ['1', '1'],
         ['1-2', '1-2'],
@@ -51,7 +51,7 @@ describe('The areReachsCompatible fuction', () => {
         ['2*', '1*'],
         ['C*', '1*'],
         ['1*', 'C*'],
-    ])('Should treat differnt reaches with * as incompatible', (a: string, b: string) => {
+    ])('Should treat different reaches with * as incompatible', (a: string, b: string) => {
         expect(areReachesCompatible(a, b)).toEqual(false);
     });
     it.each([
@@ -59,15 +59,15 @@ describe('The areReachsCompatible fuction', () => {
         ['1', '1*'],
         ['C', '1*'],
         ['1', 'C*'],
-    ])('Should treat  reaches with * as incompatible wiht reaches without *', (a: string, b: string) => {
+    ])('Should treat  reaches with * as incompatible with reaches without *', (a: string, b: string) => {
         expect(areReachesCompatible(a, b)).toEqual(false);
     });
 });
 
 const grips: WeaponGrip[] = [
     {
-        name: 'Epmty Hand',
-        weaponName: 'Epmty Hand',
+        name: 'Empty Hand',
+        weaponName: 'Empty Hand',
         weaponNote: '',
         twoHanded: false,
         skill: '',
@@ -186,7 +186,7 @@ const initialHands2 = [
 ];
 
 describe('applyGripToHands', () => {
-    it('Applys a one handed Grip to one hand', () => {
+    it('Applies a one handed Grip to one hand', () => {
         expect(applyGripToHands(grips, 'Spear 1*', 1, initialHands1)).toEqual([
             {
                 name: 'Hand1',
@@ -198,7 +198,7 @@ describe('applyGripToHands', () => {
             },
         ]);
     });
-    it('Applys a two handed Grip to two hand', () => {
+    it('Applies a two handed Grip to two hand', () => {
         expect(applyGripToHands(grips, 'Spear two handed 1*', 1, initialHands1)).toEqual([
             {
                 name: 'Hand1',
@@ -210,7 +210,7 @@ describe('applyGripToHands', () => {
             },
         ]);
     });
-    it('When switching vom a 2-handed grip to an one handend, sts th other hand to empty', () => {
+    it('When switching vom a 2-handed grip to an one handed, sts th other hand to empty', () => {
         expect(applyGripToHands(grips, 'Spear 1*', 1, initialHands2)).toEqual([
             {
                 name: 'Hand1',

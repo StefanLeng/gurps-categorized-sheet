@@ -50,7 +50,7 @@ describe('findRecursive', () => {
     it('Should find first element, breadth first, that fits the predicate', () => {
         expect(RecursiveList.find(list, (i) => i.name.startsWith('karl'))?.name).toBe('karl4');
     });
-    it('Should find elementsin colapsed sections', () => {
+    it('Should find elements in collapsed sections', () => {
         expect(RecursiveList.find(list, (i) => i.name.startsWith('else'))?.name).toBe('else5');
     });
 });
@@ -65,7 +65,7 @@ describe('filterRecursive', () => {
     it('Should return an exact copy of the input list with a predicate that match anything', () => {
         expect(RecursiveList.filter(list, () => true)).toEqual(list);
     });
-    it('Should return elemnts that fits the predicat and there parents', () => {
+    it('Should return elements that fits the predicate and there parents', () => {
         expect(RecursiveList.filter(list, (i) => i.name.startsWith('karl'))).toEqual({
             '1': {
                 name: 'otto1',
@@ -87,7 +87,7 @@ describe('filterRecursive', () => {
             },
         });
     });
-    it('Should return colapsed elemnts that fits the predicat and there parents', () => {
+    it('Should return collapsed elements that fits the predicate and there parents', () => {
         expect(RecursiveList.filter(list, (i) => i.name.startsWith('else'))).toEqual({
             '1': {
                 name: 'otto1',
@@ -111,7 +111,7 @@ describe('flattenList', () => {
     it('Should return an empty list if given an empty list', () => {
         expect(RecursiveList.flatten(empty)).toEqual(empty);
     });
-    it('Should return all elemnts flat', () => {
+    it('Should return all elements flat', () => {
         expect(RecursiveList.flatten(list)).toEqual({
             '0': {
                 name: 'otto0',
