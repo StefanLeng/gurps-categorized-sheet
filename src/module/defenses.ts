@@ -1,6 +1,4 @@
-import { displaySelected } from './weaponGrips.ts';
 import { keyedMeleeMode, WeaponGrip, Hand } from './types.ts';
-import { getSettings } from './settings.ts';
 import { getMergedSettings } from './actor-settings.ts';
 
 interface Defense {
@@ -19,32 +17,29 @@ function compareDefenses(a: WeaponDefense, b: WeaponDefense) {
     return a.selected && !b.selected ? -1 : !a.selected && b.selected ? 1 : b.level - a.level;
 }
 function weaponDefenses(grips: WeaponGrip[], defensePossible: boolean, hands: Hand[]): WeaponDefense[] {
-    const hideInactive = getSettings().hideInactiveAttacks;
     return grips
         .map(
             //get the best parry and block per grip: [0][0] is the best block level, [0][1] the attack with the best block, [1][0] is the best parry level, [0][1] the attack with the best parry
             (g) =>
-                g.meleeList
-                    .filter((i) => displaySelected(i, hideInactive))
-                    .reduce(
-                        (
-                            r: [
-                                [number, keyedMeleeMode | undefined, boolean],
-                                [number, keyedMeleeMode | undefined, boolean],
-                            ],
-                            m,
-                        ) => {
-                            const b = parseInt(m.block ?? '');
-                            if (!isNaN(b) && b > r[0][0]) r[0] = [b, m, hands.some((h) => h.grip === g.name)];
-                            const p = parseInt(m.parry ?? '');
-                            if (!isNaN(p) && p > r[1][0]) r[1] = [p, m, hands.some((h) => h.grip === g.name)];
-                            return r;
-                        },
-                        [
-                            [0, undefined, false],
-                            [0, undefined, false],
+                g.meleeList.reduce(
+                    (
+                        r: [
+                            [number, keyedMeleeMode | undefined, boolean],
+                            [number, keyedMeleeMode | undefined, boolean],
                         ],
-                    ),
+                        m,
+                    ) => {
+                        const b = parseInt(m.block ?? '');
+                        if (!isNaN(b) && b > r[0][0]) r[0] = [b, m, hands.some((h) => h.grip === g.name)];
+                        const p = parseInt(m.parry ?? '');
+                        if (!isNaN(p) && p > r[1][0]) r[1] = [p, m, hands.some((h) => h.grip === g.name)];
+                        return r;
+                    },
+                    [
+                        [0, undefined, false],
+                        [0, undefined, false],
+                    ],
+                ),
         )
         .map((x) => {
             //make defense: if Block is better, use block, else parry (normally only one should exists)

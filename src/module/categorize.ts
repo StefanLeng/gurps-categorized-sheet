@@ -15,7 +15,7 @@ export function categorize<T extends RecursiveList.Rec<T> & NamedItem>(
     categories: CategoryList,
     input: RecursiveList.List<T>,
     category: CategoryOrOthers,
-): object {
+): RecursiveList.List<T> {
     if (category === 'others') {
         return RecursiveList.filter(input, (i) => isOthers(categories, i.name));
     } else {
