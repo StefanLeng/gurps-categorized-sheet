@@ -10,7 +10,8 @@ import { MODULE_ID } from './constants.ts';
 import { ActorSettingsForm } from './actorSettingsForm.ts';
 import { getActorSettings } from './actor-settings.ts';
 import { Hand, WeaponGrip } from './types.ts';
-import { emptyList } from './recursiveList.ts';
+import { emptyList, map } from './recursiveList.ts';
+import { enrichSkill } from './skills.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
     /** @override */
@@ -33,7 +34,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         //needs to be an lambda to capture this in the closure
         if (this._tokenTargeted) {
             //this is either a second call or we have waited 30 ms since the last call
-            if (this._state === Application.RENDER_STATES.RENDERING) {
+            if (this._state === foundry.appv1.api.Application.RENDER_STATES.RENDERING) {
                 setTimeout(() => this._targetTokenInner(newEvent), 5); //wait if already rendering
             } else {
                 this._tokenTargeted = false;
@@ -77,31 +78,45 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         try {
             const categories = {
                 combat: {
-                    skills: categorizeSkills(data.actor, data.system.skills, 'combat'),
+                    skills: map(categorizeSkills(data.actor, data.system.skills, 'combat'), (s) =>
+                        enrichSkill(s, data.system.attributes),
+                    ),
                     ads: categorizeAds(data.actor, data.system.ads, 'combat'),
                 },
                 exploration: {
-                    skills: categorizeSkills(data.actor, data.system.skills, 'exploration'),
+                    skills: map(categorizeSkills(data.actor, data.system.skills, 'exploration'), (s) =>
+                        enrichSkill(s, data.system.attributes),
+                    ),
                     ads: categorizeAds(data.actor, data.system.ads, 'exploration'),
                 },
                 social: {
-                    skills: categorizeSkills(data.actor, data.system.skills, 'social'),
+                    skills: map(categorizeSkills(data.actor, data.system.skills, 'social'), (s) =>
+                        enrichSkill(s, data.system.attributes),
+                    ),
                     ads: categorizeAds(data.actor, data.system.ads, 'social'),
                 },
                 technical: {
-                    skills: categorizeSkills(data.actor, data.system.skills, 'technical'),
+                    skills: map(categorizeSkills(data.actor, data.system.skills, 'technical'), (s) =>
+                        enrichSkill(s, data.system.attributes),
+                    ),
                     ads: categorizeAds(data.actor, data.system.ads, 'technical'),
                 },
                 powers: {
-                    skills: categorizeSkills(data.actor, data.system.skills, 'powers'),
+                    skills: map(categorizeSkills(data.actor, data.system.skills, 'powers'), (s) =>
+                        enrichSkill(s, data.system.attributes),
+                    ),
                     ads: categorizeAds(data.actor, data.system.ads, 'powers'),
                 },
                 others: {
-                    skills: categorizeSkills(data.actor, data.system.skills, 'others'),
+                    skills: map(categorizeSkills(data.actor, data.system.skills, 'others'), (s) =>
+                        enrichSkill(s, data.system.attributes),
+                    ),
                     ads: categorizeAds(data.actor, data.system.ads, 'others'),
                 },
                 favs: {
-                    skills: categorizeSkills(data.actor, data.system.skills, 'fav'),
+                    skills: map(categorizeSkills(data.actor, data.system.skills, 'fav'), (s) =>
+                        enrichSkill(s, data.system.attributes),
+                    ),
                     ads: categorizeAds(data.actor, data.system.ads, 'fav'),
                 },
             };
@@ -218,6 +233,12 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             const target: any = $(ev.currentTarget)[0];
             this.actor.replacePosture(target.alt);
             details.open = !details.open;
+        });
+
+        html.find('details.skill-name').on('click', (ev) => {
+            ev.preventDefault();
+            const target: any = $(ev.currentTarget)[0];
+            target.open = !target.open;
         });
 
         html.find('.gripSelect').on('change', (ev) => {

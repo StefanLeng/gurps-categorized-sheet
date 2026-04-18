@@ -1,7 +1,7 @@
 {{#if (notEmpty skills)}}
     <div class='slcs-skills gga-table with-notes slcs-block'>
         {{#stripes (flatlist skills) 'even' 'odd' }}
-            {{#unless isCollapsed}}
+            {{#unless isCollapsed}}   
                 <div class='skldraggable {{stripeClass}}' data-key='system.skills.{{@key}}'>
                     <div class='desc dblclkedit indent{{indent}}'>
                         <div class='gga-desc-text' data-otf='Sk:"{{this.name}}"'>
@@ -10,7 +10,18 @@
                                 {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
                             </div>
                             <div class='tooltip gga-manual'>
-                                {{{gurpslink this.name}}}
+                                <details class='skill-name'>
+                                    <summary>
+                                        {{this.name}}{{#if this.additionalRolls}}<i class='fas fa-ellipsis-vertical'></i>{{/if}}
+                                    </summary>
+                                    <div class='skill-details'>
+                                        {{#if this.additionalRolls}}
+                                            {{#each this.additionalRolls}}
+                                                <div>{{{gurpslink this}}}</div>
+                                            {{/each}}
+                                        {{/if}}
+                                    </div>
+                                </details>
                                 {{#if (displayItemHover this)}}
                                 <div class='tooltiptext gga-manual'><img src='{{this.img}}' /></div>
                                 {{/if}}
@@ -25,7 +36,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class='sl flex-center {{stripeClass}}'>
                     <div class='{{rollable this.level}} flex-center' data-name='{{this.name}}' data-key='system.skills.{{@key}}'
                         data-otf='Sk:"{{this.name}}"'>

@@ -108,3 +108,16 @@ export function flatten<T extends Rec<T>>(list: List<T>): List<T> {
     }
     return Object.fromEntries(inner(list, ''));
 }
+
+export function map<T extends Rec<T>>(list: List<T>, fn: (i: T) => T): List<T> {
+    const l1 = mapList(list, fn);
+    const l2 = mapList(l1, (i) => {
+        const r = {
+            ...i,
+            contains: i.contains ? map(i.contains, fn) : undefined,
+            collapsed: i.collapsed ? map(i.collapsed, fn) : undefined,
+        };
+        return r;
+    });
+    return l2;
+}

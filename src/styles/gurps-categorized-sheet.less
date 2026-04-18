@@ -373,6 +373,7 @@
         .tooltip.gga-manual{
             border: none;
             white-space: normal;
+            width: 100%
         }    
         gap: 0px 0px;
         .skldraggable:before{
@@ -380,7 +381,7 @@
         }
         .skldraggable{
             padding-left: var(--rowmargin);
-            padding-right: var(--rowmargin);
+            padding-right: 0;
             white-space: normal;
         }
         .list_note{
@@ -397,9 +398,25 @@
         }
         .sl, .rsl{
             .rollable {
+                display: flex;
                 padding-left: var(--rowmargin);
                 padding-right: var(--rowmargin);
-                width: 100%
+                padding-top: var(--rowmargin);
+                width: 100%;
+                height: 100%;
+            }
+        }
+        details.skill-name{
+            summary{
+                list-style: none;
+                i {
+                    float: right;
+                    padding-top: 0.1em;
+                }
+            }
+            .skill-details span.gga-app.gurpslink {
+                width: 100%;
+                margin-bottom: 0.4em;
             }
         }
     }

@@ -49,8 +49,17 @@ export type CategoryList = {
 export interface NamedItem {
     name: string;
 }
+export interface Skill extends Rec<Skill>, NamedItem {
+    name: string;
+    notes: string;
+    pageref: string;
+    points: number;
+    level: number;
+    relativelevel: string;
+    type: string;
+    additionalRolls?: string[];
+}
 
-export interface Skill extends Rec<Skill>, NamedItem {}
 export interface AddDisad extends Rec<AddDisad>, NamedItem {}
 
 //---------------------------------------------------//

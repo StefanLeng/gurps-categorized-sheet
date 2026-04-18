@@ -23,10 +23,10 @@ export function categorize<T extends RecursiveList.Rec<T> & NamedItem>(
     }
 }
 
-export function categorizeSkills(actor: Actor, skills: RecursiveList.List<Skill>, category: CategoryOrOthers): object {
+export function categorizeSkills(actor: Actor, skills: RecursiveList.List<Skill>, category: CategoryOrOthers) {
     return categorize(getMergedSettings(actor).items.skills, skills, category);
 }
 
-export function categorizeAds(actor: Actor, ads: RecursiveList.List<AddDisad>, category: CategoryOrOthers): object {
+export function categorizeAds(actor: Actor, ads: RecursiveList.List<AddDisad>, category: CategoryOrOthers) {
     return categorize(getMergedSettings(actor).items.traits, ads, category);
 }
