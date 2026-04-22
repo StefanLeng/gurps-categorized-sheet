@@ -22,11 +22,11 @@
 
                 <div class='usage flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>
                     <div  class='rollable flex-center {{#if (empty notes)}}no-notes{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}' data-otf='{{quotedAttackName 'M' this}}'>
-                       {{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}
+                        {{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}
+                        {{#if (notEmpty notes)}}
+                            <div class='list_note'>{{{gurpslink notes}}}</div>
+                        {{/if}}
                     </div>
-                    {{#if (notEmpty notes)}}
-                        <div class='list_note'>{{{gurpslink notes}}}</div>
-                    {{/if}}
                 </div>
                 <div class='level rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
                     data-otf='{{quotedAttackName 'M' this}}'>{{level}}</div>

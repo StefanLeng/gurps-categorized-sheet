@@ -18,8 +18,19 @@
 }
 
 .slcs-sheet{
+    --maincolor: black;
+    --secondarycolor: lightgray;
+    --backgroundcolor: white;
+    --inactivecolor: gray;
     --sectiongap: 0.3em;
+    --rowmargin: 0.3em;
+    --notespanmargin: 0.2em;
     --stripeColor: #e8ffe8;
+    --standardborder: 1px solid var(--maincolor);
+    --minorborder: 1px solid var(--secondarycolor);
+    --inactiveborder: 1px solid var(--inactivecolor);
+
+    color: var(--maincolor);
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: min-content max-content 1fr;
@@ -29,6 +40,15 @@
       "main";
     background: white;
     height: 100%;
+
+    .rollable, .gurpslink, .glinkmodplus, .glinkmodminus, .glinkmod, .gmod {
+        font-weight: 500;
+        color: var(--maincolor);
+    }
+
+    select:disabled, input, button {
+        color: var(--maincolor);
+    }
 
     .tab[data-tab]{
         height:100%;
@@ -67,7 +87,7 @@
             line-height: normal;
             padding: 0;
             margin: 0;
-            border: 1px solid #b5b3a2;
+            border: var(--minorborder);
             border-radius: 0;
         }
 
@@ -89,6 +109,16 @@
 
     .gga-table{
         border: none;
+        .indent0, .indent1, .indent2, .indent3, .indent4, .indent5, .indent6, .indent7, .indent8, .indent9 {
+            padding: none; 
+        }
+        & > div:not(.header), & > div:not(.header) {
+            border-right: var(--minorborder);
+            border-bottom: var(--minorborder);
+        }
+        & > div{
+            padding: 0 var(--rowmargin);
+        }
     }
 
     .slcs-modifierlist  
@@ -162,7 +192,7 @@
     .slcs-block hr {
         width: 100%;
         border: none;
-        background-color: black;
+        background-color: var(--maincolor);
         height: 1px;
         margin: 0;
         margin-top: 0.2em;
@@ -172,7 +202,7 @@
     .slcs-sheet-tabs {
         display: block;
         font-size: 110%;
-        border-bottom: 1px solid #333;
+        border-bottom: var(--standardborder);
         flex-grow: 0;
     
         li {
@@ -186,7 +216,7 @@
         text-shadow: none;
         font-weight: bold;
         background-color: var(--stripeColor);
-        color: black;
+        color: var(--maincolor);
     }
 
     .tab-item {
@@ -226,7 +256,7 @@
         padding: 0.2em;
         span{
             display: inline-block;
-            margin: 0.2em;
+            margin: var(--notespanmargin);
         }
     }
 
@@ -239,7 +269,7 @@
     }
 
     .even.evenOuter {
-        background-color: white;
+        background-color: var(--backgroundcolor);
     }
 
 
@@ -367,7 +397,6 @@
     }
 
     .slcs-skills{
-        --rowmargin: 0.3em;
         grid-template-columns: 1fr repeat(3, auto);
         align-content: start;
         .tooltip.gga-manual{
@@ -380,7 +409,6 @@
             content: none;
         }
         .skldraggable{
-            padding-left: var(--rowmargin);
             padding-right: 0;
             white-space: normal;
         }
@@ -392,22 +420,26 @@
             max-width: 100%;
             white-space: normal;
             span{
-                margin: 0 var(--rowmargin) 0 var(--rowmargin);
+                margin: 0 var(--notespanmargin) 0 var(--notespanmargin);
                 white-space: nowrap;
             }
         }
         .sl, .rsl{
             .rollable {
                 display: flex;
-                padding-left: var(--rowmargin);
-                padding-right: var(--rowmargin);
+                padding-left: calc(2 * var(--rowmargin));
+                padding-right: calc(2 * var(--rowmargin));
                 padding-top: var(--rowmargin);
                 width: 100%;
                 height: 100%;
             }
         }
+        .ref {
+           padding: 0 var(--rowmargin) 0 var(--rowmargin);
+        }
         details.skill-name{
             summary{
+                padding: 0 var(--rowmargin) 0 var(--rowmargin);
                 list-style: none;
                 i {
                     float: right;
@@ -416,15 +448,22 @@
             }
             .skill-details span.gga-app.gurpslink {
                 width: 100%;
-                margin-bottom: 0.4em;
+                font-weight: inherit;
+                padding: var(--rowmargin);
+                border-radius: 0;
+                border-top: var(--minorborder);
+                border-bottom: none;
+                border-left: none;
+                border-right: none;
             }
         }
     }
 
     .slcs-skills > div{
         border-bottom: none;
-        border-top: 1px solid lightgrey;
-        border-right: 1px solid lightgrey;
+        border-top: var(--minorborder);
+        border-right: var(--minorborder);
+        padding: 0;
     }
 
     .slcs-melee-attacks{
@@ -437,9 +476,7 @@
         .list_note{
             grid-column-start: 1;
             grid-column-end: 6;
-            max-width: 100%;
-            white-space: normal;
-        }
+         }
     }
 
     .slcs-ranged-attacks{
@@ -453,9 +490,7 @@
         .list_note{
             grid-column-start: 1;
             grid-column-end: 11;
-            max-width: 100%;
-            white-space: normal;
-        }
+         }
     }
 
     .slcs-ranged-attacks > div {
@@ -465,29 +500,49 @@
     }
 
     .slcs-melee-attacks, .slcs-ranged-attacks{
-        color: gray;
+        --cell-padding: 0.1em var(--rowmargin) 0.1em var(--rowmargin);
+        color: var(--inactivecolor);
         .rollable, .gmod{
-            color: gray;
+            color: var(--inactivecolor);
         }
         .selected, .rollable.selected, .gmod.selected, .selected .rollable{
-            color: black;
+            color: var(--maincolor);
         }
         .description{
             white-space: normal;
+        }
+        .level{
+            padding: 0.1em calc(2 * var(--rowmargin)) 0.1em calc(2 * var(--rowmargin));
+        }
+        .list_note{
+            max-width: 100%;
+            white-space: normal;
+            span{
+                margin: 0 var(--notespanmargin) 0 var(--notespanmargin);
+                white-space: nowrap;
+            }
         }
         .usage{
             display: block;
             max-width: none;
             white-space: normal;
+
             & > div{
-                display: inline;
-            }
-            .no-notes {
+                padding: var(--cell-padding);
                 min-width: 100%;
                 display: inline-block;
                 width: 100%;
                 height: 100%;
             }
+            .list_note{
+                display: inline;
+            }
+        }
+        &.gga-table > div {
+            padding: var(--cell-padding);
+        }
+        &.gga-table > div.usage {
+            padding: 0;
         }
         &.gga-table > div.desc.empty {
             border-top: none;
@@ -496,21 +551,21 @@
             border-bottom: none;
         }
         &.gga-table > div.desc.last {
-            border-bottom: 1px solid lightgrey;
+            border-bottom: var(--minorborder);
         }
     }
 
     .slcs-speed-range-table{
          .slcs-range-table {
             display: grid;
-            border: 1px solid lightgray;
+            border: var(--minorborder);
             align-content: stretch;
             grid-template-columns: 3fr repeat(var(--count), 1fr);
             grid-template-rows: 0fr 0fr;
             .label {
                 text-align: end;
-                border-right: 1px solid lightgray;
-                border-bottom: 1px solid lightgray;
+                border-right: var(--minorborder);
+                border-bottom: var(--minorborder);
             }
         }
     }
@@ -528,10 +583,10 @@
             gap: var(--sectiongap);
         }
         .group{
-            border: 1px solid gray;
-            color : gray;
+            border: 1px solid var(--inactivecolor);
+            color: var(--inactivecolor);
             .rollable{
-                color : gray;
+                color: var(--inactivecolor);
             }
              height: 100%;
             .field{
@@ -539,10 +594,10 @@
             }
         }
         .group.selected{
-            color : black;
-            border-color: black;
+            color: var(--maincolor);
+            border-color: var(--maincolor);
             .rollable{
-                color : black;
+                color: var(--maincolor);
             }
         }
         .label{
@@ -579,7 +634,7 @@
         .list_note{
             white-space: normal;
             span{
-                margin: 0 var(--rowmargin) 0 var(--rowmargin);
+                margin: 0 var(--notespanmargin) 0 var(--notespanmargin);
                 white-space: nowrap;
             }
         }
@@ -656,7 +711,7 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr max-content);
         .dr{
-            margin-right: 0.3em;
+            margin-right: var(--rowmargin);
         }
     }
 
