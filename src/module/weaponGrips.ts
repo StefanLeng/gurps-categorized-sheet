@@ -127,13 +127,13 @@ function makeGrips(
         .filter((g) => g.weaponName !== '')
         .flatMap((m) => (m.name === emptyHand.name ? [m] : [m, makeUnready(m)]));
 
-    if (grips.findIndex((g) => g.name === emptyHand.name) < 0) {
+    if (!grips.some((g) => g.name === emptyHand.name)) {
         grips.push(emptyHand);
     }
     return grips;
 }
 
-function reduceGrips(grips: WeaponGrip[]) {
+function combineEqualGrips(grips: WeaponGrip[]) {
     return grips.reduce((gl: WeaponGrip[], g) => {
         const i = gl.findIndex((g1) => areGripsEqual(g1, g));
         if (i >= 0) gl[i] = combineGrips(gl[i], g);
@@ -307,7 +307,7 @@ export function resolveWeapons(
         emptyHandWeapons,
         mergedSetting.highStrengthOneHanded ? (actor.system as any).attributes.ST.value : 0,
     );
-    const grips0 = reduceGrips(grips00);
+    const grips0 = combineEqualGrips(grips00);
 
     const hands = handsIn.map((h) => {
         return { ...h, grip: grips0.find((g) => g.name === h.grip)?.name ?? emptyHand.name };

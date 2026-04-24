@@ -1112,6 +1112,92 @@ describe('resolveWeapons', () => {
             ]),
         );
     });
+
+    it('Should include Empty Hand in grips', () => {
+        expect(
+            resolveWeapons(
+                {
+                    carried: {
+                        '000': {
+                            name: 'Test Weapon',
+                            notes: '',
+                            equipped: true,
+                        },
+                    },
+                    other: {},
+                },
+                {
+                    '00008': {
+                        notes: '',
+                        pageref: 'B272',
+                        damage: '1d-1 cut',
+                        st: '6',
+                        mode: 'Swung',
+                        level: 14,
+                        reach: 'C,1',
+                        parry: '10',
+                        block: '',
+                        name: 'Test Weapon',
+                    },
+                    '00009': {
+                        notes: '',
+                        pageref: 'B272',
+                        damage: '1d-2 imp',
+                        st: '6',
+                        mode: 'Trust',
+                        level: 14,
+                        reach: 'C,1',
+                        parry: '10',
+                        block: '',
+                        name: 'Test Weapon',
+                    },
+                    '00010': {
+                        notes: '',
+                        pageref: 'B272',
+                        damage: '1d imp',
+                        st: '6†',
+                        mode: 'Trust two-handed',
+                        level: 14,
+                        reach: '1,2',
+                        parry: '10',
+                        block: '',
+                        name: 'Test Weapon',
+                    },
+                },
+                {
+                    '00011': {
+                        notes: '',
+                        pageref: 'B272',
+                        damage: '1d imp',
+                        st: '6',
+                        mode: 'Thrown',
+                        level: 14,
+                        name: 'Test Weapon',
+                        acc: '3',
+                    },
+                },
+                initialHands1,
+                {
+                    system: { conditions: { maneuver: 'testManeuver' } },
+                } as unknown as Actor,
+            )[0],
+        ).toEqual(
+            expect.arrayContaining([
+                {
+                    name: 'Empty Hand',
+                    weaponName: 'Empty Hand',
+                    twoHanded: false,
+                    skill: '',
+                    weaponNote: '',
+                    fixedReach: null,
+                    ranged: false,
+                    meleeList: [],
+                    rangedList: [],
+                    ready: true,
+                },
+            ]),
+        );
+    });
 });
 
 /*
