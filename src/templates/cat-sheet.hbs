@@ -7,20 +7,11 @@
                 {{>slcs-secondary-attributes}}
                 {{>slcs-hpfp}}
                 {{>slcs-modifierlist}}
+                <div class="quick-notes"></div>
             </div>
-            <nav class='slcs-sheet-tabs slcs-main-tabs' data-group='primary-tabs'>
-                <li><a class='tab-item' data-tab='combat'>{{i18nFallback  'GURPS-cat-sheet.combatTab' 'Combat'}}</a></li>
-                <li><a class='tab-item' data-tab='exploration'>{{i18nFallback  'GURPS-cat-sheet.explorationTab' 'Exploration & Stealth'}}</a></li>
-                <li><a class='tab-item' data-tab='social'>{{i18nFallback  'GURPS-cat-sheet.socialTab' 'Social'}}</a></li>
-                <li><a class='tab-item' data-tab='technical'>{{i18nFallback  'GURPS-cat-sheet.technicalTab' 'Technical & Research'}}</a></li>
-                <li><a class='tab-item' data-tab='powers'>{{i18nFallback  'GURPS-cat-sheet.powersTab' 'Powers & Magic'}}</a></li>
-                <li><a class='tab-item' data-tab='others'>{{i18nFallback  'GURPS-cat-sheet.othersTab' 'Others'}}</a></li>
-                <li><a class='tab-item' data-tab='equipment'>{{i18nFallback  'GURPS-cat-sheet.equipmentTab' 'Equipment'}}</a></li>
-                <li><a class='tab-item' data-tab='all'>{{i18nFallback  'GURPS-cat-sheet.all' 'All'}}</a></li>
-                <li><a class='tab-item' data-tab='fav'>{{i18nFallback  'GURPS-cat-sheet.fav' 'Favs.'}}</a></li>
-            </nav>
+            {{> slcs-tabs-nav tabClasses='slcs-main-tabs' tabGroup='primary-tabs'}}
             <div class="slcs-main">
-                <div class='tab' data-tab='combat' data-group='primary-tabs'>
+                <div class='tab {{tabs.combat.cssClass}}' data-tab='combat' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-combat-tab'>
                         {{>slcs-conditions section='combat'}}
                         <div class ='slcs-col slcs-col1'>
@@ -28,6 +19,7 @@
                             {{>slcs-advantages ads=categories.combat.ads}}
                         </div>
                         <div class ='slcs-col slcs-col2'>
+                            {{> slcs-tabs-nav tabClasses='slcs-combat-tabs' tabGroup='combat-tabs' tabs=combatTabs}}
                             <nav class='slcs-sheet-tabs slcs-combat-tabs' data-group='combat-tabs'>
                                 <li><a class='tab-item' data-tab='melee'>{{i18nFallback  'GURPS-cat-sheet.meleeTab' 'Melee'}}</a></li>
                                 <li><a class='tab-item' data-tab='ranged'>{{i18nFallback  'GURPS-cat-sheet.rangedTab' 'Ranged'}}</a></li>
@@ -68,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-                <div class='tab' data-tab='exploration' data-group='primary-tabs'>
+                <div class='tab {{tabs.exploration.cssClass}}' data-tab='exploration' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-exploration-tab'>
                         {{>slcs-conditions section='exploration'}}
                         <div class ='slcs-col slcs-col1'>
@@ -82,7 +74,7 @@
                         </div>    
                     </div>                
                 </div>
-                <div class='tab' data-tab='social' data-group='primary-tabs'>
+                <div class='tab {{tabs.social.cssClass}}' data-tab='social' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-social-tab'>
                         <div class ='slcs-col slcs-col1'>
                             {{>slcs-skills skills=categories.social.skills}}
@@ -95,7 +87,7 @@
                         </div>    
                     </div>                
                 </div>
-                <div class='tab' data-tab='technical' data-group='primary-tabs'>
+                <div class='tab {{tabs.technical.cssClass}}' data-tab='technical' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-technical-tab'>
                         <div class ='slcs-col slcs-col1'>
                             {{>slcs-skills skills=categories.technical.skills}}
@@ -107,7 +99,7 @@
                         </div>    
                     </div>                
                 </div>
-                <div class='tab' data-tab='powers' data-group='primary-tabs'>
+                <div class='tab {{tabs.powers.cssClass}}' data-tab='powers' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-powers-tab'>
                         <div class ='slcs-col slcs-col1'>
                             {{>slcs-skills skills=categories.powers.skills}}
@@ -119,7 +111,7 @@
                         </div>    
                     </div>                   
                 </div>
-                <div class='tab' data-tab='others' data-group='primary-tabs'>
+                <div class='tab {{tabs.others.cssClass}}' data-tab='others' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-others-tab'>
                         <div class ='slcs-col slcs-col1'>
                             {{>slcs-skills skills=categories.others.skills}}
@@ -130,13 +122,13 @@
                         </div>    
                     </div>                    
                 </div>
-                <div class='tab' data-tab='equipment' data-group='primary-tabs'>
+                <div class='tab {{tabs.equipment.cssClass}}' data-tab='equipment' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-equipment-tab'>
                         {{>slcs-equipment container='carried'}}
                         {{>slcs-equipment container='other'}}
                     </div>
                 </div>
-                <div class='tab' data-tab='all' data-group='primary-tabs'>
+                <div class='tab {{tabs.all.cssClass}}' data-tab='all' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-all-tab'>
                         <div class ='slcs-col slcs-col1'>
                             {{>slcs-advantages ads=system.ads}}
@@ -146,7 +138,7 @@
                         </div>    
                     </div>   
                 </div>                 
-                <div class='tab' data-tab='fav' data-group='primary-tabs'>
+                <div class='tab {{tabs.fav.cssClass}}' data-tab='fav' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-fav-tab'>
                         <div class ='slcs-col slcs-col1'>
                             <div>Add traits or skills in the sheet configuration.</div>

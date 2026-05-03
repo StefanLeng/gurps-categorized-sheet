@@ -1,0 +1,10 @@
+<nav class="slcs-sheet-tabs tabs {{ tabClasses }} {{#if verticalTabs}} vertical{{/if}}" data-group='{{tabGroup}}'>
+    {{#each tabs as |tab|}}
+    <li><a data-action="tab" data-group="{{tab.group}}" data-tab="{{tab.id}}"
+        class="tab-item {{tab.cssClass}}"
+        {{#if tab.tooltip}}data-tooltip="{{tab.tooltip}}"{{/if}}>
+        {{#if tab.icon}}<i class="{{tab.icon}}" inert></i>{{/if}}
+        {{#if tab.label}}{{localize tab.label}}{{/if}}
+    </a></li>
+    {{/each}}
+</nav>

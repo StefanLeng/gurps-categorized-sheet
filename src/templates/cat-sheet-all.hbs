@@ -1,0 +1,12 @@
+{{#unless error}}
+    <div class='tab {{tabs.all.cssClass}}' data-tab='all' data-group='primary-tabs'>
+        <div class='slcs-tab-content slcs-all-tab'>
+            <div class ='slcs-col slcs-col1'>
+                {{>slcs-advantages ads=system.ads}}
+            </div>
+            <div class ='slcs-col slcs-col2'>
+                {{>slcs-skills skills=system.skills}}
+            </div>    
+        </div>   
+    </div>                 
+{{/unless}}

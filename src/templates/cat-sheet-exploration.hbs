@@ -1,0 +1,16 @@
+{{#unless error}}
+    <div class='tab {{tabs.exploration.cssClass}}' data-tab='exploration' data-group='primary-tabs'>
+        <div class='slcs-tab-content slcs-exploration-tab'>
+            {{>slcs-conditions section='exploration'}}
+            <div class ='slcs-col slcs-col1'>
+                {{>slcs-skills skills=categories.exploration.skills}}
+                {{>slcs-advantages ads=categories.exploration.ads}}
+            </div>
+            <div class ='slcs-col slcs-col2'>
+                {{>slcs-sense-rolls}}
+                {{>slcs-otf-region OTFs=explorationOTFs type='exploration'}}
+                {{>slcs-lifting}}
+            </div>    
+        </div>                
+    </div>
+{{/unless}}

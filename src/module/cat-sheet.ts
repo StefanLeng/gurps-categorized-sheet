@@ -10,27 +10,34 @@ import { MODULE_ID } from './constants.ts';
 import { ActorSettingsForm } from './actorSettingsForm.ts';
 import { getActorSettings } from './actor-settings.ts';
 import { Hand, WeaponGrip } from './types.ts';
-import { emptyList, map } from './recursiveList.ts';
+import { emptyList, map, filterList } from './recursiveList.ts';
 import { enrichSkill } from './skills.ts';
+import type { GurpsActorGcsSheet } from 'gurps/src/module/actor/sheets/gcs-actor-sheet.ts';
+import { GurpsBaseActorSheet } from 'gurps/src/module/actor/sheets/base-actor-sheet.ts';
+import { getSystemSetting } from './settings.ts';
+import { DeepPartial } from 'fvtt-types/utils';
 
-export default class SLCatSheet extends GURPS.ActorSheets.character {
-    /** @override */
-    constructor(object: any, options: any) {
-        super(object, options);
-        //register a hook on targetToken to refresh when the target changes
-        Hooks.on('targetToken', this._targetToken);
+const GCSActorSheet = GURPS.modules.Actor.sheets.GurpsActorGcsSheet as unknown as typeof GurpsActorGcsSheet;
+
+export default class SLCatSheet extends GCSActorSheet {
+    constructor(
+        options: foundry.applications.api.DocumentSheet.InputOptions<foundry.applications.sheets.ActorSheet.Configuration>,
+    ) {
+        super(options); //register a hook on targetToken to refresh when the target changes
+        //Hooks.on('targetToken', this._targetToken);
     }
 
+    /*
     _targetToken = () => this._targetTokenInner(true);
 
     _tokenTargeted: boolean = false;
-
+*/
     /*
     when an user switches targets, there are two calls to the targetToken hook, one for the old target and one for the new target
     if we rerender on the first call, we will miss the second call, because we are already rerendering.
     Therefore we  need to wait and check  for the second call. 
   */
-    _targetTokenInner = (newEvent: boolean) => {
+    /*  _targetTokenInner = (newEvent: boolean) => {
         //needs to be an lambda to capture this in the closure
         if (this._tokenTargeted) {
             //this is either a second call or we have waited 30 ms since the last call
@@ -46,26 +53,87 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             setTimeout(() => this._targetTokenInner(false), 30);
         }
     };
+    */
 
-    /** @override */
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ['sl-cat-sheet', 'sheet', 'actor'],
-            width: 900,
+    static override DEFAULT_OPTIONS: GurpsBaseActorSheet.DefaultOptions = {
+        classes: ['sl-cat-sheet', 'sheet', 'actor'],
+        position: {
+            width: 960,
             height: 650,
-            tabs: [
-                { navSelector: '.slcs-main-tabs', contentSelector: '.slcs-main', initial: 'combat' },
-                { navSelector: '.slcs-combat-tabs', contentSelector: '.slcs-combatContent', initial: 'attacks' },
-            ],
-            dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
-        });
-    }
+        },
+        actions: {
+            openConfig: SLCatSheet.openConfig,
+            setManeuver: SLCatSheet.#setManuever,
+            setPosture: SLCatSheet.#setPosture,
+            rollReaction: drawReactionRoll,
+            rollCritical: SLCatSheet.#rollCritical,
+        },
+    };
+
     /* -------------------------------------------- */
 
-    /** @override */
-    get template() {
-        return 'modules/gurps-categorized-sheet/templates/cat-sheet.hbs';
-    }
+    static override PARTS = {
+        header: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-header.hbs',
+        },
+        nav: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-nav.hbs',
+        },
+        combat: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-combat.hbs',
+        },
+        exploration: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-exploration.hbs',
+        },
+        social: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-social.hbs',
+        },
+        technical: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-technical.hbs',
+        },
+        powers: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-powers.hbs',
+        },
+        others: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-others.hbs',
+        },
+        equipment: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-equipment.hbs',
+        },
+        all: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-all.hbs',
+        },
+        fav: {
+            template: 'modules/gurps-categorized-sheet/templates/cat-sheet-fav.hbs',
+        },
+    };
+
+    static TABS = {
+        ['primary-tabs']: {
+            tabs: [
+                { id: 'combat', label: 'GURPS-cat-sheet.combatTab' },
+                { id: 'exploration', label: 'GURPS-cat-sheet.explorationTab' },
+                { id: 'social', label: 'GURPS-cat-sheet.socialTab' },
+                { id: 'technical', label: 'GURPS-cat-sheet.technicalTab' },
+                { id: 'powers', label: 'GURPS-cat-sheet.powersTab' },
+                { id: 'others', label: 'GURPS-cat-sheet.othersTab' },
+                { id: 'equipment', label: 'GURPS-cat-sheet.equipmentTab' },
+                { id: 'all', label: 'GURPS-cat-sheet.allTab' },
+                { id: 'fav', label: 'GURPS-cat-sheet.favTab' },
+            ],
+            initial: 'combat',
+        },
+        ['combat-tabs']: {
+            tabs: [
+                { id: 'melee', label: 'GURPS-cat-sheet.meleeTab' },
+                { id: 'ranged', label: 'GURPS-cat-sheet.rangedTab' },
+                { id: 'defenses', label: 'GURPS-cat-sheet.defensesTab' },
+                { id: 'criticals', label: 'GURPS-cat-sheet.criticalsTab' },
+                { id: 'resources', label: 'GURPS-cat-sheet.resourcesTab' },
+            ],
+            initial: 'melee',
+        },
+    };
 
     numberOfHands() {
         return getActorSettings(this.actor).numberOfHands;
@@ -73,71 +141,81 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
     #grips: WeaponGrip[] = [];
 
-    getData() {
-        const data = super.getData();
+    protected override async _prepareContext(
+        options: foundry.applications.sheets.ActorSheet.RenderOptions,
+    ): Promise<GurpsActorGcsSheet.RenderContext> {
+        const superContext = await super._prepareContext(options);
+
+        const actor = superContext.actor as Actor; //todo: investigate why the type is not resolved correctly
+        const system = superContext.system as any; //todo: investigate why the type is not resolved correctly
         try {
             const categories = {
                 combat: {
-                    skills: map(categorizeSkills(data.actor, data.system.skills, 'combat'), (s) =>
-                        enrichSkill(s, data.system.attributes),
+                    skills: map(categorizeSkills(actor, system.skills, 'combat'), (s) =>
+                        enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(data.actor, data.system.ads, 'combat'),
+                    ads: categorizeAds(actor, system.ads, 'combat'),
                 },
                 exploration: {
-                    skills: map(categorizeSkills(data.actor, data.system.skills, 'exploration'), (s) =>
-                        enrichSkill(s, data.system.attributes),
+                    skills: map(categorizeSkills(actor, system.skills, 'exploration'), (s) =>
+                        enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(data.actor, data.system.ads, 'exploration'),
+                    ads: categorizeAds(actor, system.ads, 'exploration'),
                 },
                 social: {
-                    skills: map(categorizeSkills(data.actor, data.system.skills, 'social'), (s) =>
-                        enrichSkill(s, data.system.attributes),
+                    skills: map(categorizeSkills(actor, system.skills, 'social'), (s) =>
+                        enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(data.actor, data.system.ads, 'social'),
+                    ads: categorizeAds(actor, system.ads, 'social'),
                 },
                 technical: {
-                    skills: map(categorizeSkills(data.actor, data.system.skills, 'technical'), (s) =>
-                        enrichSkill(s, data.system.attributes),
+                    skills: map(categorizeSkills(actor, system.skills, 'technical'), (s) =>
+                        enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(data.actor, data.system.ads, 'technical'),
+                    ads: categorizeAds(actor, system.ads, 'technical'),
                 },
                 powers: {
-                    skills: map(categorizeSkills(data.actor, data.system.skills, 'powers'), (s) =>
-                        enrichSkill(s, data.system.attributes),
+                    skills: map(categorizeSkills(actor, system.skills, 'powers'), (s) =>
+                        enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(data.actor, data.system.ads, 'powers'),
+                    ads: categorizeAds(actor, system.ads, 'powers'),
                 },
                 others: {
-                    skills: map(categorizeSkills(data.actor, data.system.skills, 'others'), (s) =>
-                        enrichSkill(s, data.system.attributes),
+                    skills: map(categorizeSkills(actor, system.skills, 'others'), (s) =>
+                        enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(data.actor, data.system.ads, 'others'),
+                    ads: categorizeAds(actor, system.ads, 'others'),
                 },
                 favs: {
-                    skills: map(categorizeSkills(data.actor, data.system.skills, 'fav'), (s) =>
-                        enrichSkill(s, data.system.attributes),
+                    skills: map(categorizeSkills(actor, system.skills, 'fav'), (s) =>
+                        enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(data.actor, data.system.ads, 'fav'),
+                    ads: categorizeAds(actor, system.ads, 'fav'),
                 },
             };
 
-            const selfMods = convertModifiers(data.actor.system.conditions.self.modifiers);
-            selfMods.push(...convertModifiers(data.actor.system.conditions.usermods));
+            const selfMods = convertModifiers(system.conditions.self.modifiers);
+            selfMods.push(...convertModifiers(system.conditions.usermods));
 
-            const handsOld = initHands(data.actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
+            const handsOld = initHands(actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
             const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons(
-                data.system.equipment,
-                data.system.melee ?? emptyList,
-                data.system.ranged ?? emptyList,
+                system.equipment,
+                system.melee ?? emptyList,
+                system.ranged ?? emptyList,
                 handsOld,
-                data.actor,
+                actor,
             );
             this.#grips = grips;
-            this.actor.setFlag(MODULE_ID, 'hands', hands);
+            // actor.setFlag(MODULE_ID, 'hands', hands);
 
-            const defenses = getDefenses(data.system.currentdodge, grips, this.actor, hands);
+            const defenses = getDefenses(system.currentdodge, grips, actor, hands);
 
-            return foundry.utils.mergeObject(data, {
+            const combatTabs = filterList(
+                this._prepareTabs('combat-tabs'),
+                (i: any) => i.id != 'resources' || system.additionalresources.tracker.length > 0,
+            );
+
+            return foundry.utils.mergeObject(superContext, {
                 selfModifiers: selfMods,
                 categories: categories,
                 grips: grips,
@@ -145,22 +223,24 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
                 rangedWeapons: rangedWeapons,
                 hands: hands,
                 defenses: defenses,
-                defenseOTFs: getOTFs('defense', data.actor),
-                meleeOTFs: getOTFs('melee', data.actor),
-                rangedOTFs: getOTFs('ranged', data.actor),
-                reactionOTFs: getOTFs('reaction', data.actor),
-                socialOTFs: getOTFs('social', data.actor),
-                explorationOTFs: getOTFs('exploration', data.actor),
-                powersOTFs: getOTFs('powers', data.actor),
-                technicalOTFs: getOTFs('technical', data.actor),
-                targets: targets(data.actor, false),
-                targetsRanged: targets(data.actor, true),
+                defenseOTFs: getOTFs('defense', actor),
+                meleeOTFs: getOTFs('melee', actor),
+                rangedOTFs: getOTFs('ranged', actor),
+                reactionOTFs: getOTFs('reaction', actor),
+                socialOTFs: getOTFs('social', actor),
+                explorationOTFs: getOTFs('exploration', actor),
+                powersOTFs: getOTFs('powers', actor),
+                technicalOTFs: getOTFs('technical', actor),
+                targets: targets(actor, false),
+                targetsRanged: targets(actor, true),
                 reactionTableExists: reactionTableExists(),
                 criticalTables: existingCriticalTables(),
+                tabs: this._prepareTabs('primary-tabs'),
+                combatTabs: combatTabs,
             });
         } catch (e) {
             console.error(e);
-            return foundry.utils.mergeObject(data, { error: true });
+            return foundry.utils.mergeObject(superContext, { error: true });
         }
     }
 
@@ -169,17 +249,17 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         form.render(true);
     }
 
-    getCustomHeaderButtons() {
-        const buttons = super.getCustomHeaderButtons();
+    protected override _getHeaderControls(): foundry.applications.api.Application.HeaderControlsEntry[] {
+        const controls = super._getHeaderControls();
 
-        buttons.push({
+        controls.push({
             label: 'Sheet config.',
             class: 'config',
             icon: 'fas fa-cog',
-            onclick: SLCatSheet.openConfig.bind(this),
+            action: 'openConfig',
         });
 
-        return buttons;
+        return controls;
     }
 
     async setGrip(gripName: string, index: number) {
@@ -208,6 +288,71 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         }
     }
 
+    static async #setManuever(this: SLCatSheet, event: PointerEvent, target: HTMLElement): Promise<void> {
+        event.preventDefault();
+        if (!event.currentTarget) return;
+        const details = target.closest('details');
+        if (!details) return;
+        this.actor.replaceManeuver((target as HTMLImageElement).alt);
+        details.open = !details.open;
+    }
+
+    static async #setPosture(this: SLCatSheet, event: PointerEvent, target: HTMLElement): Promise<void> {
+        event.preventDefault();
+        if (!event.currentTarget) return;
+        const details = target.closest('details');
+        if (!details) return;
+        this.actor.replacePosture((target as HTMLImageElement).alt);
+        details.open = !details.open;
+    }
+
+    static async #rollCritical(this: SLCatSheet, event: PointerEvent, target: HTMLElement): Promise<void> {
+        const table = target.dataset.rolltable as unknown as MyRollTable;
+        drawTableRoll(table);
+    }
+
+    async #onEncumbrance(index: string): Promise<void> {
+        if (getSystemSetting('automatic-encumbrance')) return;
+
+        await this.actor.update({
+            'system.additionalresources.currentEncumbrance': parseInt(index),
+        } as Actor.UpdateData);
+    }
+
+    protected override async _onRender(
+        context: DeepPartial<GurpsActorGcsSheet.RenderContext>,
+        options: DeepPartial<GurpsBaseActorSheet.RenderOptions>,
+    ): Promise<void> {
+        super._onRender(context, options);
+
+        const encumbranceSelect = this.element.querySelector<HTMLSelectElement>('select.slcs-encumbrance');
+
+        encumbranceSelect?.addEventListener('change', async (event: Event) => {
+            event.preventDefault();
+
+            if (event.currentTarget instanceof HTMLSelectElement) {
+                const value = event.currentTarget.value;
+
+                await this.#onEncumbrance(value);
+            }
+        });
+
+        const gripSelects = this.element.querySelectorAll<HTMLSelectElement>('select.gripSelect');
+
+        gripSelects.forEach((element: HTMLSelectElement) => {
+            element.addEventListener('change', async (event: Event) => {
+                event.preventDefault();
+
+                if (event.currentTarget instanceof HTMLSelectElement) {
+                    const value = event.currentTarget.value;
+                    const index = Number(event.currentTarget.dataset['index']);
+                    this.setGrip(value, index);
+                }
+            });
+        });
+    }
+
+    /*
     activateListeners(html: JQuery<HTMLElement>) {
         super.activateListeners(html);
 
@@ -262,5 +407,5 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             const table = ev.currentTarget.dataset.rolltable as unknown as MyRollTable;
             drawTableRoll(table);
         });
-    }
+    }*/
 }

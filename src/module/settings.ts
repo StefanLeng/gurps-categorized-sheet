@@ -86,6 +86,6 @@ export async function setSettings(settings: CatSheetSettings) {
     game.settings?.set(MODULE_ID, CAT_SHEET_SETTINGS, settings);
 }
 
-export function getSystemSetting(setting: 'remove-unequipped-weapons') {
+export function getSystemSetting(setting: 'remove-unequipped-weapons' | 'automatic-encumbrance') {
     return game.settings?.get(SYSTEM_ID, setting);
 }

@@ -30,7 +30,6 @@
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit"
   },
   "devDependencies": {
-    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@rollup/stream": "^3.0.1",
@@ -42,9 +41,11 @@
     "eslint-plugin-jest": "^28.8.3",
     "eslint-plugin-prettier": "^5.2.1",
     "fs-extra": "^11.2.0",
+    "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main",
     "gulp": "^5.0.0",
     "gulp-less": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0",
+    "gurps": "github:crnormand/gurps#develop/v13-only",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",

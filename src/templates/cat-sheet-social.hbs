@@ -1,0 +1,15 @@
+{{#unless error}}
+    <div class='tab {{tabs.social.cssClass}}' data-tab='social' data-group='primary-tabs'>
+        <div class='slcs-tab-content slcs-social-tab'>
+            <div class ='slcs-col slcs-col1'>
+                {{>slcs-skills skills=categories.social.skills}}
+                {{>slcs-advantages ads=categories.social.ads}}
+            </div>
+            <div class ='slcs-col slcs-col2'>
+                {{>slcs-description}}
+                {{>slcs-otf-region OTFs=socialOTFs type='social'}}
+                {{>slcs-reactions}}
+            </div>    
+        </div>                
+    </div>
+{{/unless}}

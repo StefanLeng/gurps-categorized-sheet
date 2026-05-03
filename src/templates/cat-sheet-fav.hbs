@@ -1,0 +1,13 @@
+{{#unless error}}
+    <div class='tab {{tabs.fav.cssClass}}' data-tab='fav' data-group='primary-tabs'>
+        <div class='slcs-tab-content slcs-fav-tab'>
+            <div class ='slcs-col slcs-col1'>
+                <div>Add traits or skills in the sheet configuration.</div>
+                {{>slcs-advantages ads=categories.favs.ads}}
+            </div>
+            <div class ='slcs-col slcs-col2'>
+                {{>slcs-skills skills=categories.favs.skills}}
+            </div>    
+        </div>                    
+    </div>
+{{/unless}} 

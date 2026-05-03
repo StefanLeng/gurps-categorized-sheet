@@ -1,0 +1,12 @@
+{{#unless error}}
+    <div class="slcs-header">   
+        {{>slcs-portrait}}
+        {{>slcs-basic-attributes}}
+        {{>slcs-secondary-attributes}}
+        {{>slcs-hpfp}}
+        {{>slcs-modifierlist}}
+        <div class="quick-notes"></div>
+    </div>
+{{else}}
+    <div>An unexpected error occurred when reading the character data. Please open an issue at https://github.com/StefanLeng/gurps-categorized-sheet/issues and attach an export of the character.</div>
+{{/unless}} 

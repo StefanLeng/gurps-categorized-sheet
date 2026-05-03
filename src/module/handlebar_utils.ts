@@ -36,6 +36,7 @@ export async function registerHandlebarsPartials() {
         'slcs-trackers',
         'slcs-speed-range-table',
         'slcs-conditional-injury',
+        'slcs-tabs-nav',
     ];
 
     for (const name of templates) {

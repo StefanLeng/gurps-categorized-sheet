@@ -12,13 +12,13 @@ function makeFloatingRollOTF(
 }
 
 export function enrichSkill(skill: Skill, attributes: ElementList<{ value: number }>): Skill {
-    if (skill.type === 'SKILL') {
+    if (skill.type === 'skill') {
         const parts = skill.relativelevel.split(/(\+|-)/);
-        if (parts.length !== 3) return skill;
+        if (parts.length !== 3 || !attributes[parts[0].toUpperCase()]) return skill;
         return {
             ...skill,
             additionalRolls: Object.keys(filterList(attributes, (a) => a.value > 0))
-                .filter((a) => a !== parts[0])
+                .filter((a) => a !== parts[0].toUpperCase())
                 .map((a) => makeFloatingRollOTF(skill.name, a, parts[1] + parts[2], attributes[a].value)),
         };
     }

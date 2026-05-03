@@ -24,7 +24,7 @@
 		"resolveJsonModule": true,
 		"useDefineForClassFields": true,
 		"noErrorTruncation": true,
-		"types": ["jest", "jquery", "node", "fvtt-types"],
+		"types": ["jest", "jquery", "node", "fvtt-types","gurps/src/types/gurps"],
         //"typeRoots": ["node_modules/@types", "types/foundry","jest"],
   },
   //"include": ["src"]

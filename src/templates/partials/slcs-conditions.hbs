@@ -1,7 +1,7 @@
 <div class="slcs-block slcs-conditions">
   <div class='fieldblock'>
 
-    {{#if (ne system.conditions.maneuver 'undefined')}}
+    {{#if system.conditions.maneuver }}
         <div class='label'>{{localize  'GURPS.maneuver'}}:</div>
         <div class='field details'>
           <details class='maneuver'>
@@ -12,7 +12,7 @@
             </summary>
             <div class='popup square5x4'>
               {{#each (listAllManeuvers) as |this key|}}
-                <img class='button' src='{{icon}}' title='{{localize  label}}' alt='{{key}}' />
+                <img class='button' src='{{icon}}' title='{{localize  label}}' alt='{{key}}' data-action='setManeuver' />
               {{/each}}
             </div>
           </details>
@@ -33,9 +33,10 @@
               src='systems/gurps/icons/statuses/dd-condition-standing.webp'
               title='{{localize  "GURPS.STATUSStanding"}}'
               alt='standing'
+              data-action='setPosture'
             />
             {{#each (listAllPostures) as |this key|}}
-              <img class='button' src='{{img}}' title='{{localize  name}}' alt='{{id}}' />
+              <img class='button' src='{{img}}' title='{{localize  name}}' alt='{{id}}' data-action='setPosture' />
             {{/each}}
           </div>
         </details>

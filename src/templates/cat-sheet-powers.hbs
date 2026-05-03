@@ -1,0 +1,14 @@
+{{#unless error}}
+    <div class='tab {{tabs.powers.cssClass}}' data-tab='powers' data-group='primary-tabs'>
+        <div class='slcs-tab-content slcs-powers-tab'>
+            <div class ='slcs-col slcs-col1'>
+                {{>slcs-skills skills=categories.powers.skills}}
+                {{>slcs-advantages ads=categories.powers.ads}}
+            </div>
+            <div class ='slcs-col slcs-col2'>
+                {{>slcs-otf-region OTFs=powersOTFs type='powers'}}
+                {{>slcs-spells}}
+            </div>    
+        </div>                   
+    </div>
+{{/unless}}

@@ -1,1 +1,18 @@
-{}
+{
+    "GURPS-cat-sheet": {
+        "combatTab": "Combat",
+        "explorationTab": "Exploration & Stealth",
+        "socialTab": "Social",
+        "technicalTab": "Technical & Research",
+        "powersTab": "Powers & Magic",
+        "othersTab": "Others",
+        "equipmentTab": "Equipment",
+        "allTab": "All",
+        "favTab": "Favs.",
+        "meleeTab": "Melee",
+        "rangedTab": "Ranged",
+        "defensesTab": "Defenses",
+        "criticalsTab": "Criticals",
+        "resourcesTab": "Resources"
+    }
+}

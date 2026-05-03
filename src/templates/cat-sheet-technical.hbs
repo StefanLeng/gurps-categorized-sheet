@@ -1,0 +1,14 @@
+{{#unless error}}
+    <div class='tab {{tabs.technical.cssClass}}' data-tab='technical' data-group='primary-tabs'>
+        <div class='slcs-tab-content slcs-technical-tab'>
+            <div class ='slcs-col slcs-col1'>
+                {{>slcs-skills skills=categories.technical.skills}}
+                {{>slcs-advantages ads=categories.technical.ads}}
+            </div>
+            <div class ='slcs-col slcs-col2'>
+                {{>slcs-otf-region OTFs=technicalOTFs type='technical'}}
+                {{>slcs-lifting}}
+            </div>    
+        </div>                
+    </div>
+{{/unless}}

@@ -1,6 +1,6 @@
 <div class='slcs-criticalRolls slcs-block'>
     {{#each criticalTables}}
-        <button data-rolltable="{{this}}">{{this}}</button>
+        <button data-action="rollCritical" data-rolltable="{{this}}">{{this}}</button>
     {{else}}
         <div>No Critical Tables found.</div>
     {{/each}}

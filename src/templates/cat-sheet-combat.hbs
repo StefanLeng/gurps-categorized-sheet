@@ -1,0 +1,44 @@
+{{#unless error}}
+<div class='tab {{tabs.combat.cssClass}}' data-tab='combat' data-group='primary-tabs'>
+    <div class='slcs-tab-content slcs-combat-tab'>
+        {{>slcs-conditions section='combat'}}
+        <div class ='slcs-col slcs-col1'>
+            {{>slcs-skills skills=categories.combat.skills}}
+            {{>slcs-advantages ads=categories.combat.ads}}
+        </div>
+        <div class ='slcs-col slcs-col2'>
+            {{> slcs-tabs-nav tabClasses='slcs-combat-tabs' tabGroup='combat-tabs' tabs=combatTabs}}
+            <div class="slcs-combatContent">
+                <div class='tab {{combatTabs.melee.cssClass}}' data-tab='melee' data-group='combat-tabs'>
+                    <div class="col-tabcontent">                             
+                        {{>slcs-melee-weapons}}
+                        {{>slcs-target targets=targets}}
+                    </div>
+                </div>
+                <div class='tab {{combatTabs.ranged.cssClass}}' data-tab='ranged' data-group='combat-tabs'>
+                    <div class="col-tabcontent">                             
+                        {{>slcs-ranged-weapons}}
+                        {{>slcs-target targets=targetsRanged}}
+                    </div>
+                </div>
+                <div class='tab {{combatTabs.defenses.cssClass}}' data-tab='defenses' data-group='combat-tabs'>
+                    <div class="col-tabcontent">                             
+                        {{>slcs-defenses}}
+                    </div>
+                </div>
+                <div class='tab {{combatTabs.criticals.cssClass}}' data-tab='criticals' data-group='combat-tabs'>
+                    <div class="col-tabcontent">                             
+                        {{>slcs-criticalRolls}}
+                    </div>
+                </div>
+                <div class='tab {{combatTabs.resources.cssClass}}' data-tab='resources' data-group='combat-tabs'>
+                    <div class="col-tabcontent">                             
+                        {{>slcs-trackers}}
+                    </div>
+                </div>                            
+            </div>
+        </div>
+    </div>
+</div>
+{{/unless}}
+ 

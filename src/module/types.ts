@@ -174,6 +174,7 @@ declare module 'fvtt-types/configuration' {
         Actor: {
             ['gurps-categorized-sheet']: {
                 ['cat_sheet_settings']: CatSheetActorSettings;
+                hands: Hand[];
             };
         };
     }
@@ -189,5 +190,6 @@ declare module 'fvtt-types/configuration' {
         'gurps-categorized-sheet.cat_sheet_settings': CatSheetSettings;
         'gurps.remove-unequipped-weapons': boolean;
         'gurps.use-size-modifier-difference-in-melee': boolean;
+        'gurps.automatic-encumbrance': boolean;
     }
 }

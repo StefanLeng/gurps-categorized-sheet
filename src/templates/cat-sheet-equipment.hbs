@@ -1,0 +1,8 @@
+{{#unless error}}
+    <div class='tab {{tabs.equipment.cssClass}}' data-tab='equipment' data-group='primary-tabs'>
+        <div class='slcs-tab-content slcs-equipment-tab'>
+            {{>slcs-equipment container='carried'}}
+            {{>slcs-equipment container='other'}}
+        </div>
+    </div>
+{{/unless}}

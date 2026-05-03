@@ -32,9 +32,9 @@ export function getOTFs(region: OTFRegion, actor: any) {
     const mods = getMergedSettings(actor)
         .sheetOTFs.filter((i) => i.region === region && i.active)
         .filter((i) => isSkillRequirementFulfilled(i, actor))
-        .filter((i) => isTraitRequirementFulfilled(i, actor))
+        //      .filter((i) => isTraitRequirementFulfilled(i, actor)) todo: wait for GGA fix
         .filter((i) => isManueverRequirementFulfilled(i, actor))
-        .filter((i) => noForbiddenTraits(i, actor))
+        //    .filter((i) => noForbiddenTraits(i, actor)) todo: wait for GGA fix
         .filter((i) => (i.flags?.extraEffort ?? allowExtraEffort) === allowExtraEffort)
         .map((i) => i.code);
 
