@@ -24,24 +24,23 @@ export default class SLCatSheet extends GCSActorSheet {
         options: foundry.applications.api.DocumentSheet.InputOptions<foundry.applications.sheets.ActorSheet.Configuration>,
     ) {
         super(options); //register a hook on targetToken to refresh when the target changes
-        //Hooks.on('targetToken', this._targetToken);
+        Hooks.on('targetToken', this._targetToken);
     }
 
-    /*
     _targetToken = () => this._targetTokenInner(true);
 
     _tokenTargeted: boolean = false;
-*/
+
     /*
     when an user switches targets, there are two calls to the targetToken hook, one for the old target and one for the new target
     if we rerender on the first call, we will miss the second call, because we are already rerendering.
     Therefore we  need to wait and check  for the second call. 
   */
-    /*  _targetTokenInner = (newEvent: boolean) => {
+    _targetTokenInner = (newEvent: boolean) => {
         //needs to be an lambda to capture this in the closure
         if (this._tokenTargeted) {
             //this is either a second call or we have waited 30 ms since the last call
-            if (this._state === foundry.appv1.api.Application.RENDER_STATES.RENDERING) {
+            if (this.state === foundry.applications.api.ApplicationV2.RENDER_STATES.RENDERING) {
                 setTimeout(() => this._targetTokenInner(newEvent), 5); //wait if already rendering
             } else {
                 this._tokenTargeted = false;
@@ -53,7 +52,6 @@ export default class SLCatSheet extends GCSActorSheet {
             setTimeout(() => this._targetTokenInner(false), 30);
         }
     };
-    */
 
     static override DEFAULT_OPTIONS: GurpsBaseActorSheet.DefaultOptions = {
         classes: ['sl-cat-sheet', 'sheet', 'actor'],
@@ -108,7 +106,7 @@ export default class SLCatSheet extends GCSActorSheet {
         },
     };
 
-    static TABS = {
+    static override TABS = {
         ['primary-tabs']: {
             tabs: [
                 { id: 'combat', label: 'GURPS-cat-sheet.combatTab' },
@@ -146,8 +144,8 @@ export default class SLCatSheet extends GCSActorSheet {
     ): Promise<GurpsActorGcsSheet.RenderContext> {
         const superContext = await super._prepareContext(options);
 
-        const actor = superContext.actor as Actor; //todo: investigate why the type is not resolved correctly
-        const system = superContext.system as any; //todo: investigate why the type is not resolved correctly
+        const actor = superContext.actor;
+        const system = superContext.system;
         try {
             const categories = {
                 combat: {
@@ -195,7 +193,7 @@ export default class SLCatSheet extends GCSActorSheet {
             };
 
             const selfMods = convertModifiers(system.conditions.self.modifiers);
-            selfMods.push(...convertModifiers(system.conditions.usermods));
+            selfMods.push(...convertModifiers([...system.conditions.usermods]));
 
             const handsOld = initHands(actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
             const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons(
@@ -212,7 +210,7 @@ export default class SLCatSheet extends GCSActorSheet {
 
             const combatTabs = filterList(
                 this._prepareTabs('combat-tabs'),
-                (i: any) => i.id != 'resources' || system.additionalresources.tracker.length > 0,
+                (i: any) => i.id != 'resources' || system.additionalresources.tracker.entries.length > 0,
             );
 
             return foundry.utils.mergeObject(superContext, {
@@ -244,7 +242,7 @@ export default class SLCatSheet extends GCSActorSheet {
         }
     }
 
-    static openConfig() {
+    static openConfig(this: SLCatSheet) {
         const form = new ActorSettingsForm(this.actor);
         form.render(true);
     }
@@ -254,7 +252,6 @@ export default class SLCatSheet extends GCSActorSheet {
 
         controls.push({
             label: 'Sheet config.',
-            class: 'config',
             icon: 'fas fa-cog',
             action: 'openConfig',
         });
@@ -266,26 +263,6 @@ export default class SLCatSheet extends GCSActorSheet {
         let hands = initHands(this.actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
         hands = applyGripToHands(this.#grips, gripName, index, hands);
         await this.actor.setFlag(MODULE_ID, 'hands', hands);
-    }
-
-    async changeEncumbrance(key: string | undefined) {
-        if (key !== undefined) {
-            const encumbranceTable = this.actor.system.encumbrance;
-            if (encumbranceTable[key].current) return; // already selected
-            for (const encKey in encumbranceTable) {
-                const enc = encumbranceTable[encKey];
-                const t = 'system.encumbrance.' + encKey + '.current';
-                if (key === encKey) {
-                    await this.actor.internalUpdate({
-                        [t]: true,
-                        'system.currentmove': parseInt(enc.move),
-                        'system.currentdodge': parseInt(enc.dodge),
-                    });
-                } else if (enc.current) {
-                    await this.actor.internalUpdate({ [t]: false });
-                }
-            }
-        }
     }
 
     static async #setManuever(this: SLCatSheet, event: PointerEvent, target: HTMLElement): Promise<void> {
@@ -306,7 +283,7 @@ export default class SLCatSheet extends GCSActorSheet {
         details.open = !details.open;
     }
 
-    static async #rollCritical(this: SLCatSheet, event: PointerEvent, target: HTMLElement): Promise<void> {
+    static async #rollCritical(this: SLCatSheet, _: PointerEvent, target: HTMLElement): Promise<void> {
         const table = target.dataset.rolltable as unknown as MyRollTable;
         drawTableRoll(table);
     }

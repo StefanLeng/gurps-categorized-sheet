@@ -24,7 +24,14 @@
 		"resolveJsonModule": true,
 		"useDefineForClassFields": true,
 		"noErrorTruncation": true,
-		"types": ["jest", "jquery", "node", "fvtt-types","gurps/src/types/gurps"],
+		"types": ["jest", "jquery", "node", "fvtt-types", "gurps/src/types/gurps"],
+        "paths": {
+            "@gurps-types/*": ["./node_modules/gurps/src/types/*"],
+            "@lib/*": ["./node_modules/gurps//src/lib/*"],
+            "@module/*": ["./node_modules/gurps/src/module/*"],
+            "@rules/*": ["./node_modules/gurps/src/rules/*"],
+            "@util/*": ["./node_modules/gurps/src/util/*"]
+        }
         //"typeRoots": ["node_modules/@types", "types/foundry","jest"],
   },
   //"include": ["src"]

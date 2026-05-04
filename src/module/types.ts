@@ -1,5 +1,6 @@
 import { Rec } from './recursiveList.ts';
 import { MyRollTable } from './rollTables.ts';
+import type {} from '@gurps-types/configuration.ts';
 
 export type OTFScope = 'module' | 'global' | 'actor';
 
@@ -179,6 +180,7 @@ declare module 'fvtt-types/configuration' {
         };
     }
 
+    /* ---------------------------------------- */
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Hooks {
         interface HookConfig {
@@ -186,10 +188,9 @@ declare module 'fvtt-types/configuration' {
         }
     }
 
+    /* ---------------------------------------- */
     interface SettingConfig {
         'gurps-categorized-sheet.cat_sheet_settings': CatSheetSettings;
         'gurps.remove-unequipped-weapons': boolean;
-        'gurps.use-size-modifier-difference-in-melee': boolean;
-        'gurps.automatic-encumbrance': boolean;
     }
 }
