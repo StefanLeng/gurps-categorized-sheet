@@ -652,6 +652,33 @@
         display: grid;
         grid-template-columns: min-content;
         gap: var(--sectiongap);
+        .gcs-pool-attribute{
+            .gcs-section-content{
+                display: block;
+                .slcs-pool-control{
+                    display: grid;
+                    grid-template-columns: min-content min-content min-content min-content;
+                    button{
+                        padding: 0 0.25rem;
+                        font: inherit;
+                    }
+                    input, span {
+                        min-width: 6ch;
+                    }
+                }
+                .form-fields{
+                    height: auto;
+                }
+                .pool-state {
+                    white-space: nowrap;
+                    text-align: center;
+                    padding: 0.1rem;
+                    min-height: 1.2rem;
+                    border: var(--minorborder);
+                    margin: 0.2rem 0;
+                }
+            }
+        }
         .tracked-resource{
             display: grid;
             grid-template-areas: 

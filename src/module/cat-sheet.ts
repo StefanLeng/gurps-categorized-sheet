@@ -213,6 +213,9 @@ export default class SLCatSheet extends GCSActorSheet {
                 (i: any) => i.id != 'resources' || system.additionalresources.tracker.entries.length > 0,
             );
 
+            const hpPool = superContext.pools.find((p) => p.name === 'GURPS.HP');
+            const fpPool = superContext.pools.find((p) => p.name === 'GURPS.FP');
+
             return foundry.utils.mergeObject(superContext, {
                 selfModifiers: selfMods,
                 categories: categories,
@@ -235,6 +238,8 @@ export default class SLCatSheet extends GCSActorSheet {
                 criticalTables: existingCriticalTables(),
                 tabs: this._prepareTabs('primary-tabs'),
                 combatTabs: combatTabs,
+                fpPool: fpPool,
+                hpPool: hpPool,
             });
         } catch (e) {
             console.error(e);

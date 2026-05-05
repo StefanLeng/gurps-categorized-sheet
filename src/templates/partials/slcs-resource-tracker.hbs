@@ -1,54 +1,39 @@
-<div class='tracked-resource {{#unless name}}inactive{{/unless}}' data-gurps-resource='{{name}}'>
+{{#*inline ".poolTooltip"}}
+  <div class="gcs-tooltip gcs-pool-tooltip">
+    {{#each pool.thresholds}}
+    <div class="threshold">
+      <span class="value">{{value}}</span>
+      <span class="condition">{{localize state}}</span>
+    </div>
+    {{/each}}
+  </div>
+{{/inline}}
 
-
-  <div class='condition-block tooltip-wrapper'>
-    {{#if thresholds}}
-      {{#if breakpoints}}
-        {{#with (lookup thresholds (breakpointIndex-of thresholds max value))}}
-          <div class='tooltip condition' style='background-color: {{color}} {{! concat color "80"}};'>{{{gurpslink condition}}}
-            <span class="tooltiptext">
-              <div style="display: grid; grid-template-columns: min-content min-content auto;">
-                {{#each (controlBreakpoints ../this)}}
-                  {{#unless (eq @index 0)}}
-                  <div class="field condensed noedit">{{comparison}}</div>
-                  <div class="field condensed noedit">{{breakpoint}}</div>
-                  <div class="label">{{label}}</div>
-                  {{/unless}}
-                {{/each}}
-              </div>
-            </span>
-          </div>
-          <div style='display: grid; grid-template-columns: auto auto;'>
-            <div style='font-size: 100%;'>{{{pdflink ../pdf}}}</div>
-            <div class='max'>{{../alias}} ({{../min}}/{{../max}})</div>
-          </div>
-        {{/with}}
+<div class="gcs-pool-attribute gcs-section"">
+  <div class="gcs-section-header">
+    {{localize pool.name}}: {{pool.denominator.value}}
+  </div>
+  <div class="gcs-section-content">
+    <div class="form-fields slcs-pool-control">
+      <button type="button" data-action="decrementPool" data-inverted="{{pool.invertedDelta}}" data-path="{{pool.numerator.path}}" {{#if pool.atMin}}disabled{{/if}}><i class="fa-solid fa-minus"></i></button>
+      {{#if (eq pool.type "pool")}}
+        <pool-value name="{{pool.numerator.path}}" value="{{pool.numerator.value}}" data-max="{{pool.denominator.value}}"></pool-value>
       {{else}}
-        {{#with (lookup thresholds (threshold-of thresholds max value))}}
-          <div class='tooltip condition' style='background-color: {{concat color "80"}};'>{{{gurpslink condition}}}
-            <span class="tooltiptext">
-              <div style="display: grid; grid-template-columns: min-content min-content auto;">
-                {{#each (thresholdBreakpoints ../this)}}
-                  <div class="field condensed noedit">{{threshold.comparison}}</div>
-                  <div class="field condensed noedit">{{breakpoint}}</div>
-                  <div class="label">{{threshold.condition}}</div>
-                {{/each}}
-              </div>
-            </span>
-          </div>
-          <div style='display: grid; grid-template-columns: auto auto;'>
-            <div style='font-size: 100%;'>{{{pdflink ../pdf}}}</div>
-            <div class='max'>{{../alias}} ({{../min}}/{{../max}})</div>
-          </div>
-        {{/with}}
+        {{#if pool.numerator.name}}
+          {{formInput pool.numerator.field name=pool.numerator.name value=pool.numerator.value }}
+        {{else}}
+          {{formInput pool.numerator.field value=pool.numerator.value }}
+        {{/if}}
       {{/if}}
-    {{else}}
-      <div class='condition {{#if (gt value max)}}above{{else}}{{#if (lt value min)}}below{{/if}}{{/if}}'>
-        {{#if
-        (gt value max)}}Over
-        {{else}}{{#if (lt value min)}}Below{{else}}Normal{{/if}}{{/if}}
-      </div>
-      <div class='max'>({{min}}/{{max}})</div>
+      <button type="button" data-action="incrementPool" data-inverted="{{pool.invertedDelta}}" data-path="{{pool.numerator.path}}" {{#if pool.atMax}}disabled{{/if}}><i class="fa-solid fa-plus"></i></button>
+      <button type="button" data-action="resetPool" data-inverted="{{pool.invertedDelta}}" data-initial="{{pool.numerator.initial}}" data-path="{{pool.numerator.path}}"><i class="fa-solid fa-undo"></i></button>
+    </div>
+    {{#if (or pool.state pool.color pool.thresholds.length)}}
+      <div
+        class="pool-state"
+        data-tooltip='{{> '.poolTooltip' thresholds=pool.thresholds}}'
+        style="background-color: {{pool.color}}; color: var(--gcs-color-surface-fg);"
+      >{{localize pool.state}}</div>
     {{/if}}
   </div>
-</div> <!-- end of resource -->
+</div>

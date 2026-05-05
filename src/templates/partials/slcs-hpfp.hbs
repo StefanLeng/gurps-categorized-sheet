@@ -2,21 +2,7 @@
     {{#if useCI}}
         {{>slcs-conditional-injury}}
     {{else}}
-        {{>slcs-hpfptracker
-            name='HP'
-            resource=system.HP
-            label='GURPS.attributesHPNAME'
-            editable=false
-            condition='reeling'
-            testcondition=system.conditions.reeling
-        }}
+        {{>slcs-resource-tracker pool=hpPool}}
     {{/if}}
-    {{>slcs-hpfptracker
-        name='FP'
-        resource=system.FP
-        label='GURPS.attributesFPNAME'
-        editable=false
-        condition='exhausted'
-        testcondition=system.conditions.exhausted
-    }}
+   {{>slcs-resource-tracker pool=fpPool}}
 </div>
