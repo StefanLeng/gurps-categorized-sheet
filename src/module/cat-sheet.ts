@@ -146,42 +146,53 @@ export default class SLCatSheet extends GCSActorSheet {
 
         const actor = superContext.actor;
         const system = superContext.system;
-        const skills = superContext.skills;
-
+        
         try {
             const categories = {
                 combat: {
-                    skills: categorizeSkills(actor, skills, 'combat').map((s) => enrichSkill(s, system.attributes)),
+                    skills: map(categorizeSkills(actor, system.skills, 'combat'), (s) =>
+                        enrichSkill(s, system.attributes),
+                    ),
                     ads: categorizeAds(actor, system.ads, 'combat'),
                 },
                 exploration: {
-                    skills: categorizeSkills(actor, skills, 'exploration').map((s) =>
+                    skills: map(categorizeSkills(actor, system.skills, 'exploration'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'exploration'),
                 },
                 social: {
-                    skills: categorizeSkills(actor, skills, 'social').map((s) => enrichSkill(s, system.attributes)),
+                    skills: map(categorizeSkills(actor, system.skills, 'social'), (s) =>
+                        enrichSkill(s, system.attributes),
+                    ),
                     ads: categorizeAds(actor, system.ads, 'social'),
                 },
                 technical: {
-                    skills: categorizeSkills(actor, skills, 'technical').map((s) => enrichSkill(s, system.attributes)),
+                    skills: map(categorizeSkills(actor, system.skills, 'technical'), (s) =>
+                        enrichSkill(s, system.attributes),
+                    ),
                     ads: categorizeAds(actor, system.ads, 'technical'),
                 },
                 powers: {
-                    skills: categorizeSkills(actor, skills, 'powers').map((s) => enrichSkill(s, system.attributes)),
+                    skills: map(categorizeSkills(actor, system.skills, 'powers'), (s) =>
+                        enrichSkill(s, system.attributes),
+                    ),
                     ads: categorizeAds(actor, system.ads, 'powers'),
                 },
                 others: {
-                    skills: categorizeSkills(actor, skills, 'others').map((s) => enrichSkill(s, system.attributes)),
+                    skills: map(categorizeSkills(actor, system.skills, 'others'), (s) =>
+                        enrichSkill(s, system.attributes),
+                    ),
                     ads: categorizeAds(actor, system.ads, 'others'),
                 },
                 favs: {
-                    skills: categorizeSkills(actor, skills, 'fav').map((s) => enrichSkill(s, system.attributes)),
+                    skills: map(categorizeSkills(actor, system.skills, 'fav'), (s) =>
+                        enrichSkill(s, system.attributes),
+                    ),
                     ads: categorizeAds(actor, system.ads, 'fav'),
                 },
             };
-
+            
             const selfMods = convertModifiers(system.conditions.self.modifiers);
             selfMods.push(...convertModifiers([...system.conditions.usermods]));
 
