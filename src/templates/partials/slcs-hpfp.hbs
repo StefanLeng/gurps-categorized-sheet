@@ -1,8 +1,10 @@
 <div class='slcs-hpfp'>
-    {{#if useCI}}
-        {{>slcs-conditional-injury}}
-    {{else}}
+    {{#if hpPool}}
         {{>slcs-resource-tracker pool=hpPool}}
+    {{else}}
+        {{#each pools as |pool|}}
+             {{>slcs-resource-tracker pool=pool}}
+        {{/each}}
     {{/if}}
    {{>slcs-resource-tracker pool=fpPool}}
 </div>

@@ -11,7 +11,7 @@
 
 <div class="gcs-pool-attribute gcs-section"">
   <div class="gcs-section-header">
-    {{localize pool.name}}: {{pool.denominator.value}}
+    {{localize pool.name}}{{#if (eq pool.type "pool")}}: {{pool.denominator.value}}{{/if}}
   </div>
   <div class="gcs-section-content">
     <div class="form-fields slcs-pool-control">

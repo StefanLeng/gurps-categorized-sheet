@@ -295,7 +295,7 @@
         }   
         nav.slcs-sheet-tabs.slcs-combat-tabs {
             display: grid;
-            grid-template-columns: repeat(4, min-content);
+            grid-template-columns: repeat(5, min-content);
             grid-gap: 20px;
             padding-left: 10px;
         } 
@@ -648,96 +648,39 @@
         }
     }
 
+    .gcs-pool-attribute{
+        .gcs-section-content{
+            display: block;
+            .slcs-pool-control{
+                display: grid;
+                grid-template-columns: min-content min-content min-content min-content;
+                button{
+                    padding: 0 0.25rem;
+                    font: inherit;
+                }
+                input, span {
+                    min-width: 6ch;
+                }
+            }
+            .form-fields{
+                height: auto;
+            }
+            .pool-state {
+                white-space: nowrap;
+                text-align: center;
+                padding: 0.1rem;
+                min-height: 1.2rem;
+                border: var(--minorborder);
+                margin: 0.2rem 0;
+            }
+        }
+    }
+
     .slcs-hpfp{
         display: grid;
         grid-template-columns: min-content;
         gap: var(--sectiongap);
-        .gcs-pool-attribute{
-            .gcs-section-content{
-                display: block;
-                .slcs-pool-control{
-                    display: grid;
-                    grid-template-columns: min-content min-content min-content min-content;
-                    button{
-                        padding: 0 0.25rem;
-                        font: inherit;
-                    }
-                    input, span {
-                        min-width: 6ch;
-                    }
-                }
-                .form-fields{
-                    height: auto;
-                }
-                .pool-state {
-                    white-space: nowrap;
-                    text-align: center;
-                    padding: 0.1rem;
-                    min-height: 1.2rem;
-                    border: var(--minorborder);
-                    margin: 0.2rem 0;
-                }
-            }
-        }
-        .tracked-resource{
-            display: grid;
-            grid-template-areas: 
-                "header header"
-                "value value"
-                "basic condition";
-            .header{
-                grid-area: header;
-            }
-            .spinner{
-                grid-area: value;
-            }
-            .basic-value{
-                font-size: var(--font-size-11);
-                grid-area: basic;
-                display: grid;
-                grid-template-columns: min-content 1fr;
-                .label{
-                    font-size: var(--font-size-11);
-                    padding-left: 0;                
-                }
-                .field{
-                    margin: 0;
-                    padding: 0;
-                }
-            }
-            .condition-block{
-                grid-area: condition;
-                .condition{
-                    border: 0;
-                }
-            }            
-        }
-        .conditional-injury{
-            .tracked-resource{
-                grid-template-areas: 
-                    "header header"
-                    "value value"
-                    "header2 header2"
-                    "value2 value2"
-                    "basic condition";
-                .header.slcs-severity{
-                    grid-area: header;
-                }
-                .spinner.slcs-severity{
-                    grid-area: value;
-                }
-                .header.slcs-time-to-heal{
-                    grid-area: header2;
-                }
-                .spinner.slcs-time-to-heal{
-                    grid-area: value2;
-                }
-                .basic-value{
-                    grid-template-columns: 1fr 1fr;
-                }
-            }
-        }
-    }
+     }
 
     .slcs-DR, .slcs-location {
         display: grid;

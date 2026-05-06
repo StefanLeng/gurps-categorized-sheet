@@ -146,48 +146,38 @@ export default class SLCatSheet extends GCSActorSheet {
 
         const actor = superContext.actor;
         const system = superContext.system;
+        const skills = superContext.skills;
+
         try {
             const categories = {
                 combat: {
-                    skills: map(categorizeSkills(actor, system.skills, 'combat'), (s) =>
-                        enrichSkill(s, system.attributes),
-                    ),
+                    skills: categorizeSkills(actor, skills, 'combat').map((s) => enrichSkill(s, system.attributes)),
                     ads: categorizeAds(actor, system.ads, 'combat'),
                 },
                 exploration: {
-                    skills: map(categorizeSkills(actor, system.skills, 'exploration'), (s) =>
+                    skills: categorizeSkills(actor, skills, 'exploration').map((s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'exploration'),
                 },
                 social: {
-                    skills: map(categorizeSkills(actor, system.skills, 'social'), (s) =>
-                        enrichSkill(s, system.attributes),
-                    ),
+                    skills: categorizeSkills(actor, skills, 'social').map((s) => enrichSkill(s, system.attributes)),
                     ads: categorizeAds(actor, system.ads, 'social'),
                 },
                 technical: {
-                    skills: map(categorizeSkills(actor, system.skills, 'technical'), (s) =>
-                        enrichSkill(s, system.attributes),
-                    ),
+                    skills: categorizeSkills(actor, skills, 'technical').map((s) => enrichSkill(s, system.attributes)),
                     ads: categorizeAds(actor, system.ads, 'technical'),
                 },
                 powers: {
-                    skills: map(categorizeSkills(actor, system.skills, 'powers'), (s) =>
-                        enrichSkill(s, system.attributes),
-                    ),
+                    skills: categorizeSkills(actor, skills, 'powers').map((s) => enrichSkill(s, system.attributes)),
                     ads: categorizeAds(actor, system.ads, 'powers'),
                 },
                 others: {
-                    skills: map(categorizeSkills(actor, system.skills, 'others'), (s) =>
-                        enrichSkill(s, system.attributes),
-                    ),
+                    skills: categorizeSkills(actor, skills, 'others').map((s) => enrichSkill(s, system.attributes)),
                     ads: categorizeAds(actor, system.ads, 'others'),
                 },
                 favs: {
-                    skills: map(categorizeSkills(actor, system.skills, 'fav'), (s) =>
-                        enrichSkill(s, system.attributes),
-                    ),
+                    skills: categorizeSkills(actor, skills, 'fav').map((s) => enrichSkill(s, system.attributes)),
                     ads: categorizeAds(actor, system.ads, 'fav'),
                 },
             };
@@ -210,11 +200,16 @@ export default class SLCatSheet extends GCSActorSheet {
 
             const combatTabs = filterList(
                 this._prepareTabs('combat-tabs'),
-                (i: any) => i.id != 'resources' || system.additionalresources.tracker.entries.length > 0,
+                (i: any) => i.id != 'resources' || system.additionalresources.tracker.contents.length > 0,
             );
 
             const hpPool = superContext.pools.find((p) => p.name === 'GURPS.HP');
             const fpPool = superContext.pools.find((p) => p.name === 'GURPS.FP');
+            const ciPools = superContext.pools.filter((p) => p.type === 'conditionalInjury');
+            const additionalPools = superContext.pools.filter(
+                // eslint-disable-next-line prettier/prettier
+                (p) => p.type !== 'conditionalInjury' && !['GURPS.FP', 'GURPS.HP'].includes(p.name)
+            );
 
             return foundry.utils.mergeObject(superContext, {
                 selfModifiers: selfMods,
@@ -240,6 +235,8 @@ export default class SLCatSheet extends GCSActorSheet {
                 combatTabs: combatTabs,
                 fpPool: fpPool,
                 hpPool: hpPool,
+                ciPools: ciPools,
+                additionalPools: additionalPools,
             });
         } catch (e) {
             console.error(e);
