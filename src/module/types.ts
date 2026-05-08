@@ -1,6 +1,7 @@
 import { Rec } from './recursiveList.ts';
 import { MyRollTable } from './rollTables.ts';
 import type {} from '@gurps-types/configuration.ts';
+import { DisplaySkill } from '@gurps-types/gurps/display-item.ts';
 
 export type OTFScope = 'module' | 'global' | 'actor';
 
@@ -50,14 +51,7 @@ export type CategoryList = {
 export interface NamedItem {
     name: string;
 }
-export interface Skill extends Rec<Skill>, NamedItem {
-    name: string;
-    notes: string;
-    pageref: string;
-    points: number;
-    level: number;
-    relativelevel: string;
-    type: string;
+export interface DisplaySkillEx extends DisplaySkill {
     additionalRolls?: string[];
 }
 

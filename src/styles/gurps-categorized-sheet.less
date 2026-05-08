@@ -29,6 +29,7 @@
     --standardborder: 1px solid var(--maincolor);
     --minorborder: 1px solid var(--secondarycolor);
     --inactiveborder: 1px solid var(--inactivecolor);
+    --indent: 1rem;
 
     color: var(--maincolor);
     display: grid;
@@ -106,11 +107,7 @@
     .gga-table{
         border: none;
         .indent0, .indent1, .indent2, .indent3, .indent4, .indent5, .indent6, .indent7, .indent8, .indent9 {
-            padding: none; 
-        }
-        & > div:not(.header), & > div:not(.header) {
-            border-right: var(--minorborder);
-            border-bottom: var(--minorborder);
+            padding: 0; 
         }
         & > div{
             padding: 0 var(--rowmargin);
@@ -404,18 +401,12 @@
     .slcs-skills{
         grid-template-columns: 1fr repeat(3, auto);
         align-content: start;
-        .tooltip.gga-manual{
-            border: none;
-            white-space: normal;
-            width: 100%
-        }    
         gap: 0px 0px;
-        .skldraggable:before{
-            content: none;
-        }
-        .skldraggable{
-            padding-right: 0;
-            white-space: normal;
+        & > div{
+            border-bottom: none;
+            border-top: var(--minorborder);
+            border-right: var(--minorborder);
+            padding: 0;
         }
         .list_note{
             padding: 0 var(--rowmargin) 0 var(--rowmargin);
@@ -425,26 +416,62 @@
             max-width: 100%;
             white-space: normal;
             span{
-                margin: 0 var(--notespanmargin) 0 var(--notespanmargin);
+                margin: var(--notespanmargin);
                 white-space: nowrap;
             }
         }
         .sl, .rsl{
-            .rollable {
-                display: flex;
                 padding-left: calc(2 * var(--rowmargin));
                 padding-right: calc(2 * var(--rowmargin));
-                padding-top: var(--rowmargin);
-                width: 100%;
-                height: 100%;
-            }
         }
         .ref {
            padding: 0 var(--rowmargin) 0 var(--rowmargin);
         }
+        .gcs-container-toggle[data-open=false] {
+            transform: rotate(-90deg);
+        }
+        .desc {
+            display: grid;
+            grid-template-columns: min-content 1fr min-content;
+            
+            &.indent0 {
+                padding-left: 0;
+            } 
+            &.indent1{
+                padding-left: calc(1 * var(--indent));
+            }  
+            &.indent2{
+                padding-left: calc(2 * var(--indent));
+            }  
+            &.indent3{
+                padding-left: calc(3 * var(--indent));
+            }  
+            &.indent4{
+                padding-left: calc(4 * var(--indent));
+            }  
+            &.indent5{
+                padding-left: calc(5 * var(--indent));
+            }  
+            &.indent6{
+                padding-left: calc(6 * var(--indent));
+            }  
+            &.indent7{
+                padding-left: calc(7 * var(--indent));
+            }  
+            &.indent8{
+                padding-left: calc(8 * var(--indent));
+            }  
+            &.indent9{
+                padding-left: calc(9 * var(--indent));
+            }   
+            & > i {
+                padding-top: 0.1rem;
+            }
+
+        }
         details.skill-name{
             summary{
-                padding: 0 var(--rowmargin) 0 var(--rowmargin);
+                padding-left: var(--rowmargin);
                 list-style: none;
                 i {
                     float: right;
@@ -464,12 +491,6 @@
         }
     }
 
-    .slcs-skills > div{
-        border-bottom: none;
-        border-top: var(--minorborder);
-        border-right: var(--minorborder);
-        padding: 0;
-    }
 
     .slcs-melee-attacks{
         align-self: start;

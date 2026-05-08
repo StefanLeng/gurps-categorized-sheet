@@ -10,12 +10,13 @@ import { MODULE_ID } from './constants.ts';
 import { ActorSettingsForm } from './actorSettingsForm.ts';
 import { getActorSettings } from './actor-settings.ts';
 import { Hand, WeaponGrip } from './types.ts';
-import { emptyList, map, filterList } from './recursiveList.ts';
+import { emptyList, filterList } from './recursiveList.ts';
 import { enrichSkill } from './skills.ts';
 import type { GurpsActorGcsSheet } from 'gurps/src/module/actor/sheets/gcs-actor-sheet.ts';
 import { GurpsBaseActorSheet } from 'gurps/src/module/actor/sheets/base-actor-sheet.ts';
 import { getSystemSetting } from './settings.ts';
 import { DeepPartial } from 'fvtt-types/utils';
+import { mapDisplayItems } from './displayItemUtils.ts';
 
 const GCSActorSheet = GURPS.modules.Actor.sheets.GurpsActorGcsSheet as unknown as typeof GurpsActorGcsSheet;
 
@@ -146,53 +147,54 @@ export default class SLCatSheet extends GCSActorSheet {
 
         const actor = superContext.actor;
         const system = superContext.system;
-        
+        const skills = superContext.skills;
+
         try {
             const categories = {
                 combat: {
-                    skills: map(categorizeSkills(actor, system.skills, 'combat'), (s) =>
+                    skills: mapDisplayItems(categorizeSkills(actor, skills, 'combat'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'combat'),
                 },
                 exploration: {
-                    skills: map(categorizeSkills(actor, system.skills, 'exploration'), (s) =>
+                    skills: mapDisplayItems(categorizeSkills(actor, skills, 'exploration'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'exploration'),
                 },
                 social: {
-                    skills: map(categorizeSkills(actor, system.skills, 'social'), (s) =>
+                    skills: mapDisplayItems(categorizeSkills(actor, skills, 'social'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'social'),
                 },
                 technical: {
-                    skills: map(categorizeSkills(actor, system.skills, 'technical'), (s) =>
+                    skills: mapDisplayItems(categorizeSkills(actor, skills, 'technical'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'technical'),
                 },
                 powers: {
-                    skills: map(categorizeSkills(actor, system.skills, 'powers'), (s) =>
+                    skills: mapDisplayItems(categorizeSkills(actor, skills, 'powers'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'powers'),
                 },
                 others: {
-                    skills: map(categorizeSkills(actor, system.skills, 'others'), (s) =>
+                    skills: mapDisplayItems(categorizeSkills(actor, skills, 'others'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'others'),
                 },
                 favs: {
-                    skills: map(categorizeSkills(actor, system.skills, 'fav'), (s) =>
+                    skills: mapDisplayItems(categorizeSkills(actor, skills, 'fav'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
                     ads: categorizeAds(actor, system.ads, 'fav'),
                 },
             };
-            
+
             const selfMods = convertModifiers(system.conditions.self.modifiers);
             selfMods.push(...convertModifiers([...system.conditions.usermods]));
 
@@ -205,7 +207,6 @@ export default class SLCatSheet extends GCSActorSheet {
                 actor,
             );
             this.#grips = grips;
-            // actor.setFlag(MODULE_ID, 'hands', hands);
 
             const defenses = getDefenses(system.currentdodge, grips, actor, hands);
 
@@ -341,61 +342,4 @@ export default class SLCatSheet extends GCSActorSheet {
             });
         });
     }
-
-    /*
-    activateListeners(html: JQuery<HTMLElement>) {
-        super.activateListeners(html);
-
-        html.find('.slcs-conditions details').on('click', (ev) => {
-            ev.preventDefault();
-            const target: any = $(ev.currentTarget)[0];
-            target.open = !target.open;
-        });
-
-        // Handle the "Maneuver" dropdown.
-        html.find('.slcs-conditions details.maneuver .popup .button').on('click', (ev) => {
-            ev.preventDefault();
-            const details: any = $(ev.currentTarget).closest('details');
-            const target: any = $(ev.currentTarget)[0];
-            this.actor.replaceManeuver(target.alt);
-            details.open = !details.open;
-        });
-
-        // Handle the "Posture" dropdown.
-        html.find('.slcs-conditions details.posture .popup .button').on('click', (ev) => {
-            ev.preventDefault();
-            const details: any = $(ev.currentTarget).closest('details');
-            const target: any = $(ev.currentTarget)[0];
-            this.actor.replacePosture(target.alt);
-            details.open = !details.open;
-        });
-
-        html.find('details.skill-name').on('click', (ev) => {
-            ev.preventDefault();
-            const target: any = $(ev.currentTarget)[0];
-            target.open = !target.open;
-        });
-
-        html.find('.gripSelect').on('change', (ev) => {
-            ev.preventDefault();
-            const target = $(ev.currentTarget);
-            const index = Number(target.attr('data-index'));
-            this.setGrip(target.val() as string, index);
-        });
-
-        html.find('.slcs-encumbrance').on('change', (ev) => {
-            ev.preventDefault();
-            const target = $(ev.currentTarget);
-            this.changeEncumbrance(target.val() as string);
-        });
-
-        html.find('.change-equipped').on('click', this._onClickEquip.bind(this));
-
-        html.find('.slcs-reaction-roll button').on('click', drawReactionRoll);
-
-        html.find('.slcs-criticalRolls button').on('click', (ev) => {
-            const table = ev.currentTarget.dataset.rolltable as unknown as MyRollTable;
-            drawTableRoll(table);
-        });
-    }*/
 }

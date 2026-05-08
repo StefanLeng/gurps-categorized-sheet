@@ -1,50 +1,48 @@
+{{#*inline ".skillEntry"}}
+    <div class='gcs-item-row {{stripeClass}}' data-item-id='{{id}}' data-uuid='{{uuid}}' data-has-children='{{hasChildren}}' draggable='true'> 
+        <div class='desc dblclkedit indent{{indent}}'>
+            {{#if hasChildren}}
+                <i class='fa-solid fa-caret-down gcs-container-toggle' data-open='{{childrenOpen}}' data-action='toggleContainer'></i>
+            {{else}}
+                <span class='gcs-container-spacer'></span>
+            {{/if}}
+            <details class='skill-name'>
+                <summary>
+                    {{fullName}}{{#if additionalRolls}}<i class='fas fa-ellipsis-vertical'></i>{{/if}}
+                </summary>
+                <div class='skill-details'>
+                    {{#if additionalRolls}}
+                        {{#each additionalRolls}}
+                            <div>{{{gurpslink this}}}</div>
+                        {{/each}}
+                    {{/if}}
+                </div>
+            </details>
+            {{#if hasNotes}}
+                <i class='fa-solid {{ifThen notesOpen 'fa-book-open' 'fa-book'}} gcs-notes-toggle' data-action='toggleNotes' data-open='{{notesOpen}}'></i>
+            {{/if}}
+        </div>
+    </div>
+    <div class='sl flex-center {{stripeClass}}' data-action='rollOtf' data-value='{{otf.level}}'>
+        {{level}}
+    </div>
+    <div class='rsl flex-center {{stripeClass}}' data-action='rollOtf' data-value='{{otf.relativeLevel}}'>
+        {{relativeLevel}}
+    </div>   
+    <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}} </div>
+    {{#if (and hasNotes notesOpen)}}
+    <div class='list_note {{stripeClass}}'>
+        {{notes}}
+    </div>
+    {{/if}}
+{{/inline}}
+
 {{#if (notEmpty skills)}}
     <div class='slcs-skills gga-table with-notes slcs-block'>
-        {{#stripes (flatlist skills) 'even' 'odd' }}
-            {{#unless isCollapsed}}   
-                <div class='skldraggable {{stripeClass}}' data-key='system.skills.{{@key}}'>
-                    <div class='desc dblclkedit indent{{indent}}'>
-                        <div class='gga-desc-text' data-otf='Sk:"{{this.name}}"'>
-                            <div>
-                                {{#if hasContains}}<i class='fas fa-caret-down expandcollapseicon'></i>{{/if}}
-                                {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
-                            </div>
-                            <div class='tooltip gga-manual'>
-                                <details class='skill-name'>
-                                    <summary>
-                                        {{this.name}}{{#if this.additionalRolls}}<i class='fas fa-ellipsis-vertical'></i>{{/if}}
-                                    </summary>
-                                    <div class='skill-details'>
-                                        {{#if this.additionalRolls}}
-                                            {{#each this.additionalRolls}}
-                                                <div>{{{gurpslink this}}}</div>
-                                            {{/each}}
-                                        {{/if}}
-                                    </div>
-                                </details>
-                                {{#if (displayItemHover this)}}
-                                <div class='tooltiptext gga-manual'><img src='{{this.img}}' /></div>
-                                {{/if}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='sl flex-center {{stripeClass}}'>
-                    <div class='{{rollable this.level}} flex-center' data-name='{{this.name}}' data-key='system.skills.{{@key}}'
-                        data-otf='Sk:"{{this.name}}"'>
-                        {{this.level}}
-                    </div>
-                </div>
-                <div class='rsl flex-center {{stripeClass}}'>
-                    <div class='{{rollable this.level}} flex-center' data-otf='Sk:"{{this.name}}"'>{{this.relativelevel}}</div>
-                </div>   
-                <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}} </div>
-                {{#if (notEmpty this.notes)}}
-                <div class='list_note {{stripeClass}}'>
-                    {{{gurpslink this.notes @root}}}
-                </div>
-                {{/if}}
-            {{/unless}}
-        {{/stripes}}
+        {{#stripesrecursive skills 'even' 'odd' }}
+            {{> ".skillEntry"}}
+        {{/stripesrecursive}}
     </div>
 {{/if}}
+
+

@@ -2,7 +2,7 @@
     {{#if hpPool}}
         {{>slcs-resource-tracker pool=hpPool}}
     {{else}}
-        {{#each pools as |pool|}}
+        {{#each ciPools as |pool|}}
              {{>slcs-resource-tracker pool=pool}}
         {{/each}}
     {{/if}}

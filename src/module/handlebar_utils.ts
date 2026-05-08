@@ -116,6 +116,40 @@ export function registerHandlebarsHelpers() {
         }
     });
 
+    Handlebars.registerHelper('stripesrecursive', function (obj, even, odd, options) {
+        let buffer = '';
+        const data = Handlebars.createFrame(options.data);
+
+        const doStripes = (innerObj: Array<any>, count: number) => {
+            let innerCount = count;
+            for (let i = 0, j = innerObj.length; i < j; i++) {
+                const item = innerObj[i];
+                data.index = i + innerCount;
+                data.first = i + innerCount === 0;
+                data.last = i + innerCount === j - 1;
+
+                // we'll just put the appropriate stripe class name onto the item for now
+                item.stripeClass = innerCount % 2 == 0 ? odd : even;
+
+                // show the inside of the block
+                buffer += options.fn(item, { data: data });
+                innerCount += 1;
+                if (item.hasChildren && item.childrenOpen) {
+                    innerCount = doStripes(item.children, innerCount);
+                }
+            }
+            return innerCount;
+        };
+
+        if (foundry.utils.getType(obj) === 'Array' && obj.length > 0) {
+            doStripes(obj, 0);
+            // return the finished buffer
+            return buffer;
+        } else {
+            return options.inverse();
+        }
+    });
+
     Handlebars.registerHelper('encumbranceName', encumbranceName);
 
     Handlebars.registerHelper('select-if-included', function (value: string, expectedArray: string[] | undefined) {

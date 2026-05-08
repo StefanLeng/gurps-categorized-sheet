@@ -1,5 +1,6 @@
-import { Skill } from './types.ts';
+import { DisplaySkillEx } from './types.ts';
 import { filterList, ElementList } from './recursiveList.ts';
+import { DisplaySkill } from '@gurps-types/gurps/display-item.ts';
 
 function makeFloatingRollOTF(
     skillName: string,
@@ -11,9 +12,9 @@ function makeFloatingRollOTF(
     return `["${attribute} based ${skillName}: ${target}" SK:"${skillName}" (Based:${attribute})]`;
 }
 
-export function enrichSkill(skill: Skill, attributes: ElementList<{ value: number }>): Skill {
+export function enrichSkill(skill: DisplaySkill, attributes: ElementList<{ value: number }>): DisplaySkillEx {
     if (skill.type === 'skill') {
-        const parts = skill.relativelevel.split(/(\+|-)/);
+        const parts = skill.relativeLevel.split(/(\+|-)/);
         if (parts.length !== 3 || !attributes[parts[0].toUpperCase()]) return skill;
         return {
             ...skill,
