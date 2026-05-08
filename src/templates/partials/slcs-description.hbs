@@ -2,51 +2,51 @@
   {{#unless document.limited}}
     <div class='gga-table'>
       <div class='label odd'>{{localize  'GURPS.descriptionGender'}}:</div>
-      <div class='odd'>{{system.traits.gender}}</div>
+      <div class='odd'>{{system.profile.gender}}</div>
       <div class='label even'>{{localize  'GURPS.descriptionAge'}}:</div>
-      <div class='even'>{{system.traits.age}}</div>
+      <div class='even'>{{system.profile.age}}</div>
       <div class='label odd'>{{localize  'GURPS.descriptionBirthday'}}:</div>
-      <div class='odd'>{{system.traits.birthday}}</div>
+      <div class='odd'>{{system.profile.birthday}}</div>
       <div class='label even'>{{localize  'GURPS.descriptionReligion'}}:</div>
-      <div class='even'>{{system.traits.religion}}</div>
+      <div class='even'>{{system.profile.religion}}</div>
       <div class='label odd'>&nbsp;</div>
       <div class='odd'></div>
     </div>
   {{/unless}}
   <div class='gga-table'>
     <div class='label odd'>{{localize  'GURPS.descriptionHeight'}}:</div>
-    <div class='odd'>{{system.traits.height}}</div>
+    <div class='odd'>{{system.profile.height}}</div>
     <div class='label even'>{{localize  'GURPS.weight'}}:</div>
-    <div class='even'>{{system.traits.weight}}</div>
+    <div class='even'>{{system.profile.weight}}</div>
     <div class='label odd'>{{localize  'GURPS.descriptionSizeModifier'}}:</div>
-    <div class='odd'>{{system.traits.sizemod}}</div>
+    <div class='odd'>{{system.profile.sizemod}}</div>
     <div class='label even'>{{localize  'GURPS.descriptionBodyPlan'}}:</div>
-    <div class='even'>{{localize  (concat 'GURPS.BODYPLAN' system.additionalresources.bodyplan)}}</div>
+    <div class='even'>{{localize  (concat 'GURPS.BODYPLAN' system.bodyplan)}}</div>
     {{#if document.limited}}
       <div class='label odd'>{{localize  'GURPS.descriptionGender'}}:</div>
-      <div class='odd'>{{system.traits.gender}}</div>
+      <div class='odd'>{{system.profile.gender}}</div>
     {{/if}}
     {{#unless document.limited}}
       <div class='label odd'>{{localize  'GURPS.descriptionTechLevel'}}:</div>
-      <div class='odd'>{{system.traits.techlevel}}</div>
+      <div class='odd'>{{system.profile.techlevel}}</div>
     {{/unless}}
   </div>
   <div class='hairEyesSkinHandBlock gga-table'>
-    {{#if system.traits.eyes}}
+    {{#if system.profile.eyes}}
       <div class='label odd'>{{localize  'GURPS.descriptionHair'}}:</div>
-      <div class='odd'>{{system.traits.hair}}</div>
+      <div class='odd'>{{system.profile.hair}}</div>
       <div class='label even'>{{localize  'GURPS.descriptionEyes'}}:</div>
-      <div class='even'>{{system.traits.eyes}}</div>
+      <div class='even'>{{system.profile.eyes}}</div>
       <div class='label odd'>{{localize  'GURPS.descriptionSkin'}}:</div>
-      <div class='odd'>{{system.traits.skin}}</div>
+      <div class='odd'>{{system.profile.skin}}</div>
       <div class='label even'>{{localize  'GURPS.descriptionHand'}}:</div>
-      <div class='even'>{{system.traits.hand}}</div>
+      <div class='even'>{{system.profile.hand}}</div>
       <div class='label odd'>&nbsp;</div>
       <div class='odd'></div>
     {{else}}
       <div class='label'>{{localize  'GURPS.descriptionAppearance'}}:</div>
       <div class='label'></div>
-      <div class='field' style='border: none; grid-column: 1 / span 2;'>{{system.traits.appearance}}</div>
+      <div class='field' style='border: none; grid-column: 1 / span 2;'>{{system.profile.appearance}}</div>
     {{/if}}
   </div>
 </div>

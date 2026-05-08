@@ -4,7 +4,6 @@ FP when Conditional Injury: wait for GGA fix
 Resources Tab: Wait for GGA fix
 test move mode: Needs GCA character ....
 
-fix personal traits 
 traits to new  model
 Equipment + Attacks to new model 
 
