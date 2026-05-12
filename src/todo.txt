@@ -3,8 +3,12 @@ fix OTF filtering by traits: wait for fix in GGA
 FP when Conditional Injury: wait for GGA fix
 Resources Tab: Wait for GGA fix
 test move mode: Needs GCA character ....
+test spells
+fix pdf links: wait for GGA?
 
-traits to new  model
-Equipment + Attacks to new model 
+Equipment to new model 
+Attacks to new model
+fix actorsettingsform
+fix scrolling
 
 test for displayItemUtil

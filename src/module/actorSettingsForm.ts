@@ -1,7 +1,7 @@
 import { attacksWithoutGrip, getActorSettings, mergeSettings, mergeOTFs, setActorSettings } from './actor-settings.ts';
-import { CATEGORIES, CategoryOrOthers, Skill, AddDisad, OTFRegion, CategoryList } from './types.ts';
+import { CATEGORIES, CategoryOrOthers, OTFRegion, CategoryList } from './types.ts';
 import { getSettings } from './settings.ts';
-import { categorize } from './categorize.ts';
+import { categorizeItem } from './categorize.ts';
 import { removeArrayDuplicates as removeArrayDuplicates } from './util.ts';
 import { BaseSettingsForm } from './baseSettingsForm.ts';
 import * as RecursiveList from './recursiveList.ts';
@@ -119,23 +119,21 @@ class ActorSettingsForm extends BaseSettingsForm {
     override async _prepareContext(options: foundry.applications.api.ApplicationV2.RenderOptions): Promise<object> {
         const context = await super._prepareContext(options);
         const mergedSettings = mergeSettings(this._globalSetting, this._settings);
-        const actorData = this._actor.system as any;
-        const skills = RecursiveList.flatten(actorData.skills) as RecursiveList.List<Skill>;
-        const traits = RecursiveList.flatten(actorData.ads) as RecursiveList.List<AddDisad>;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const self = this;
+        const skills = this._actor.system.skillsV2 ?? [];
+        const traits = this._actor.system.adsV2 ?? [];
+
         CATEGORIES.forEach((cat) => {
-            self._items.skills[cat] = Object.values(categorize(mergedSettings.items.skills, skills, cat)).map(
+            this._items.skills[cat] = Object.values(categorizeItem(mergedSettings.items.skills, skills, cat)).map(
                 (i: any) => i.name,
             );
-            self._items.traits[cat] = Object.values(categorize(mergedSettings.items.traits, traits, cat)).map(
+            this._items.traits[cat] = Object.values(categorizeItem(mergedSettings.items.traits, traits, cat)).map(
                 (i: any) => i.name,
             );
         });
-        self._items.skills['others'] = Object.values(categorize(mergedSettings.items.skills, skills, 'others')).map(
+        this._items.skills['others'] = Object.values(categorizeItem(mergedSettings.items.skills, skills, 'others')).map(
             (i: any) => i.name,
         );
-        self._items.traits['others'] = Object.values(categorize(mergedSettings.items.traits, traits, 'others')).map(
+        this._items.traits['others'] = Object.values(categorizeItem(mergedSettings.items.traits, traits, 'others')).map(
             (i: any) => i.name,
         );
 
