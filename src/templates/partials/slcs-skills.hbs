@@ -1,6 +1,6 @@
 {{#*inline ".skillEntry"}}
-    <div class='gcs-item-row {{stripeClass}}' data-item-id='{{id}}' data-uuid='{{uuid}}' data-has-children='{{hasChildren}}' draggable='true'> 
-        <div class='desc dblclkedit indent{{indent}}'>
+    <div class='gcs-item-row indent{{indent}} {{stripeClass}}' data-item-id='{{id}}' data-uuid='{{uuid}}' data-has-children='{{hasChildren}}' draggable='true'> 
+        <div class='desc dblclkedit'>
             {{#if hasChildren}}
                 <i class='fa-solid fa-caret-down gcs-container-toggle' data-open='{{childrenOpen}}' data-action='toggleContainer'></i>
             {{else}}
@@ -8,7 +8,7 @@
             {{/if}}
             <details class='skill-name'>
                 <summary>
-                    {{fullName}}{{#if additionalRolls}}<i class='fas fa-ellipsis-vertical'></i>{{/if}}
+                    <span>{{fullName}}</span>{{#if additionalRolls}}<i class='fas fa-ellipsis-vertical'></i>{{/if}}
                 </summary>
                 <div class='skill-details'>
                     {{#if additionalRolls}}
@@ -31,14 +31,14 @@
     </div>   
     <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}} </div>
     {{#if (and hasNotes notesOpen)}}
-    <div class='list_note {{stripeClass}}'>
+    <div class='list_note indent{{indent}} {{stripeClass}}'>
         {{notes}}
     </div>
     {{/if}}
 {{/inline}}
 
 {{#if (notEmpty skills)}}
-    <div class='slcs-skills gga-table with-notes slcs-block'>
+    <div class='slcs-skills slcs-item-table with-notes slcs-block'>
         {{#stripesrecursive skills 'even' 'odd' }}
             {{> ".skillEntry"}}
         {{/stripesrecursive}}

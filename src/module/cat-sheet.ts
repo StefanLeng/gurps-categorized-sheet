@@ -1,5 +1,5 @@
 import { convertModifiers } from './util.js';
-import { categorizeSkills, categorizeAds } from './categorize.ts';
+import { categorizeSkills, categorizeTraits } from './categorize.ts';
 import { initHands, applyGripToHands, resolveWeapons } from './weaponGrips.ts';
 import { getDefenses } from './defenses.ts';
 import { targets } from './targets.ts';
@@ -80,30 +80,46 @@ export default class SLCatSheet extends GCSActorSheet {
         },
         combat: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-combat.hbs',
+            scrollable: [
+                '.slcs-combat-tab .slcs-col1',
+                '.tab[data-tab="melee"]',
+                '.tab[data-tab="ranged"]',
+                '.tab[data-tab="defenses"]',
+                '.tab[data-tab="criticals"]',
+                '.tab[data-tab="resources"]',
+            ],
         },
         exploration: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-exploration.hbs',
+            scrollable: ['.slcs-exploration-tab .slcs-col1', '.slcs-exploration-tab .slcs-col2'],
         },
         social: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-social.hbs',
+            scrollable: ['.slcs-social-tab .slcs-col1', '.slcs-social-tab .slcs-col2'],
         },
         technical: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-technical.hbs',
+            scrollable: ['.slcs-technical-tab .slcs-col1', '.slcs-technical-tab .slcs-col2'],
         },
         powers: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-powers.hbs',
+            scrollable: ['.slcs-powers-tab .slcs-col1', '.slcs-powers-tab .slcs-col2'],
         },
         others: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-others.hbs',
+            scrollable: ['.slcs-others-tab .slcs-col1', '.slcs-others-tab .slcs-col2'],
         },
         equipment: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-equipment.hbs',
+            scrollable: ['.slcs-equipment-tab .slcs-tab-content'],
         },
         all: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-all.hbs',
+            scrollable: ['.slcs-all-tab .slcs-col1', '.slcs-all-tab .slcs-col2'],
         },
         fav: {
             template: 'modules/gurps-categorized-sheet/templates/cat-sheet-fav.hbs',
+            scrollable: ['.slcs-fav-tab .slcs-col1', '.slcs-fav-tab .slcs-col2'],
         },
     };
 
@@ -148,6 +164,7 @@ export default class SLCatSheet extends GCSActorSheet {
         const actor = superContext.actor;
         const system = superContext.system;
         const skills = superContext.skills;
+        const traits = superContext.traits;
 
         try {
             const categories = {
@@ -155,43 +172,43 @@ export default class SLCatSheet extends GCSActorSheet {
                     skills: mapDisplayItems(categorizeSkills(actor, skills, 'combat'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(actor, system.ads, 'combat'),
+                    traits: categorizeTraits(actor, traits, 'combat'),
                 },
                 exploration: {
                     skills: mapDisplayItems(categorizeSkills(actor, skills, 'exploration'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(actor, system.ads, 'exploration'),
+                    traits: categorizeTraits(actor, traits, 'exploration'),
                 },
                 social: {
                     skills: mapDisplayItems(categorizeSkills(actor, skills, 'social'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(actor, system.ads, 'social'),
+                    traits: categorizeTraits(actor, traits, 'social'),
                 },
                 technical: {
                     skills: mapDisplayItems(categorizeSkills(actor, skills, 'technical'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(actor, system.ads, 'technical'),
+                    traits: categorizeTraits(actor, traits, 'technical'),
                 },
                 powers: {
                     skills: mapDisplayItems(categorizeSkills(actor, skills, 'powers'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(actor, system.ads, 'powers'),
+                    traits: categorizeTraits(actor, traits, 'powers'),
                 },
                 others: {
                     skills: mapDisplayItems(categorizeSkills(actor, skills, 'others'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(actor, system.ads, 'others'),
+                    traits: categorizeTraits(actor, traits, 'others'),
                 },
                 favs: {
                     skills: mapDisplayItems(categorizeSkills(actor, skills, 'fav'), (s) =>
                         enrichSkill(s, system.attributes),
                     ),
-                    ads: categorizeAds(actor, system.ads, 'fav'),
+                    traits: categorizeTraits(actor, traits, 'fav'),
                 },
             };
 
