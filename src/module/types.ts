@@ -55,8 +55,6 @@ export interface DisplaySkillEx extends DisplaySkill {
     additionalRolls?: string[];
 }
 
-export interface AddDisad extends Rec<AddDisad>, NamedItem {}
-
 //---------------------------------------------------//
 
 export interface Keyed {

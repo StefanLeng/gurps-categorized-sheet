@@ -5,10 +5,13 @@ Resources Tab: Wait for GGA fix
 test move mode: Needs GCA character ....
 test spells
 fix pdf links: wait for GGA?
+equipment uses: wait for GGA
+equipment inc/dec: adapt to GGA if added there
 
 Equipment to new model 
 Attacks to new model
-fix actorsettingsform
 fix scrolling
 
 test for displayItemUtil
+
+better categorization of skills with extension on actor level 

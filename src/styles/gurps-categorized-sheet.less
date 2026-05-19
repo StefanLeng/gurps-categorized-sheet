@@ -321,13 +321,6 @@
         grid-template-rows: min-content;
         grid-auto-rows: min-content;
         overflow-y: auto;
-        .equipmentlist {
-            grid-template-columns: auto auto 1fr repeat(6, auto);
-        }
-        .slcs-equipmentother .equipped {
-            padding: 0;
-            border-right: none;
-        }
     }
 
     .slcs-conditions{
@@ -458,6 +451,9 @@
             align-items: center;
             min-height: var(--gcs-input-height);
         }
+        .desc.header {
+            display: block;
+        }
         .list_note{
             max-width: 100%;
             white-space: normal;
@@ -514,6 +510,22 @@
             grid-column-end: 9;
         }
     };
+
+    .slcs-equipmentcarried {
+        grid-template-columns: auto auto 1fr repeat(6, auto);
+        .list_note{
+            grid-column-start: 1;
+            grid-column-end: 10;
+        }
+    }
+
+    .slcs-equipmentother {
+        grid-template-columns: auto 1fr repeat(6, auto);
+        .list_note{
+            grid-column-start: 1;
+            grid-column-end: 9;
+        }
+    }
 
     .slcs-melee-attacks{
         align-self: start;

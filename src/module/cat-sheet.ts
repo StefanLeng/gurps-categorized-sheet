@@ -17,6 +17,8 @@ import { GurpsBaseActorSheet } from 'gurps/src/module/actor/sheets/base-actor-sh
 import { getSystemSetting } from './settings.ts';
 import { DeepPartial } from 'fvtt-types/utils';
 import { mapDisplayItems } from './displayItemUtils.ts';
+import { ItemType } from '@module/item/types.ts';
+import { PostureType } from '@module/effects/posture.ts';
 
 const GCSActorSheet = GURPS.modules.Actor.sheets.GurpsActorGcsSheet as unknown as typeof GurpsActorGcsSheet;
 
@@ -66,6 +68,9 @@ export default class SLCatSheet extends GCSActorSheet {
             setPosture: SLCatSheet.#setPosture,
             rollReaction: drawReactionRoll,
             rollCritical: SLCatSheet.#rollCritical,
+            toggleEquipped: SLCatSheet.#onToggleEquipped,
+            equipmentDec: SLCatSheet.#onChangeQuantity,
+            equipmentInc: SLCatSheet.#onChangeQuantity,
         },
     };
 
@@ -310,7 +315,7 @@ export default class SLCatSheet extends GCSActorSheet {
         if (!event.currentTarget) return;
         const details = target.closest('details');
         if (!details) return;
-        this.actor.replacePosture((target as HTMLImageElement).alt);
+        this.actor.replacePosture((target as HTMLImageElement).alt as PostureType);
         details.open = !details.open;
     }
 
@@ -325,6 +330,52 @@ export default class SLCatSheet extends GCSActorSheet {
         await this.actor.update({
             'system.additionalresources.currentEncumbrance': parseInt(index),
         } as Actor.UpdateData);
+    }
+
+    static async #onToggleEquipped(this: SLCatSheet, event: PointerEvent, target: HTMLElement): Promise<void> {
+        event.preventDefault();
+        const itemId = target.dataset.itemId;
+
+        if (!itemId) {
+            console.error('No item id found on item row');
+
+            return;
+        }
+
+        const item = this.actor.items.get(itemId);
+
+        if (!item || !item.isOfType(ItemType.Equipment)) {
+            console.error(`Item with id ${itemId} is not of type equipmentV2`);
+
+            return;
+        }
+
+        await item.update({ 'system.equipped': !item.system.equipped } as Item.UpdateData);
+    }
+
+    static async #onChangeQuantity(this: SLCatSheet, event: PointerEvent, target: HTMLElement): Promise<void> {
+        event?.preventDefault();
+        const doc = await this._getEmbedded(target);
+
+        if (!doc) return;
+
+        if (!(doc instanceof CONFIG.Item.documentClass)) {
+            console.error('Expected document to be an Item, but got', doc);
+            return;
+        }
+
+        if (!doc.isOfType(ItemType.Equipment)) {
+            console.error('Expected document to be of type Equipment, but got', doc);
+            return;
+        }
+
+        const action = target.dataset.action;
+
+        if (action === 'equipmentInc') {
+            await doc.system.incrementQuantity();
+        } else {
+            await doc.system.decrementQuantity();
+        }
     }
 
     protected override async _onRender(

@@ -1,83 +1,90 @@
-<div class='slcs-equipment{{container}} equipmentlist gga-table with-notes slcs-block'>
-	<div class='equipped header'>{{#if (eq container 'carried')}}{{localize  'GURPS.equipmentEquipped'}}{{/if}}</div>
-	<div class='qty header' data-key='system.equipment.{{container}}'>
-		{{localize  'GURPS.equipmentQuantity'}}
-	</div>
+{{#*inline '.equipmentEntry'}}
+    {{#if carriedTable}}
+        <div class='equipped {{stripeClass}}' data-item-id='{{id}}' data-uuid='{{uuid}}' data-action='toggleEquipped'>
+            {{#if equipped}}
+                <i class="fa-solid fa-check"></i>
+            {{/if}}
+        </div>
+    {{/if}}
+    <div class='qty {{stripeClass}}' data-item-id='{{id}}' data-uuid='{{uuid}}'>
+        <i class='fa-solid fa-circle-minus equipmentbutton' data-action='equipmentDec'></i>
+        <span>{{quantity}}</span>
+        <i class='fa-solid fa-circle-plus equipmentbutton' data-action='equipmentInc'></i>
+    </div>        
+    <div class='gcs-item-row {{stripeClass}} indent{{indent}}' data-item-id='{{id}}' data-uuid='{{uuid}}' data-has-children='{{hasChildren}}' draggable='true'> 
+        <div class='desc dblclkedit'>
+            {{#if hasChildren}}
+                <i class='fa-solid fa-caret-down gcs-container-toggle' data-open='{{childrenOpen}}' data-action='toggleContainer'></i>
+            {{else}}
+                <span class='gcs-container-spacer'></span>
+            {{/if}}
+            <div class='trait-name'>{{fullName}}</div>
+            {{#if hasNotes}}
+                <i class='fa-solid {{ifThen notesOpen 'fa-book-open' 'fa-book'}} gcs-notes-toggle' data-action='toggleNotes' data-open='{{notesOpen}}'></i>
+            {{/if}}
+        </div>
+    </div>
+    <div class='uses {{stripeClass}}' data-item-id='{{id}}'>
+    {{!--    {{#if (and (ne maxuses 0) (ne maxuses '0'))}}
+        {{#if (isNum this.uses)}}
+            {{#if (lt uses 1)}}
+                <i class='fa-solid fa-circle-minus equipmentbutton disabled'></i>
+            {{else}}
+                <i class='fa-solid fa-circle-minus equipmentbutton' data-operation='equipment-dec-uses'></i>
+            {{/if}}
+        {{/if}}
+        <span>{{this.uses}}</span>
+        {{#if (isNum this.uses)}}<i class='fa-solid fa-circle-plus equipmentbutton' data-operation='equipment-inc-uses'></i>{{/if}}
+        {{/if}} 
+    --}}
+    </div>
+    <div class='cost  {{stripeClass}}'>{{value}}</div>
+    <div class='weight {{stripeClass}}'>{{localize "GURPS.sheet.gcsActorSheet.pound" value=weight.value}}</div>
+    <div class='sum_cost {{stripeClass}}'>{{extendedValue}}</div>
+    <div class='sum_weight {{stripeClass}}'>{{localize "GURPS.sheet.gcsActorSheet.pound" value=extendedWeight.value}}</div>
+    <div class='ref {{stripeClass}}'>{{{pdflinkext this}}}</div>
+    {{#if (and hasNotes notesOpen)}}
+    <div class='list_note indent{{indent}} {{stripeClass}}'>
+        {{notes}}
+    </div>
+    {{/if}}
+{{/inline}}
 
-	<div class='desc header eqtdragtarget' data-key='system.equipment.{{container}}'>
-		<div class='headermenu'>
-			<span>
-				{{#if (eq container 'carried')}}
-				{{localize  "GURPS.equipmentCarried"}}
-				({{toLocaleString eqtsummary.eqtlbs}}
-				lb; ${{toLocaleString eqtsummary.eqtcost}})
-				{{else}}
-				{{localize  "GURPS.equipmentOther"}}
-				(${{toLocaleString eqtsummary.othercost}})
-				{{/if}}
-			</span>
-			<i class='fas fa-caret-square-down'></i>
-		</div>
-	</div>
 
-	<div class='uses header'>{{localize  'GURPS.equipmentUses'}}</div>
-	<div class='cost header'>$</div>
-	<div class='weight header'><i class='fas fa-weight-hanging'></i></div>
-	<div class='sum_cost header'>&sum; $</div>
-	<div class='sum_weight header'><span>&sum; <i class='fas fa-weight-hanging'></i></span></div>
+<div class='slcs-equipment{{#if carriedTable}}carried{{else}}other{{/if}} equipmentlist slcs-item-table with-notes slcs-block'>
+    {{#if carriedTable}}
+        <div class='equipped header'>
+            <i class="fa-solid fa-check"></i>
+        </div>
+    {{/if}}
+	<div class='qty header'>#</div>
+	<div class='desc header'>
+		{{#if (eq container 'carried')}}
+			{{localize "GURPS.sheet.gcsActorSheet.equipmentOther" value=otherValue weight=otherWeight}}
+		{{else}}
+			{{localize "GURPS.sheet.gcsActorSheet.equipmentCarried" value=carriedValue weight=carriedWeight}}
+		{{/if}}
+	</div>
+	<div class='uses header'>
+        {{localize  'GURPS.equipmentUses'}}
+    </div>
+	<div class='cost header'>
+        <i class="fa-solid fa-coins"></i>
+    </div>
+	<div class='weight header'>
+        <i class="fa-solid fa-weight-hanging"></i>
+    </div>
+	<div class='sum_cost header'>
+        <i class="fa-solid fa-layer-group"></i>
+        <i class="fa-solid fa-coins"></i>
+    </div>
+	<div class='sum_weight header'>
+        <i class="fa-solid fa-layer-group"></i>
+        <i class="fa-solid fa-weight-hanging"></i>
+    </div>
 	<div class='ref header'>{{localize  'GURPS.pdfRef'}}</div>
 
-	{{#stripes (flatlist (lookup system.equipment container)) 'even' 'odd' }}
-        {{#unless isCollapsed}}
-            <div class='equipped change-equipped flex-center  {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
-                {{#if (eq ../container 'carried')}}
-                {{#if this.equipped}}
-                <i class="fas fa-check-circle"></i>
-                {{else}}
-                <i class="far fa-circle gga-inactive"></i>
-                {{/if}}
-                {{/if}}
-            </div>
-
-            <div class='qty flex-center {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
-                <i class='fa-solid fa-circle-minus equipmentbutton' data-operation='equipment-dec'></i>
-                <span>{{this.count}}</span>
-                <i class='fa-solid fa-circle-plus equipmentbutton' data-operation='equipment-inc'></i>
-            </div>
-
-            <div class='eqtdraggable equipmenu{{../container}} {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
-                <div class='desc indent{{indent}} dblclkedit'>
-                    <div class='gga-desc-text'>
-                        <div>
-                            {{#if hasContains}}<i class='fas fa-caret-down expandcollapseicon'></i>{{/if}}
-                            {{#if hasCollapsed}}<i class='fas fa-caret-right expandcollapseicon'></i>{{/if}}
-                        </div>
-                        <div class=''>{{{gurpslink this.name}}}</div>
-                    </div>
-                    <div class='list_note'>
-                        {{{gurpslinkbr this.notes}}}
-                    </div>
-                </div>
-            </div>
-
-            <div class='uses flex-center {{stripeClass}}' data-key='system.equipment.{{../container}}.{{@key}}'>
-                {{#if (and (ne maxuses 0) (ne maxuses '0'))}}
-                {{#if (isNum this.uses)}}
-                    {{#if (lt uses 1)}}
-                        <i class='fa-solid fa-circle-minus equipmentbutton disabled'></i>
-                    {{else}}
-                        <i class='fa-solid fa-circle-minus equipmentbutton' data-operation='equipment-dec-uses'></i>
-                    {{/if}}
-                {{/if}}
-                <span>{{this.uses}}</span>
-                {{#if (isNum this.uses)}}<i class='fa-solid fa-circle-plus equipmentbutton' data-operation='equipment-inc-uses'></i>{{/if}}
-                {{/if}}
-            </div>
-            <div class='cost gga-right {{stripeClass}}'>{{toLocaleString (toNumber this.cost)}}</div>
-            <div class='weight gga-right {{stripeClass}}'>{{toLocaleString (toNumber this.weight)}} lb</div>
-            <div class='sum_cost gga-right {{stripeClass}}'>{{toLocaleString (round this.costsum)}}</div>
-            <div class='sum_weight gga-right {{stripeClass}}'>{{toLocaleString (round this.weightsum)}} lb</div>
-            <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}}</div>
-        {{/unless}}
-	{{/stripes}}
+    {{#stripesrecursive equipment 'even' 'odd' }}
+        {{> ".equipmentEntry" carriedTable=../carriedTable}}
+    {{/stripesrecursive}}
 </div>
