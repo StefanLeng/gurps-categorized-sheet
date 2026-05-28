@@ -1,7 +1,7 @@
 import { Rec } from './recursiveList.ts';
 import { MyRollTable } from './rollTables.ts';
 import type {} from '@gurps-types/configuration.ts';
-import { DisplaySkill } from '@gurps-types/gurps/display-item.ts';
+import { DisplayMeleeAttack, DisplayRangedAttack, DisplaySkill } from '@gurps-types/gurps/display-item.ts';
 
 export type OTFScope = 'module' | 'global' | 'actor';
 
@@ -109,7 +109,34 @@ export interface WeaponGrip {
     rangedList: keyedRangedMode[];
     ready: boolean;
 }
-
+export interface WeaponGrip2 {
+    name: string;
+    twoHanded: boolean;
+    skill: string;
+    fixedReach: string | null;
+    ranged: boolean;
+    meleeList: DisplayMeleeAttack[];
+    rangedList: DisplayRangedAttack[];
+    ready: boolean;
+}
+export interface DisplayMeleeAttackExt extends DisplayMeleeAttack {
+    selected: boolean;
+}
+export interface DisplayRangedAttackExt extends DisplayRangedAttack {
+    selected: boolean;
+}
+export interface Weapon2 {
+    id: string;
+    uuid: string | null;
+    name: string;
+    notes: string | Handlebars.SafeString;
+    hasNotes: boolean;
+    notesOpen: boolean;
+    meleeList: DisplayMeleeAttackExt[];
+    rangedList: DisplayRangedAttackExt[];
+    grips: WeaponGrip2[];
+    selected: boolean;
+}
 export interface Weapon extends Equipment {
     grips: WeaponGrip[];
     notes: string;

@@ -1,5 +1,5 @@
 {{#if (notEmpty meleeWeapons)}}
-    <div class='slcs-melee-attacks gga-table with-notes slcs-block'>
+    <div class='slcs-melee-attacks slcs-item-table with-notes slcs-block'>
         <div class='desc header'>{{localize  'GURPS.meleeWeapons'}}</div>
         <div class='usage header'>{{localize  'GURPS.usage'}}</div>
         <div class='level header'>{{localize  'GURPS.level'}}</div>
@@ -10,31 +10,36 @@
             {{#stripes meleeList 'even' 'odd'}}
 
                 {{#if @first}}
-                    <div class='meleedraggable desc {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-key='system.melee.{{key}}'>
-                        <div class='desc dblclkedit indent{{indent}}'>
-                            <div class='gga-desc-text'>{{{gurpslink ../name}}}</div>
+                    <div class='desc {{stripeClass}} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-item-id='{{../id}}' data-uuid='{{../uuid}}'> 
+                        <div class='desc'>
+                            <div class='equipment-name'>{{../name}}</div>
+                            {{#if ../hasNotes}}
+                                <i class='fa-solid {{ifThen ../notesOpen 'fa-book-open' 'fa-book'}} gcs-notes-toggle' data-action='toggleNotes' data-open='{{../notesOpen}}'></i>
+                            {{/if}}
                         </div>
                     </div>
                 {{else}}
-                    <div class='meleedraggable desc empty {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-key='system.melee.{{key}}'>
-                    </div>
+                    <div class='desc empty {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}'></div>
                 {{/if}}
 
-                <div class='usage flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>
-                    <div  class='rollable flex-center {{#if (empty notes)}}no-notes{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}' data-otf='{{quotedAttackName 'M' this}}'>
-                        {{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}
-                        {{#if (notEmpty notes)}}
-                            <div class='list_note'>{{{gurpslink notes}}}</div>
+                <div class='usage {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-uuid='{{uuid}}' data-action='rollOtf' data-value='{{otf.level}}'>
+                    <div class='desc'>
+                        <div class='usage-name'>{{usage}}</div>
+                        {{#if hasNotes}}
+                            <i class='fa-solid {{ifThen notesOpen 'fa-book-open' 'fa-book'}} gcs-notes-toggle' data-action='toggleNotes' data-open='{{notesOpen}}'></i>
                         {{/if}}
                     </div>
+                    {{#if (and hasNotes notesOpen)}}
+                        <div class="usage-notes gcs-item-notes ">{{notes}}</div>
+                    {{/if}}
                 </div>
-                <div class='level rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
-                    data-otf='{{quotedAttackName 'M' this}}'>{{level}}</div>
-                <div class='slcs-damage rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-damage data-otf='{{damage}}'>{{damage}}</div>
-                <div class='reach flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{reach}}</div>
+
+                <div class='level {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}'  data-uuid='{{uuid}}' data-action='rollOtf' data-value='{{otf.level}}'>{{level}}</div>
+                <div class='slcs-damage {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}'  data-uuid='{{uuid}}' data-action='rollOtf' data-value='{{otf.damage}}'>{{damage}}</div>
+                <div class='reach {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{reach}}</div>
             {{/stripes}}
-            {{#if (notEmpty notes)}}
-                <div class='list_note'>{{{gurpslink notes}}}</div>
+            {{#if (and hasNotes notesOpen)}}
+                <div class='list_note'>{{notes}}</div>
             {{/if}}
         {{/stripesouter}}
     </div>

@@ -531,9 +531,6 @@
         align-self: start;
         grid-template-columns: 1fr minmax(min-content, 1fr) repeat(3, auto);
         grid-template-rows: 0fr max-content;
-        .meleedraggable:before{
-            content: none;
-        }
         .list_note{
             grid-column-start: 1;
             grid-column-end: 6;
@@ -562,56 +559,35 @@
 
     .slcs-melee-attacks, .slcs-ranged-attacks{
         --cell-padding: 0.1em var(--rowmargin) 0.1em var(--rowmargin);
+        .desc {
+            grid-template-columns: 1fr min-content;
+            white-space: normal;
+        }
         color: var(--inactivecolor);
-        .rollable, .gmod{
+        div[data-action=rollOtf], .gmod{
             color: var(--inactivecolor);
         }
-        .selected, .rollable.selected, .gmod.selected, .selected .rollable{
+        .selected, div[data-action=rollOtf].selected, .gmod.selected, .selected div[data-action=rollOtf]{
             color: var(--maincolor);
-        }
-        .description{
-            white-space: normal;
         }
         .level{
             padding: 0.1em calc(2 * var(--rowmarginside)) 0.1em calc(2 * var(--rowmarginside));
-        }
-        .list_note{
-            max-width: 100%;
-            white-space: normal;
-            span{
-                margin: 0 var(--notespanmargin) 0 var(--notespanmargin);
-                white-space: nowrap;
-            }
         }
         .usage{
             display: block;
             max-width: none;
             white-space: normal;
-
-            & > div{
-                padding: var(--cell-padding);
-                min-width: 100%;
-                display: inline-block;
-                width: 100%;
-                height: 100%;
-            }
-            .list_note{
-                display: inline;
-            }
         }
-        &.gga-table > div {
-            padding: var(--cell-padding);
+        & > div {
+            height: auto;
         }
-        &.gga-table > div.usage {
-            padding: 0;
-        }
-        &.gga-table > div.desc.empty {
+        & > div.desc.empty {
             border-top: none;
         }
-        &.gga-table > div.desc {
+        & > div.desc {
             border-bottom: none;
         }
-        &.gga-table > div.desc.last {
+        & > div.desc.last {
             border-bottom: var(--minorborder);
         }
     }

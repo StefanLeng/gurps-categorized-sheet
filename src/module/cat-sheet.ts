@@ -1,6 +1,6 @@
 import { convertModifiers } from './util.js';
 import { categorizeSkills, categorizeTraits } from './categorize.ts';
-import { initHands, applyGripToHands, resolveWeapons } from './weaponGrips.ts';
+import { initHands, applyGripToHands, resolveWeapons, resolveWeapons2 } from './weaponGrips.ts';
 import { getDefenses } from './defenses.ts';
 import { targets } from './targets.ts';
 import { getOTFs } from './sheetOTFs.ts';
@@ -9,7 +9,7 @@ import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables
 import { MODULE_ID } from './constants.ts';
 import { ActorSettingsForm } from './actorSettingsForm.ts';
 import { getActorSettings } from './actor-settings.ts';
-import { Hand, WeaponGrip } from './types.ts';
+import { Hand, WeaponGrip, WeaponGrip2 } from './types.ts';
 import { emptyList, filterList } from './recursiveList.ts';
 import { enrichSkill } from './skills.ts';
 import type { GurpsActorGcsSheet } from 'gurps/src/module/actor/sheets/gcs-actor-sheet.ts';
@@ -159,7 +159,7 @@ export default class SLCatSheet extends GCSActorSheet {
         return getActorSettings(this.actor).numberOfHands;
     }
 
-    #grips: WeaponGrip[] = [];
+    #grips: WeaponGrip2[] = [];
 
     protected override async _prepareContext(
         options: foundry.applications.sheets.ActorSheet.RenderOptions,
@@ -221,7 +221,9 @@ export default class SLCatSheet extends GCSActorSheet {
             selfMods.push(...convertModifiers([...system.conditions.usermods]));
 
             const handsOld = initHands(actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
-            const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons(
+            const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons2(actor, handsOld);
+
+            const [grips0, hands0, meleeWeapons0, rangedWeapons0] = resolveWeapons(
                 system.equipment,
                 system.melee ?? emptyList,
                 system.ranged ?? emptyList,
@@ -230,7 +232,7 @@ export default class SLCatSheet extends GCSActorSheet {
             );
             this.#grips = grips;
 
-            const defenses = getDefenses(system.currentdodge, grips, actor, hands);
+            const defenses = getDefenses(system.currentdodge, grips0, actor, hands);
 
             const combatTabs = filterList(
                 this._prepareTabs('combat-tabs'),
@@ -378,36 +380,24 @@ export default class SLCatSheet extends GCSActorSheet {
         }
     }
 
-    protected override async _onRender(
-        context: DeepPartial<GurpsActorGcsSheet.RenderContext>,
-        options: DeepPartial<GurpsBaseActorSheet.RenderOptions>,
+    protected override async _onChangeForm(
+        formConfig: foundry.applications.api.Application.FormConfiguration,
+        event: Event,
     ): Promise<void> {
-        super._onRender(context, options);
+        if (event.target instanceof HTMLSelectElement) {
+            const action = event.target.dataset.action;
 
-        const encumbranceSelect = this.element.querySelector<HTMLSelectElement>('select.slcs-encumbrance');
-
-        encumbranceSelect?.addEventListener('change', async (event: Event) => {
-            event.preventDefault();
-
-            if (event.currentTarget instanceof HTMLSelectElement) {
-                const value = event.currentTarget.value;
-
-                await this.#onEncumbrance(value);
+            if (action === 'setGrip') {
+                const value = event.target.value;
+                const index = Number(event.target.dataset['index']);
+                return this.setGrip(value, index);
             }
-        });
+            if (action === 'setEncumbrance') {
+                const value = event.target.value;
+                return this.#onEncumbrance(value);
+            }
+        }
 
-        const gripSelects = this.element.querySelectorAll<HTMLSelectElement>('select.gripSelect');
-
-        gripSelects.forEach((element: HTMLSelectElement) => {
-            element.addEventListener('change', async (event: Event) => {
-                event.preventDefault();
-
-                if (event.currentTarget instanceof HTMLSelectElement) {
-                    const value = event.currentTarget.value;
-                    const index = Number(event.currentTarget.dataset['index']);
-                    this.setGrip(value, index);
-                }
-            });
-        });
+        return super._onChangeForm(formConfig, event);
     }
 }

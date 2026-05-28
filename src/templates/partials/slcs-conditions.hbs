@@ -59,6 +59,7 @@
       <select
         class='slcs-encumbrance'
         {{disabled (automaticEncumbrance)}}
+        data-action="setEncumbrance"
       >
         {{#each system.encumbrance}}
           <option value='{{@key}}' {{select-if current true}}>{{encumbranceName key}} (&le; {{weight}})</option>
@@ -75,6 +76,7 @@
                     id='selectedGrip{{@index}}'
                     class="gripSelect"
                     data-index="{{@index}}"
+                    data-action="setGrip"
                 >
                     {{#each ../grips}}
                         <option value='{{name}}' {{select-if name ../grip}} class ="sle-grip {{#unless ready}}unready{{/unless}}"><span>{{name}}</span></option>
