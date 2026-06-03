@@ -453,6 +453,7 @@
         }
         .desc.header {
             display: block;
+            min-height: auto;
         }
         .list_note{
             max-width: 100%;
@@ -531,6 +532,9 @@
         align-self: start;
         grid-template-columns: 1fr minmax(min-content, 1fr) repeat(3, auto);
         grid-template-rows: 0fr max-content;
+        .level{
+            padding: 0.1em calc(2 * var(--rowmarginside)) 0.1em calc(2 * var(--rowmarginside));
+        }
         .list_note{
             grid-column-start: 1;
             grid-column-end: 6;
@@ -539,19 +543,19 @@
 
     .slcs-ranged-attacks{
         align-self: start;
-        grid-template-columns: 1fr minmax(min-content, 1fr) repeat(8, auto);
+        grid-template-columns: 1fr repeat(9, auto);
         grid-template-rows: 0fr max-content;
         min-width: 100%;
         .list_note{
             grid-column-start: 1;
             grid-column-end: 11;
-         }
-    }
-
-    .slcs-ranged-attacks > div {
-        width: min-content;
-        white-space: normal;
-        min-width: 100%;
+        }
+        & > div {
+            width: min-content;
+            white-space: normal;
+            min-width: 100%;
+            padding: 0 0.3em;
+        }
     }
 
     .slcs-melee-attacks, .slcs-ranged-attacks{
@@ -566,9 +570,6 @@
         }
         .selected, div[data-action=rollOtf].selected, .gmod.selected, .selected div[data-action=rollOtf]{
             color: var(--maincolor);
-        }
-        .level{
-            padding: 0.1em calc(2 * var(--rowmarginside)) 0.1em calc(2 * var(--rowmarginside));
         }
         .usage{
             display: block;
