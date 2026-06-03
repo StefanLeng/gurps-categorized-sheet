@@ -1,6 +1,8 @@
 import { Hand, WeaponGrip2 } from './types.ts';
 import { getMergedSettings } from './actor-settings.ts';
 import { DisplayMeleeAttack, DisplayRangedAttack } from '@gurps-types/gurps/display-item.ts';
+import { ActorType } from '@module/actor/types.ts';
+import { GurpsActorV2 } from '@module/actor/gurps-actor.ts';
 
 interface Defense {
     name: string;
@@ -79,7 +81,12 @@ function weaponDefenses(grips: WeaponGrip2[], defensePossible: boolean, hands: H
         ); //remove duplicates}
 }
 
-export function getDefenses(dodge: number, grips: WeaponGrip2[], actor: Actor, hands: Hand[]): Defense[] {
+export function getDefenses(
+    dodge: number,
+    grips: WeaponGrip2[],
+    actor: GurpsActorV2<ActorType.Character>,
+    hands: Hand[],
+): Defense[] {
     const hideInactive = getMergedSettings(actor).hideInactiveAttacks;
     const maneuver = (actor.system as any).conditions.maneuver;
     const defenses: Defense[] = [];

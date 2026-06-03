@@ -1,6 +1,6 @@
 import { convertModifiers } from './util.js';
 import { categorizeSkills, categorizeTraits } from './categorize.ts';
-import { initHands, applyGripToHands, resolveWeapons, resolveWeapons2 } from './weaponGrips.ts';
+import { initHands, applyGripToHands, resolveWeapons2 } from './weaponGrips.ts';
 import { getDefenses } from './defenses.ts';
 import { targets } from './targets.ts';
 import { getOTFs } from './sheetOTFs.ts';
@@ -9,13 +9,12 @@ import { existingCriticalTables, drawTableRoll, MyRollTable } from './rollTables
 import { MODULE_ID } from './constants.ts';
 import { ActorSettingsForm } from './actorSettingsForm.ts';
 import { getActorSettings } from './actor-settings.ts';
-import { Hand, WeaponGrip, WeaponGrip2 } from './types.ts';
-import { emptyList, filterList } from './recursiveList.ts';
+import { Hand, WeaponGrip2 } from './types.ts';
+import { filterList } from './recursiveList.ts';
 import { enrichSkill } from './skills.ts';
 import type { GurpsActorGcsSheet } from 'gurps/src/module/actor/sheets/gcs-actor-sheet.ts';
 import { GurpsBaseActorSheet } from 'gurps/src/module/actor/sheets/base-actor-sheet.ts';
 import { getSystemSetting } from './settings.ts';
-import { DeepPartial } from 'fvtt-types/utils';
 import { mapDisplayItems } from './displayItemUtils.ts';
 import { ItemType } from '@module/item/types.ts';
 import { PostureType } from '@module/effects/posture.ts';
@@ -223,13 +222,6 @@ export default class SLCatSheet extends GCSActorSheet {
             const handsOld = initHands(actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
             const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons2(actor, handsOld);
 
-            const [grips0, hands0, meleeWeapons0, rangedWeapons0] = resolveWeapons(
-                system.equipment,
-                system.melee ?? emptyList,
-                system.ranged ?? emptyList,
-                handsOld,
-                actor,
-            );
             this.#grips = grips;
 
             const defenses = getDefenses(system.currentdodge, grips, actor, hands);

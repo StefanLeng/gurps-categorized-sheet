@@ -1,15 +1,10 @@
-import {
-    CategoryList,
-    CATEGORIES,
-    CatSheetActorSettings,
-    Equipment,
-    MeleeMode,
-    AttackMode,
-    CatSheetSettings,
-} from './types.ts';
+import { CategoryList, CATEGORIES, CatSheetActorSettings, CatSheetSettings } from './types.ts';
 import { MODULE_ID, CAT_SHEET_SETTINGS } from './constants.ts';
 import { getSettings } from './settings.ts';
-import * as RecursiveList from './recursiveList.ts';
+import { GurpsActorV2 } from '@module/actor/gurps-actor.ts';
+import { ActorType } from '@module/actor/types.ts';
+import { MeleeAttackModel } from '@module/action/index.ts';
+import { attacksWithoutGrip } from './weaponGrips.ts';
 
 const emptyList: CategoryList = {
     combat: [],
@@ -85,38 +80,19 @@ function migrateSetting(settings: CatSheetActorSettings) {
     return newSettings;
 }
 
-function punch(equipment: RecursiveList.List<Equipment>, melees: RecursiveList.ElementList<MeleeMode>) {
-    return Object.values(melees)
+function punch(actor: GurpsActorV2<ActorType.Character>) {
+    return attacksWithoutGrip(actor, [])
         .map((m) => {
-            return { name: m.name, usage: m.mode ?? '' };
+            return { name: m.name, usage: m.usage };
         })
-        .filter((m) => !RecursiveList.nameStartExists(equipment, m.name) && m.usage === 'Punch');
+        .filter((m) => m.usage === 'Punch');
 }
 
-export function attacksWithoutGrip<T extends AttackMode>(
-    equipment: RecursiveList.List<Equipment>,
-    melees: RecursiveList.ElementList<T>,
-    emptyHandWeapons: { name: string; usage: string }[],
-) {
-    return Object.entries(melees)
-        .map(([k, m]) => {
-            return { ...m, key: k, selected: true };
-        })
-        .filter((m) => !RecursiveList.nameStartExists(equipment, m.name))
-        .map((m) => {
-            return {
-                name: m.name,
-                usage: m.mode,
-                selected: emptyHandWeapons.some((w) => w.name === m.name && w.usage === (m.mode ?? '')),
-            };
-        });
-}
-
-export function getActorSettings(actor: Actor): CatSheetActorSettings {
+export function getActorSettings(actor: GurpsActorV2<ActorType.Character>): CatSheetActorSettings {
     const settings = actor.getFlag(MODULE_ID, CAT_SHEET_SETTINGS) ?? defaultSettings;
     const migratedSetting = migrateSetting(settings);
     if (migratedSetting.emptyHandAttacks?.length === 0) {
-        migratedSetting.emptyHandAttacks = punch((actor.system as any).equipment, (actor.system as any).melee);
+        migratedSetting.emptyHandAttacks = punch(actor);
     }
     return migratedSetting;
 }
@@ -153,7 +129,7 @@ export function mergeOTFs(actorSettings: CatSheetActorSettings, settings: CatShe
         );
 }
 
-export function getMergedSettings(actor: Actor): CatSheetSettings {
+export function getMergedSettings(actor: GurpsActorV2<ActorType.Character>): CatSheetSettings {
     const settings = getSettings();
     const actorSettings = getActorSettings(actor);
     return mergeSettings(settings, actorSettings);

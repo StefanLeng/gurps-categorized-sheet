@@ -3,6 +3,8 @@ import { getMergedSettings } from './actor-settings.ts';
 import { CategoryOrOthers, Category } from './types.ts';
 import { DisplaySkill, DisplayTrait } from '@gurps-types/gurps/display-item.ts';
 import { filterDisplayItems, recItem } from './displayItemUtils.ts';
+import { GurpsActorV2 } from '@module/actor/gurps-actor.ts';
+import { ActorType } from '@module/actor/types.ts';
 
 function isOthers(categories: CategoryList, name: string) {
     return CATEGORIES.every((c) => !categories[c].some((n: string) => name.startsWith(n)));
@@ -32,10 +34,18 @@ export function categorizeItem<T extends NamedItem>(
     }
 }
 
-export function categorizeSkills(actor: Actor, skills: DisplaySkill[], category: CategoryOrOthers) {
+export function categorizeSkills(
+    actor: GurpsActorV2<ActorType.Character>,
+    skills: DisplaySkill[],
+    category: CategoryOrOthers,
+) {
     return categorize(getMergedSettings(actor).items.skills, skills, category);
 }
 
-export function categorizeTraits(actor: Actor, traits: DisplayTrait[], category: CategoryOrOthers) {
+export function categorizeTraits(
+    actor: GurpsActorV2<ActorType.Character>,
+    traits: DisplayTrait[],
+    category: CategoryOrOthers,
+) {
     return categorize(getMergedSettings(actor).items.traits, traits, category);
 }

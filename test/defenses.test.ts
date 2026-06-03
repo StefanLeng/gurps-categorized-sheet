@@ -1,15 +1,18 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { getDefenses } from '../src/module/defenses.ts';
 import { getMergedSettings } from '../src/module/actor-settings.ts';
-import { keyedMeleeMode, WeaponGrip } from '../src/module/types.ts';
+import { WeaponGrip2 } from '../src/module/types.ts';
+import { DisplayMeleeAttack } from '@gurps-types/gurps/display-item.ts';
+import { GurpsActorV2 } from '@module/actor/gurps-actor.ts';
+import { ActorType } from '@module/actor/types.ts';
 
 jest.mock('../src/module/actor-settings.ts', () => ({
     getMergedSettings: jest.fn(),
 }));
 
 const actor = {
-    system: { conditions: { maneverer: 'testManeuver' } },
-} as unknown as Actor;
+    system: { conditions: { maneuver: 'testManeuver' } },
+} as unknown as GurpsActorV2<ActorType.Character>;
 
 let defenses = 'all';
 
@@ -25,91 +28,77 @@ let defenses = 'all';
     },
 };
 
-const grips: WeaponGrip[] = [
+const grips: WeaponGrip2[] = [
     {
         name: 'Empty Hand',
-        weaponName: 'Empty Hand',
-        weaponNote: '',
         twoHanded: false,
         skill: '',
         fixedReach: null,
         ranged: false,
-        meleeList: [{ name: 'Natural Attacks', parry: '11', block: '', reach: 'C' } as keyedMeleeMode],
+        meleeList: [{ name: 'Natural Attacks', parry: '11', block: '', reach: 'C' } as DisplayMeleeAttack],
         rangedList: [],
         ready: true,
     },
     {
         name: 'Large Knife',
-        weaponName: 'Large Knife',
-        weaponNote: '',
         twoHanded: false,
         skill: '',
         fixedReach: null,
         ranged: false,
         meleeList: [
-            { name: 'Large Knife', parry: '12', block: '', reach: 'C,1' } as keyedMeleeMode,
-            { name: 'Large Knife', parry: '12', block: '', reach: 'C,1' } as keyedMeleeMode,
+            { name: 'Large Knife', parry: '12', block: '', reach: 'C,1' } as DisplayMeleeAttack,
+            { name: 'Large Knife', parry: '12', block: '', reach: 'C,1' } as DisplayMeleeAttack,
         ],
         rangedList: [],
         ready: true,
     },
     {
         name: 'Spear 1*',
-        weaponName: 'Spear',
-        weaponNote: '',
         twoHanded: false,
         skill: '',
         fixedReach: '1*',
         ranged: false,
-        meleeList: [{ name: 'Spear', parry: '13', block: '', reach: '1*' } as keyedMeleeMode],
+        meleeList: [{ name: 'Spear', parry: '13', block: '', reach: '1*' } as DisplayMeleeAttack],
         rangedList: [],
         ready: true,
     },
     {
         name: 'Spear two handed 1*',
-        weaponName: 'Spear',
-        weaponNote: '',
         twoHanded: true,
         skill: '',
         fixedReach: '1*',
         ranged: false,
-        meleeList: [{ name: 'Spear', parry: '13', block: '', reach: '1*' } as keyedMeleeMode],
+        meleeList: [{ name: 'Spear', parry: '13', block: '', reach: '1*' } as DisplayMeleeAttack],
         rangedList: [],
         ready: true,
     },
     {
         name: 'Spear two handed 2*',
-        weaponName: 'Spear',
-        weaponNote: '',
         twoHanded: true,
         skill: '',
         fixedReach: '2*',
         ranged: false,
-        meleeList: [{ name: 'Spear', parry: '13', block: '', reach: '2*' } as keyedMeleeMode],
+        meleeList: [{ name: 'Spear', parry: '13', block: '', reach: '2*' } as DisplayMeleeAttack],
         rangedList: [],
         ready: true,
     },
     {
         name: 'Spear (Staff) two handed',
-        weaponName: 'Spear',
-        weaponNote: '',
         twoHanded: true,
         skill: 'Staff',
         fixedReach: null,
         ranged: false,
-        meleeList: [{ name: 'Spear', parry: '15', block: '', reach: '1-2' } as keyedMeleeMode],
+        meleeList: [{ name: 'Spear', parry: '15', block: '', reach: '1-2' } as DisplayMeleeAttack],
         rangedList: [],
         ready: true,
     },
     {
         name: 'Large Shield',
-        weaponName: 'Large Shield',
-        weaponNote: '',
         twoHanded: true,
         skill: 'Shield',
         fixedReach: null,
         ranged: false,
-        meleeList: [{ name: 'Large Shield', parry: '', block: '14', reach: '1' } as keyedMeleeMode],
+        meleeList: [{ name: 'Large Shield', parry: '', block: '14', reach: '1' } as DisplayMeleeAttack],
         rangedList: [],
         ready: true,
     },

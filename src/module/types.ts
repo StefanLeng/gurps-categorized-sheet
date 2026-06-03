@@ -1,4 +1,3 @@
-import { Rec } from './recursiveList.ts';
 import { MyRollTable } from './rollTables.ts';
 import type {} from '@gurps-types/configuration.ts';
 import { DisplayMeleeAttack, DisplayRangedAttack, DisplaySkill } from '@gurps-types/gurps/display-item.ts';
@@ -55,60 +54,8 @@ export interface DisplaySkillEx extends DisplaySkill {
     additionalRolls?: string[];
 }
 
-//---------------------------------------------------//
+///---------------------------------------------------//
 
-export interface Keyed {
-    key: string;
-    selected: boolean;
-}
-
-//---------------------------------------------------//
-
-export interface AttackMode {
-    name: string;
-    notes?: string;
-    pageref?: string;
-    damage?: string;
-    st?: string;
-    mode?: string;
-    level?: number;
-}
-
-export interface MeleeMode extends AttackMode {
-    reach: string;
-    parry?: string;
-    block?: string;
-}
-
-export interface KeyedAttack extends AttackMode, Keyed {}
-
-export interface keyedMeleeMode extends MeleeMode, Keyed {}
-
-export interface RangedMode extends AttackMode {
-    acc: string;
-}
-
-export interface keyedRangedMode extends RangedMode, Keyed {}
-
-//---------------------------------------------------//
-
-export interface Equipment extends Rec<Equipment>, NamedItem {
-    notes: string;
-    equipped: boolean;
-}
-
-export interface WeaponGrip {
-    name: string;
-    weaponName: string;
-    twoHanded: boolean;
-    skill: string;
-    weaponNote: string;
-    fixedReach: string | null;
-    ranged: boolean;
-    meleeList: keyedMeleeMode[];
-    rangedList: keyedRangedMode[];
-    ready: boolean;
-}
 export interface WeaponGrip2 {
     name: string;
     twoHanded: boolean;
@@ -137,13 +84,6 @@ export interface Weapon2 {
     grips: WeaponGrip2[];
     selected: boolean;
 }
-export interface Weapon extends Equipment {
-    grips: WeaponGrip[];
-    notes: string;
-    meleeList: keyedMeleeMode[];
-    rangedList: keyedRangedMode[];
-}
-
 //---------------------------------------------------//
 
 export interface Hand {

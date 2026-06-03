@@ -1,12 +1,14 @@
-import { attacksWithoutGrip, getActorSettings, mergeSettings, mergeOTFs, setActorSettings } from './actor-settings.ts';
+import { getActorSettings, mergeSettings, mergeOTFs, setActorSettings } from './actor-settings.ts';
 import { CATEGORIES, CategoryOrOthers, OTFRegion, CategoryList } from './types.ts';
 import { getSettings } from './settings.ts';
 import { categorizeItem } from './categorize.ts';
 import { removeArrayDuplicates as removeArrayDuplicates } from './util.ts';
 import { BaseSettingsForm } from './baseSettingsForm.ts';
-import * as RecursiveList from './recursiveList.ts';
 import { newOTF } from './sheetOTFs.ts';
 import type { DeepPartial } from 'fvtt-types/utils';
+import { attacksWithoutGrip } from './weaponGrips.ts';
+import { GurpsActorV2 } from '@module/actor/gurps-actor.ts';
+import { ActorType } from '@module/actor/types.ts';
 
 interface NewOTF {
     region?: OTFRegion[];
@@ -38,25 +40,14 @@ interface NewSettings {
 }
 
 class ActorSettingsForm extends BaseSettingsForm {
-    constructor(actor: Actor) {
+    constructor(actor: GurpsActorV2<ActorType.Character>) {
         super([]);
         this._actor = actor;
         this._globalSetting = getSettings();
         this._settings = foundry.utils.deepClone(getActorSettings(actor));
         this._settings.sheetOTFs = mergeOTFs(this._settings, this._globalSetting);
         this._items = { skills: {}, traits: {} };
-        const actorData = this._actor.system as any;
-        this._attacksWithoutGrip = attacksWithoutGrip(
-            actorData.equipment.carried,
-            actorData.melee ?? RecursiveList.emptyList,
-            this._settings.emptyHandAttacks ?? [],
-        ).concat(
-            attacksWithoutGrip(
-                actorData.equipment.carried,
-                actorData.ranged ?? RecursiveList.emptyList,
-                this._settings.emptyHandAttacks ?? [],
-            ),
-        );
+        this._attacksWithoutGrip = attacksWithoutGrip(actor, this._settings.emptyHandAttacks ?? []);
     }
 
     protected _attacksWithoutGrip;
