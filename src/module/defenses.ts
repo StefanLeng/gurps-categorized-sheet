@@ -1,5 +1,6 @@
-import { keyedMeleeMode, WeaponGrip, Hand } from './types.ts';
+import { Hand, WeaponGrip2 } from './types.ts';
 import { getMergedSettings } from './actor-settings.ts';
+import { DisplayMeleeAttack, DisplayRangedAttack } from '@gurps-types/gurps/display-item.ts';
 
 interface Defense {
     name: string;
@@ -10,13 +11,13 @@ interface Defense {
 }
 
 interface WeaponDefense extends Defense {
-    attack?: keyedMeleeMode;
+    attack?: DisplayMeleeAttack | DisplayRangedAttack;
 }
 
 function compareDefenses(a: WeaponDefense, b: WeaponDefense) {
     return a.selected && !b.selected ? -1 : !a.selected && b.selected ? 1 : b.level - a.level;
 }
-function weaponDefenses(grips: WeaponGrip[], defensePossible: boolean, hands: Hand[]): WeaponDefense[] {
+function weaponDefenses(grips: WeaponGrip2[], defensePossible: boolean, hands: Hand[]): WeaponDefense[] {
     return grips
         .map(
             //get the best parry and block per grip: [0][0] is the best block level, [0][1] the attack with the best block, [1][0] is the best parry level, [0][1] the attack with the best parry
@@ -24,8 +25,8 @@ function weaponDefenses(grips: WeaponGrip[], defensePossible: boolean, hands: Ha
                 g.meleeList.reduce(
                     (
                         r: [
-                            [number, keyedMeleeMode | undefined, boolean],
-                            [number, keyedMeleeMode | undefined, boolean],
+                            [number, DisplayMeleeAttack | undefined, boolean],
+                            [number, DisplayMeleeAttack | undefined, boolean],
                         ],
                         m,
                     ) => {
@@ -78,10 +79,11 @@ function weaponDefenses(grips: WeaponGrip[], defensePossible: boolean, hands: Ha
         ); //remove duplicates}
 }
 
-export function getDefenses(dodge: number, grips: WeaponGrip[], actor: Actor, hands: Hand[]): Defense[] {
+export function getDefenses(dodge: number, grips: WeaponGrip2[], actor: Actor, hands: Hand[]): Defense[] {
     const hideInactive = getMergedSettings(actor).hideInactiveAttacks;
     const maneuver = (actor.system as any).conditions.maneuver;
     const defenses: Defense[] = [];
+    // @ts-expect-error: GURPS.Maneuvers is not typed correctly, missing the flags property
     const defensePossible = (GURPS.Maneuvers.get(maneuver)?.flags.gurps?.defense ?? 'all') !== 'none';
     defenses.push({
         name: '',

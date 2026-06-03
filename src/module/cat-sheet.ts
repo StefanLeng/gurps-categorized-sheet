@@ -232,7 +232,7 @@ export default class SLCatSheet extends GCSActorSheet {
             );
             this.#grips = grips;
 
-            const defenses = getDefenses(system.currentdodge, grips0, actor, hands);
+            const defenses = getDefenses(system.currentdodge, grips, actor, hands);
 
             const combatTabs = filterList(
                 this._prepareTabs('combat-tabs'),
