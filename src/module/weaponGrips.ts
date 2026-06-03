@@ -391,6 +391,7 @@ interface ProtoWeapon {
     uuid: string | null;
     name: string;
     notes: string | Handlebars.SafeString;
+    notesRaw: string;
     hasNotes: boolean;
     notesOpen: boolean;
     needsGrips: boolean;
@@ -501,6 +502,7 @@ function prepareItemsWithAttacks(
                 uuid: displayItem.uuid,
                 name: displayItem.fullName,
                 notes: displayItem.notes,
+                notesRaw: i.system.notes ?? '',
                 hasNotes: displayItem.hasNotes,
                 notesOpen: displayItem.notesOpen,
                 needsGrips: i.isOfType(ItemType.Equipment),
@@ -520,6 +522,7 @@ function prepareItemsWithAttacks(
                 uuid: 'empty-hand',
                 name: 'Empty Hand',
                 notes: '',
+                notesRaw: '',
                 hasNotes: false,
                 notesOpen: false,
                 needsGrips: true,
@@ -562,6 +565,7 @@ function handleHolderItem(
                         uuid: displayItem.uuid,
                         name: displayItem.fullName,
                         notes: displayItem.notes,
+                        notesRaw: item.system.notes ?? '',
                         hasNotes: displayItem.hasNotes,
                         notesOpen: displayItem.notesOpen,
                         needsGrips: item.isOfType(ItemType.Equipment),
@@ -575,6 +579,7 @@ function handleHolderItem(
                         uuid: null,
                         name: name,
                         notes: '',
+                        notesRaw: '',
                         hasNotes: false,
                         notesOpen: false,
                         needsGrips: false,
@@ -703,12 +708,14 @@ function makeWeapon2(protoWeapon: ProtoWeaponWithGrips): Weapon2 {
         meleeList: protoWeapon.meleeAttacks.map((a) => {
             return {
                 ...a.toDisplayItem(),
+                notes: a.toDisplayItem().notes.replace(protoWeapon.notesRaw, '').trim(),
                 selected: false,
             };
         }),
         rangedList: protoWeapon.rangedAttacks.map((a) => {
             return {
                 ...a.toDisplayItem(),
+                notes: a.toDisplayItem().notes.replace(protoWeapon.notesRaw, '').trim(),
                 selected: false,
             };
         }),
