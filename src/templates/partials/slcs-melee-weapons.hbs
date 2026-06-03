@@ -1,10 +1,10 @@
 {{#if (notEmpty meleeWeapons)}}
     <div class='slcs-melee-attacks slcs-item-table with-notes slcs-block'>
-        <div class='desc header'>{{localize  'GURPS.meleeWeapons'}}</div>
-        <div class='usage header'>{{localize  'GURPS.usage'}}</div>
-        <div class='level header'>{{localize  'GURPS.level'}}</div>
-        <div class='damage header'>{{localize  'GURPS.damage'}}</div>
-        <div class='reach header'>{{localize  'GURPS.reach'}}</div>
+        <div class='desc header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponMelee'}}</div>
+        <div class='usage header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponUsage'}}</div>
+        <div class='level header'>{{localize  'GURPS.sheet.gcsActorSheet.skillLevel'}}</div>
+        <div class='damage header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponDamage'}}</div>
+        <div class='reach header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponReach'}}</div>
 
         {{#stripesouter meleeWeapons 'evenOuter' 'oddOuter' 'meleeList' }}
             {{#stripes meleeList 'even' 'odd'}}

@@ -706,16 +706,20 @@ function makeWeapon2(protoWeapon: ProtoWeaponWithGrips): Weapon2 {
         hasNotes: protoWeapon.hasNotes,
         notesOpen: protoWeapon.notesOpen,
         meleeList: protoWeapon.meleeAttacks.map((a) => {
+            const notes = a.toDisplayItem().notes.replace(protoWeapon.notesRaw, '').trim();
             return {
                 ...a.toDisplayItem(),
-                notes: a.toDisplayItem().notes.replace(protoWeapon.notesRaw, '').trim(),
+                notes: notes,
+                hasNotes: notes.length > 0,
                 selected: false,
             };
         }),
         rangedList: protoWeapon.rangedAttacks.map((a) => {
+            const notes = a.toDisplayItem().notes.replace(protoWeapon.notesRaw, '').trim();
             return {
                 ...a.toDisplayItem(),
-                notes: a.toDisplayItem().notes.replace(protoWeapon.notesRaw, '').trim(),
+                notes: notes,
+                hasNotes: notes.length > 0,
                 selected: false,
             };
         }),

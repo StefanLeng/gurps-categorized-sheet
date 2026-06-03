@@ -539,12 +539,9 @@
 
     .slcs-ranged-attacks{
         align-self: start;
-        grid-template-columns: 1fr repeat(9, auto);
+        grid-template-columns: 1fr minmax(min-content, 1fr) repeat(8, auto);
         grid-template-rows: 0fr max-content;
         min-width: 100%;
-        .rangeddraggable:before{
-            content: none;
-        }
         .list_note{
             grid-column-start: 1;
             grid-column-end: 11;

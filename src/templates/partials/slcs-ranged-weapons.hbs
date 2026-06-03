@@ -1,52 +1,80 @@
 {{#if (notEmpty rangedWeapons)}}
-    <div class='slcs-ranged-attacks gga-table with-notes slcs-block'>
-        <div class='desc header'>{{localize  'GURPS.rangedWeapons'}}</div>
-        <div class='usage header'>{{localize  'GURPS.usage'}}</div>
-        <div class='level header'>{{localize  'GURPS.level'}}</div>
-        <div class='acc header'>{{localize  'GURPS.acc'}}</div>
-        <div class='damage header'>{{localize  'GURPS.damage'}}</div>
-        <div class='range header'>{{localize  'GURPS.range'}}</div>
-        <div class='rof header'>{{localize  'GURPS.rof'}}</div>
-        <div class='shots header'>{{localize  'GURPS.shots'}}</div>
-        <div class='bulk header'>{{localize  'GURPS.bulk'}}</div>
-        <div class='rcl header'>{{localize  'GURPS.rcl'}}</div>
+    <div class='slcs-ranged-attacks slcs-item-table with-notes slcs-block'>
+        <div class='desc header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponRanged'}}</div>
+        <div class='usage header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponUsage'}}</div>
+        <div class='level header'>{{localize  'GURPS.sheet.gcsActorSheet.skillLevel'}}</div>
+        <div class='acc header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponAccuracy'}}</div>
+        <div class='damage header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponDamage'}}</div>
+        <div class='range header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponRange'}}</div>
+        <div class='rof header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponROF'}}</div>
+        <div class='shots header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponShots'}}</div>
+        <div class='bulk header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponBulk'}}</div>
+        <div class='rcl header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponRecoil'}}</div>
 
         {{#stripesouter rangedWeapons 'evenOuter' 'oddOuter' 'rangedList'}}
             {{#stripes rangedList 'even' 'odd'}}
 
                 {{#if @first}}
-                    <div class='rangeddraggable desc {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-key='system.ranged.{{key}}'>
-                        <div class='desc dblclkedit indent{{indent}}'>
-                            <div class='gga-desc-text'>{{{gurpslink this.name}}}</div>
+                    <div class='desc {{stripeClass}} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-item-id='{{../id}}' data-uuid='{{../uuid}}'> 
+                        <div class='desc'>
+                            <div class='equipment-name'>{{../name}}</div>
+                            {{#if ../hasNotes}}
+                                <i class='fa-solid {{ifThen ../notesOpen 'fa-book-open' 'fa-book'}} gcs-notes-toggle' data-action='toggleNotes' data-open='{{../notesOpen}}'></i>
+                            {{/if}}
                         </div>
                     </div>
                 {{else}}
-                    <div class='rangeddraggable desc {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-key='system.ranged.{{key}}'>
-                    </div>
+                    <div class='desc empty {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}'></div>
                 {{/if}}
 
-                <div class='usage  flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>
-                    <div class='rollable flex-center {{#if (empty notes)}}no-notes{{/if}}'  data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>
-                      {{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}
+                <div class='usage {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-uuid='{{uuid}}' data-action='rollOtf' data-value='{{otf.level}}'>
+                    <div class='desc'>
+                        <div class='usage-name'>{{usage}}</div>
+                        {{#if hasNotes}}
+                            <i class='fa-solid {{ifThen notesOpen 'fa-book-open' 'fa-book'}} gcs-notes-toggle' data-action='toggleNotes' data-open='{{notesOpen}}'></i>
+                        {{/if}}
                     </div>
-                    {{#if (notEmpty notes)}}
-                        <div class='list_note'>{{{gurpslink notes}}}</div>
+                    {{#if (and hasNotes notesOpen)}}
+                        <div class="usage-notes gcs-item-notes ">{{notes}}</div>
                     {{/if}}
                 </div>
-                <div class='level rollable flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{level}}</div>
-                <div class='acc gga-right {{gmod this.acc}} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='Acc for {{this.name}}' data-otf='{{{displayNumber this.acc}}} Acc'> {{{displayNumber this.acc showPlus=false}}} </div>
-                <div class='slcs-damage flex-center rollable {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
-                <div class='range flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{this.range}}</div>
-                <div class='rof gga-right {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{this.rof}}</div>
-                <div class='shots flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{this.shots}}</div>
-                <div class='bulk gga-right {{gmod this.bulk}} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='Bulk for {{this.name}}' data-otf='{{this.bulk}} Bulk' >{{{displayNumber this.bulk}}} </div>
-                <div class='rcl gga-right {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{this.rcl}}</div>
+
+                <div class='level rollable flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'  data-uuid='{{uuid}}' data-action='rollOtf' data-value='{{otf.level}}'>{{level}}</div>
+
+                {{#if acc}}
+                    <div 
+                        class='acc gcs-link-mod gcs-item-modifier {{ifThen (gte acc 0) 'gcs-mod-positive' 'gcs-mod-negative' }} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' 
+                        data-action="addModifier" data-value="{{acc}}" data-comment="{{localize 'GURPS.accForWeapon' weapon=../name}}"> 
+                        {{acc}} 
+                    </div>
+                {{else}}
+                    <div class='acc {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{acc}} </div>
+                {{/if}}
+
+                <div class='slcs-damage {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}'  data-uuid='{{uuid}}' data-action='rollOtf' data-value='{{otf.damage}}'>{{damage}}</div>               
+                <div class='range {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{range}}</div>
+                <div class='rof {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{rof}}</div>
+                <div class='shots {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{shots}}</div>
+
+                {{#if bulk}}
+                    <div 
+                        class='bulk gcs-link-mod gcs-item-modifier {{ifThen (gte bulk 0) 'gcs-mod-positive' 'gcs-mod-negative' }} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' 
+                        data-action="addModifier" data-value="{{bulk}}" data-comment="{{localize 'GURPS.bulkForWeapon' weapon=../name}}"> 
+                        {{bulk}} 
+                    </div>
+                {{else}}
+                    <div class='acc {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{bulk}} </div>
+                {{/if}}
+
+                <div class='rcl {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{rcl}}</div>
             {{/stripes}}
-            {{#if (notEmpty notes)}}
-                <div class='list_note'>{{{gurpslink notes}}}</div>
+
+            {{#if (and hasNotes notesOpen)}}
+                <div class='list_note'>{{notes}}</div>
             {{/if}}
         {{/stripesouter}}
     </div>
+
     {{>slcs-speed-range-table}}
     {{>slcs-otf-region OTFs=rangedOTFs type='ranged'}}
 {{/if}}
