@@ -31,7 +31,7 @@
     {{>slcs-otf-region OTFs=defenseOTFs type='defense'}}
 {{/if}}
 <div class="slcs-DR slcs-block gga-table">
-    {{#each system.hitlocations}}
+    {{#each system.hitlocationsV2}}
         <div class='where'>{{where}}</div>
         <div class='dr'>{{localize  'GURPS.hitLocationDR'}}: {{dr}}{{#each split as | this key |}}<span title='{{localize  key key}}'>/{{this}}{{#if (ne key 'cr')}}*{{/if}}</span>{{/each}}</div>
     {{/each}}

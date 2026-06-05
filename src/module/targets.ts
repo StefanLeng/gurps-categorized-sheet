@@ -81,7 +81,7 @@ export function targets(actor: Actor, ranged: boolean) {
 
             result.targetmodifiers = target.actor ? convertModifiers(filteredMods) : [];
 
-            result.hitlocations = system.hitlocations;
+            result.hitlocations = system.hitlocationsV2;
         }
         if (ranged) {
             const mod = calculateRange(getToken(actor), target);

@@ -1,3 +1,12 @@
+{{#*inline ".locationEntry"}}
+    <div class='where'>{{where}}</div>
+    <div class='penalty gga-right  {{ifThen (gte penalty 0) 'gcs-mod-positive' 'gcs-mod-negative' }}' 
+         data-action='addModifier' data-value='{{penalty}}' 
+         data-comment='{{localize 'GURPS.hitLocationPenalty'}}: {{where}}'>
+        {{penalty}}
+    </div>
+{{/inline}}
+
 {{#if (notEmpty targets)}}
     {{#each targets}}
         <div class="slcs-target">
@@ -11,16 +20,10 @@
             {{/if}}
             <div class="slcs-location slcs-block gga-table">
                 {{#each hitlocations}}
-                    <div class='where'>{{where}}</div>
-                    <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
-                        {{{displayNumber (hitlocationpenalty where penalty parent)}}}
-                    </div>
+                    {{> ".locationEntry"}}
                 {{else}}
-                    {{#each ../system.hitlocations}}
-                        <div class='where'>{{where}}</div>
-                        <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
-                            {{{displayNumber (hitlocationpenalty where penalty parent)}}}
-                        </div>
+                    {{#each ../system.hitlocationsV2}}
+                        {{> ".locationEntry"}}
                     {{/each}}
                 {{/each}}
             </div>
@@ -29,11 +32,8 @@
 {{else}}
     <div class="slcs-target">
         <div class="slcs-location slcs-block gga-table">
-            {{#each system.hitlocations}}
-                <div class='where'>{{where}}</div>
-                <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
-                    {{{displayNumber (hitlocationpenalty where penalty parent)}}}
-                </div>
+            {{#each system.hitlocationsV2}}
+                {{> ".locationEntry"}}
             {{/each}}
         </div>
     </div>
