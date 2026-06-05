@@ -265,6 +265,7 @@ export default class SLCatSheet extends GCSActorSheet {
                 hpPool: hpPool,
                 ciPools: ciPools,
                 additionalPools: additionalPools,
+                ranges: GURPS.rangeObject.ranges,
             });
         } catch (e) {
             console.error(e);

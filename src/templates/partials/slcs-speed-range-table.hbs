@@ -7,9 +7,11 @@
     {{/stripes}}
     <div class='label'>Modifier</div>
     {{#stripes ranges 'odd' 'even' }}
-      <div class='label {{stripeClass}} {{gmod this}}' data-name='{{this.moddesc}}'>
-        {{{displayNumber this.penalty}}}
-      </div>
+        <div class='label gga-right {{stripeClass}} {{ifThen (gte penalty 0) 'gcs-mod-positive' 'gcs-mod-negative' }}' 
+            data-action='addModifier' data-value='{{penalty}}' 
+            data-comment='for speed/range {{this.max}}'>
+            {{penalty}}
+        </div>
     {{/stripes}}
   </div>
 </div>
