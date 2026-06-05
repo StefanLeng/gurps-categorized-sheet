@@ -226,17 +226,17 @@ export default class SLCatSheet extends GCSActorSheet {
 
             const defenses = getDefenses(system.currentdodge, grips, actor, hands);
 
-            const combatTabs = filterList(
-                this._prepareTabs('combat-tabs'),
-                (i: any) => i.id != 'resources' || system.additionalresources.tracker.contents.length > 0,
-            );
-
             const hpPool = superContext.pools.find((p) => p.name === 'GURPS.HP');
             const fpPool = superContext.pools.find((p) => p.name === 'GURPS.FP');
             const ciPools = superContext.pools.filter((p) => p.type === 'conditionalInjury');
             const additionalPools = superContext.pools.filter(
                 // eslint-disable-next-line prettier/prettier
                 (p) => p.type !== 'conditionalInjury' && !['GURPS.FP', 'GURPS.HP'].includes(p.name)
+            );
+
+            const combatTabs = filterList(
+                this._prepareTabs('combat-tabs'),
+                (i: any) => i.id != 'resources' || additionalPools.length > 0,
             );
 
             return foundry.utils.mergeObject(superContext, {
