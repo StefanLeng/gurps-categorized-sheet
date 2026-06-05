@@ -1,6 +1,6 @@
 <div class='slcs-description'>
   {{#unless document.limited}}
-    <div class='gga-table'>
+    <div class='slcs-table'>
       <div class='label odd'>{{localize  'GURPS.descriptionGender'}}:</div>
       <div class='odd'>{{system.profile.gender}}</div>
       <div class='label even'>{{localize  'GURPS.descriptionAge'}}:</div>
@@ -13,7 +13,7 @@
       <div class='odd'></div>
     </div>
   {{/unless}}
-  <div class='gga-table'>
+  <div class='slcs-table'>
     <div class='label odd'>{{localize  'GURPS.descriptionHeight'}}:</div>
     <div class='odd'>{{system.profile.height}}</div>
     <div class='label even'>{{localize  'GURPS.weight'}}:</div>
@@ -31,7 +31,7 @@
       <div class='odd'>{{system.profile.techlevel}}</div>
     {{/unless}}
   </div>
-  <div class='hairEyesSkinHandBlock gga-table'>
+  <div class='hairEyesSkinHandBlock slcs-table'>
     {{#if system.profile.eyes}}
       <div class='label odd'>{{localize  'GURPS.descriptionHair'}}:</div>
       <div class='odd'>{{system.profile.hair}}</div>

@@ -1,10 +1,10 @@
 {{#if (notEmpty system.reactions)}}
-<div class='slcs-reactions gga-table slcs-block'>
-  <div class='modifier header gga-right'>{{localize  'GURPS.modifier'}}</div>
+<div class='slcs-reactions slcs-table slcs-block'>
+  <div class='modifier header'>{{localize  'GURPS.modifier'}}</div>
   <div class='situation header'>{{localize  'GURPS.reaction'}}</div>
 
   {{#stripes system.reactions 'even' 'odd' }}
-      <div class='modifier gmod gga-right {{stripeClass}}' data-name='Reaction {{situation}}' data-otf='{{displayNumber modifier}} {{situation}}'>
+      <div class='modifier gmod  {{stripeClass}}' data-name='Reaction {{situation}}' data-otf='{{displayNumber modifier}} {{situation}}'>
         {{{displayNumber modifier}}}
       </div>
       <div class='situation reactdraggable {{stripeClass}}' data-key='system.reactions.{{@key}}'>

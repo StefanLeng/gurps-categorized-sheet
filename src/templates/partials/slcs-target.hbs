@@ -1,6 +1,6 @@
 {{#*inline ".locationEntry"}}
     <div class='where'>{{where}}</div>
-    <div class='penalty gga-right  {{ifThen (gte penalty 0) 'gcs-mod-positive' 'gcs-mod-negative' }}' 
+    <div class='penalty {{ifThen (gte penalty 0) 'gcs-mod-positive' 'gcs-mod-negative' }}' 
          data-action='addModifier' data-value='{{penalty}}' 
          data-comment='{{localize 'GURPS.hitLocationPenalty'}}: {{where}}'>
         {{penalty}}
@@ -18,7 +18,7 @@
                     {{/each}}
                 </div>
             {{/if}}
-            <div class="slcs-location slcs-block gga-table">
+            <div class="slcs-location slcs-block slcs-table">
                 {{#each hitlocations}}
                     {{> ".locationEntry"}}
                 {{else}}
@@ -31,7 +31,7 @@
     {{/each}}
 {{else}}
     <div class="slcs-target">
-        <div class="slcs-location slcs-block gga-table">
+        <div class="slcs-location slcs-block slcs-table">
             {{#each system.hitlocationsV2}}
                 {{> ".locationEntry"}}
             {{/each}}

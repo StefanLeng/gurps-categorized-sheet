@@ -105,13 +105,13 @@
         grid-area: secattr;
     }
 
-    .gga-table{
-        border: none;
-        .indent0, .indent1, .indent2, .indent3, .indent4, .indent5, .indent6, .indent7, .indent8, .indent9 {
-            padding: 0; 
-        }
+    .slcs-table{
+        display: grid;
         & > div{
             padding: 0 var(--rowmarginside);
+            border-top: none;
+            border-bottom: var(--minorborder);
+            border-right: var(--minorborder);
         }
     }
 
@@ -122,7 +122,7 @@
         border: var(--standardborder);
         height: 0;
         min-height: 100%;
-        .gga-table > div.situation{
+        .slcs-table > div.situation{
             max-height: 3em;
             overflow-y: auto;
             align-items: start;
@@ -132,7 +132,7 @@
         }
     }
 
-    .slcs-modifierlist > div.gga-table{
+    .slcs-modifierlist > div.slcs-table{
         grid-template-columns: 0fr 1fr;
         grid-template-rows: auto;
         padding: 3px;
@@ -727,14 +727,14 @@
         .header {
             grid-area: header;
         }
-        .gga-table{
+        .slcs-table{
             border-right: var(--standardborder);
             grid-template-columns: 0fr 1fr;
         }
-        .gga-table.hairEyesSkinHandBlock{
+        .slcs-table.hairEyesSkinHandBlock{
             border-right: none;
         }
-        .gga-table > div{
+        .slcs-table > div{
             min-height: 1.4em;
         }
     }
@@ -930,7 +930,7 @@
         height: 100%;
         display: grid;
         grid-template-rows: 0fr 0fr 1fr;
-        .OTF-config.gga-table {
+        .OTF-config.slcs-table {
             grid-template-columns: 0fr 0fr 1fr 0fr 0fr 0fr 0fr 0fr 0fr;
             overflow-y: auto;
             width: 0;

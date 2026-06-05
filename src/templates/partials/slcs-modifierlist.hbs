@@ -7,9 +7,9 @@
     {{#if (and (notEmpty sytem.condition.self) (notEmpty system.conditionalmods))}}
         <hr />
     {{/if}}
-    <div class='gga-table'>
+    <div class='slcs-table'>
         {{#stripes system.conditionalmods 'even' 'odd' }}
-            <div class='modifier gmod gga-right {{stripeClass}}' data-name='Modifier {{situation}}' data-otf='{{displayNumber modifier}} {{this.situation}}'>{{{displayNumber modifier}}}</div>
+            <div class='modifier gmod {{stripeClass}}' data-name='Modifier {{situation}}' data-otf='{{displayNumber modifier}} {{this.situation}}'>{{{displayNumber modifier}}}</div>
             <div class='situation {{stripeClass}}' data-key='system.conditionalmods.{{@key}}'>{{{gurpslink this.situation}}}</div>
         {{/stripes}}
     </div>

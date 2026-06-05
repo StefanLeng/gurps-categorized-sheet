@@ -7,7 +7,7 @@
     {{/stripes}}
     <div class='label'>Modifier</div>
     {{#stripes ranges 'odd' 'even' }}
-        <div class='label gga-right {{stripeClass}} {{ifThen (gte penalty 0) 'gcs-mod-positive' 'gcs-mod-negative' }}' 
+        <div class='label {{stripeClass}} {{ifThen (gte penalty 0) 'gcs-mod-positive' 'gcs-mod-negative' }}' 
             data-action='addModifier' data-value='{{penalty}}' 
             data-comment='for speed/range {{this.max}}'>
             {{penalty}}
