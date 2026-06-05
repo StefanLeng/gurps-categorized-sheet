@@ -8,8 +8,6 @@ fix pdf links: wait for GGA?
 equipment uses: wait for GGA
 equipment inc/dec: adapt to GGA if added there
 
-Equipment to new model 
-Attacks to new model
 fix scrolling
 
 test for displayItemUtil
