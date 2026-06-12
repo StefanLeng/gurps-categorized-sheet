@@ -217,7 +217,7 @@ export default class SLCatSheet extends GCSActorSheet {
             };
 
             const selfMods = convertModifiers(system.conditions.self.modifiers);
-            selfMods.push(...convertModifiers([...system.conditions.usermods]));
+            // selfMods.push(...convertModifiers([...system.conditions.usermods]));--todo: wait for GGA bugfix
 
             const handsOld = initHands(actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
             const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons2(actor, handsOld);

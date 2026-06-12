@@ -9,11 +9,11 @@
   </div>
 {{/inline}}
 
-<div class="gcs-pool-attribute gcs-section"">
-  <div class="gcs-section-header">
+<div class="slcs-pool-attribute slcs-block">
+  <div class="slcs-pool-header">
     {{localize pool.name}}{{#if (eq pool.type "pool")}}: {{pool.denominator.value}}{{/if}}
   </div>
-  <div class="gcs-section-content">
+  <div class="slcs-content">
     <div class="form-fields slcs-pool-control">
       <button type="button" data-action="decrementPool" data-inverted="{{pool.invertedDelta}}" data-path="{{pool.numerator.path}}" {{#if pool.atMin}}disabled{{/if}}><i class="fa-solid fa-minus"></i></button>
       {{#if (eq pool.type "pool")}}

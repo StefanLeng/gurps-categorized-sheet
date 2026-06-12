@@ -1,6 +1,8 @@
 <div class='qnotes'>
-  <div class='qnotes-content'>
-    {{#if system.additionalresources.qnotes}}{{{gurpslink system.additionalresources.qnotes}}}{{else}}
-      <span style='color:lightgrey'>double click to edit Quick Note</span>{{/if}}
+  <div class='qnotes-header'>
+    <span>Quick Notes</span><a data-action="editQuickNotes"><i class="fa-solid fa-pen-to-square"></i></a>
   </div>
+  <div class='qnotes-content quick-notes'>
+    {{quickNotes}}
+   </div>
 </div>

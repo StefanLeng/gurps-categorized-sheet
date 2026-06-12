@@ -1,13 +1,14 @@
 {{#unless error}}
     <div class='tab {{tabs.powers.cssClass}}' data-tab='powers' data-group='primary-tabs'>
-        <div class='slcs-tab-content slcs-powers-tab'>
+        <div class='slcs-tab-content slcs-powers-tab {{#if (notEmpty spells)}}slcs-has-spells{{/if}}'>
             <div class ='slcs-col slcs-col1'>
                 {{>slcs-skills skills=categories.powers.skills}}
-                {{>slcs-advantages traits=categories.powers.traits}}
+                 {{#if (notEmpty spells)}}{{>slcs-advantages traits=categories.powers.traits}}{{/if}}
             </div>
             <div class ='slcs-col slcs-col2'>
                 {{>slcs-otf-region OTFs=powersOTFs type='powers'}}
                 {{>slcs-spells}}
+                {{#if (empty spells)}}{{>slcs-advantages traits=categories.powers.traits}}{{/if}}
             </div>    
         </div>                   
     </div>

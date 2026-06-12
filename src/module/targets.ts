@@ -1,5 +1,7 @@
 import { convertModifiers } from './util.js';
 import { SYSTEM_ID, SETTING_USE_SIZE_MODIFIER_DIFFERENCE_IN_MELEE } from './constants.ts';
+import { GurpsActorV2 } from '@module/actor/gurps-actor.ts';
+import { ActorType } from '@module/actor/types.ts';
 
 interface Hitlocation {
     where: string;
@@ -17,7 +19,7 @@ interface Target {
     };
 }
 
-function getToken(actor: Actor) {
+function getToken(actor: GurpsActorV2<ActorType.Character>) {
     const tokens = game.scenes?.current?.tokens.filter((d: TokenDocument) => d.actorId === actor.id) ?? [];
     if ((tokens.length = 1)) return tokens[0].object;
     return undefined;
@@ -66,7 +68,7 @@ function getSizeModifier(source: Token | null | undefined, target: Token | null 
     return undefined;
 }
 
-export function targets(actor: Actor, ranged: boolean) {
+export function targets(actor: GurpsActorV2<ActorType.Character>, ranged: boolean) {
     const results = [] as Target[];
     if (!game.user?.targets) return results;
     for (const target of Array.from(game.user?.targets)) {

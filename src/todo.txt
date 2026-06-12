@@ -1,15 +1,11 @@
-investigate modifiers: wait for fix in GGA
-fix OTF filtering by traits: wait for fix in GGA 
-FP when Conditional Injury: wait for GGA fix
-Resources Tab: Wait for GGA fix
+investigate user modifiers: wait for fix in GGA
 test move mode: Needs GCA character ....
 test spells
 fix pdf links: wait for GGA?
 equipment uses: wait for GGA
 equipment inc/dec: adapt to GGA if added there
 
-fix scrolling
-
 test for displayItemUtil
 
+fix quick notes
 better categorization of skills with extension on actor level 

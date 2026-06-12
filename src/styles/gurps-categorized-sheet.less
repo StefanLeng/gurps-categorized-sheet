@@ -17,22 +17,52 @@
     min-height: 600px;
 }
 
-.sl-cat-sheet .window-content{
-    --maincolor: black;
-    --secondarycolor: lightgray;
-    --backgroundcolor: white;
-    --inactivecolor: gray;
-    --sectiongap: 0.3em;
-    --rowmargin: 0.3em;
-    --rowmarginside: 8px;
-    --notespanmargin: 0.2em;
-    --stripeColor: #e8ffe8;
-    --standardborder: 1px solid var(--maincolor);
-    --minorborder: 1px solid var(--secondarycolor);
-    --inactiveborder: 1px solid var(--inactivecolor);
-    --indent: 1rem;
+body.theme-dark .sl-cat-sheet .window-content{
+    --slcs-maincolor: var(--color-light-fg);
+    --slcs-mainbordercolor: #aaaaaa;
+    --slcs-secondarybordercolor: #646464;
+    --slcs-inactivecolor: lightgray;
+    --slcs-backgroundcolor: var(--color-dark-fg);   
+    --slcs-banding-strength: 60%;
+}
 
-    color: var(--maincolor);
+.sl-cat-sheet .window-content{
+    --slcs-maincolor:  var(--color-dark-fg);
+    --slcs-backgroundcolor: var(--color-light-fg);
+    --slcs-inactivecolor: gray;
+    --slcs-mainbordercolor: var(--color-dark-fg);
+    --slcs-secondarybordercolor: lightgray;
+    --slcs-banding-strength: 40%;
+
+    --slcs-stripeColor: color-mix(in hsl, var(--slcs-backgroundcolor), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+     
+    --slcs-sectiongap: 0.3em;
+    --slcs-rowmargin: 0.3em;
+    --slcs-fontsizecontent: 0.75rem;
+    --slcs-fontsizeheader: var(--font-size-12);
+    --slcs-rowmarginside: 8px;
+    --slcs-notespanmargin: 0.2em;
+    --slcs-standardborder: 1px solid var(--slcs-mainbordercolor);
+    --slcs-minorborder: 1px solid var(--slcs-secondarybordercolor);
+    --slcs-inactiveborder: 1px solid var(--slcs-inactivecolor);
+    --slcs-indent: 1rem;
+
+    --slcs-color-roll-bg: var(--gcs-color-roll-bg);
+    --slcs-color-roll-bg-hover: color-mix(in hsl, var(--slcs-color-roll-bg), var(--gcs-color-roll-bg-hover) 60%);
+    --slcs-color-roll-bg-banding: color-mix(in hsl, var(--slcs-color-roll-bg), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+    --slcs-color-roll-bg-banding-hover: color-mix(in hsl, var(--slcs-color-roll-bg-banding), var(--gcs-color-roll-bg-hover) 60%);
+
+    --slcs-color-positive-bg: var(--gcs-color-positive-bg);
+    --slcs-color-positive-bg-hover: color-mix(in hsl, var(--slcs-color-positive-bg), var(--gcs-color-positive-bg-hover) 60%);
+    --slcs-color-positive-bg-banding: color-mix(in hsl, var(--slcs-color-positive-bg-banding), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+    --slcs-color-positive-bg-banding-hover: color-mix(in hsl, var(--slcs-color-positive-bg-banding), var(--gcs-color-positive-bg-hover) 60%);
+
+    --slcs-color-negative-bg: var(--gcs-color-negative-bg);
+    --slcs-color-negative-bg-hover: color-mix(in hsl, var(--slcs-color-negative-bg), var(--gcs-color-negative-bg-hover) 60%);
+    --slcs-color-negative-bg-banding: color-mix(in hsl, var(--slcs-color-negative-bg-banding), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+    --slcs-color-negative-bg-banding-hover: color-mix(in hsl, var(--slcs-color-negative-bg-banding), var(--gcs-color-negative-bg-hover) 60%);
+
+    color: var(--slcs-maincolor);
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: min-content max-content 1fr;
@@ -40,16 +70,86 @@
       "header"
       "navtabs"
       "main";
-    background: white;
+    background:  var(--slcs-backgroundcolor);
     height: 100%;
+
+    [data-action=rollOtf], [data-action=addModifier]{
+        height: auto;
+        color: var(--slcs-maincolor);
+    }
+
+    .gurpslink, .glinkmodplus, .glinkmodminus {
+        border-color: var(--slcs-secondarybordercolor);
+        color: var(--slcs-maincolor);
+   } 
+
+   .gurpslink, [data-action=rollOtf]{
+        background-color: var(--slcs-color-roll-bg);
+    }
+    .gurpslink:hover, [data-action=rollOtf]:hover{
+        background-color: var(--slcs-color-roll-bg-hover);
+    }
+    .glinkmodplus, .gcs-mod-positive[data-action=addModifier]{
+        background-color: var(--slcs-color-positive-bg);
+    }
+    .glinkmodplus:hover, .gcs-mod-positive[data-action=addModifier]:hover{
+        background-color: var(--slcs-color-positive-bg-hover);
+    }
+    .glinkmodminus, .gcs-mod-negative[data-action=addModifier]{
+        background-color: var(--slcs-color-negative-bg);
+    }
+    .glinkmodminus:hover, .gcs-mod-negative[data-action=addModifier]:hover{
+        background-color: var(--slcs-color-negative-bg-hover);
+    }
+
+    .even, .odd.evenOuter{
+        .gurpslink, &[data-action=rollOtf] {
+            background-color: var(--slcs-color-roll-bg-banding);
+        }
+        .gurpslink:hover, &[data-action=rollOtf]:hover {
+            background-color: var(--slcs-color-roll-bg-banding-hover);
+        }
+        .glinkmodplus, .gcs-mod-positive[data-action=addModifier] {
+            background-color: var(--slcs-color-positive-bg-banding);
+        }
+        .glinkmodplus:hover, .gcs-mod-positive[data-action=addModifier]:hover {
+            background-color: var(--slcs-color-positive-bg-banding-hover);
+        }
+        .glinkmodminus, .gcs-mod-negative[data-action=addModifier] {
+            background-color: var(--slcs-color-negative-bg-banding);
+        }
+        .glinkmodminus:hover, .gcs-mod-negative[data-action=addModifier]:hover {
+            background-color: var(--slcs-color-negative-bg-banding-hover);
+        }
+    }
+
+    .even.evenOuter{
+        .gurpslink, &[data-action=rollOtf]{
+            background-color: var(--slcs-color-roll-bg);
+        }
+        .gurpslink:hover, &[data-action=rollOtf]:hover {
+            background-color: var(--slcs-color-roll-bg-hover);
+        }
+        .glinkmodplus, .gcs-mod-positive[data-action=addModifier] {
+                background-color: var(--slcs-color-positive-bg);
+        }
+        .glinkmodplus:hover, .gcs-mod-positive[data-action=addModifier]:hover {
+            background-color: var(--slcs-color-positive-bg-hover);
+        }
+        .glinkmodminus, .gcs-mod-negative[data-action=addModifier] {
+            background-color: var(--slcs-color-negative-bg);
+        }
+        .glinkmodminus:hover, .gcs-mod-negative[data-action=addModifier]:hover {
+            background-color: var(--slcs-color-negative-bg-hover);
+        }
+    }
 
     .rollable, .gurpslink, .glinkmodplus, .glinkmodminus, .glinkmod, .gmod {
         font-weight: 500;
-        color: var(--maincolor);
     }
 
     select:disabled, input, button {
-        color: var(--maincolor);
+        color: var(--slcs-maincolor);
     }
 
     .tab[data-tab]{
@@ -65,7 +165,7 @@
         grid-template-rows: auto;
         grid-template-areas: 
         "portrait basicattr secattr hpfp modifiers";
-        grid-gap: 0px var(--sectiongap)
+        grid-gap: 0px var(--slcs-sectiongap)
     }
     
     .qnotes{
@@ -85,7 +185,7 @@
             line-height: normal;
             padding: 0;
             margin: 0;
-            border: var(--minorborder);
+            border: var(--slcs-minorborder);
             border-radius: 0;
         }
 
@@ -108,10 +208,11 @@
     .slcs-table{
         display: grid;
         & > div{
-            padding: 0 var(--rowmarginside);
+            padding: 0 var(--slcs-rowmarginside);
             border-top: none;
-            border-bottom: var(--minorborder);
-            border-right: var(--minorborder);
+            border-bottom: var(--slcs-minorborder);
+            border-right: var(--slcs-minorborder);
+            line-height: var(--gcs-input-height);
         }
     }
 
@@ -119,9 +220,12 @@
     {
         grid-area: modifiers;
         overflow-y: auto;   
-        border: var(--standardborder);
+        border: var(--slcs-standardborder);
         height: 0;
         min-height: 100%;
+        span{
+            font-size: var(--slcs-fontsizecontent);
+        }
         .slcs-table > div.situation{
             max-height: 3em;
             overflow-y: auto;
@@ -180,13 +284,13 @@
     }
 
     .slcs-block {
-        border: var(--standardborder);
+        border: var(--slcs-standardborder);
     } 
 
     .slcs-block hr {
         width: 100%;
         border: none;
-        background-color: var(--maincolor);
+        background-color: var(--slcs-maincolor);
         height: 1px;
         margin: 0;
         margin-top: 0.2em;
@@ -196,7 +300,8 @@
     .slcs-sheet-tabs {
         display: block;
         font-size: 110%;
-        border-bottom: var(--standardborder);
+        border-bottom: var(--slcs-standardborder);
+        border-top: none;
         line-height: inherit;
         justify-content: normal;
         li {
@@ -208,8 +313,8 @@
         text-decoration: underline;
         text-shadow: none;
         font-weight: bold;
-        background-color: var(--stripeColor);
-        color: var(--maincolor);
+        background-color: var(--slcs-stripeColor);
+        color: var(--slcs-maincolor);
     }
 
     .tab-item {
@@ -231,7 +336,7 @@
     .slcs-col, .col-tabcontent{
         display: grid;
         grid-template-columns: 1fr;
-        grid-gap: var(--sectiongap);
+        grid-gap: var(--slcs-sectiongap);
         grid-auto-rows: min-content;
     }
 
@@ -241,9 +346,9 @@
     }
 
     .slcs-tab-content{
-        padding-top: var(--sectiongap);
+        padding-top: var(--slcs-sectiongap);
         display: grid;
-        grid-gap: var(--sectiongap);
+        grid-gap: var(--slcs-sectiongap);
         grid-template-columns: 4fr 5fr;
         grid-template-rows:  1fr;
         height: 100%;
@@ -253,22 +358,10 @@
         padding: 0.2em;
         span{
             display: inline-block;
-            margin: var(--notespanmargin);
+            margin: var(--slcs-notespanmargin);
+            font-size: var(--slcs-fontsizecontent);
         }
     }
-
-    .even{
-        background-color: var(--stripeColor);;
-    }
-
-    .odd.evenOuter {
-        background-color: var(--stripeColor);;
-    }
-
-    .even.evenOuter {
-        background-color: var(--backgroundcolor);
-    }
-
 
     .slcs-combat-tab{
         grid-template-rows: min-content 1fr;
@@ -313,7 +406,10 @@
     }
 
     .slcs-powers-tab.slcs-tab-content {
-        grid-template-columns: 3fr 5fr;
+        &.slcs-has-spells{
+            grid-template-columns: 1fr 2.2fr;
+        }
+        grid-template-columns: 1fr 1fr;
     }
     
     .slcs-equipment-tab.slcs-tab-content {
@@ -397,49 +493,60 @@
         align-content: start;
         gap: 0px 0px;
         & > div.gcs-item-row {
-            padding-right: var(--rowmargin);
+            padding-right: var(--slcs-rowmargin);
             &.indent0 {
-                padding-left: var(--rowmargin);
+                padding-left: var(--slcs-rowmargin);
             } 
             .gcs-container-spacer {
                 padding-left: 4px;
             }    
         }
         & > div{
-            border-bottom: none;
-            border-top: var(--minorborder);
-            border-right: var(--minorborder);
-            padding: 0 var(--rowmarginside) 0 var(--rowmarginside);
+            border-top: none;
+            border-bottom: var(--slcs-minorborder);
+            border-right: var(--slcs-minorborder);
+            padding: 0 var(--slcs-rowmarginside) 0 var(--slcs-rowmarginside);
             &.indent0 {
-                padding-left: var(--rowmarginside);
+                padding-left: var(--slcs-rowmarginside);
             } 
             &.indent1{
-                padding-left: calc(1 * var(--indent));
+                padding-left: calc(1 * var(--slcs-indent));
             }  
             &.indent2{
-                padding-left: calc(2 * var(--indent));
+                padding-left: calc(2 * var(--slcs-indent));
             }  
             &.indent3{
-                padding-left: calc(3 * var(--indent));
+                padding-left: calc(3 * var(--slcs-indent));
             }  
             &.indent4{
-                padding-left: calc(4 * var(--indent));
+                padding-left: calc(4 * var(--slcs-indent));
             }  
             &.indent5{
-                padding-left: calc(5 * var(--indent));
+                padding-left: calc(5 * var(--slcs-indent));
             }  
             &.indent6{
-                padding-left: calc(6 * var(--indent));
+                padding-left: calc(6 * var(--slcs-indent));
             }  
             &.indent7{
-                padding-left: calc(7 * var(--indent));
+                padding-left: calc(7 * var(--slcs-indent));
             }  
             &.indent8{
-                padding-left: calc(8 * var(--indent));
+                padding-left: calc(8 * var(--slcs-indent));
             }  
             &.indent9{
-                padding-left: calc(9 * var(--indent));
+                padding-left: calc(9 * var(--slcs-indent));
             }   
+        }
+        .header {
+            padding-top: 0.1rem;
+            padding-bottom: 0.1rem;
+            font-size: var(--slcs-fontsizeheader);
+            font-weight: bold;
+        }
+        .gcs-notes-toggle {
+            cursor: pointer;
+            opacity: 0.5;
+            font-size: 0.75em;
         }
         .gcs-container-toggle[data-open=false] {
             transform: rotate(-90deg);
@@ -459,8 +566,9 @@
             max-width: 100%;
             white-space: normal;
             span{
-                margin: var(--notespanmargin);
+                margin: var(--slcs-notespanmargin);
                 white-space: nowrap;
+                font-size: var(--slcs-fontsizecontent);
             }
         }
     }
@@ -472,8 +580,8 @@
             grid-column-end: 5;
         }
         .sl, .rsl{
-                padding-left: calc(2 * var(--rowmarginside));
-                padding-right: calc(2 * var(--rowmarginside));
+                padding-left: calc(2 * var(--slcs-rowmarginside));
+                padding-right: calc(2 * var(--slcs-rowmarginside));
         }
         details.skill-name{
             summary{
@@ -481,14 +589,20 @@
                 grid-template-columns: 1fr min-content;
                 list-style: none;
                 align-items: center;
-
+                &.has-additional-rolls {
+                    cursor: pointer;
+                }
+                i {
+                    opacity: 0.5;
+                    font-size: 0.75em;
+                }
             }
             .skill-details span.gga-app.gurpslink {
                 width: 100%;
                 font-weight: inherit;
-                padding: var(--rowmargin);
+                padding: var(--slcs-rowmargin);
                 border-radius: 0;
-                border-top: var(--minorborder);
+                border-top: var(--slcs-minorborder);
                 border-bottom: none;
                 border-left: none;
                 border-right: none;
@@ -505,10 +619,16 @@
     }
 
     .slcs-spells{
-        grid-template-columns: 1fr repeat(8, auto);
+        grid-template-columns: 1fr repeat(8, min-content);
         .list_note{
             grid-column-start: 1;
             grid-column-end: 9;
+        }
+        .mana, .mana_maintain, .time, .duration {
+            font-size: var(--slcs-fontsizecontent);
+            .header {
+                font-size: var(--slcs-fontsizeheader);
+            }
         }
     };
 
@@ -533,7 +653,7 @@
         grid-template-columns: 1fr minmax(min-content, 1fr) repeat(3, auto);
         grid-template-rows: 0fr max-content;
         .level{
-            padding: 0.1em calc(2 * var(--rowmarginside)) 0.1em calc(2 * var(--rowmarginside));
+            padding: 0.1em calc(2 * var(--slcs-rowmarginside)) 0.1em calc(2 * var(--slcs-rowmarginside));
         }
         .list_note{
             grid-column-start: 1;
@@ -559,17 +679,20 @@
     }
 
     .slcs-melee-attacks, .slcs-ranged-attacks{
-        --cell-padding: 0.1em var(--rowmargin) 0.1em var(--rowmargin);
+        --cell-padding: 0.1em var(--slcs-rowmargin) 0.1em var(--slcs-rowmargin);
+        .weapon {
+            padding-right: var(--slcs-rowmarginside);
+        }
         .desc {
             grid-template-columns: 1fr min-content;
             white-space: normal;
         }
-        color: var(--inactivecolor);
+        color: var(--slcs-inactivecolor);
         div[data-action=rollOtf], .gmod{
-            color: var(--inactivecolor);
+            color: var(--slcs-inactivecolor);
         }
         .selected, div[data-action=rollOtf].selected, .gmod.selected, .selected div[data-action=rollOtf]{
-            color: var(--maincolor);
+            color: var(--slcs-maincolor);
         }
         .usage{
             display: block;
@@ -579,28 +702,25 @@
         & > div {
             height: auto;
         }
-        & > div.desc.empty {
-            border-top: none;
-        }
-        & > div.desc {
+        & > div.weapon {
             border-bottom: none;
         }
-        & > div.desc.last {
-            border-bottom: var(--minorborder);
+        & > div.weapon.last, div.weapon.header {
+            border-bottom: var(--slcs-minorborder);
         }
     }
 
     .slcs-speed-range-table{
          .slcs-range-table {
             display: grid;
-            border: var(--minorborder);
+            border: var(--slcs-minorborder);
             align-content: stretch;
             grid-template-columns: 3fr repeat(var(--count), 1fr);
             grid-template-rows: 0fr 0fr;
             .label {
                 text-align: end;
-                border-right: var(--minorborder);
-                border-bottom: var(--minorborder);
+                border-right: var(--slcs-minorborder);
+                border-bottom: var(--slcs-minorborder);
             }
         }
     }
@@ -609,19 +729,19 @@
         border: none;
         display: grid;
         grid-template-columns: min-content 1fr;
-        gap: var(--sectiongap);
+        gap: var(--slcs-sectiongap);
         .defense-main {
             display: grid;
             grid-auto-flow: column;
             grid-template-columns: none;
             grid-auto-columns: 1fr;
-            gap: var(--sectiongap);
+            gap: var(--slcs-sectiongap);
         }
         .group{
-            border: 1px solid var(--inactivecolor);
-            color: var(--inactivecolor);
+            border: 1px solid var(--slcs-inactivecolor);
+            color: var(--slcs-inactivecolor);
             .rollable{
-                color: var(--inactivecolor);
+                color: var(--slcs-inactivecolor);
             }
              height: 100%;
             .field{
@@ -629,10 +749,10 @@
             }
         }
         .group.selected{
-            color: var(--maincolor);
-            border-color: var(--maincolor);
+            color: var(--slcs-maincolor);
+            border-color: var(--slcs-mainbordercolor);
             .rollable{
-                color: var(--maincolor);
+                color: var(--slcs-maincolor);
             }
         }
         .label{
@@ -649,25 +769,64 @@
         .slcs-tracker-scroller {
             display: flex;
             flex-flow: row wrap;
-            gap: var(--sectiongap);
+            gap: var(--slcs-sectiongap);
             .tracked-resource {
                 width: min-content;
             }
         }
     }
 
-    .gcs-pool-attribute{
-        .gcs-section-content{
-            display: block;
+    .slcs-pool-attribute{
+        display: grid;
+        grid-template-rows: 0fr auto;
+        border: var(--slcs-standardborder); 
+        .slcs-pool-header{
+            min-height: 1.4rem;
+            justify-content: space-evenly;
+            display: flex;
+        }
+        .slcs-content{
+            display: grid;
+            font-size: var(--slcs-fontsizecontent);
+            padding: 0 0.3rem;
+            gap: 0.2rem;
             .slcs-pool-control{
                 display: grid;
                 grid-template-columns: min-content min-content min-content min-content;
                 button{
                     padding: 0 0.25rem;
                     font: inherit;
+                    height: var(--gcs-input-height);
+                    min-height: 0;
+                    background-color: var(--gcs-color-control-bg);
+                    border: 1px solid var(--gcs-color-input-border);
+                }
+                input{
+                    border:1px solid var(--gcs-color-input-border);
+                    height: var(--gcs-input-height);
+                    min-height: 0;
+                    background-color: var(--gcs-color-input-bg);
+                    border-radius: 0;
                 }
                 input, span {
                     min-width: 6ch;
+                }
+                button[data-action=incrementPool] {
+                    border-radius: 0;
+                }
+                button[data-action=resetPool] {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+                button[data-action=decrementPool] {
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }  
+                button:disabled{
+                    background-color: transparent;
+                    color: 
+                    color-mix(in hsl, var(--slcs-maincolor), var(--slcs-backgroundcolor) 50%);
+                    cursor: not-allowed;
                 }
             }
             .form-fields{
@@ -678,7 +837,7 @@
                 text-align: center;
                 padding: 0.1rem;
                 min-height: 1.2rem;
-                border: var(--minorborder);
+                border: var(--slcs-minorborder);
                 margin: 0.2rem 0;
             }
         }
@@ -687,21 +846,21 @@
     .slcs-hpfp{
         display: grid;
         grid-template-columns: min-content;
-        gap: var(--sectiongap);
+        gap: var(--slcs-sectiongap);
      }
 
     .slcs-DR, .slcs-location {
         display: grid;
-        grid-template-columns: repeat(4, 1fr max-content);
+        grid-template-columns: repeat(3, 1fr max-content);
         .dr{
-            margin-right: var(--rowmarginside);
+            margin-right: var(--slcs-rowmarginside);
         }
     }
 
     .slcs-target {
         display: grid;
         grid-template-columns: 1fr;
-        grid-gap: var(--sectiongap);
+        grid-gap: var(--slcs-sectiongap);
         grid-auto-rows: min-content;
     }
 
@@ -711,6 +870,9 @@
             'desc lift';
         grid-template-columns: max-content 1fr;
         grid-template-rows: 0fr;
+        .liftdesc {
+            font-size: inherit;
+        }
     }
 
     .slcs-reactions {
@@ -723,13 +885,14 @@
              'block1 block2 block3';
         grid-template-rows: 1fr;
         grid-template-columns: 1fr 1fr 1fr;
-        border: var(--standardborder);
+        border: var(--slcs-standardborder);
         .header {
             grid-area: header;
         }
         .slcs-table{
-            border-right: var(--standardborder);
+            border-right: var(--slcs-standardborder);
             grid-template-columns: 0fr 1fr;
+            grid-template-rows: repeat(4, min-content);
         }
         .slcs-table.hairEyesSkinHandBlock{
             border-right: none;
@@ -747,7 +910,7 @@
             "empty1 buttonArea empty2"
             "otf otf otf";
         justify-content: center;
-        padding-top: var(--sectiongap);
+        padding-top: var(--slcs-sectiongap);
         button{
             grid-area: buttonArea;
         }
@@ -764,9 +927,9 @@
         display: grid;
         grid-template-columns: 0.5fr;
         justify-content: center;
-        padding-top: var(--sectiongap);
-        padding-bottom: var(--sectiongap);
-        gap: var(--sectiongap);
+        padding-top: var(--slcs-sectiongap);
+        padding-bottom: var(--slcs-sectiongap);
+        gap: var(--slcs-sectiongap);
     }
 }
 
@@ -812,7 +975,7 @@
     .navigation {
         display: grid;
         padding-bottom: 0.5em;
-        border-bottom: var(--standardborder);
+        border-bottom: var(--slcs-standardborder);
     }
 
     nav.tabs{
@@ -833,9 +996,9 @@
  
     .slcs-settingsBlock{
         display: grid;
-        padding-top: var(--sectiongap);
-        padding-bottom: var(--sectiongap);
-        gap: var(--sectiongap);
+        padding-top: var(--slcs-sectiongap);
+        padding-bottom: var(--slcs-sectiongap);
+        gap: var(--slcs-sectiongap);
         align-items: center;
         .label {
             min-width: 200px;
@@ -891,9 +1054,9 @@
         .sortingArea {
             display: grid;
             height: 100%;
-            padding-top: var(--sectiongap);
-            padding-bottom: var(--sectiongap);
-            gap: var(--sectiongap);
+            padding-top: var(--slcs-sectiongap);
+            padding-bottom: var(--slcs-sectiongap);
+            gap: var(--slcs-sectiongap);
         }
 
         

@@ -1,6 +1,6 @@
 {{#if (notEmpty meleeWeapons)}}
     <div class='slcs-melee-attacks slcs-item-table with-notes slcs-block'>
-        <div class='desc header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponMelee'}}</div>
+        <div class='weapon header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponMelee'}}</div>
         <div class='usage header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponUsage'}}</div>
         <div class='level header'>{{localize  'GURPS.sheet.gcsActorSheet.skillLevel'}}</div>
         <div class='damage header'>{{localize  'GURPS.sheet.gcsActorSheet.weaponDamage'}}</div>
@@ -10,7 +10,7 @@
             {{#stripes meleeList 'even' 'odd'}}
 
                 {{#if @first}}
-                    <div class='desc {{stripeClass}} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-item-id='{{../id}}' data-uuid='{{../uuid}}'> 
+                    <div class='weapon {{stripeClass}} {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}' data-item-id='{{../id}}' data-uuid='{{../uuid}}'> 
                         <div class='desc'>
                             <div class='equipment-name'>{{../name}}</div>
                             {{#if ../hasNotes}}
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 {{else}}
-                    <div class='desc empty {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}'></div>
+                    <div class='weapon empty {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}{{#if @last}} last{{/if}}'></div>
                 {{/if}}
 
                 <div class='usage {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}' data-uuid='{{uuid}}' data-action='rollOtf' data-value='{{otf.level}}'>
