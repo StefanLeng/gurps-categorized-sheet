@@ -168,11 +168,6 @@ body.theme-dark .sl-cat-sheet .window-content{
         grid-gap: 0px var(--slcs-sectiongap)
     }
     
-    .qnotes{
-        grid-area: unset;
-        display: block;
-    }
-
     .slcs-portrait{
         display: grid;
         grid-area: portrait;
@@ -929,7 +924,24 @@ body.theme-dark .sl-cat-sheet .window-content{
         justify-content: center;
         padding-top: var(--slcs-sectiongap);
         padding-bottom: var(--slcs-sectiongap);
-        gap: var(--slcs-sectiongap);
+        gap:  var(--slcs-sectiongap);
+    }
+
+    .qnotes {
+        padding: var(--slcs-sectiongap);
+        .qnotes-header {
+            display: grid;
+            grid-template-columns: 1fr min-content;
+        }
+        .qnotes-content {
+            margin-top: var(--slcs-sectiongap);
+            font-size: var(--slcs-fontsizecontent);
+            span{
+                display: inline-block;
+                margin: var(--slcs-notespanmargin);
+                font-size: var(--slcs-fontsizecontent);
+            }
+        }
     }
 }
 
