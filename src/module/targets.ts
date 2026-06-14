@@ -89,15 +89,13 @@ export function targets(actor: GurpsActorV2<ActorType.Character>, ranged: boolea
             const mod = calculateRange(getToken(actor), target);
             if (mod && mod.modifier !== 0)
                 result.targetmodifiers.push({
-                    mod: GURPS.gurpslink(
-                        `[${mod.modifier} range to target ${target.actor?.name} (${mod.yards} ${canvas?.scene?.grid.units})]`,
-                    ),
+                    mod: `[${mod.modifier} range to target ${target.actor?.name} (${mod.yards} ${canvas?.scene?.grid.units})]`,
                 });
         } else {
             const mod = getSizeModifier(getToken(actor), target);
             if (mod)
                 result.targetmodifiers.push({
-                    mod: GURPS.gurpslink(`[${mod}]`),
+                    mod: `[${mod}]`,
                 });
         }
         results.push(result);

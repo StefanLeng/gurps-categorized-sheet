@@ -26,14 +26,11 @@ function getModDescription(text: string) {
 }
 
 export function convertModifiers(list: Array<string>) {
-    return list
-        ? list
-              .map((it: string) => getModDescription(it))
-              .map((it: string) => `[${i18n(it)}]`)
-              .map((it: string) => {
-                  return { mod: GURPS.gurpslink(it) };
-              })
-        : [];
+    return list ? list.map((it: string) => getModDescription(it)).map((it: string) => ({ mod: `[${i18n(it)}]` })) : [];
+}
+
+export function numberToSignString(num: number): string {
+    return num > 0 ? `+${num}` : `${num}`;
 }
 
 export function removeArrayItem<T>(arr: Array<T>, value: T): Array<T> {

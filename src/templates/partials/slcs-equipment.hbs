@@ -42,7 +42,7 @@
     <div class='weight {{stripeClass}}'>{{localize "GURPS.sheet.gcsActorSheet.pound" value=weight.value}}</div>
     <div class='sum_cost {{stripeClass}}'>{{extendedValue}}</div>
     <div class='sum_weight {{stripeClass}}'>{{localize "GURPS.sheet.gcsActorSheet.pound" value=extendedWeight.value}}</div>
-    <div class='ref {{stripeClass}}'>{{{pdflinkext this}}}</div>
+    <div class='ref {{stripeClass}}'>{{{pdflink reference}}}</div>
     {{#if (and hasNotes notesOpen)}}
     <div class='list_note indent{{indent}} {{stripeClass}}'>
         {{notes}}

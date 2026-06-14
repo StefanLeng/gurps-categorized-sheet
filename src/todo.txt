@@ -1,7 +1,5 @@
 investigate user modifiers: wait for fix in GGA
 test move mode: Needs GCA character ....
-test spells
-fix pdf links: wait for GGA?
 equipment uses: wait for GGA
 equipment inc/dec: adapt to GGA if added there
 

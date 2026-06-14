@@ -18,51 +18,59 @@
 }
 
 body.theme-dark .sl-cat-sheet .window-content{
-    --slcs-maincolor: var(--color-light-fg);
-    --slcs-mainbordercolor: #aaaaaa;
-    --slcs-secondarybordercolor: #646464;
-    --slcs-inactivecolor: lightgray;
-    --slcs-backgroundcolor: var(--color-dark-fg);   
-    --slcs-banding-strength: 60%;
+    --slcs-main-color: var(--color-light-fg);
+    --slcs-main-border-color: #aaaaaa;
+    --slcs-secondary-border-color: #646464;
+    --slcs-inactive-color: lightgray;
+    --slcs-background-color: var(--color-dark-fg);  
+    --slcs-banding-strength: 60%; 
+    --slcs-banding-strength-color: 30%;
 }
 
 .sl-cat-sheet .window-content{
-    --slcs-maincolor:  var(--color-dark-fg);
-    --slcs-backgroundcolor: var(--color-light-fg);
-    --slcs-inactivecolor: gray;
-    --slcs-mainbordercolor: var(--color-dark-fg);
-    --slcs-secondarybordercolor: lightgray;
-    --slcs-banding-strength: 40%;
+    --slcs-main-color:  var(--color-dark-fg);
+    --slcs-inactive-color: gray;
+    --slcs-main-border-color: var(--color-dark-fg);
+    --slcs-secondary-border-color: lightgray;
 
-    --slcs-stripeColor: color-mix(in hsl, var(--slcs-backgroundcolor), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
-     
     --slcs-sectiongap: 0.3em;
     --slcs-rowmargin: 0.3em;
-    --slcs-fontsizecontent: 0.75rem;
-    --slcs-fontsizeheader: var(--font-size-12);
-    --slcs-rowmarginside: 8px;
-    --slcs-notespanmargin: 0.2em;
-    --slcs-standardborder: 1px solid var(--slcs-mainbordercolor);
-    --slcs-minorborder: 1px solid var(--slcs-secondarybordercolor);
-    --slcs-inactiveborder: 1px solid var(--slcs-inactivecolor);
+    --slcs-font-size-content: 0.75rem;
+    --slcs-font-size-header: var(--font-size-12);
+    --slcs-row-margin-side: 8px;
+    --slcs-note-span-margin: 0.2em;
+    --slcs-standard-border: 1px solid var(--slcs-main-border-color);
+    --slcs-minor-border: 1px solid var(--slcs-secondary-border-color);
+    --slcs-inactive-border: 1px solid var(--slcs-inactive-color);
     --slcs-indent: 1rem;
 
+    --slcs-banding-strength: 40%;
+    --slcs-banding-strength-color: 20%;
+
+    --slcs-background-color: var(--color-light-fg);
+    --slcs-banding-color: color-mix(in hsl, var(--slcs-background-color), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+     
     --slcs-color-roll-bg: var(--gcs-color-roll-bg);
     --slcs-color-roll-bg-hover: color-mix(in hsl, var(--slcs-color-roll-bg), var(--gcs-color-roll-bg-hover) 60%);
-    --slcs-color-roll-bg-banding: color-mix(in hsl, var(--slcs-color-roll-bg), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+    --slcs-color-roll-bg-banding: color-mix(in hsl, var(--slcs-color-roll-bg), var(--gcs-color-banding-bg) var(--slcs-banding-strength-color));
     --slcs-color-roll-bg-banding-hover: color-mix(in hsl, var(--slcs-color-roll-bg-banding), var(--gcs-color-roll-bg-hover) 60%);
 
     --slcs-color-positive-bg: var(--gcs-color-positive-bg);
     --slcs-color-positive-bg-hover: color-mix(in hsl, var(--slcs-color-positive-bg), var(--gcs-color-positive-bg-hover) 60%);
-    --slcs-color-positive-bg-banding: color-mix(in hsl, var(--slcs-color-positive-bg-banding), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+    --slcs-color-positive-bg-banding: color-mix(in hsl, var(--slcs-color-positive-bg), var(--gcs-color-banding-bg) var(--slcs-banding-strength-color));
     --slcs-color-positive-bg-banding-hover: color-mix(in hsl, var(--slcs-color-positive-bg-banding), var(--gcs-color-positive-bg-hover) 60%);
 
     --slcs-color-negative-bg: var(--gcs-color-negative-bg);
     --slcs-color-negative-bg-hover: color-mix(in hsl, var(--slcs-color-negative-bg), var(--gcs-color-negative-bg-hover) 60%);
-    --slcs-color-negative-bg-banding: color-mix(in hsl, var(--slcs-color-negative-bg-banding), var(--gcs-color-banding-bg) var(--slcs-banding-strength));
+    --slcs-color-negative-bg-banding: color-mix(in hsl, var(--slcs-color-negative-bg), var(--gcs-color-banding-bg) var(--slcs-banding-strength-color));
     --slcs-color-negative-bg-banding-hover: color-mix(in hsl, var(--slcs-color-negative-bg-banding), var(--gcs-color-negative-bg-hover) 60%);
 
-    color: var(--slcs-maincolor);
+    --slcs-color-mod-bg: var(--gga-background-glinkmod);
+    --slcs-color-mod-bg-hover: color-mix(in hsl, var(--slcs-color-mod-bg), var(--gga-background-glinkmod-hover) 60%);
+    --slcs-color-mod-bg-banding: color-mix(in hsl, var(--slcs-color-mod-bg), var(--gcs-color-banding-bg) var(--slcs-banding-strength-color));
+    --slcs-color-mod-bg-banding-hover: color-mix(in hsl, var(--slcs-color-mod-bg-banding), var(--gga-background-glinkmod-hover) 60%);
+
+    color: var(--slcs-main-color);
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: min-content max-content 1fr;
@@ -70,17 +78,22 @@ body.theme-dark .sl-cat-sheet .window-content{
       "header"
       "navtabs"
       "main";
-    background:  var(--slcs-backgroundcolor);
+    background:  var(--slcs-background-color);
     height: 100%;
 
     [data-action=rollOtf], [data-action=addModifier]{
         height: auto;
-        color: var(--slcs-maincolor);
+        color: var(--slcs-main-color);
     }
 
     .gurpslink, .glinkmodplus, .glinkmodminus {
-        border-color: var(--slcs-secondarybordercolor);
-        color: var(--slcs-maincolor);
+        border-color: var(--slcs-secondary-border-color);
+        color: var(--slcs-main-color);
+   } 
+
+   .glinkmod {
+        border-color: var(--slcs-secondary-border-color);
+        background-color: var(--slcs-color-mod-bg);
    } 
 
    .gurpslink, [data-action=rollOtf]{
@@ -103,45 +116,61 @@ body.theme-dark .sl-cat-sheet .window-content{
     }
 
     .even, .odd.evenOuter{
+        background-color: var(--slcs-banding-color);
+
         .gurpslink, &[data-action=rollOtf] {
             background-color: var(--slcs-color-roll-bg-banding);
         }
         .gurpslink:hover, &[data-action=rollOtf]:hover {
             background-color: var(--slcs-color-roll-bg-banding-hover);
         }
-        .glinkmodplus, .gcs-mod-positive[data-action=addModifier] {
+        .glinkmodplus, &.gcs-mod-positive[data-action=addModifier] {
             background-color: var(--slcs-color-positive-bg-banding);
         }
-        .glinkmodplus:hover, .gcs-mod-positive[data-action=addModifier]:hover {
+        .glinkmodplus:hover, &.gcs-mod-positive[data-action=addModifier]:hover {
             background-color: var(--slcs-color-positive-bg-banding-hover);
         }
-        .glinkmodminus, .gcs-mod-negative[data-action=addModifier] {
+        .glinkmodminus, &.gcs-mod-negative[data-action=addModifier] {
             background-color: var(--slcs-color-negative-bg-banding);
         }
         .glinkmodminus:hover, .gcs-mod-negative[data-action=addModifier]:hover {
             background-color: var(--slcs-color-negative-bg-banding-hover);
         }
+        .glinkmod {
+            background-color: var(--slcs-color-mod-bg-banding);
+        }
+        .glinkmod {
+            background-color: var(--slcs-color-mod-bg-banding-hover);
+        }        
     }
 
     .even.evenOuter{
+        background-color: var(--slcs-background-color);
+
         .gurpslink, &[data-action=rollOtf]{
             background-color: var(--slcs-color-roll-bg);
         }
         .gurpslink:hover, &[data-action=rollOtf]:hover {
             background-color: var(--slcs-color-roll-bg-hover);
         }
-        .glinkmodplus, .gcs-mod-positive[data-action=addModifier] {
+        .glinkmodplus, &.gcs-mod-positive[data-action=addModifier] {
                 background-color: var(--slcs-color-positive-bg);
         }
-        .glinkmodplus:hover, .gcs-mod-positive[data-action=addModifier]:hover {
+        .glinkmodplus:hover, &.gcs-mod-positive[data-action=addModifier]:hover {
             background-color: var(--slcs-color-positive-bg-hover);
         }
-        .glinkmodminus, .gcs-mod-negative[data-action=addModifier] {
+        .glinkmodminus, &.gcs-mod-negative[data-action=addModifier] {
             background-color: var(--slcs-color-negative-bg);
         }
-        .glinkmodminus:hover, .gcs-mod-negative[data-action=addModifier]:hover {
+        .glinkmodminus:hover, &.gcs-mod-negative[data-action=addModifier]:hover {
             background-color: var(--slcs-color-negative-bg-hover);
         }
+        .glinkmod {
+            background-color: var(--slcs-color-mod-bg);
+        }
+        .glinkmod {
+            background-color: var(--slcs-color-mod-bg-hover);
+        }        
     }
 
     .rollable, .gurpslink, .glinkmodplus, .glinkmodminus, .glinkmod, .gmod {
@@ -149,7 +178,7 @@ body.theme-dark .sl-cat-sheet .window-content{
     }
 
     select:disabled, input, button {
-        color: var(--slcs-maincolor);
+        color: var(--slcs-main-color);
     }
 
     .tab[data-tab]{
@@ -180,7 +209,7 @@ body.theme-dark .sl-cat-sheet .window-content{
             line-height: normal;
             padding: 0;
             margin: 0;
-            border: var(--slcs-minorborder);
+            border: var(--slcs-minor-border);
             border-radius: 0;
         }
 
@@ -203,10 +232,10 @@ body.theme-dark .sl-cat-sheet .window-content{
     .slcs-table{
         display: grid;
         & > div{
-            padding: 0 var(--slcs-rowmarginside);
+            padding: 0 var(--slcs-row-margin-side);
             border-top: none;
-            border-bottom: var(--slcs-minorborder);
-            border-right: var(--slcs-minorborder);
+            border-bottom: var(--slcs-minor-border);
+            border-right: var(--slcs-minor-border);
             line-height: var(--gcs-input-height);
         }
     }
@@ -215,11 +244,11 @@ body.theme-dark .sl-cat-sheet .window-content{
     {
         grid-area: modifiers;
         overflow-y: auto;   
-        border: var(--slcs-standardborder);
+        border: var(--slcs-standard-border);
         height: 0;
         min-height: 100%;
         span{
-            font-size: var(--slcs-fontsizecontent);
+            font-size: var(--slcs-font-size-content);
         }
         .slcs-table > div.situation{
             max-height: 3em;
@@ -279,13 +308,13 @@ body.theme-dark .sl-cat-sheet .window-content{
     }
 
     .slcs-block {
-        border: var(--slcs-standardborder);
+        border: var(--slcs-standard-border);
     } 
 
     .slcs-block hr {
         width: 100%;
         border: none;
-        background-color: var(--slcs-maincolor);
+        background-color: var(--slcs-main-color);
         height: 1px;
         margin: 0;
         margin-top: 0.2em;
@@ -295,7 +324,7 @@ body.theme-dark .sl-cat-sheet .window-content{
     .slcs-sheet-tabs {
         display: block;
         font-size: 110%;
-        border-bottom: var(--slcs-standardborder);
+        border-bottom: var(--slcs-standard-border);
         border-top: none;
         line-height: inherit;
         justify-content: normal;
@@ -308,8 +337,8 @@ body.theme-dark .sl-cat-sheet .window-content{
         text-decoration: underline;
         text-shadow: none;
         font-weight: bold;
-        background-color: var(--slcs-stripeColor);
-        color: var(--slcs-maincolor);
+        background-color: var(--slcs-banding-color);
+        color: var(--slcs-main-color);
     }
 
     .tab-item {
@@ -353,8 +382,8 @@ body.theme-dark .sl-cat-sheet .window-content{
         padding: 0.2em;
         span{
             display: inline-block;
-            margin: var(--slcs-notespanmargin);
-            font-size: var(--slcs-fontsizecontent);
+            margin: var(--slcs-note-span-margin);
+            font-size: var(--slcs-font-size-content);
         }
     }
 
@@ -498,11 +527,11 @@ body.theme-dark .sl-cat-sheet .window-content{
         }
         & > div{
             border-top: none;
-            border-bottom: var(--slcs-minorborder);
-            border-right: var(--slcs-minorborder);
-            padding: 0 var(--slcs-rowmarginside) 0 var(--slcs-rowmarginside);
+            border-bottom: var(--slcs-minor-border);
+            border-right: var(--slcs-minor-border);
+            padding: 0 var(--slcs-row-margin-side) 0 var(--slcs-row-margin-side);
             &.indent0 {
-                padding-left: var(--slcs-rowmarginside);
+                padding-left: var(--slcs-row-margin-side);
             } 
             &.indent1{
                 padding-left: calc(1 * var(--slcs-indent));
@@ -535,7 +564,7 @@ body.theme-dark .sl-cat-sheet .window-content{
         .header {
             padding-top: 0.1rem;
             padding-bottom: 0.1rem;
-            font-size: var(--slcs-fontsizeheader);
+            font-size: var(--slcs-font-size-header);
             font-weight: bold;
         }
         .gcs-notes-toggle {
@@ -561,22 +590,25 @@ body.theme-dark .sl-cat-sheet .window-content{
             max-width: 100%;
             white-space: normal;
             span{
-                margin: var(--slcs-notespanmargin);
+                margin: var(--slcs-note-span-margin);
                 white-space: nowrap;
-                font-size: var(--slcs-fontsizecontent);
+                font-size: var(--slcs-font-size-content);
             }
+        }
+        .ref {
+            padding: 0 2px;
         }
     }
 
     .slcs-skills{
-        grid-template-columns: 1fr repeat(3, auto);
+        grid-template-columns: 1fr repeat(2, auto) fit-content(18%);
         .list_note{
             grid-column-start: 1;
             grid-column-end: 5;
         }
         .sl, .rsl{
-                padding-left: calc(2 * var(--slcs-rowmarginside));
-                padding-right: calc(2 * var(--slcs-rowmarginside));
+                padding-left: calc(2 * var(--slcs-row-margin-side));
+                padding-right: calc(2 * var(--slcs-row-margin-side));
         }
         details.skill-name{
             summary{
@@ -597,7 +629,7 @@ body.theme-dark .sl-cat-sheet .window-content{
                 font-weight: inherit;
                 padding: var(--slcs-rowmargin);
                 border-radius: 0;
-                border-top: var(--slcs-minorborder);
+                border-top: var(--slcs-minor-border);
                 border-bottom: none;
                 border-left: none;
                 border-right: none;
@@ -606,7 +638,7 @@ body.theme-dark .sl-cat-sheet .window-content{
     }
 
     .slcs-traits{
-        grid-template-columns: 1fr min-content;
+        grid-template-columns: 1fr fit-content(18%);
         .list_note{
             grid-column-start: 1;
             grid-column-end: 3;
@@ -614,15 +646,15 @@ body.theme-dark .sl-cat-sheet .window-content{
     }
 
     .slcs-spells{
-        grid-template-columns: 1fr repeat(8, min-content);
+        grid-template-columns: 1fr repeat(7, min-content) fit-content(10%);
         .list_note{
             grid-column-start: 1;
             grid-column-end: 9;
         }
         .mana, .mana_maintain, .time, .duration {
-            font-size: var(--slcs-fontsizecontent);
+            font-size: var(--slcs-font-size-content);
             .header {
-                font-size: var(--slcs-fontsizeheader);
+                font-size: var(--slcs-font-size-header);
             }
         }
     };
@@ -648,7 +680,7 @@ body.theme-dark .sl-cat-sheet .window-content{
         grid-template-columns: 1fr minmax(min-content, 1fr) repeat(3, auto);
         grid-template-rows: 0fr max-content;
         .level{
-            padding: 0.1em calc(2 * var(--slcs-rowmarginside)) 0.1em calc(2 * var(--slcs-rowmarginside));
+            padding: 0.1em calc(2 * var(--slcs-row-margin-side)) 0.1em calc(2 * var(--slcs-row-margin-side));
         }
         .list_note{
             grid-column-start: 1;
@@ -676,18 +708,18 @@ body.theme-dark .sl-cat-sheet .window-content{
     .slcs-melee-attacks, .slcs-ranged-attacks{
         --cell-padding: 0.1em var(--slcs-rowmargin) 0.1em var(--slcs-rowmargin);
         .weapon {
-            padding-right: var(--slcs-rowmarginside);
+            padding-right: var(--slcs-row-margin-side);
         }
         .desc {
             grid-template-columns: 1fr min-content;
             white-space: normal;
         }
-        color: var(--slcs-inactivecolor);
+        color: var(--slcs-inactive-color);
         div[data-action=rollOtf], .gmod{
-            color: var(--slcs-inactivecolor);
+            color: var(--slcs-inactive-color);
         }
         .selected, div[data-action=rollOtf].selected, .gmod.selected, .selected div[data-action=rollOtf]{
-            color: var(--slcs-maincolor);
+            color: var(--slcs-main-color);
         }
         .usage{
             display: block;
@@ -701,21 +733,21 @@ body.theme-dark .sl-cat-sheet .window-content{
             border-bottom: none;
         }
         & > div.weapon.last, div.weapon.header {
-            border-bottom: var(--slcs-minorborder);
+            border-bottom: var(--slcs-minor-border);
         }
     }
 
     .slcs-speed-range-table{
          .slcs-range-table {
             display: grid;
-            border: var(--slcs-minorborder);
+            border: var(--slcs-minor-border);
             align-content: stretch;
             grid-template-columns: 3fr repeat(var(--count), 1fr);
             grid-template-rows: 0fr 0fr;
             .label {
                 text-align: end;
-                border-right: var(--slcs-minorborder);
-                border-bottom: var(--slcs-minorborder);
+                border-right: var(--slcs-minor-border);
+                border-bottom: var(--slcs-minor-border);
             }
         }
     }
@@ -733,10 +765,10 @@ body.theme-dark .sl-cat-sheet .window-content{
             gap: var(--slcs-sectiongap);
         }
         .group{
-            border: 1px solid var(--slcs-inactivecolor);
-            color: var(--slcs-inactivecolor);
+            border: 1px solid var(--slcs-inactive-color);
+            color: var(--slcs-inactive-color);
             .rollable{
-                color: var(--slcs-inactivecolor);
+                color: var(--slcs-inactive-color);
             }
              height: 100%;
             .field{
@@ -744,10 +776,10 @@ body.theme-dark .sl-cat-sheet .window-content{
             }
         }
         .group.selected{
-            color: var(--slcs-maincolor);
-            border-color: var(--slcs-mainbordercolor);
+            color: var(--slcs-main-color);
+            border-color: var(--slcs-main-border-color);
             .rollable{
-                color: var(--slcs-maincolor);
+                color: var(--slcs-main-color);
             }
         }
         .label{
@@ -774,7 +806,7 @@ body.theme-dark .sl-cat-sheet .window-content{
     .slcs-pool-attribute{
         display: grid;
         grid-template-rows: 0fr auto;
-        border: var(--slcs-standardborder); 
+        border: var(--slcs-standard-border); 
         .slcs-pool-header{
             min-height: 1.4rem;
             justify-content: space-evenly;
@@ -782,7 +814,7 @@ body.theme-dark .sl-cat-sheet .window-content{
         }
         .slcs-content{
             display: grid;
-            font-size: var(--slcs-fontsizecontent);
+            font-size: var(--slcs-font-size-content);
             padding: 0 0.3rem;
             gap: 0.2rem;
             .slcs-pool-control{
@@ -820,7 +852,7 @@ body.theme-dark .sl-cat-sheet .window-content{
                 button:disabled{
                     background-color: transparent;
                     color: 
-                    color-mix(in hsl, var(--slcs-maincolor), var(--slcs-backgroundcolor) 50%);
+                    color-mix(in hsl, var(--slcs-main-color), var(--slcs-background-color) 50%);
                     cursor: not-allowed;
                 }
             }
@@ -832,7 +864,7 @@ body.theme-dark .sl-cat-sheet .window-content{
                 text-align: center;
                 padding: 0.1rem;
                 min-height: 1.2rem;
-                border: var(--slcs-minorborder);
+                border: var(--slcs-minor-border);
                 margin: 0.2rem 0;
             }
         }
@@ -848,7 +880,7 @@ body.theme-dark .sl-cat-sheet .window-content{
         display: grid;
         grid-template-columns: repeat(3, 1fr max-content);
         .dr{
-            margin-right: var(--slcs-rowmarginside);
+            margin-right: var(--slcs-row-margin-side);
         }
     }
 
@@ -880,12 +912,12 @@ body.theme-dark .sl-cat-sheet .window-content{
              'block1 block2 block3';
         grid-template-rows: 1fr;
         grid-template-columns: 1fr 1fr 1fr;
-        border: var(--slcs-standardborder);
+        border: var(--slcs-standard-border);
         .header {
             grid-area: header;
         }
         .slcs-table{
-            border-right: var(--slcs-standardborder);
+            border-right: var(--slcs-standard-border);
             grid-template-columns: 0fr 1fr;
             grid-template-rows: repeat(4, min-content);
         }
@@ -935,11 +967,11 @@ body.theme-dark .sl-cat-sheet .window-content{
         }
         .qnotes-content {
             margin-top: var(--slcs-sectiongap);
-            font-size: var(--slcs-fontsizecontent);
+            font-size: var(--slcs-font-size-content);
             span{
                 display: inline-block;
-                margin: var(--slcs-notespanmargin);
-                font-size: var(--slcs-fontsizecontent);
+                margin: var(--slcs-note-span-margin);
+                font-size: var(--slcs-font-size-content);
             }
         }
     }
@@ -987,7 +1019,7 @@ body.theme-dark .sl-cat-sheet .window-content{
     .navigation {
         display: grid;
         padding-bottom: 0.5em;
-        border-bottom: var(--slcs-standardborder);
+        border-bottom: var(--slcs-standard-border);
     }
 
     nav.tabs{

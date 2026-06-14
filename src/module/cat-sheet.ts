@@ -1,4 +1,4 @@
-import { convertModifiers } from './util.js';
+import { convertModifiers, numberToSignString } from './util.js';
 import { categorizeSkills, categorizeTraits } from './categorize.ts';
 import { initHands, applyGripToHands, resolveWeapons2 } from './weaponGrips.ts';
 import { getDefenses } from './defenses.ts';
@@ -216,8 +216,13 @@ export default class SLCatSheet extends GCSActorSheet {
                 },
             };
 
-            const selfMods = convertModifiers(system.conditions.self.modifiers);
-            // selfMods.push(...convertModifiers([...system.conditions.usermods]));--todo: wait for GGA bugfix
+            const selfMods = convertModifiers(system.conditions.self.modifiers)
+                //.concat(...convertModifiers([...system.conditions.usermods])) //todo: wait for GGA bugfix
+                .concat(
+                    system.conditionalmods.map((m) => ({
+                        mod: `[${numberToSignString(m.modifier)} ${m.situation}]`,
+                    })),
+                );
 
             const handsOld = initHands(actor.flags?.[MODULE_ID]?.hands as Hand[], this.numberOfHands());
             const [grips, hands, meleeWeapons, rangedWeapons] = resolveWeapons2(actor, handsOld);
