@@ -1292,7 +1292,7 @@ export const systemOTFs: SheetOTF[] = [
     {
         key: 'g00016',
         region: 'melee',
-        code: '["+2 damage (Strong Attack)"+2 damage (Strong Attack)],',
+        code: '["+2 damage (Strong Attack)"+2 damage (Strong Attack)]',
         manueverRequired: ['allout_attack', 'aoa_strong'],
     },
     {
