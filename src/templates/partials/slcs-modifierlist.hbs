@@ -1,5 +1,5 @@
 <div class='slcs-modifierlist slcs-block slcs-otflist'>
-    {{#stripes selfModifiers  'even' 'odd' }}
-        <div class="effectmod {{stripeClass}}">{{mod}}</div>
-    {{/stripes}}
+    {{#each selfModifiers}}
+        <div class="effectmod">{{mod}}</div>
+    {{/each}}
 </div>
