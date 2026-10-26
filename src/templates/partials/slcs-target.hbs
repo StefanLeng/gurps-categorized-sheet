@@ -12,13 +12,13 @@
             <div class="slcs-location slcs-block gga-table">
                 {{#each hitlocations}}
                     <div class='where'>{{where}}</div>
-                    <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
+                    <div class='penalty gga-right slcs-gmod linkmod' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
                         {{{displayNumber (hitlocationpenalty where penalty parent)}}}
                     </div>
                 {{else}}
                     {{#each ../system.hitlocations}}
                         <div class='where'>{{where}}</div>
-                        <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
+                        <div class='penalty gga-right slcs-gmod glinkmod' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
                             {{{displayNumber (hitlocationpenalty where penalty parent)}}}
                         </div>
                     {{/each}}
@@ -31,7 +31,7 @@
         <div class="slcs-location slcs-block gga-table">
             {{#each system.hitlocations}}
                 <div class='where'>{{where}}</div>
-                <div class='penalty gga-right {{gmod penalty}}' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
+                <div class='penalty gga-right slcs-gmod glinkmod' data-name='to hit {{where}}' data-otf='{{penalty}} to hit {{where}}'>
                     {{{displayNumber (hitlocationpenalty where penalty parent)}}}
                 </div>
             {{/each}}

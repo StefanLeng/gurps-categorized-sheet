@@ -21,16 +21,16 @@
                 {{/if}}
 
                 <div class='usage flex-center {{stripeClass}} {{../stripeClass}}{{#if selected}} selected{{/if}}'>
-                    <div  class='rollable flex-center {{#if (empty notes)}}no-notes{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}' data-otf='{{quotedAttackName 'M' this}}'>
+                    <div  class='slcs-rollable flex-center {{#if (empty notes)}}no-notes{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}' data-otf='{{quotedAttackName 'M' this}}'>
                         {{#if (eq mode "")}}{{name}}{{else}}{{mode}}{{/if}}
                         {{#if (notEmpty notes)}}
                             <div class='list_note'>{{{gurpslink notes}}}</div>
                         {{/if}}
                     </div>
                 </div>
-                <div class='level rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
+                <div class='level slcs-rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-name='{{name}} ({{mode}})' data-key='system.melee.{{key}}'
                     data-otf='{{quotedAttackName 'M' this}}'>{{level}}</div>
-                <div class='slcs-damage rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-damage data-otf='{{damage}}'>{{damage}}</div>
+                <div class='slcs-damage slcs-rollable flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}' data-damage data-otf='{{damage}}'>{{damage}}</div>
                 <div class='reach flex-center {{stripeClass}}  {{../stripeClass}}{{#if selected}} selected{{/if}}'>{{reach}}</div>
             {{/stripes}}
             {{#if (notEmpty notes)}}

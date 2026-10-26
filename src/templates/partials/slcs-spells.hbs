@@ -32,10 +32,10 @@
                 <div class='mana_maintain flex-center {{stripeClass}}'>{{this.maintain}}</div>
                 <div class='time flex-center {{stripeClass}}'>{{this.casttime}}</div>
                 <div class='duration flex-center {{stripeClass}}'>{{this.duration}}</div>
-                <div class='sl {{rollable this.level}} flex-center {{stripeClass}}' data-name='{{this.name}}' data-otf='Sp:"{{this.name}}"'
+                <div class='sl {{slcs-rollable this.level}} flex-center {{stripeClass}}' data-name='{{this.name}}' data-otf='Sp:"{{this.name}}"'
                     data-key='system.spells.{{@key}}'>{{#if (eq this.relativelevel '-')}}-{{else}}{{this.level}}{{/if}}
                 </div>
-                <div class='rsl {{rollable this.level}} flex-center {{stripeClass}}' data-otf='Sp:"{{this.name}}"'>{{this.relativelevel}}</div>
+                <div class='rsl {{slcs-rollable this.level}} flex-center {{stripeClass}}' data-otf='Sp:"{{this.name}}"'>{{this.relativelevel}}</div>
                 <div class='ref flex-center {{stripeClass}}'>{{{pdflinkext this}}}</div>
             {{/unless}}
         {{/stripes}}

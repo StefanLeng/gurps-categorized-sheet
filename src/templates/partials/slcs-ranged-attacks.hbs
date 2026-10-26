@@ -18,14 +18,14 @@
                 </div>
             </div>
 
-            <div class='usage rollable flex-center {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{mode}}</div>
-            <div class='level rollable flex-center {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{level}}</div>
-            <div class='acc gga-right {{gmod this.acc}} {{stripeClass}}' data-name='Acc for {{this.name}}' data-otf='{{{displayNumber this.acc}}} Acc'> {{{displayNumber this.acc showPlus=false}}} </div>
-            <div class='damage flex-center rollable {{stripeClass}}' data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
+            <div class='usage slcs-rollable flex-center {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{mode}}</div>
+            <div class='level slcs-rollable flex-center {{stripeClass}}' data-name='{{name}} ({{mode}})' data-key='system.ranged.{{key}}' data-otf='{{quotedAttackName 'R' this}}'>{{level}}</div>
+            <div class='acc gga-right slcs-gmod glinkmod {{stripeClass}}' data-name='Acc for {{this.name}}' data-otf='{{{displayNumber this.acc}}} Acc'> {{{displayNumber this.acc showPlus=false}}} </div>
+            <div class='damage flex-center slcs-rollable {{stripeClass}}' data-damage data-otf='{{this.damage}}'>{{this.damage}}</div>
             <div class='range flex-center {{stripeClass}}'>{{this.range}}</div>
             <div class='rof gga-right {{stripeClass}}'>{{this.rof}}</div>
             <div class='shots flex-center {{stripeClass}}'>{{this.shots}}</div>
-            <div class='bulk gga-right {{gmod this.bulk}} {{stripeClass}}' data-name='Bulk for {{this.name}}' data-otf='{{this.bulk}} Bulk' >{{{displayNumber this.bulk}}} </div>
+            <div class='bulk gga-right slcs-gmod glinkmod {{stripeClass}}' data-name='Bulk for {{this.name}}' data-otf='{{this.bulk}} Bulk' >{{{displayNumber this.bulk}}} </div>
             <div class='rcl gga-right {{stripeClass}}'>{{this.rcl}}</div>
             <div class='list_note {{stripeClass}}'>{{{gurpslink this.notes}}}</div>
         {{/stripes}}

@@ -1,3 +1,4 @@
+import { applyAppearance } from './appearance.ts';
 import { convertModifiers } from './util.js';
 import { categorizeSkills, categorizeAds } from './categorize.ts';
 import { initHands, applyGripToHands, resolveWeapons } from './weaponGrips.ts';
@@ -210,6 +211,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
     activateListeners(html: JQuery<HTMLElement>) {
         super.activateListeners(html);
+        applyAppearance(this.element[0]);
 
         html.find('.slcs-conditions details').on('click', (ev) => {
             ev.preventDefault();
@@ -257,6 +259,8 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         html.find('.change-equipped').on('click', this._onClickEquip.bind(this));
 
         html.find('.slcs-reaction-roll button').on('click', drawReactionRoll);
+
+        html.find('.slcs-rollable').on('click', this._onClickRoll.bind(this));
 
         html.find('.slcs-criticalRolls button').on('click', (ev) => {
             const table = ev.currentTarget.dataset.rolltable as unknown as MyRollTable;

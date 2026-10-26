@@ -1,0 +1,18 @@
+/* Neutral resource badges retain their real condition labels. Never invent severity from colour. */
+[data-slcs-accessible="true"] { --slcs-state-bg:#ffffff; --slcs-state-text:#111111; }
+[data-slcs-accessible="true"] .tracked-resource .condition {
+ background:var(--slcs-state-bg) !important; color:var(--slcs-state-text) !important;
+ border:2px solid currentColor !important; font-weight:700;
+}
+[data-slcs-accessible="true"] .tracked-resource .condition :is(a,.gurpslink,.gmod) {
+ color:inherit !important;
+}
+[data-slcs-accessible="true"] :is(.slcs-melee-attacks,.slcs-ranged-attacks) .selected {
+ text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:2px;
+}
+[data-slcs-accessible="true"] .slcs-defenses .group { border-style:dashed; }
+[data-slcs-accessible="true"] .slcs-defenses .group.selected { border-style:solid; border-width:2px; font-weight:700; }
+[data-slcs-accessible="true"] :is(.gurpslink,.pdflink) { text-decoration:underline; }
+@media (prefers-reduced-motion: reduce) {
+ [data-slcs-appearance="true"] .window-content { scroll-behavior:auto; }
+}

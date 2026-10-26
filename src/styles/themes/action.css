@@ -1,0 +1,16 @@
+/* Action / Espionage */
+[data-slcs-theme="action"] {
+ color-scheme:dark;
+ --slcs-surface: #23292a;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #30393a;
+ --slcs-text: #eff1e8;
+ --slcs-muted: #c2c9bf;
+ --slcs-border: #8c9e98;
+ --slcs-secondary-border: #8c9e98;
+ --slcs-heading: #384844;
+ --slcs-heading-text: #fff5d8;
+ --slcs-accent: #eac786;
+ --slcs-input: #192122;
+ --slcs-link: #eac786;
+}

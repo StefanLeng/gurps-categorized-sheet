@@ -187,6 +187,10 @@ declare module 'fvtt-types/configuration' {
 
     interface SettingConfig {
         'gurps-categorized-sheet.cat_sheet_settings': CatSheetSettings;
+        'gurps-categorized-sheet.appearanceTheme': string;
+        'gurps-categorized-sheet.appearanceAccessible': boolean;
+        'gurps-categorized-sheet.appearanceScale': string;
+        'gurps-categorized-sheet.appearanceText': string;
         'gurps.remove-unequipped-weapons': boolean;
         'gurps.use-size-modifier-difference-in-melee': boolean;
     }

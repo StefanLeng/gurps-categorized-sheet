@@ -1,0 +1,17 @@
+/* Sci-Fi */
+[data-slcs-theme="scifi"] {
+ color-scheme:dark;
+ --slcs-surface: #101f2b;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #1a2d3c;
+ --slcs-text: #e5f5ff;
+ --slcs-muted: #afc9d9;
+ --slcs-border: #6495af;
+ --slcs-secondary-border: #6495af;
+ --slcs-heading: #213f53;
+ --slcs-heading-text: #ecfbff;
+ --slcs-accent: #70ddf0;
+ --slcs-input: #152a39;
+ --slcs-link: #70ddf0;
+ --slcs-heading-font: "Consolas", "Courier New", monospace;
+}

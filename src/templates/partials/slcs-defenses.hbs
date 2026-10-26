@@ -5,11 +5,11 @@
                 <div class="group }{{#if selected}} selected{{/if}}">
                     {{#if (eq type "dodge")}}
                         <div class='label big'>{{localize  'GURPS.dodge'}}:<br/></div>
-                        <div class='field big rollable' data-otf='Dodge'>{{level}}</div>
+                        <div class='field big slcs-rollable' data-otf='Dodge'>{{level}}</div>
                     {{/if}}
                     {{#if (eq type "parry")}}
                         <div class='label big'>{{localize  'GURPS.parry'}}:</div>
-                        <div class='field big rollable' data-otf='{{quotedAttackName 'P' attack}}'>{{level}}</div>
+                        <div class='field big slcs-rollable' data-otf='{{quotedAttackName 'P' attack}}'>{{level}}</div>
                         <div class='label'>
                             <div>{{{name}}}</div> 
                             <div class='list_note'>{{notes}}</div>
@@ -17,7 +17,7 @@
                     {{/if}}   
                     {{#if (eq type "block")}}
                         <div class='label big'>{{localize  'GURPS.block'}}:</div>
-                        <div class='field big rollable' data-otf='{{quotedAttackName 'B' attack}}'>{{level}}</div>
+                        <div class='field big slcs-rollable' data-otf='{{quotedAttackName 'B' attack}}'>{{level}}</div>
                         <div class='label'>
                             <div>{{{name}}}</div> 
                             <div class='list_note'>{{notes}}</div>

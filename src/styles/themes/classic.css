@@ -1,0 +1,16 @@
+/* Classic Light */
+[data-slcs-theme="classic"] {
+ color-scheme:light;
+ --slcs-surface: #ffffff;
+ --slcs-rollable-surface: unset;
+ --slcs-stripe: #f0f3f5;
+ --slcs-text: #202936;
+ --slcs-muted: #4a5664;
+ --slcs-border: #657586;
+ --slcs-secondary-border: #657586;
+ --slcs-heading: #e4ebf2;
+ --slcs-heading-text: #182737;
+ --slcs-accent: #174b76;
+ --slcs-input: #ffffff;
+ --slcs-link: #174b76;
+}

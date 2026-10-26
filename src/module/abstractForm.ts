@@ -1,6 +1,7 @@
 import type { DeepPartial } from 'fvtt-types/utils';
-
+import { applyAppearance } from './appearance.ts';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+
 abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
     constructor(args?: any) {
         super(args);
@@ -107,6 +108,7 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ): Promise<void> {
         super._onRender(context, options);
+        applyAppearance(this.element);
         this.#dragDrop.forEach((d) => d.bind(this.element));
     }
 

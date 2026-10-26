@@ -7,7 +7,7 @@
     height: 100%;
     padding: 5px;
     scroll-behavior: smooth;
-    background: white;
+    background: var(--slcs-surface, white);
     overflow-x: auto;
     overflow-y: clip;
 }
@@ -25,10 +25,11 @@
     --sectiongap: 0.3em;
     --rowmargin: 0.3em;
     --notespanmargin: 0.2em;
-    --stripeColor: #e8ffe8;
-    --standardborder: 1px solid var(--maincolor);
-    --minorborder: 1px solid var(--secondarycolor);
+    --stripeColor: var(--slcs-stripe, #e8ffe8);
+    --standardborder: 1px solid  var(--slcs-border, var(--maincolor));
+    --minorborder: 1px solid var(--slcs-secondary-border, var(--secondarycolor));
     --inactiveborder: 1px solid var(--inactivecolor);
+    --rollable-backgroundcolor: var(--slcs-rollable-surface, var(--gga-rollable-background));
 
     color: var(--maincolor);
     display: grid;
@@ -38,10 +39,19 @@
       "header"
       "navtabs"
       "main";
-    background: white;
+    background: var(--slcs-surface, white);
     height: 100%;
 
-    .rollable, .gurpslink, .glinkmodplus, .glinkmodminus, .glinkmod, .gmod {
+ 
+    .slcs-rollable, .glinkmod.slcs-gmod{
+      background-color: var(--rollable-backgroundcolor);
+      color: var(--slcs-text, var(--maincolor));
+      font-weight: 500;
+      border-radius: 0;
+      border: none;
+    }
+
+    .gurpslink, .glinkmodplus, .glinkmodminus  {
         font-weight: 500;
         color: var(--maincolor);
     }
@@ -87,7 +97,7 @@
             line-height: normal;
             padding: 0;
             margin: 0;
-            border: var(--minorborder);
+            border: 1px solid var(--slcs-border, #b5b3a2);
             border-radius: 0;
         }
 
@@ -128,13 +138,15 @@
         border: var(--standardborder);
         height: 0;
         min-height: 100%;
+        .gga-table > div{
+            border: none;
+        }
         .gga-table > div.situation{
             max-height: 3em;
             overflow-y: auto;
             align-items: start;
             padding-top: 2px;
             font-size: var(--font-size-14);
-            border: none;
         }
     }
 
@@ -192,7 +204,7 @@
     .slcs-block hr {
         width: 100%;
         border: none;
-        background-color: var(--maincolor);
+        background-color: var(--slcs-border, black);
         height: 1px;
         margin: 0;
         margin-top: 0.2em;
@@ -216,7 +228,7 @@
         text-shadow: none;
         font-weight: bold;
         background-color: var(--stripeColor);
-        color: var(--maincolor);
+        color: var(--slcs-text, var(--maincolor));
     }
 
     .tab-item {
@@ -261,15 +273,24 @@
     }
 
     .even{
-        background-color: var(--stripeColor);;
+        background-color: var(--stripeColor);
+        &.slcs-rollable, &.glinkmod.slcs-gmod{
+          background-color: var(--rollable-backgroundcolor);
+        }
     }
 
     .odd.evenOuter {
         background-color: var(--stripeColor);;
+        &.slcs-rollable, &.glinkmod.slcs-gmod{
+          background-color: var(--rollable-backgroundcolor);
+        }
     }
 
     .even.evenOuter {
-        background-color: var(--backgroundcolor);
+        background-color: var(--slcs-surface, var(--backgroundcolor));
+        &.slcs-rollable, &.glinkmod.slcs-gmod{
+          background-color: var(--rollable-backgroundcolor);
+        }
     }
 
 
@@ -425,7 +446,7 @@
             }
         }
         .sl, .rsl{
-            .rollable {
+            .slcs-rollable {
                 display: flex;
                 padding-left: calc(2 * var(--rowmargin));
                 padding-right: calc(2 * var(--rowmargin));
@@ -455,15 +476,10 @@
                 border-bottom: none;
                 border-left: none;
                 border-right: none;
+                color: var(--slcs-link, var(--maincolor));
+                background-color: var(--rollable-backgroundcolor);
             }
         }
-    }
-
-    .slcs-skills > div{
-        border-bottom: none;
-        border-top: var(--minorborder);
-        border-right: var(--minorborder);
-        padding: 0;
     }
 
     .slcs-melee-attacks{
@@ -500,13 +516,13 @@
     }
 
     .slcs-melee-attacks, .slcs-ranged-attacks{
-        --cell-padding: 0.1em var(--rowmargin) 0.1em var(--rowmargin);
-        color: var(--inactivecolor);
-        .rollable, .gmod{
-            color: var(--inactivecolor);
+       --cell-padding: 0.1em var(--rowmargin) 0.1em var(--rowmargin);      
+       color: var(--slcs-muted, var(--inactivecolor));
+        .slcs-rollable, .slcs-gmod{
+            color: var(--slcs-muted, var(--inactivecolor));
         }
-        .selected, .rollable.selected, .gmod.selected, .selected .rollable{
-            color: var(--maincolor);
+        .selected, .slcs-rollable.selected, .slcs-gmod.selected, .selected .slcs-rollable{
+            color: var(--slcs-text, var(--maincolor));
         }
         .description{
             white-space: normal;
@@ -583,10 +599,10 @@
             gap: var(--sectiongap);
         }
         .group{
-            border: 1px solid var(--inactivecolor);
-            color: var(--inactivecolor);
-            .rollable{
-                color: var(--inactivecolor);
+            border: 1px solid var(--slcs-border, var(--inactivecolor));
+            color: var(--slcs-muted,var(--inactivecolor));
+            .slcs-rollable{
+                color: var(--slcs-muted,var(--inactivecolor));
             }
              height: 100%;
             .field{
@@ -594,10 +610,10 @@
             }
         }
         .group.selected{
-            color: var(--maincolor);
-            border-color: var(--maincolor);
-            .rollable{
-                color: var(--maincolor);
+            color: var(--slcs-text, var(--maincolor));
+            border-color: var(--slcs-text, var(--maincolor));
+            .slcs-rollable{
+                color: var(--slcs-text, var(--maincolor));
             }
         }
         .label{
@@ -617,6 +633,7 @@
             gap: var(--sectiongap);
             .tracked-resource {
                 width: min-content;
+                border: var(--standardborder)
             }
         }
     }
@@ -678,7 +695,8 @@
                 .condition{
                     border: 0;
                 }
-            }            
+            }
+            border: var(--standardborder)      
         }
         .conditional-injury{
             .tracked-resource{
@@ -703,6 +721,7 @@
                 .basic-value{
                     grid-template-columns: 1fr 1fr;
                 }
+                border: var(--standardborder)
             }
         }
     }
@@ -801,7 +820,7 @@
 }
 
 .application .slcs-form {
-    background: white;
+    background: var(--slcs-surface, white);
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: min-content 1fr min-content;
@@ -859,7 +878,7 @@
 }
 
 .slcs-settingsForm, .slcs-actorSettingsForm{
-    --color-text-primary: var(--color-dark-2);
+    --color-text-primary: var(--slcs-text, var(--color-dark-2));
  
     .slcs-settingsBlock{
         display: grid;
@@ -984,7 +1003,7 @@
                 padding: 0.3em;
             }
             textarea:read-only{
-                color:black;
+                color: var(--slcs-text, black);
                 border: 0;
             }
             select{
@@ -1031,3 +1050,17 @@
         }            
     }
 }
+
+// Theme files are plain CSS, inlined into the existing distributable stylesheet.
+@import (inline) "themes/foundation.css";
+@import (inline) "themes/classic.css";
+@import (inline) "themes/dark.css";
+@import (inline) "themes/fantasy.css";
+@import (inline) "themes/scifi.css";
+@import (inline) "themes/horror.css";
+@import (inline) "themes/action.css";
+@import (inline) "themes/pulp.css";
+@import (inline) "themes/supers.css";
+@import (inline) "themes/contrast.css";
+@import (inline) "themes/accessibility.css";
+@import (inline) "themes/scaling.css";

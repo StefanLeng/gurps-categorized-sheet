@@ -1,0 +1,16 @@
+/* Supers */
+[data-slcs-theme="supers"] {
+ color-scheme:light;
+ --slcs-surface: #fbfcff;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #e9eff9;
+ --slcs-text: #19243d;
+ --slcs-muted: #465571;
+ --slcs-border: #7585a2;
+ --slcs-secondary-border: #7585a2;
+ --slcs-heading: #253e73;
+ --slcs-heading-text: #ffffff;
+ --slcs-accent: #314f92;
+ --slcs-input: #ffffff;
+ --slcs-link: #263f7c;
+}

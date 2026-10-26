@@ -1,0 +1,17 @@
+/* Fantasy */
+[data-slcs-theme="fantasy"] {
+ color-scheme:light;
+ --slcs-surface: #fbf5e8;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #efe6d4;
+ --slcs-text: #30251e;
+ --slcs-muted: #665344;
+ --slcs-border: #8d775d;
+ --slcs-secondary-border: #8d775d;
+ --slcs-heading: #50382b;
+ --slcs-heading-text: #fff5df;
+ --slcs-accent: #765025;
+ --slcs-input: #fffaf0;
+ --slcs-link: #69401f;
+ --slcs-heading-font: Georgia, "Times New Roman", serif;
+}

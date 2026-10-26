@@ -1,0 +1,17 @@
+/* Horror */
+[data-slcs-theme="horror"] {
+ color-scheme:dark;
+ --slcs-surface: #252126;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #322b32;
+ --slcs-text: #f5ece3;
+ --slcs-muted: #c9babb;
+ --slcs-border: #97828d;
+ --slcs-secondary-border: #918166;
+ --slcs-heading: #493039;
+ --slcs-heading-text: #fff0e6;
+ --slcs-accent: #f0afa3;
+ --slcs-input: #1c191f;
+ --slcs-link: #f0afa3;
+ --slcs-heading-font: Georgia, "Times New Roman", serif;
+}

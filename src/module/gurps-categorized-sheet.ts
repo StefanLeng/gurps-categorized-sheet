@@ -14,6 +14,8 @@
  * 					 determines how others may use and modify your module.
  */
 
+import { registerAppearance } from './appearance.ts';
+
 // Import TypeScript modules
 import { registerSettings } from './init.js';
 import { preloadTemplates } from './preloadTemplates.js';
@@ -27,6 +29,7 @@ Hooks.once('gurpsinit', async () => {
 
     // Register custom module settings
     registerSettings();
+    registerAppearance();
 
     registerHandlebarsHelpers();
 

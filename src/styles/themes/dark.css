@@ -1,0 +1,16 @@
+/* Dark */
+[data-slcs-theme="dark"] {
+ color-scheme:dark;
+ --slcs-surface: #20252d;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #2a313b;
+ --slcs-text: #edf1f7;
+ --slcs-muted: #bdc7d3;
+ --slcs-border: #8393a7;
+ --slcs-secondary-border: #8393a7;
+ --slcs-heading: #303c4c;
+ --slcs-heading-text: #f3f6fa;
+ --slcs-accent: #9bc8ff;
+ --slcs-input: #171d25;
+ --slcs-link: #9bc8ff;
+}

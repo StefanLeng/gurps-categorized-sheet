@@ -1,0 +1,17 @@
+/* Pulp / Historical */
+[data-slcs-theme="pulp"] {
+ color-scheme:light;
+ --slcs-surface: #f8f0df;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #eae0cc;
+ --slcs-text: #30291e;
+ --slcs-muted: #665943;
+ --slcs-border: #918166;
+ --slcs-secondary-border: #918166;
+ --slcs-heading: #4e4938;
+ --slcs-heading-text: #fff5df;
+ --slcs-accent: #76521e;
+ --slcs-input: #fff8eb;
+ --slcs-link: #70471d;
+ --slcs-heading-font: Georgia, "Times New Roman", serif;
+}

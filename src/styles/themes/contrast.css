@@ -1,0 +1,16 @@
+/* High Contrast */
+[data-slcs-theme="contrast"] {
+ color-scheme:dark;
+ --slcs-surface: #080808;
+ --slcs-rollable-surface: none;
+ --slcs-stripe: #202020;
+ --slcs-text: #ffffff;
+ --slcs-muted: #eeeeee;
+ --slcs-border: #ffffff;
+ --slcs-secondary-border: #ffffff;
+ --slcs-heading: #ffffff;
+ --slcs-heading-text: #080808;
+ --slcs-accent: #ffe269;
+ --slcs-input: #080808;
+ --slcs-link: #b9e2ff;
+}
