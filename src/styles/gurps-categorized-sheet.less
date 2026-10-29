@@ -88,6 +88,7 @@
     .slcs-portrait{
         display: grid;
         grid-area: portrait;
+        grid-template-columns: 100%;
         grid-template-rows: 1fr min-content;
         align-items: center;
         justify-items: center;
@@ -459,6 +460,7 @@
            padding: 0 var(--rowmargin) 0 var(--rowmargin);
         }
         details.skill-name{
+            display: block;
             summary{
                 padding: 0 var(--rowmargin) 0 var(--rowmargin);
                 list-style: none;
@@ -901,7 +903,7 @@
     }
     
     .slcs-settingsBlock.double{
-        grid-template-columns: 0fr 0fr 0fr 1fr;
+        grid-template-columns: 0fr max-content 0fr 1fr;
     }
 
     .item-row {
@@ -1062,5 +1064,7 @@
 @import (inline) "themes/pulp.css";
 @import (inline) "themes/supers.css";
 @import (inline) "themes/contrast.css";
+@import (inline) "themes/theme-typography.css";
+@import (inline) "themes/theme-decoration.css";
 @import (inline) "themes/accessibility.css";
 @import (inline) "themes/scaling.css";

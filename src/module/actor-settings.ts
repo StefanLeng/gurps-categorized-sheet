@@ -36,6 +36,7 @@ const defaultSettings: CatSheetActorSettings = {
     numberOfHands: 2,
     sheetOTFs: [],
     emptyHandAttacks: [],
+    appearanceTheme: null,
 };
 
 function migrateSetting(settings: CatSheetActorSettings) {
@@ -82,6 +83,9 @@ function migrateSetting(settings: CatSheetActorSettings) {
             }),
         };
     }
+
+    if (!settings.appearanceTheme) settings.appearanceTheme = null;
+
     return newSettings;
 }
 
@@ -130,6 +134,7 @@ export function mergeSettings(settings: CatSheetSettings, actorSettings: CatShee
     newSettings.allowExtraEffort = actorSettings.allowExtraEffort ?? newSettings.allowExtraEffort;
     newSettings.hideInactiveAttacks = actorSettings.hideInactiveAttacks ?? newSettings.hideInactiveAttacks;
     newSettings.highStrengthOneHanded = actorSettings.highStrengthOneHanded ?? newSettings.highStrengthOneHanded;
+    newSettings.appearanceTheme = actorSettings.appearanceTheme ?? newSettings.appearanceTheme ?? 'original';
     CATEGORIES.forEach((cat) => {
         newSettings.items.skills[cat] = newSettings.items.skills[cat]
             .filter((i) => !actorSettings.removedItems.skills[cat].some((x) => x === i))

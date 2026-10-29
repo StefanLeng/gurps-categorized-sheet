@@ -1,0 +1,68 @@
+/* Works with current appearance.ts unchanged. Decorations default on for
+   themed roots; data-slcs-decorative="false" is an optional off switch.
+   Original, High Contrast, and colour-independent mode exclude ornaments. */
+/* Explicit root scope wins over foundation controls and upstream nested rules.
+   Frame coverage follows upstream classes, including tables without headings. */
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]):not([data-slcs-theme="dark"]) 
+:is(.slcs-sheet .slcs-sheet-tabs li) { margin: 0; 
+}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource) {
+ position:relative; border:var(--slcs-frame,1px solid var(--slcs-border));
+ border-radius:var(--slcs-panel-radius,0);box-shadow:var(--slcs-panel-shadow,none);
+ background-color:var(--slcs-surface);
+}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) :is(.slcs-basic-attributes,.slcs-secondary-attributes,.tracked-resource) {padding:0.3em}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-defenses .group {
+ border:var(--slcs-frame,1px solid var(--slcs-border));border-radius:var(--slcs-panel-radius,0);
+ padding:0.3em;background:var(--slcs-input);
+}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-defenses .group.selected {border-color:var(--slcs-accent);font-weight:700}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) :is(.gga-table>.header,.slcs-block>.header,.tracked-resource>.header) {
+ font-family:var(--slcs-heading-font);letter-spacing:var(--slcs-heading-spacing,0);
+ font-weight:700;line-height:1.4;border-bottom:var(--slcs-heading-rule,1px solid var(--slcs-border));
+}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .window-header {
+ position:relative; min-height:2.8em;letter-spacing:var(--slcs-heading-spacing,0);
+ border-bottom:var(--slcs-heading-rule,2px solid var(--slcs-accent));
+}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .window-header::after {content:"";pointer-events:none;position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--slcs-title-rule,none)}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs {padding-block:0.4em;border-bottom:2px solid var(--slcs-border)}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ display:inline-block; padding:0.35em 0.55em;line-height:1.4;
+ border:var(--slcs-tab-border,1px solid var(--slcs-border));border-radius:var(--slcs-tab-radius,0);
+ background:var(--slcs-input);color:var(--slcs-text);box-shadow:none;
+}
+[data-slcs-appearance="true"][data-slcs-theme="fantasy"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.3em;
+}
+[data-slcs-appearance="true"][data-slcs-theme="scifi"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.2em;
+}
+[data-slcs-appearance="true"][data-slcs-theme="action"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.2em;
+}
+[data-slcs-appearance="true"][data-slcs-theme="horror"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.4em;
+}
+[data-slcs-appearance="true"][data-slcs-theme="pulp"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.4em;
+}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item.active {
+ background:var(--slcs-heading);color:var(--slcs-heading-text);
+ border:var(--slcs-tab-active-border,var(--slcs-tab-border,1px solid var(--slcs-border)));
+ box-shadow:var(--slcs-tab-shadow,none);text-decoration:underline;text-underline-offset:3px;
+}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="fantasy"] :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource)::after {content:"";position:absolute;pointer-events:none;inset:-4px;border:1px solid var(--slcs-border);border-radius:4px 0 4px 0;}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="fantasy"] :is(.window-header,.header,.tab-item) {font-variant-caps:small-caps;}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="scifi"] :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource)::after {content:"";position:absolute;pointer-events:none;inset:-2px;background:linear-gradient(var(--slcs-accent),var(--slcs-accent)) left top/24px 4px,linear-gradient(var(--slcs-accent),var(--slcs-accent)) left top/4px 24px,linear-gradient(var(--slcs-accent),var(--slcs-accent)) right bottom/24px 4px,linear-gradient(var(--slcs-accent),var(--slcs-accent)) right bottom/4px 24px;background-repeat:no-repeat;}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="horror"] :is(.window-header,.header,.tab-item) {font-style:italic;font-variant-caps:small-caps;}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="horror"] :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource) {border-top:8px double var(--slcs-accent);}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="action"] :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource) {border-left:9px solid var(--slcs-accent);}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="action"] :is(.window-header,.header,.tab-item) {text-transform:uppercase;letter-spacing:.06em;}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="pulp"] :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource) {border-top:6px double var(--slcs-border);}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="pulp"] :is(.window-header,.header,.tab-item) {text-transform:uppercase;}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"])[data-slcs-theme="supers"] :is(.window-header,.header) {text-transform:uppercase;font-style:italic;}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .gga-table > :first-child {border-top-left-radius:var(--slcs-panel-radius,0)}
+
+/* Keep row backgrounds inside rounded frames without clipping tooltips. */
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .gga-table.slcs-block {padding:0.3em}

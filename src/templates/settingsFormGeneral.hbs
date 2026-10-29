@@ -35,7 +35,19 @@
                     {{#if (eq settings.highStrengthOneHanded null)}}{{checked globalSettings.highStrengthOneHanded}}{{else}}{{checked settings.highStrengthOneHanded}}{{/if}}/>
                 <div class='label global-setting'>Use global setting</div>
                 <input type="checkbox" name="settings.highStrengthOneHandedGlobal" {{checked (eq settings.highStrengthOneHanded null)}}/>
-            {{/unless}}       
+            {{/unless}}   
+            <div class='label'>Appearance fo the sheet. Original preserves the existing palette.</div>  
+            {{#unless limitedEditing}}
+              <select data-action="setTheme">
+                 {{selectOptions themes selected=settings.appearanceTheme}}
+              </select>  
+            {{else}}
+              <select data-action="setTheme"  {{disabled (eq settings.appearanceTheme null)}} >
+                  {{selectOptions themes selected=settings.appearanceTheme}}
+              </select>  
+              <div class='label global-setting'>Use global setting</div>
+              <input type="checkbox" name="settings.appearanceThemeGlobal" {{checked (eq settings.appearanceTheme null)}}/>
+            {{/unless}} 
          </div>        
     </div>
     <div class="slcs_col col2">

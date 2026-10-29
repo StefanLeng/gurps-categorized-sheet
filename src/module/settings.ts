@@ -19,6 +19,7 @@ export const defaultSettings: CatSheetSettings = {
     hideInactiveAttacks: false,
     sheetOTFs: systemOTFs,
     highStrengthOneHanded: false,
+    appearanceTheme: 'original',
 };
 
 function sortTraits(cat: CategoryList): CategoryList {
@@ -64,6 +65,9 @@ function migrateSetting(settings: CatSheetSettings) {
             }),
         };
     }
+
+    if (!settings.appearanceTheme) settings.appearanceTheme = 'original';
+
     return newSettings;
 }
 

@@ -1,0 +1,167 @@
+/* Additive typography/frame tokens. Load after the existing theme palettes.
+   No palette, rollable-surface, secondary-border, or rules changes. */
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="classic"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Segoe UI",Arial,sans-serif;
+ --slcs-heading-font: "Segoe UI",Arial,sans-serif;
+ --slcs-panel-radius: 4px;
+ --slcs-tab-radius: 4px;
+ --slcs-radius: 3px;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="classic"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 1px solid var(--slcs-border);
+ --slcs-panel-radius: 3px;
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="dark"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Segoe UI",Arial,sans-serif;
+ --slcs-heading-font: "Segoe UI",Arial,sans-serif;
+ --slcs-panel-radius: 7px;
+ --slcs-tab-radius: 5px;
+ --slcs-radius: 5px;
+ --slcs-heading-spacing: .015em;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="dark"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 1px solid var(--slcs-border);
+ --slcs-panel-radius: 10px;
+ --slcs-panel-shadow: 0 4px 8px #0005;
+ --slcs-tab-radius: 1.1em;
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="fantasy"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Candara","Trebuchet MS",Arial,sans-serif;
+ --slcs-heading-font: "Palatino Linotype","Book Antiqua",Georgia,serif;
+ --slcs-prose-font: Georgia,"Times New Roman",serif;
+ --slcs-heading-spacing: .04em;
+ --slcs-heading-rule: 3px double var(--slcs-border);
+ --slcs-title-rule: linear-gradient(90deg,transparent 4%,var(--slcs-accent) 4%,var(--slcs-accent) 96%,transparent 96%);
+ --slcs-radius: 2px;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="fantasy"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 6px double var(--slcs-border);
+ --slcs-panel-radius: 9px 0 9px 0;
+ --slcs-panel-shadow: 2px 3px 0 var(--slcs-stripe);
+ --slcs-tab-border: 3px double var(--slcs-border);
+ --slcs-tab-radius: 0.8em 0.8em 0 0;
+ --slcs-heading-rule: 4px double var(--slcs-border);
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="scifi"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Segoe UI",Arial,sans-serif;
+ --slcs-heading-font: "Consolas","Courier New",monospace;
+ --slcs-heading-spacing: .035em;
+ --slcs-heading-rule: 1px solid var(--slcs-accent);
+ --slcs-title-rule: repeating-linear-gradient(90deg,var(--slcs-accent) 0 16px,transparent 16px 20px);
+ --slcs-radius: 0px;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="scifi"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 2px solid var(--slcs-border);
+ --slcs-panel-radius: 0;
+ --slcs-panel-shadow: inset 0 0 0 3px var(--slcs-surface);
+ --slcs-tab-active-border: 3px solid var(--slcs-accent);
+ --slcs-tab-border: 1px solid var(--slcs-border);
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="horror"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Segoe UI",Arial,sans-serif;
+ --slcs-heading-font: "Palatino Linotype",Georgia,serif;
+ --slcs-prose-font: Georgia,serif;
+ --slcs-heading-spacing: .065em;
+ --slcs-heading-rule: 3px double var(--slcs-border);
+ --slcs-title-rule: linear-gradient(90deg,transparent,var(--slcs-accent),transparent);
+ --slcs-radius: 0px;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="horror"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 5px double var(--slcs-border);
+ --slcs-panel-radius: 18px 18px 0 0;
+ --slcs-panel-shadow: 0 5px 0 #0006;
+ --slcs-tab-radius: 1em 1em 0 0;
+ --slcs-tab-border: 3px double var(--slcs-border);
+ --slcs-heading-rule: 5px double var(--slcs-accent);
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="action"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Segoe UI",Arial,sans-serif;
+ --slcs-heading-font: "Bahnschrift SemiCondensed","Arial Narrow",Arial,sans-serif;
+ --slcs-heading-spacing: .08em;
+ --slcs-title-rule: repeating-linear-gradient(90deg,var(--slcs-accent) 0 2px,transparent 2px 7px);
+ --slcs-radius: 0px;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="action"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 2px solid var(--slcs-border);
+ --slcs-panel-radius: 0;
+ --slcs-tab-border: 2px solid var(--slcs-border);
+ --slcs-tab-active-border: 3px solid var(--slcs-accent);
+ --slcs-heading-rule: 4px solid var(--slcs-accent);
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="pulp"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Trebuchet MS",Arial,sans-serif;
+ --slcs-heading-font: "Courier New",Courier,monospace;
+ --slcs-prose-font: Georgia,serif;
+ --slcs-heading-spacing: .035em;
+ --slcs-heading-rule: 3px double var(--slcs-border);
+ --slcs-title-rule: repeating-linear-gradient(90deg,var(--slcs-accent) 0 4px,transparent 4px 8px);
+ --slcs-radius: 0px;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="pulp"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 4px double var(--slcs-border);
+ --slcs-panel-radius: 0;
+ --slcs-panel-shadow: 4px 4px 0 var(--slcs-stripe);
+ --slcs-tab-border: 2px dashed var(--slcs-border);
+ --slcs-heading-rule: 3px double var(--slcs-border);
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="supers"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: "Trebuchet MS",Arial,sans-serif;
+ --slcs-heading-font: "Impact","Arial Black",Arial,sans-serif;
+ --slcs-heading-spacing: .065em;
+ --slcs-heading-weight: 400;
+ --slcs-title-rule: radial-gradient(circle,var(--slcs-accent) 1px,transparent 1.5px) 0 0/6px 4px;
+ --slcs-radius: 1px;
+}
+
+/* v0.3: visible structural identity, independent of heading availability. */
+[data-slcs-appearance="true"][data-slcs-theme="supers"]:not([data-slcs-theme="original"]) {
+ --slcs-frame: 3px solid var(--slcs-heading);
+ --slcs-panel-radius: 0;
+ --slcs-panel-shadow: 5px 5px 0 var(--slcs-border);
+ --slcs-tab-border: 2px solid var(--slcs-heading);
+ --slcs-tab-shadow: 3px 3px 0 var(--slcs-border);
+ --slcs-heading-rule: 3px solid var(--slcs-heading);
+}
+
+/* Typography and frame tokens. Font stacks use local fonts only. */
+[data-slcs-appearance="true"][data-slcs-theme="contrast"]:not([data-slcs-theme="original"]) {
+ --slcs-body-font: Arial,Helvetica,sans-serif;
+ --slcs-heading-font: Arial,Helvetica,sans-serif;
+ --slcs-radius: 0px;
+}
+
+/* Apply font tokens independently of decorative frames. */
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]) :is(.window-content,.slcs-sheet,.slcs-form) {font-family:var(--slcs-body-font,Arial,sans-serif)}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]) :is(.window-header,.slcs-sheet-tabs .tab-item,.slcs-form h3,.slcs-defenses .label.big) {font-family:var(--slcs-heading-font,Arial,sans-serif)}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]) :is(.field,input,.level,.damage,.slcs-rollable) {font-variant-numeric:tabular-nums lining-nums}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]) :is(.list_note,.qnotes,.slcs-description) {font-family:var(--slcs-prose-font,var(--slcs-body-font,Arial,sans-serif))}

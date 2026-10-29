@@ -149,6 +149,7 @@ export type CatSheetActorSettings = {
     numberOfHands: number;
     sheetOTFs: SheetOTF[];
     emptyHandAttacks?: { name: string; usage: string }[];
+    appearanceTheme?: string | null;
 };
 
 export type RollTableNames = {
@@ -167,6 +168,7 @@ export type CatSheetSettings = {
     hideInactiveAttacks: boolean;
     sheetOTFs: SheetOTF[];
     highStrengthOneHanded: boolean;
+    appearanceTheme?: string;
 };
 
 declare module 'fvtt-types/configuration' {
@@ -187,7 +189,6 @@ declare module 'fvtt-types/configuration' {
 
     interface SettingConfig {
         'gurps-categorized-sheet.cat_sheet_settings': CatSheetSettings;
-        'gurps-categorized-sheet.appearanceTheme': string;
         'gurps-categorized-sheet.appearanceAccessible': boolean;
         'gurps-categorized-sheet.appearanceScale': string;
         'gurps-categorized-sheet.appearanceText': string;

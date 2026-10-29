@@ -211,7 +211,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
     activateListeners(html: JQuery<HTMLElement>) {
         super.activateListeners(html);
-        applyAppearance(this.element[0]);
+        applyAppearance(this.element[0], this.actor);
 
         html.find('.slcs-conditions details').on('click', (ev) => {
             ev.preventDefault();

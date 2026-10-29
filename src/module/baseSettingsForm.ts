@@ -1,6 +1,7 @@
 import { CATEGORIES, OTF_REGIONS } from './types.ts';
 import { BasicForm } from './abstractForm.ts';
 import type { DeepPartial } from 'fvtt-types/utils';
+import { THEMES } from './appearance.ts';
 
 abstract class BaseSettingsForm extends BasicForm {
     static override DEFAULT_OPTIONS: DeepPartial<
@@ -128,6 +129,7 @@ abstract class BaseSettingsForm extends BasicForm {
             ...context,
             otfRegions: OTF_REGIONS,
             manuevers: Object.values(GURPS.Maneuvers.getAll()),
+            themes: THEMES,
             buttons: [{ action: 'save', icon: 'fa-solid fa-save', label: 'SETTINGS.Save' }],
         };
     }

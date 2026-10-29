@@ -1,4 +1,7 @@
+import { getMergedSettings } from './actor-settings.ts';
+import SLCatSheet from './cat-sheet.ts';
 import { MODULE_ID } from './constants.ts';
+import { getSettings } from './settings.ts';
 
 export const THEMES: Record<string, string> = {
     original: 'Original (unchanged)',
@@ -17,27 +20,20 @@ const ROOTS = '.sl-cat-sheet, .slcs-settingsForm, .slcs-actorSettingsForm';
 const originals = new WeakMap<HTMLElement, { light: boolean; dark: boolean }>();
 
 function setting(key: 'appearanceAccessible'): boolean;
-function setting(key: 'appearanceTheme' | 'appearanceScale' | 'appearanceText'): string;
-function setting(key: 'appearanceAccessible' | 'appearanceTheme' | 'appearanceScale' | 'appearanceText') {
+function setting(key: 'appearanceScale' | 'appearanceText'): string;
+function setting(key: 'appearanceAccessible' | 'appearanceScale' | 'appearanceText') {
     return game.settings?.get(MODULE_ID, key);
 }
 
-function refresh(): void {
-    document.querySelectorAll<HTMLElement>(ROOTS).forEach(applyAppearance);
+export function refreshSheets(): void {
+    //@ts-expect-error foundry global unknown
+    for (const k in foundry.ui.windows) {
+        //@ts-expect-error foundry global unknown
+        foundry.ui.windows[k].render();
+    }
 }
 
 export function registerAppearance(): void {
-    game.settings?.register(MODULE_ID, 'appearanceTheme', {
-        name: 'Categorized Sheet: theme',
-        hint: 'Appearance on this client. Original preserves the existing palette.',
-        scope: 'client',
-        config: true,
-        type: String,
-        choices: THEMES,
-        default: 'original',
-        onChange: refresh,
-    });
-
     game.settings?.register(MODULE_ID, 'appearanceAccessible', {
         name: 'Categorized Sheet: colour-independent indicators',
         hint: 'Underline selected actions and use neutral, labelled resource states. Applies with any theme.',
@@ -45,7 +41,7 @@ export function registerAppearance(): void {
         config: true,
         type: Boolean,
         default: false,
-        onChange: refresh,
+        onChange: refreshSheets,
     });
 
     for (const [key, name, hint, choices] of [
@@ -70,7 +66,7 @@ export function registerAppearance(): void {
             type: String,
             choices,
             default: '1',
-            onChange: refresh,
+            onChange: refreshSheets,
         });
     }
 }
@@ -80,7 +76,7 @@ function scaleValue(value: string, choices: number[]): number {
     return choices.includes(n) ? n : 1;
 }
 
-export function applyAppearance(root: HTMLElement): void {
+export function applyAppearance(root: HTMLElement, actor: Actor | null): void {
     if (!root?.matches(ROOTS)) return;
 
     if (!originals.has(root))
@@ -89,7 +85,7 @@ export function applyAppearance(root: HTMLElement): void {
             dark: root.classList.contains('theme-dark'),
         });
 
-    const chosen = String(setting('appearanceTheme'));
+    const chosen = (actor ? getMergedSettings(actor).appearanceTheme : getSettings().appearanceTheme) ?? 'original';
     const theme = Object.prototype.hasOwnProperty.call(THEMES, chosen) ? chosen : 'original';
     const accessible = setting('appearanceAccessible');
     const scale = scaleValue(setting('appearanceScale'), [0.8, 0.9, 1, 1.1, 1.25, 1.5]);

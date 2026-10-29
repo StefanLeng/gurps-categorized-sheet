@@ -108,7 +108,7 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ): Promise<void> {
         super._onRender(context, options);
-        applyAppearance(this.element);
+        applyAppearance(this.element, null);
         this.#dragDrop.forEach((d) => d.bind(this.element));
     }
 

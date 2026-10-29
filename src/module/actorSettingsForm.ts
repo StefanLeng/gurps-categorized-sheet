@@ -35,6 +35,8 @@ interface NewSettings {
     sheetOTFs: NewOTF;
     numberOfHands: number;
     emptyHandAttacks: boolean[];
+    appearanceTheme: string | null;
+    appearanceThemeGlobal: boolean;
 }
 
 class ActorSettingsForm extends BaseSettingsForm {
@@ -197,6 +199,22 @@ class ActorSettingsForm extends BaseSettingsForm {
         });
     }
 
+    protected override async _onChangeForm(
+        formConfig: foundry.applications.api.ApplicationV2.FormConfiguration,
+        event: Event,
+    ): Promise<void> {
+        if (event.target instanceof HTMLSelectElement) {
+            const action = event.target.dataset.action;
+
+            if (action === 'setTheme') {
+                this._settings.appearanceTheme = event.target.value;
+                return;
+            }
+        }
+
+        return super._onChangeForm(formConfig, event);
+    }
+
     static override async settingsFormHandler(
         this: ActorSettingsForm,
         _event: Event | SubmitEvent,
@@ -221,6 +239,11 @@ class ActorSettingsForm extends BaseSettingsForm {
         } else {
             this._settings.highStrengthOneHanded =
                 newSettings.highStrengthOneHanded ?? this._globalSetting.highStrengthOneHanded;
+        }
+        if (newSettings.appearanceThemeGlobal) {
+            this._settings.appearanceTheme = null;
+        } else {
+            this._settings.appearanceTheme = this._settings.appearanceTheme ?? this._globalSetting.appearanceTheme;
         }
         if (newSettings.emptyHandAttacks) {
             this._attacksWithoutGrip = this._attacksWithoutGrip.map((m, i) => {

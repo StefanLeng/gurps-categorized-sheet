@@ -26,6 +26,7 @@ interface NewSettings {
     hideInactiveAttacks: boolean;
     highStrengthOneHanded: boolean;
     sheetOTFs: NewOTF;
+    appearanceTheme: string;
 }
 
 class SettingsForm extends BaseSettingsForm {
@@ -150,6 +151,22 @@ class SettingsForm extends BaseSettingsForm {
                 };
             }
         });
+    }
+
+    protected override async _onChangeForm(
+        formConfig: foundry.applications.api.ApplicationV2.FormConfiguration,
+        event: Event,
+    ): Promise<void> {
+        if (event.target instanceof HTMLSelectElement) {
+            const action = event.target.dataset.action;
+
+            if (action === 'setTheme') {
+                this._settings.appearanceTheme = event.target.value;
+                return;
+            }
+        }
+
+        return super._onChangeForm(formConfig, event);
     }
 
     /**

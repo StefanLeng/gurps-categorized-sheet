@@ -1,6 +1,7 @@
 import { SettingsForm } from './settingsForm.ts';
 import { MODULE_ID, CAT_SHEET_SETTINGS } from './constants.ts';
 import { defaultSettings } from './settings.ts';
+import { refreshSheets } from './appearance.ts';
 
 export function registerSettings(): void {
     game.settings?.registerMenu(MODULE_ID, 'cat-sheet-settings', {
@@ -17,5 +18,6 @@ export function registerSettings(): void {
         config: false, // we will use the menu above to edit this setting
         type: Object,
         default: defaultSettings, // can be used to set up the default structure
+        onChange: refreshSheets,
     });
 }
