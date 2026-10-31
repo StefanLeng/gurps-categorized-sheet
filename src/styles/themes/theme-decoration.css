@@ -65,4 +65,4 @@
 [data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .gga-table > :first-child {border-top-left-radius:var(--slcs-panel-radius,0)}
 
 /* Keep row backgrounds inside rounded frames without clipping tooltips. */
-[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .gga-table.slcs-block {padding:0.3em}
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .gga-table.slcs-block {padding:0.3em}

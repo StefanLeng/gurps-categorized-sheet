@@ -1,0 +1,18 @@
+/* Personal controls also work with Original; defaults leave its styles intact. */
+[data-slcs-appearance="true"][data-slcs-readable="true"] :is(.slcs-sheet,.slcs-form,.window-header,.header,h3,.tab-item,.qnotes,.list_note,input,select,textarea,button) {
+ font-family:Arial,Helvetica,sans-serif!important; font-style:normal!important; letter-spacing:normal!important;
+}
+[data-slcs-appearance="true"][data-slcs-density="compact"] .slcs-sheet {--sectiongap:0.2em;--rowmargin:0.15em;--notespanmargin:0.1em;}
+[data-slcs-appearance="true"][data-slcs-density="compact"] :is(.slcs-block,.tracked-resource) {padding-block:0.15em;}
+[data-slcs-appearance="true"][data-slcs-decoration="subtle"] {
+ --slcs-frame:1px solid var(--slcs-border);--slcs-panel-shadow:none;--slcs-panel-radius:2px;--slcs-tab-shadow:none;--slcs-tab-border:1px solid var(--slcs-border);
+}
+[data-slcs-appearance="true"][data-slcs-decoration="subtle"] :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource)::after {content:none!important;}
+[data-slcs-appearance="true"][data-slcs-decoration="subtle"] :is(.slcs-block,.slcs-portrait,.slcs-basic-attributes,.slcs-secondary-attributes,.slcs-modifierlist,.tracked-resource) {border:1px solid var(--slcs-border)!important;box-shadow:none!important;}
+[data-slcs-appearance="true"][data-slcs-contrast="light"] {
+ --slcs-surface:#ffffff;--slcs-input:#ffffff;--slcs-stripe:#ededed;--slcs-text:#111111;--slcs-muted:#333333;--slcs-border:#333333;--slcs-accent:#003b72;--slcs-link:#003b72;--slcs-heading:#111111;--slcs-heading-text:#ffffff;--slcs-rollable-surface:#e5edf5;
+}
+[data-slcs-appearance="true"][data-slcs-contrast="dark"] {
+ --slcs-surface:#111111;--slcs-input:#181818;--slcs-stripe:#292929;--slcs-text:#ffffff;--slcs-muted:#dddddd;--slcs-border:#cccccc;--slcs-accent:#9ee6ff;--slcs-link:#9ee6ff;--slcs-heading:#000000;--slcs-heading-text:#ffffff;--slcs-rollable-surface:#203040;
+}
+[data-slcs-appearance="true"] :is(button,a,input,select,textarea,summary):focus-visible {outline:3px solid var(--slcs-accent,Highlight);outline-offset:2px;}

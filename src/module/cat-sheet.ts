@@ -1,4 +1,5 @@
-import { applyAppearance } from './appearance.ts';
+import { SheetViewState } from './view-state.ts';
+import { applyAppearance, openPersonalAppearance } from './appearance.ts';
 import { convertModifiers } from './util.js';
 import { categorizeSkills, categorizeAds } from './categorize.ts';
 import { initHands, applyGripToHands, resolveWeapons } from './weaponGrips.ts';
@@ -15,6 +16,16 @@ import { emptyList, map } from './recursiveList.ts';
 import { enrichSkill } from './skills.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
+    private presentationState = new SheetViewState();
+
+    async _render(force = false, options = {}) {
+        const oldRoot = this.element?.[0];
+        if (oldRoot) this.presentationState.capture(oldRoot);
+        await super._render(force, options);
+        const root = this.element?.[0];
+        if (root) this.presentationState.restore(root);
+    }
+
     /** @override */
     constructor(object: any, options: any) {
         super(object, options);
@@ -180,6 +191,12 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             onclick: SLCatSheet.openConfig.bind(this),
         });
 
+        buttons.push({
+            label: 'Appearance',
+            class: 'slcs-personal-appearance',
+            icon: 'fas fa-palette',
+            onclick: openPersonalAppearance,
+        });
         return buttons;
     }
 
