@@ -14,6 +14,14 @@ export const THEMES: Record<string, string> = {
     pulp: 'Pulp / Historical',
     supers: 'Supers',
     contrast: 'High Contrast',
+    expedition: 'Expedition / Field Journal',
+    naval: 'Naval / Age of Sail',
+    arcane: 'Arcane / Grimoire',
+    space: 'Space Operations',
+    cyber: 'Cyberpunk',
+    gothic: 'Gothic / Occult',
+    cliffhanger: 'Pulp / Cliffhanger',
+    wasteland: 'Wasteland / Salvage',
 };
 
 const ROOTS = '.sl-cat-sheet, .slcs-settingsForm, .slcs-actorSettingsForm';
@@ -100,7 +108,7 @@ export function applyAppearance(root: HTMLElement, actor: Actor | null): void {
     root.dataset.slcsTextScaled = String(text !== 1);
     root.dataset.slcsScaled = String(scale !== 1 || text !== 1);
 
-    const dark = ['dark', 'scifi', 'horror', 'action', 'contrast'].includes(theme);
+    const dark = ['dark', 'scifi', 'horror', 'action', 'contrast', 'space', 'cyber', 'gothic'].includes(theme);
     if (theme !== 'original') {
         root.classList.toggle('theme-dark', dark);
         root.classList.toggle('theme-light', !dark);

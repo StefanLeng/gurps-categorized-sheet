@@ -1,0 +1,144 @@
+/* Additional genre themes. Local font stacks only; no external assets. */
+
+/* Expedition / Field Journal */
+[data-slcs-theme="expedition"] {
+ color-scheme:light;
+ --slcs-surface:#f1ecdc;
+ --slcs-input:#fcf9f0;
+ --slcs-stripe:#eeebdc;
+ --slcs-text:#26382c;
+ --slcs-muted:#4e6153;
+ --slcs-border:#71836b;
+ --slcs-heading:#2d4735;
+ --slcs-heading-text:#faf6e6;
+ --slcs-accent:#345a3e;
+ --slcs-secondary-border:#71836b;--slcs-link:#345a3e;--slcs-rollable-surface:#eeebdc;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:'Segoe Print','Palatino Linotype',Georgia,serif;
+ --slcs-frame:3px double var(--slcs-border);--slcs-panel-radius:2px;--slcs-heading-rule:3px double var(--slcs-border);
+}
+
+/* Naval / Age of Sail */
+[data-slcs-theme="naval"] {
+ color-scheme:light;
+ --slcs-surface:#edf1f1;
+ --slcs-input:#fbfcf8;
+ --slcs-stripe:#e7edf0;
+ --slcs-text:#173245;
+ --slcs-muted:#4a6070;
+ --slcs-border:#597486;
+ --slcs-heading:#19394f;
+ --slcs-heading-text:#fff7df;
+ --slcs-accent:#345b72;
+ --slcs-secondary-border:#597486;--slcs-link:#345b72;--slcs-rollable-surface:#e7edf0;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:'Palatino Linotype',Georgia,serif;
+ --slcs-frame:4px double var(--slcs-border);--slcs-panel-radius:0;--slcs-heading-rule:4px double var(--slcs-border);
+}
+
+/* Arcane / Grimoire */
+[data-slcs-theme="arcane"] {
+ color-scheme:light;
+ --slcs-surface:#eee8db;
+ --slcs-input:#fffaf0;
+ --slcs-stripe:#eee4ce;
+ --slcs-text:#342c48;
+ --slcs-muted:#625371;
+ --slcs-border:#817047;
+ --slcs-heading:#403252;
+ --slcs-heading-text:#fff5dd;
+ --slcs-accent:#503d70;
+ --slcs-secondary-border:#817047;--slcs-link:#503d70;--slcs-rollable-surface:#eee4ce;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:Georgia,serif;
+ --slcs-frame:4px double var(--slcs-border);--slcs-panel-radius:3px;--slcs-heading-rule:4px double var(--slcs-border);
+}
+
+/* Space Operations */
+[data-slcs-theme="space"] {
+ color-scheme:dark;
+ --slcs-surface:#101e2c;
+ --slcs-input:#192d40;
+ --slcs-stripe:#223c52;
+ --slcs-text:#e7f3ff;
+ --slcs-muted:#b5cbdc;
+ --slcs-border:#718fa6;
+ --slcs-heading:#263e53;
+ --slcs-heading-text:#f0fbff;
+ --slcs-accent:#9bdcf7;
+ --slcs-secondary-border:#718fa6;--slcs-link:#9bdcf7;--slcs-rollable-surface:#223c52;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:Consolas,monospace;
+ --slcs-frame:2px solid var(--slcs-border);--slcs-panel-radius:0;--slcs-heading-rule:2px solid var(--slcs-border);
+}
+
+/* Cyberpunk */
+[data-slcs-theme="cyber"] {
+ color-scheme:dark;
+ --slcs-surface:#181724;
+ --slcs-input:#232137;
+ --slcs-stripe:#302b43;
+ --slcs-text:#f6eef9;
+ --slcs-muted:#c8bace;
+ --slcs-border:#9488ac;
+ --slcs-heading:#36304b;
+ --slcs-heading-text:#c6fff5;
+ --slcs-accent:#7debe6;
+ --slcs-secondary-border:#9488ac;--slcs-link:#7debe6;--slcs-rollable-surface:#302b43;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:Consolas,monospace;
+ --slcs-frame:2px solid var(--slcs-border);--slcs-panel-radius:0;--slcs-heading-rule:2px solid var(--slcs-border);
+}
+
+/* Gothic / Occult */
+[data-slcs-theme="gothic"] {
+ color-scheme:dark;
+ --slcs-surface:#242128;
+ --slcs-input:#302c35;
+ --slcs-stripe:#3e3744;
+ --slcs-text:#f7edf0;
+ --slcs-muted:#d1c0c8;
+ --slcs-border:#9c8594;
+ --slcs-heading:#44313d;
+ --slcs-heading-text:#ffedf1;
+ --slcs-accent:#f5bbc7;
+ --slcs-secondary-border:#9c8594;--slcs-link:#f5bbc7;--slcs-rollable-surface:#3e3744;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:Georgia,serif;
+ --slcs-frame:4px double var(--slcs-border);--slcs-panel-radius:16px 16px 2px 2px;--slcs-heading-rule:4px double var(--slcs-border);
+}
+
+/* Pulp / Cliffhanger */
+[data-slcs-theme="cliffhanger"] {
+ color-scheme:light;
+ --slcs-surface:#eadcc0;
+ --slcs-input:#fff5df;
+ --slcs-stripe:#f1e2bf;
+ --slcs-text:#372f23;
+ --slcs-muted:#68553f;
+ --slcs-border:#856849;
+ --slcs-heading:#773622;
+ --slcs-heading-text:#fff8e6;
+ --slcs-accent:#8b3524;
+ --slcs-secondary-border:#856849;--slcs-link:#8b3524;--slcs-rollable-surface:#f1e2bf;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:Impact,'Arial Narrow',sans-serif;
+ --slcs-frame:2px solid var(--slcs-border);--slcs-panel-radius:0;--slcs-heading-rule:2px solid var(--slcs-border);
+}
+
+/* Wasteland / Salvage */
+[data-slcs-theme="wasteland"] {
+ color-scheme:light;
+ --slcs-surface:#dedbcc;
+ --slcs-input:#f3f0df;
+ --slcs-stripe:#e3e0cd;
+ --slcs-text:#333b2c;
+ --slcs-muted:#566047;
+ --slcs-border:#697255;
+ --slcs-heading:#424934;
+ --slcs-heading-text:#fcf5dc;
+ --slcs-accent:#445527;
+ --slcs-secondary-border:#697255;--slcs-link:#445527;--slcs-rollable-surface:#e3e0cd;
+ --slcs-body-font:"Segoe UI",Arial,sans-serif;--slcs-heading-font:'Courier New',monospace;
+ --slcs-frame:2px dashed var(--slcs-border);--slcs-panel-radius:0;--slcs-heading-rule:2px dashed var(--slcs-border);
+}
+[data-slcs-appearance="true"]:not([data-slcs-decoration="off"]):not([data-slcs-decoration="subtle"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"])[data-slcs-theme="expedition"] :is(.window-header,.slcs-block > .header) {border-left:6px solid var(--slcs-accent)}
+[data-slcs-appearance="true"]:not([data-slcs-decoration="off"]):not([data-slcs-decoration="subtle"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"])[data-slcs-theme="naval"] :is(.window-header,.slcs-block > .header) {border-bottom:4px double var(--slcs-border)}
+[data-slcs-appearance="true"]:not([data-slcs-decoration="off"]):not([data-slcs-decoration="subtle"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"])[data-slcs-theme="arcane"] :is(.window-header,.slcs-block > .header) {border-block:4px double var(--slcs-border)}
+[data-slcs-appearance="true"]:not([data-slcs-decoration="off"]):not([data-slcs-decoration="subtle"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"])[data-slcs-theme="space"] :is(.window-header,.slcs-block > .header) {border-left:8px solid var(--slcs-border);letter-spacing:.08em}
+[data-slcs-appearance="true"]:not([data-slcs-decoration="off"]):not([data-slcs-decoration="subtle"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"])[data-slcs-theme="cyber"] :is(.window-header,.slcs-block > .header) {border-right:8px solid var(--slcs-accent)}
+[data-slcs-appearance="true"]:not([data-slcs-decoration="off"]):not([data-slcs-decoration="subtle"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"])[data-slcs-theme="cliffhanger"] :is(.window-header,.slcs-block > .header) {text-transform:uppercase;border-bottom:4px solid var(--slcs-border)}
+[data-slcs-appearance="true"]:not([data-slcs-decoration="off"]):not([data-slcs-decoration="subtle"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"])[data-slcs-theme="wasteland"] :is(.window-header,.slcs-block > .header) {border-bottom:3px dashed var(--slcs-border)}
