@@ -1,5 +1,6 @@
+import { LAYOUTS, DASHBOARD_PANELS } from './layouts.ts';
 import { getMergedSettings } from './actor-settings.ts';
-import SLCatSheet from './cat-sheet.ts';
+import { personalAppearance, savePersonalAppearance, resetPersonalAppearance } from './personal-appearance.ts';
 import { MODULE_ID } from './constants.ts';
 import { getSettings } from './settings.ts';
 
@@ -18,6 +19,7 @@ export const THEMES: Record<string, string> = {
 
 const ROOTS = '.sl-cat-sheet, .slcs-settingsForm, .slcs-actorSettingsForm';
 const originals = new WeakMap<HTMLElement, { light: boolean; dark: boolean }>();
+const rootActors = new WeakMap<HTMLElement, Actor | null>();
 
 function setting(key: 'appearanceAccessible'): boolean;
 function setting(key: 'appearanceScale' | 'appearanceText'): string;
@@ -26,11 +28,137 @@ function setting(key: 'appearanceAccessible' | 'appearanceScale' | 'appearanceTe
 }
 
 export function refreshSheets(): void {
-    //@ts-expect-error foundry global unknown
-    for (const k in foundry.ui.windows) {
-        //@ts-expect-error foundry global unknown
-        foundry.ui.windows[k].render();
+    // World settings can change categories and configured actions, so refresh content.
+    const windows = (foundry as any).ui?.windows ?? (globalThis as any).ui?.windows ?? {};
+    for (const app of Object.values(windows) as any[]) {
+        const root = app.element?.[0] ?? app.element;
+        if (root instanceof HTMLElement && root.matches(ROOTS)) app.render(false);
     }
+}
+
+export function refreshAppearance(): void {
+    // Appearance updates do not destroy focused controls or GGA's Quick Notes editor.
+    document.querySelectorAll<HTMLElement>(ROOTS).forEach((root) => {
+        const windows = (foundry as any).ui?.windows ?? (globalThis as any).ui?.windows ?? {};
+        const app = Object.values(windows).find((w: any) => (w.element?.[0] ?? w.element) === root) as any;
+        applyAppearance(root, app?.actor ?? rootActors.get(root) ?? null);
+        app?.applyPersonalLayout?.();
+    });
+}
+
+export function openPersonalAppearance(): void {
+    const value = personalAppearance();
+    const choices: Record<string, Record<string, string>> = {
+        layout: LAYOUTS,
+        theme: { inherit: 'Use actor / world theme', ...THEMES },
+        decoration: { off: 'Off', subtle: 'Subtle', full: 'Full' },
+        density: { comfortable: 'Comfortable', compact: 'Compact' },
+        contrast: { theme: 'Theme colours', light: 'High contrast light', dark: 'High contrast dark' },
+        scale: { '0.8': '80%', '0.9': '90%', '1': '100%', '1.1': '110%', '1.25': '125%', '1.5': '150%' },
+        text: { '1': '100%', '1.1': '110%', '1.25': '125%', '1.5': '150%' },
+    };
+    value.scale ??= setting('appearanceScale');
+    value.text ??= setting('appearanceText');
+    value.accessible ??= setting('appearanceAccessible');
+    value.layout ??= 'standard';
+    const labels: Record<string, string> = {
+        layout: 'Layout',
+        theme: 'Theme',
+        decoration: 'Decoration',
+        density: 'Spacing',
+        contrast: 'Contrast',
+        scale: 'Overall scale',
+        text: 'Text size',
+    };
+    const content =
+        '<form><p>Personal preferences for your sheets. Shared character settings and data stay unchanged.</p>' +
+        Object.entries(choices)
+            .map(
+                ([key, values]) =>
+                    '<div class="form-group"><label for="slcs-personal-' +
+                    key +
+                    '">' +
+                    labels[key] +
+                    '</label><select id="slcs-personal-' +
+                    key +
+                    '" name="' +
+                    key +
+                    '">' +
+                    Object.entries(values)
+                        .map(
+                            ([id, label]) =>
+                                '<option value="' +
+                                id +
+                                '"' +
+                                (value[key] === id ? ' selected' : '') +
+                                '>' +
+                                label +
+                                '</option>',
+                        )
+                        .join('') +
+                    '</select></div>',
+            )
+            .join('') +
+        ['readable', 'accessible']
+            .map(
+                (key) =>
+                    '<div class="form-group"><label><input type="checkbox" name="' +
+                    key +
+                    '"' +
+                    (value[key] ? ' checked' : '') +
+                    '> ' +
+                    (key === 'readable' ? 'Plain typography' : 'Colour-independent indicators') +
+                    '</label></div>',
+            )
+            .join('') +
+        '<fieldset><legend>Dashboard panels</legend>' +
+        Object.entries(DASHBOARD_PANELS)
+            .map(
+                ([key, label]) =>
+                    '<label style="display:block"><input type="checkbox" name="panel-' +
+                    key +
+                    '"' +
+                    ((Array.isArray(value.panels)
+                        ? value.panels
+                        : ['favourites', 'defenses', 'resources', 'notes']
+                    ).includes(key)
+                        ? ' checked'
+                        : '') +
+                    '> ' +
+                    label +
+                    '</label>',
+            )
+            .join('') +
+        '</fieldset></form>';
+    new foundry.appv1.api.Dialog({
+        title: 'Categorized Sheet: personal appearance',
+        content,
+        buttons: {
+            save: {
+                label: 'Save',
+                callback: async (html: any) => {
+                    const form = html[0].querySelector('form');
+                    const next = { ...value };
+                    for (const key of Object.keys(choices)) next[key] = form.elements.namedItem(key).value;
+                    for (const key of ['readable', 'accessible']) next[key] = form.elements.namedItem(key).checked;
+                    next.panels = Object.keys(DASHBOARD_PANELS).filter(
+                        (key) => form.elements.namedItem('panel-' + key).checked,
+                    );
+                    await savePersonalAppearance(next);
+                    refreshAppearance();
+                },
+            },
+            reset: {
+                label: 'Reset my appearance',
+                callback: async () => {
+                    await resetPersonalAppearance();
+                    refreshAppearance();
+                },
+            },
+            cancel: { label: 'Cancel' },
+        },
+        default: 'save',
+    }).render(true);
 }
 
 export function registerAppearance(): void {
@@ -41,7 +169,7 @@ export function registerAppearance(): void {
         config: true,
         type: Boolean,
         default: false,
-        onChange: refreshSheets,
+        onChange: refreshAppearance,
     });
 
     for (const [key, name, hint, choices] of [
@@ -66,7 +194,7 @@ export function registerAppearance(): void {
             type: String,
             choices,
             default: '1',
-            onChange: refreshSheets,
+            onChange: refreshAppearance,
         });
     }
 }
@@ -78,6 +206,7 @@ function scaleValue(value: string, choices: number[]): number {
 
 export function applyAppearance(root: HTMLElement, actor: Actor | null): void {
     if (!root?.matches(ROOTS)) return;
+    rootActors.set(root, actor);
 
     if (!originals.has(root))
         originals.set(root, {
@@ -85,13 +214,22 @@ export function applyAppearance(root: HTMLElement, actor: Actor | null): void {
             dark: root.classList.contains('theme-dark'),
         });
 
-    const chosen = (actor ? getMergedSettings(actor).appearanceTheme : getSettings().appearanceTheme) ?? 'original';
-    const theme = Object.prototype.hasOwnProperty.call(THEMES, chosen) ? chosen : 'original';
-    const accessible = setting('appearanceAccessible');
-    const scale = scaleValue(setting('appearanceScale'), [0.8, 0.9, 1, 1.1, 1.25, 1.5]);
-    const text = scaleValue(setting('appearanceText'), [1, 1.1, 1.25, 1.5]);
+    const personal = personalAppearance();
+    const inherited = (actor ? getMergedSettings(actor).appearanceTheme : getSettings().appearanceTheme) ?? 'original';
+    const chosen = personal.theme === 'inherit' ? inherited : personal.theme;
+    const contrast = ['light', 'dark'].includes(personal.contrast) ? personal.contrast : 'theme';
+    const effective = chosen === 'original' && contrast !== 'theme' ? 'classic' : chosen;
+    const theme = Object.prototype.hasOwnProperty.call(THEMES, effective) ? effective : 'original';
+    const accessible = personal.accessible ?? setting('appearanceAccessible');
+    const scale = scaleValue(personal.scale ?? setting('appearanceScale'), [0.8, 0.9, 1, 1.1, 1.25, 1.5]);
+    const text = scaleValue(personal.text ?? setting('appearanceText'), [1, 1.1, 1.25, 1.5]);
 
     root.dataset.slcsTheme = theme;
+    root.dataset.slcsContrast = contrast;
+    root.dataset.slcsDecoration = personal.decoration;
+    root.dataset.slcsDecorative = String(personal.decoration !== 'off' && contrast === 'theme');
+    root.dataset.slcsDensity = personal.density;
+    root.dataset.slcsReadable = String(personal.readable);
     root.dataset.slcsAccessible = String(accessible);
     root.dataset.slcsAppearance = 'true';
 
@@ -108,6 +246,11 @@ export function applyAppearance(root: HTMLElement, actor: Actor | null): void {
         const initial = originals.get(root)!;
         root.classList.toggle('theme-dark', initial.dark);
         root.classList.toggle('theme-light', initial.light);
+    }
+
+    if (contrast !== 'theme') {
+        root.classList.toggle('theme-dark', contrast === 'dark');
+        root.classList.toggle('theme-light', contrast === 'light');
     }
 
     // Read the rendered threshold colour only. Preserve configured colours and labels.
