@@ -1,3 +1,4 @@
+import { LAYOUTS, DASHBOARD_PANELS } from './layouts.ts';
 import { getMergedSettings } from './actor-settings.ts';
 import { personalAppearance, savePersonalAppearance, resetPersonalAppearance } from './personal-appearance.ts';
 import { MODULE_ID } from './constants.ts';
@@ -41,12 +42,14 @@ export function refreshAppearance(): void {
         const windows = (foundry as any).ui?.windows ?? (globalThis as any).ui?.windows ?? {};
         const app = Object.values(windows).find((w: any) => (w.element?.[0] ?? w.element) === root) as any;
         applyAppearance(root, app?.actor ?? rootActors.get(root) ?? null);
+        app?.applyPersonalLayout?.();
     });
 }
 
 export function openPersonalAppearance(): void {
     const value = personalAppearance();
     const choices: Record<string, Record<string, string>> = {
+        layout: LAYOUTS,
         theme: { inherit: 'Use actor / world theme', ...THEMES },
         decoration: { off: 'Off', subtle: 'Subtle', full: 'Full' },
         density: { comfortable: 'Comfortable', compact: 'Compact' },
@@ -57,7 +60,9 @@ export function openPersonalAppearance(): void {
     value.scale ??= setting('appearanceScale');
     value.text ??= setting('appearanceText');
     value.accessible ??= setting('appearanceAccessible');
+    value.layout ??= 'standard';
     const labels: Record<string, string> = {
+        layout: 'Layout',
         theme: 'Theme',
         decoration: 'Decoration',
         density: 'Spacing',
@@ -106,7 +111,25 @@ export function openPersonalAppearance(): void {
                     '</label></div>',
             )
             .join('') +
-        '</form>';
+        '<fieldset><legend>Dashboard panels</legend>' +
+        Object.entries(DASHBOARD_PANELS)
+            .map(
+                ([key, label]) =>
+                    '<label style="display:block"><input type="checkbox" name="panel-' +
+                    key +
+                    '"' +
+                    ((Array.isArray(value.panels)
+                        ? value.panels
+                        : ['favourites', 'defenses', 'resources', 'notes']
+                    ).includes(key)
+                        ? ' checked'
+                        : '') +
+                    '> ' +
+                    label +
+                    '</label>',
+            )
+            .join('') +
+        '</fieldset></form>';
     new foundry.appv1.api.Dialog({
         title: 'Categorized Sheet: personal appearance',
         content,
@@ -118,6 +141,9 @@ export function openPersonalAppearance(): void {
                     const next = { ...value };
                     for (const key of Object.keys(choices)) next[key] = form.elements.namedItem(key).value;
                     for (const key of ['readable', 'accessible']) next[key] = form.elements.namedItem(key).checked;
+                    next.panels = Object.keys(DASHBOARD_PANELS).filter(
+                        (key) => form.elements.namedItem('panel-' + key).checked,
+                    );
                     await savePersonalAppearance(next);
                     refreshAppearance();
                 },

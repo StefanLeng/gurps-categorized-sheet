@@ -7,6 +7,8 @@ export const PERSONAL_DEFAULTS = {
     density: 'comfortable',
     contrast: 'theme',
     readable: false,
+    layout: 'standard',
+    panels: ['favourites', 'defenses', 'resources', 'notes'],
 };
 
 export function personalAppearance(): Record<string, any> {

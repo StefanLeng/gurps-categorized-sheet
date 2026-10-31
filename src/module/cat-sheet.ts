@@ -1,3 +1,4 @@
+import { arrangeLayout, selectedLayout, LAYOUTS } from './layouts.ts';
 import { SheetViewState } from './view-state.ts';
 import { applyAppearance, openPersonalAppearance } from './appearance.ts';
 import { convertModifiers } from './util.js';
@@ -17,6 +18,42 @@ import { enrichSkill } from './skills.ts';
 
 export default class SLCatSheet extends GURPS.ActorSheets.character {
     private presentationState = new SheetViewState();
+    private layoutTabs = new Map<string, string[]>();
+    private currentLayout = 'standard';
+    private layoutResize?: ResizeObserver;
+
+    applyPersonalLayout(capture = true): void {
+        const root = this.element?.[0];
+        if (!root) return;
+        if (capture) this.presentationState.capture(root);
+        const layout = selectedLayout();
+        if (layout !== this.currentLayout) {
+            this.layoutTabs.set(
+                this.currentLayout,
+                this._tabs.map((tab: any) => tab.active),
+            );
+            const tabs = this.layoutTabs.get(layout) ?? [
+                layout === 'standard' || layout === 'tactical' ? 'combat' : 'workspace',
+                'melee',
+            ];
+            tabs.forEach((tab, index) => this._tabs[index]?.activate(tab, { triggerCallback: false }));
+            this.currentLayout = layout;
+        }
+        if (layout === 'tactical' && ['defenses', 'resources'].includes(this._tabs[1]?.active)) {
+            this._tabs[1].activate('melee', { triggerCallback: false });
+        }
+        arrangeLayout(root, this._tabs[0]?.active === 'workspace');
+        const label = root.querySelector('.slcs-workspace-link a');
+        if (label) label.textContent = LAYOUTS[layout];
+        root.dataset.slcsNarrow = String(root.clientWidth < 1120);
+        this.presentationState.restore(root);
+    }
+
+    async close(options = {}) {
+        this.layoutResize?.disconnect();
+        Hooks.off('targetToken', this._targetToken);
+        return super.close(options);
+    }
 
     async _render(force = false, options = {}) {
         const oldRoot = this.element?.[0];
@@ -67,7 +104,7 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             height: 650,
             tabs: [
                 { navSelector: '.slcs-main-tabs', contentSelector: '.slcs-main', initial: 'combat' },
-                { navSelector: '.slcs-combat-tabs', contentSelector: '.slcs-combatContent', initial: 'attacks' },
+                { navSelector: '.slcs-combat-tabs', contentSelector: '.slcs-combatContent', initial: 'melee' },
             ],
             dragDrop: [{ dragSelector: '.item-list .item', dropSelector: null }],
         });
@@ -228,7 +265,24 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
 
     activateListeners(html: JQuery<HTMLElement>) {
         super.activateListeners(html);
+        // A cached actor sheet can reopen after close() without a new constructor.
+        Hooks.off('targetToken', this._targetToken);
+        Hooks.on('targetToken', this._targetToken);
         applyAppearance(this.element[0], this.actor);
+        this.layoutResize?.disconnect();
+        this.layoutResize = new ResizeObserver(() => {
+            const root = this.element?.[0];
+            if (root) root.dataset.slcsNarrow = String(root.clientWidth < 1120);
+        });
+        this.layoutResize.observe(this.element[0]);
+        html.find('.slcs-main-tabs')[0]?.addEventListener(
+            'click',
+            () => {
+                this.presentationState.capture(this.element[0]);
+            },
+            true,
+        );
+        html.find('.slcs-main-tabs .tab-item').on('click', () => this.applyPersonalLayout());
 
         html.find('.slcs-conditions details').on('click', (ev) => {
             ev.preventDefault();
@@ -283,5 +337,6 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             const table = ev.currentTarget.dataset.rolltable as unknown as MyRollTable;
             drawTableRoll(table);
         });
+        this.applyPersonalLayout(false);
     }
 }

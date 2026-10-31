@@ -1,0 +1,14 @@
+/* Opt-in layouts use the existing live panels and keep standard navigation available. */
+.sl-cat-sheet .slcs-workspace-link,.sl-cat-sheet .slcs-tactical-aside {display:none;}
+.sl-cat-sheet[data-slcs-layout]:not([data-slcs-layout="standard"]):not([data-slcs-layout="tactical"]) .slcs-workspace-link {display:list-item;}
+.sl-cat-sheet .slcs-workspace {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sectiongap,8px);overflow:auto;min-height:0;height:100%;align-content:start;padding:6px;}
+.sl-cat-sheet .slcs-workspace-panel {min-width:0;overflow-x:auto;border:1px solid var(--slcs-border,#777);padding:8px;align-self:start;}
+.sl-cat-sheet .slcs-workspace-panel h3 {font-family:var(--slcs-heading-font,inherit);color:var(--slcs-heading-text,inherit);background:var(--slcs-heading,transparent);padding:6px;margin:0 0 8px;font-size:1em;}
+.sl-cat-sheet .slcs-workspace-panel > * + * {margin-top:8px;}
+.sl-cat-sheet .slcs-empty-panel {font-style:italic;}
+.sl-cat-sheet[data-slcs-layout="tactical"] .slcs-combat-tab {grid-template-columns:minmax(180px,3fr) minmax(310px,5fr) minmax(240px,3fr);grid-template-areas:'condition condition condition' 'col1 col2 aside';}
+.sl-cat-sheet[data-slcs-layout="tactical"] .slcs-tactical-aside {display:grid;grid-area:aside;overflow:auto;align-content:start;gap:var(--sectiongap,8px);min-width:0;}
+.sl-cat-sheet[data-slcs-layout="tactical"] .slcs-combat-tabs li:has([data-tab="defenses"]),.sl-cat-sheet[data-slcs-layout="tactical"] .slcs-combat-tabs li:has([data-tab="resources"]) {display:none;}
+.sl-cat-sheet[data-slcs-layout="tactical"][data-slcs-narrow="true"] .slcs-combat-tab {grid-template-columns:minmax(310px,1.3fr) minmax(240px,1fr);grid-template-areas:'condition condition' 'col1 col1' 'col2 aside';grid-template-rows:min-content minmax(100px,25%) 1fr;}
+.sl-cat-sheet[data-slcs-layout="tactical"][data-slcs-narrow="true"] .slcs-combat-tab > .slcs-col1 {grid-area:col1;grid-template-columns:repeat(2,minmax(0,1fr));}
+.sl-cat-sheet .slcs-workspace :is(.slcs-skills,.slcs-spells,.slcs-advantages,.slcs-defenses,.slcs-lifting) {min-width:0;}

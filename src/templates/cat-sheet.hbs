@@ -9,6 +9,7 @@
                 {{>slcs-modifierlist}}
             </div>
             <nav class='slcs-sheet-tabs slcs-main-tabs' data-group='primary-tabs'>
+                <li class='slcs-workspace-link'><a class='tab-item' data-tab='workspace'>Workspace</a></li>
                 <li><a class='tab-item' data-tab='combat'>{{i18nFallback  'GURPS-cat-sheet.combatTab' 'Combat'}}</a></li>
                 <li><a class='tab-item' data-tab='exploration'>{{i18nFallback  'GURPS-cat-sheet.explorationTab' 'Exploration & Stealth'}}</a></li>
                 <li><a class='tab-item' data-tab='social'>{{i18nFallback  'GURPS-cat-sheet.socialTab' 'Social'}}</a></li>
@@ -20,6 +21,7 @@
                 <li><a class='tab-item' data-tab='fav'>{{i18nFallback  'GURPS-cat-sheet.fav' 'Favs.'}}</a></li>
             </nav>
             <div class="slcs-main">
+                <div class="tab" data-tab="workspace" data-group="primary-tabs"><div class="slcs-workspace"></div></div>
                 <div class='tab' data-tab='combat' data-group='primary-tabs'>
                     <div class='slcs-tab-content slcs-combat-tab'>
                         {{>slcs-conditions section='combat'}}
@@ -66,6 +68,7 @@
                                     </div>
                                 </div>                            </div>
                         </div>
+                        <aside class="slcs-tactical-aside" aria-label="Defences and resources"></aside>
                     </div>
                 </div>
                 <div class='tab' data-tab='exploration' data-group='primary-tabs'>
@@ -163,4 +166,3 @@
         <div>An unexpected error occurred when reading the character data. Please open an issue at https://github.com/StefanLeng/gurps-categorized-sheet/issues and attach an export of the character.</div>
     {{/unless}}
 </form>
- 
