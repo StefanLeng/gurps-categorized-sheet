@@ -16,6 +16,8 @@ export const DASHBOARD_PANELS: Record<string, string> = {
     equipment: 'Equipment',
     movement: 'Movement & lifting',
     senses: 'Senses',
+    melee: 'Melee attacks & targets',
+    ranged: 'Ranged attacks & targets',
 };
 const DEFAULT_PANELS = ['favourites', 'defenses', 'resources', 'notes'];
 const borrowed = new WeakMap<HTMLElement, { node: HTMLElement; marker: Comment }[]>();
@@ -33,6 +35,8 @@ export function arrangeLayout(root: HTMLElement, workspaceActive: boolean): void
     borrowed.set(root, []);
     const layout = selectedLayout();
     root.dataset.slcsLayout = layout;
+    const workspaceLink = root.querySelector<HTMLElement>('.slcs-workspace-link');
+    if (workspaceLink) workspaceLink.hidden = layout === 'standard' || layout === 'tactical';
     const workspace = root.querySelector<HTMLElement>('.slcs-workspace');
     const aside = root.querySelector<HTMLElement>('.slcs-tactical-aside');
     if (!workspace || !aside) return;
@@ -102,6 +106,8 @@ export function arrangeLayout(root: HTMLElement, workspaceActive: boolean): void
             senses,
             movement,
             equipment: [source('equipment', '.slcs-equipment-tab > *')],
+            melee: [source('combat', '[data-tab="melee"] .col-tabcontent > *')],
+            ranged: [source('combat', '[data-tab="ranged"] .col-tabcontent > *')],
         };
         const preference = personalAppearance().panels;
         const panels = Array.isArray(preference)

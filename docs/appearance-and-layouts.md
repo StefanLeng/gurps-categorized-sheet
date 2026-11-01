@@ -25,13 +25,23 @@ Font stacks use local fonts and fall back without network requests.
 | Field focus | Exploration skills/traits, senses, lifting, resources, and Quick Notes |
 | Investigator | Social/research skills, reactions, senses, and Quick Notes |
 | Powers desk | Power skills/traits, existing spells, configured OTFs, resources, and Quick Notes |
-| Personal dashboard | User-selected favourites, defences, resources, notes, equipment, lifting, and senses |
+| Personal dashboard | User-selected favourites, defences, resources, notes, equipment, lifting, senses, melee, and ranged attacks |
 
 Workspaces move the original rendered panels and return them when leaving the
 workspace. They do not clone inputs, IDs, roll handlers, or actor values. The nine
 existing primary sections remain available. Empty panels show a short message.
 Tactical Wide folds its skill/trait column above attacks and defences below 1120px;
 large text and wide tables can still require scrolling.
+
+Standard and Tactical Wide have no Workspace navigation item. The other layouts
+add an inline tab without forcing a separate navigation row; tabs can still wrap
+when the window width or enlarged text requires it. Workspace panels size to their
+contents, scroll vertically as a group, and switch to one column when space is
+limited. Wide tables scroll within their own panel.
+
+Melee and Ranged dashboard panels are optional and leave saved panel choices
+unchanged. Each includes its original attack table, configured OTFs, and targets.
+Leaving the workspace returns those same nodes to their Combat subtabs.
 
 Selected sections are remembered per layout for the lifetime of the open sheet.
 Expanded skill details and scroll positions survive sheet refreshes. Appearance
@@ -44,6 +54,11 @@ including HP and resource inputs, always take refreshed document values.
 The implementation has local template/DOM tests and compilation checks. GGA-owned
 template helpers and Foundry services are mocked in the local integration fixture.
 This is not a live-world verification or an accessibility certification.
+
+The layout review fixes include compiled-stylesheet checks for tab visibility and
+inline display, content-sized grid tracks, and DOM tests for moving and restoring
+attack tables with their targets. These checks do not measure browser geometry;
+the overlap and scaling checks below still require visual confirmation in Foundry.
 
 Run the repository's normal `npm ci`, `npm run lint`, `npm test -- --runInBand`,
 and `npm run build` in CI. The added Jest tests cover personal reset/inheritance,
@@ -67,6 +82,12 @@ In a disposable Foundry world, test on the supported GGA 0.18.x line:
    compact spacing, 80–150% overall scale, and 100–150% text at narrow/wide sizes.
 8. Close and reopen the sheet. Confirm target updates resume and no duplicate
    handlers appear. Check compatibility with installed resource and attribute modules.
+9. In Standard and Tactical Wide, confirm no empty Workspace tab is visible.
+   In Field, Investigator, Powers, and Dashboard, check that each panel border
+   encloses its content and that later rows do not overlap long skill or trait lists.
+10. Enable Melee and Ranged dashboard panels, roll attacks, damage, and target
+    modifiers, then return to Combat. Repeat after changing targets and refreshing
+    the actor; confirm controls remain unique and every click acts once.
 
 The changes intentionally target the published sheet, not the GGA 1.0 development
 branch. Upstream release metadata and declared compatibility are unchanged.

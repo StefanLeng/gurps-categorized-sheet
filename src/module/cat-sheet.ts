@@ -39,6 +39,9 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             tabs.forEach((tab, index) => this._tabs[index]?.activate(tab, { triggerCallback: false }));
             this.currentLayout = layout;
         }
+        if ((layout === 'standard' || layout === 'tactical') && this._tabs[0]?.active === 'workspace') {
+            this._tabs[0].activate('combat', { triggerCallback: false });
+        }
         if (layout === 'tactical' && ['defenses', 'resources'].includes(this._tabs[1]?.active)) {
             this._tabs[1].activate('melee', { triggerCallback: false });
         }
