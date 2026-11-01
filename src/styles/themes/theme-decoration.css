@@ -3,8 +3,12 @@
    Original, High Contrast, and colour-independent mode exclude ornaments. */
 /* Explicit root scope wins over foundation controls and upstream nested rules.
    Frame coverage follows upstream classes, including tables without headings. */
-[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]):not([data-slcs-theme="dark"]) :is(.slcs-sheet .slcs-sheet-tabs li) {
-  margin: 0;
+[data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) 
+:is(.slcs-sheet .slcs-sheet-tabs li) { 
+  margin: 0; 
+}
+[data-slcs-appearance="true"][data-slcs-theme="contrast"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]) :is(.slcs-sheet .slcs-sheet-tabs li) { 
+  margin: 0 9px 0 9px; 
 }
 [data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) :is(.slcs-block, .slcs-portrait, .slcs-basic-attributes, .slcs-secondary-attributes, .slcs-modifierlist, .tracked-resource) {
   position: relative;
@@ -69,14 +73,28 @@
 [data-slcs-appearance="true"][data-slcs-theme="scifi"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
   padding: 0.35em 0.2em;
 }
+[data-slcs-appearance="true"][data-slcs-theme="expedition"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.2em;
+}
 [data-slcs-appearance="true"][data-slcs-theme="action"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
   padding: 0.35em 0.2em;
 }
 [data-slcs-appearance="true"][data-slcs-theme="horror"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
   padding: 0.35em 0.4em;
 }
+[data-slcs-appearance="true"][data-slcs-theme="space"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.2em;
+}
+[data-slcs-appearance="true"][data-slcs-theme="cyber"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+ padding:0.35em 0.2em;
+}
 [data-slcs-appearance="true"][data-slcs-theme="pulp"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
-  padding: 0.35em 0.4em;
+    padding: 0.35em 0.2em;
+    letter-spacing: -0.06em;
+}
+[data-slcs-appearance="true"][data-slcs-theme="wasteland"]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item {
+    padding: 0.35em 0.2em;
+    letter-spacing: -0.04em;
 }
 [data-slcs-appearance="true"][data-slcs-theme]:not([data-slcs-theme="original"]):not([data-slcs-decorative="false"]):not([data-slcs-accessible="true"]):not([data-slcs-theme="contrast"]) .slcs-sheet-tabs .tab-item.active {
   background: var(--slcs-heading);
