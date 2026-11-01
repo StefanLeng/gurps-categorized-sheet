@@ -44,7 +44,7 @@ export function refreshAppearance(): void {
     });
 }
 
-export function openPersonalAppearance(): void {
+export async function openPersonalAppearance(): Promise<void> {
     const value = personalAppearance();
     const choices: Record<string, Record<string, string>> = {
         theme: { inherit: 'Use actor / world theme', ...THEMES },
@@ -65,74 +65,46 @@ export function openPersonalAppearance(): void {
         scale: 'Overall scale',
         text: 'Text size',
     };
-    const content =
-        '<form><p>Personal preferences for your sheets. Shared character settings and data stay unchanged.</p>' +
-        Object.entries(choices)
-            .map(
-                ([key, values]) =>
-                    '<div class="form-group"><label for="slcs-personal-' +
-                    key +
-                    '">' +
-                    labels[key] +
-                    '</label><select id="slcs-personal-' +
-                    key +
-                    '" name="' +
-                    key +
-                    '">' +
-                    Object.entries(values)
-                        .map(
-                            ([id, label]) =>
-                                '<option value="' +
-                                id +
-                                '"' +
-                                (value[key] === id ? ' selected' : '') +
-                                '>' +
-                                label +
-                                '</option>',
-                        )
-                        .join('') +
-                    '</select></div>',
-            )
-            .join('') +
-        ['readable', 'accessible']
-            .map(
-                (key) =>
-                    '<div class="form-group"><label><input type="checkbox" name="' +
-                    key +
-                    '"' +
-                    (value[key] ? ' checked' : '') +
-                    '> ' +
-                    (key === 'readable' ? 'Plain typography' : 'Colour-independent indicators') +
-                    '</label></div>',
-            )
-            .join('') +
-        '</form>';
-    new foundry.appv1.api.Dialog({
-        title: 'Categorized Sheet: personal appearance',
+    const content = await foundry.applications.handlebars.renderTemplate(
+        `modules/${MODULE_ID}/templates/personal-appearance.hbs`,
+        {
+            fields: Object.entries(choices).map(([key, options]) => ({
+                key,
+                label: labels[key],
+                options: Object.entries(options).map(([id, label]) => ({ id, label, selected: value[key] === id })),
+            })),
+            readable: value.readable,
+            accessible: value.accessible,
+        },
+    );
+    new foundry.applications.api.DialogV2({
+        window: { title: 'Categorized Sheet: personal appearance' },
         content,
-        buttons: {
-            save: {
+        buttons: [
+            {
+                action: 'save',
                 label: 'Save',
-                callback: async (html: any) => {
-                    const form = html[0].querySelector('form');
+                default: true,
+                callback: async (_event, button) => {
+                    const data = new FormData(button.form!);
                     const next = { ...value };
-                    for (const key of Object.keys(choices)) next[key] = form.elements.namedItem(key).value;
-                    for (const key of ['readable', 'accessible']) next[key] = form.elements.namedItem(key).checked;
+                    for (const key of Object.keys(choices)) next[key] = data.get(key);
+                    for (const key of ['readable', 'accessible']) next[key] = data.has(key);
                     await savePersonalAppearance(next);
                     refreshAppearance();
                 },
             },
-            reset: {
+            {
+                action: 'reset',
                 label: 'Reset my appearance',
                 callback: async () => {
                     await resetPersonalAppearance();
                     refreshAppearance();
                 },
             },
-            cancel: { label: 'Cancel' },
-        },
-        default: 'save',
-    }).render(true);
+            { action: 'cancel', label: 'Cancel' },
+        ],
+    }).render({ force: true });
 }
 
 export function registerAppearance(): void {
