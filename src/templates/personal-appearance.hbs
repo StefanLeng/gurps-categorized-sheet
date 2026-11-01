@@ -1,0 +1,25 @@
+<p>Personal preferences for your sheets. Shared character settings and data stay unchanged.</p>
+{{#each fields}}
+<div class="form-group">
+    <label for="slcs-personal-{{key}}">{{label}}</label>
+    <select id="slcs-personal-{{key}}" name="{{key}}">
+        {{#each options}}
+        <option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+        {{/each}}
+    </select>
+</div>
+{{/each}}
+<div class="form-group">
+    <label><input type="checkbox" name="readable" {{#if readable}}checked{{/if}}> Plain typography</label>
+</div>
+<div class="form-group">
+    <label><input type="checkbox" name="accessible" {{#if accessible}}checked{{/if}}> Colour-independent indicators</label>
+</div>
+<fieldset>
+    <legend>Dashboard panels</legend>
+    {{#each panels}}
+    <div class="form-group">
+        <label><input type="checkbox" name="panel-{{key}}" {{#if checked}}checked{{/if}}> {{label}}</label>
+    </div>
+    {{/each}}
+</fieldset>
