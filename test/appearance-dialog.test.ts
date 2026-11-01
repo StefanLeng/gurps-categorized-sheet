@@ -37,6 +37,7 @@ beforeEach(() => {
                         config = options;
                     }
                     render(options: any) {
+                        // eslint-disable-next-line jest/no-standalone-expect
                         expect(options).toEqual({ force: true });
                     }
                 },
