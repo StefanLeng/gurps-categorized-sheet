@@ -91,3 +91,28 @@ In a disposable Foundry world, test on the supported GGA 0.18.x line:
 
 The changes intentionally target the published sheet, not the GGA 1.0 development
 branch. Upstream release metadata and declared compatibility are unchanged.
+
+### Workspace tab lifecycle regression checks
+
+Workspace panels are reconciled through Foundry's primary-tab change callback,
+after activation, and after the completed sheet render. The parent tab callback
+is preserved. Combat subtab changes do not rebuild the workspace. This avoids
+reading the previous active tab from a navigation click handler and ensures that
+reopening or replacing the sheet DOM uses the current tab controllers.
+
+`test/layout-lifecycle.test.ts` exercises the real sheet methods and panel mover
+with a mocked Foundry host and delegated navigation. It covers all four workspace
+layouts, saved per-layout tabs, cached-sheet reopening, actor-value refreshes,
+appearance refreshes, programmatic activation, and repeated moves without duplicate
+notes. It is an integration regression test, not a live Foundry-world test.
+
+Before merging, repeat Stefan's reported sequences for Field, Investigator,
+Powers, and Dashboard in Foundry:
+
+1. With Favourites open, change from Standard to the workspace layout, then open
+   Workspace. Also repeat after that layout has previously remembered Favourites.
+2. Leave a different tab selected, close the sheet, reopen it, then open Workspace.
+3. Leave a different tab selected, change HP or FP, then open Workspace. Repeat
+   with a theme change. Confirm the panels appear and the changed values persist.
+4. Return to the original tabs and back repeatedly; verify rolls, targets, notes,
+   and editable controls still work exactly once per action.

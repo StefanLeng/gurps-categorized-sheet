@@ -58,12 +58,21 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
         return super.close(options);
     }
 
+    /** Reconcile panels after Foundry has changed the active primary tab. */
+    _onChangeTab(event: MouseEvent | null, tabs: any, active: string): void {
+        const primary = tabs === this._tabs[0];
+        const root = this.element?.[0];
+        if (primary && root) this.presentationState.capture(root);
+        super._onChangeTab(event, tabs, active);
+        if (primary) this.applyPersonalLayout(false);
+    }
+
     async _render(force = false, options = {}) {
         const oldRoot = this.element?.[0];
         if (oldRoot) this.presentationState.capture(oldRoot);
         await super._render(force, options);
-        const root = this.element?.[0];
-        if (root) this.presentationState.restore(root);
+        // The replacement DOM and tab controllers are now bound, including on reopen.
+        this.applyPersonalLayout(false);
     }
 
     /** @override */
@@ -278,14 +287,6 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             if (root) root.dataset.slcsNarrow = String(root.clientWidth < 1120);
         });
         this.layoutResize.observe(this.element[0]);
-        html.find('.slcs-main-tabs')[0]?.addEventListener(
-            'click',
-            () => {
-                this.presentationState.capture(this.element[0]);
-            },
-            true,
-        );
-        html.find('.slcs-main-tabs .tab-item').on('click', () => this.applyPersonalLayout());
 
         html.find('.slcs-conditions details').on('click', (ev) => {
             ev.preventDefault();
@@ -340,6 +341,5 @@ export default class SLCatSheet extends GURPS.ActorSheets.character {
             const table = ev.currentTarget.dataset.rolltable as unknown as MyRollTable;
             drawTableRoll(table);
         });
-        this.applyPersonalLayout(false);
     }
 }
