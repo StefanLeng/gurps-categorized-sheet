@@ -326,11 +326,12 @@
         .slcs-conditions{
             grid-area: condition;
         }  
-        .slcs-sense-rolls .fieldblock {
-            grid-template-columns: 0fr 1fr 0fr 1fr 0fr 1fr 0fr 1fr;
-        }  
     }
 
+    .slcs-sense-rolls .fieldblock {
+      grid-template-columns: 0fr 1fr 0fr 1fr 0fr 1fr 0fr 1fr;
+    }
+      
     .slcs-powers-tab.slcs-tab-content {
         grid-template-columns: 3fr 5fr;
     }
@@ -340,13 +341,14 @@
         grid-template-rows: min-content;
         grid-auto-rows: min-content;
         overflow-y: auto;
-        .equipmentlist {
-            grid-template-columns: auto auto 1fr repeat(6, auto);
-        }
-        .slcs-equipmentother .equipped {
-            padding: 0;
-            border-right: none;
-        }
+    }
+
+    .equipmentlist {
+      grid-template-columns: auto auto 1fr repeat(6, auto);
+    }
+    .slcs-equipmentother .equipped {
+      padding: 0;
+      border-right: none;
     }
 
     .slcs-conditions{
@@ -1071,3 +1073,5 @@
 @import (inline) "themes/scaling.css";
 
 @import (inline) "themes/personal.css";
+
+@import (inline) "layouts.css";

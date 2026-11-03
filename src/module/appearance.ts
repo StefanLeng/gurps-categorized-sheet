@@ -1,3 +1,4 @@
+import { LAYOUTS, DASHBOARD_PANELS } from './layouts.ts';
 import { getMergedSettings } from './actor-settings.ts';
 import { personalAppearance, savePersonalAppearance, resetPersonalAppearance } from './personal-appearance.ts';
 import { MODULE_ID } from './constants.ts';
@@ -49,12 +50,14 @@ export function refreshAppearance(): void {
         const windows = (foundry as any).ui?.windows ?? (globalThis as any).ui?.windows ?? {};
         const app = Object.values(windows).find((w: any) => (w.element?.[0] ?? w.element) === root) as any;
         applyAppearance(root, app?.actor ?? rootActors.get(root) ?? null);
+        app?.applyPersonalLayout?.();
     });
 }
 
 export async function openPersonalAppearance(): Promise<void> {
     const value = personalAppearance();
     const choices: Record<string, Record<string, string>> = {
+        layout: LAYOUTS,
         theme: { inherit: 'Use actor / world theme', ...THEMES },
         decoration: { off: 'Off', subtle: 'Subtle', full: 'Full' },
         density: { comfortable: 'Comfortable', compact: 'Compact' },
@@ -65,7 +68,9 @@ export async function openPersonalAppearance(): Promise<void> {
     value.scale ??= setting('appearanceScale');
     value.text ??= setting('appearanceText');
     value.accessible ??= setting('appearanceAccessible');
+    value.layout ??= 'standard';
     const labels: Record<string, string> = {
+        layout: 'Layout',
         theme: 'Theme',
         decoration: 'Decoration',
         density: 'Spacing',
@@ -83,6 +88,14 @@ export async function openPersonalAppearance(): Promise<void> {
             })),
             readable: value.readable,
             accessible: value.accessible,
+            panels: Object.entries(DASHBOARD_PANELS).map(([key, label]) => ({
+                key,
+                label,
+                checked: (Array.isArray(value.panels)
+                    ? value.panels
+                    : ['favourites', 'defenses', 'resources', 'notes']
+                ).includes(key),
+            })),
         },
     );
     new foundry.applications.api.DialogV2({
@@ -98,6 +111,7 @@ export async function openPersonalAppearance(): Promise<void> {
                     const next = { ...value };
                     for (const key of Object.keys(choices)) next[key] = data.get(key);
                     for (const key of ['readable', 'accessible']) next[key] = data.has(key);
+                    next.panels = Object.keys(DASHBOARD_PANELS).filter((key) => data.has('panel-' + key));
                     await savePersonalAppearance(next);
                     refreshAppearance();
                 },

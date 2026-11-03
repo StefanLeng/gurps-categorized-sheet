@@ -15,3 +15,11 @@
 <div class="form-group">
     <label><input type="checkbox" name="accessible" {{#if accessible}}checked{{/if}}> Colour-independent indicators</label>
 </div>
+<fieldset>
+    <legend>Dashboard panels</legend>
+    {{#each panels}}
+    <div class="form-group">
+        <label><input type="checkbox" name="panel-{{key}}" {{#if checked}}checked{{/if}}> {{label}}</label>
+    </div>
+    {{/each}}
+</fieldset>
