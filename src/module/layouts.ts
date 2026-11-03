@@ -94,9 +94,9 @@ export function arrangeLayout(root: HTMLElement, workspaceActive: boolean): void
         move('Reactions', [source('social', '.slcs-reactions'), source('social', '.slcs-reaction-roll')], workspace);
     } else if (layout === 'powers') {
         move('Power skills & traits', [source('powers', '.slcs-col1 > *')], workspace);
-        move('Spells & configured actions', [source('powers', '.slcs-col2 > *')], workspace);
         move('Resources', resources, workspace);
         move('Quick Notes', notes, workspace);
+        move('Spells & configured actions', [source('powers', '.slcs-col2 > *')], workspace);
     } else if (layout === 'dashboard') {
         const selectors: Record<string, string[]> = {
             favourites: [source('fav', '.slcs-skills'), source('fav', '.slcs-advantages')],
