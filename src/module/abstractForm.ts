@@ -15,7 +15,6 @@ abstract class BaseForm extends HandlebarsApplicationMixin(ApplicationV2) {
     > = {
         //id: 'base-form',
         tag: 'form',
-        classes: ['theme-light'],
         form: {
             handler: BaseForm.formHandler,
             submitOnChange: true,
