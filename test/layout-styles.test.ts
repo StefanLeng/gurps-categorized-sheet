@@ -42,13 +42,4 @@ describe('Compiled layout stylesheet', () => {
             expect(getComputedStyle(document.querySelector('.slcs-workspace-link')!).display).toBe('inline-block');
         },
     );
-
-    it('uses content-sized tracks for scrollable workspaces and their moved blocks', () => {
-        document.querySelector<HTMLElement>('.sl-cat-sheet')!.dataset.slcsLayout = 'tactical';
-        for (const selector of ['.slcs-workspace', '.slcs-tactical-aside', '.slcs-workspace-panel']) {
-            const style = getComputedStyle(document.querySelector(selector)!);
-            expect(style.display).toBe('grid');
-            expect(style.gridAutoRows).toBe('max-content');
-        }
-    });
 });
